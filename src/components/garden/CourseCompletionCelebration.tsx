@@ -53,12 +53,11 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
 
   useEffect(() => {
     if (isVisible) {
-      setShowConfetti(true)
       // Auto advance through steps
       const timer1 = setTimeout(() => setCurrentStep(1), 1000)
       const timer2 = setTimeout(() => setCurrentStep(2), 2500)
       const timer3 = setTimeout(() => setCurrentStep(3), 4000)
-      
+
       return () => {
         clearTimeout(timer1)
         clearTimeout(timer2)
@@ -66,30 +65,6 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
       }
     }
   }, [isVisible])
-
-  const confettiParticles = Array.from({ length: 50 }, (_, i) => (
-    <motion.div
-      key={i}
-      className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-      initial={{
-        x: Math.random() * window.innerWidth,
-        y: -10,
-        opacity: 1,
-        scale: Math.random() * 0.5 + 0.5
-      }}
-      animate={{
-        y: window.innerHeight + 100,
-        x: Math.random() * window.innerWidth,
-        opacity: 0,
-        rotate: Math.random() * 360
-      }}
-      transition={{
-        duration: Math.random() * 3 + 2,
-        ease: "easeOut",
-        delay: Math.random() * 2
-      }}
-    />
-  ))
 
   return (
     <AnimatePresence>
@@ -104,16 +79,9 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
             onClick={onClose}
           />
 
-          {/* Confetti */}
-          {showConfetti && (
-            <div className="absolute inset-0 pointer-events-none">
-              {confettiParticles}
-            </div>
-          )}
-
           {/* Main Modal */}
           <motion.div
-            className="relative bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 overflow-hidden"
+            className="relative bg-white rounded-lg shadow-card max-w-md w-full mx-4 overflow-hidden"
             initial={{ scale: 0.5, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.5, opacity: 0, y: 50 }}
@@ -128,15 +96,15 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
             </button>
 
             {/* Header */}
-            <div className="bg-gradient-to-r from-purple-500 to-orange-500 text-white p-6 text-center">
+            <div className="bg-brand-600 text-white p-6 text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: currentStep >= 0 ? 1 : 0 }}
                 transition={{ delay: 0.2, type: "spring" }}
               >
-                <Trophy className="h-16 w-16 mx-auto mb-4 text-yellow-300" />
+                <Trophy className="h-16 w-16 mx-auto mb-4 text-sand-300" />
               </motion.div>
-              
+
               <motion.h2
                 className="text-2xl font-bold mb-2"
                 initial={{ opacity: 0, y: 20 }}
@@ -145,9 +113,9 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               >
                 🎉 ยินดีด้วย!
               </motion.h2>
-              
+
               <motion.p
-                className="text-purple-100"
+                className="text-brand-100"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: currentStep >= 0 ? 1 : 0, y: currentStep >= 0 ? 0 : 20 }}
                 transition={{ delay: 0.6 }}
@@ -169,7 +137,7 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                 </h3>
                 <div className="flex justify-center items-center space-x-4 text-sm text-gray-600">
                   <div className="flex items-center space-x-1">
-                    <CheckCircle className="h-4 w-4 text-green-500" />
+                    <CheckCircle className="h-4 w-4 text-brand-600" />
                     <span>{data.course.total_lessons} บทเรียน</span>
                   </div>
                 </div>
@@ -183,30 +151,30 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                 transition={{ delay: 0.3 }}
               >
                 <h4 className="text-lg font-semibold text-center text-gray-800 flex items-center justify-center space-x-2">
-                  <Gift className="h-5 w-5 text-orange-500" />
+                  <Gift className="h-5 w-5 text-brand-500" />
                   <span>รางวัลที่ได้รับ</span>
                 </h4>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* XP Reward */}
-                  <div className="bg-blue-50 rounded-xl p-4 text-center">
-                    <Star className="h-6 w-6 text-blue-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-blue-600">+{totalXP}</p>
+                  <div className="bg-sand-100 rounded-lg p-4 text-center">
+                    <Star className="h-6 w-6 text-brand-600 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-brand-600">+{totalXP}</p>
                     <p className="text-xs text-gray-600">XP</p>
                     {data.rewards.bonus_xp > 0 && (
-                      <p className="text-xs text-blue-500 mt-1">
+                      <p className="text-xs text-brand-600 mt-1">
                         (โบนัส +{data.rewards.bonus_xp})
                       </p>
                     )}
                   </div>
 
                   {/* Star Seeds Reward */}
-                  <div className="bg-yellow-50 rounded-xl p-4 text-center">
-                    <Sparkles className="h-6 w-6 text-yellow-500 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-yellow-600">+{totalStarSeeds}</p>
+                  <div className="bg-sand-200 rounded-lg p-4 text-center">
+                    <Sparkles className="h-6 w-6 text-sand-300 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-sand-300">+{totalStarSeeds}</p>
                     <p className="text-xs text-gray-600">⭐ Seeds</p>
                     {data.rewards.bonus_star_seeds > 0 && (
-                      <p className="text-xs text-yellow-500 mt-1">
+                      <p className="text-xs text-sand-300 mt-1">
                         (โบนัส +{data.rewards.bonus_star_seeds})
                       </p>
                     )}
@@ -217,13 +185,13 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               {/* Level Up */}
               {data.new_level && (
                 <motion.div
-                  className="bg-gradient-to-r from-purple-50 to-orange-50 rounded-xl p-4 text-center"
+                  className="bg-brand-50 rounded-lg p-4 text-center"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: currentStep >= 2 ? 1 : 0, scale: currentStep >= 2 ? 1 : 0.8 }}
                   transition={{ delay: 0.3 }}
                 >
                   <div className="text-4xl mb-2">🎊</div>
-                  <p className="text-lg font-bold text-purple-600">Level Up!</p>
+                  <p className="text-lg font-bold text-brand-600">Level Up!</p>
                   <p className="text-sm text-gray-600">ขึ้นเป็นระดับ {data.new_level} แล้ว</p>
                 </motion.div>
               )}
@@ -237,7 +205,7 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                   transition={{ delay: 0.3 }}
                 >
                   <h4 className="text-lg font-semibold text-center text-gray-800 flex items-center justify-center space-x-2">
-                    <Award className="h-5 w-5 text-purple-500" />
+                    <Award className="h-5 w-5 text-brand-700" />
                     <span>รางวัลใหม่ที่ปลดล็อค</span>
                   </h4>
 
@@ -245,12 +213,12 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                     {data.achievements.map((achievement, index) => (
                       <motion.div
                         key={achievement.id}
-                        className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-3 flex items-center space-x-3"
+                        className="bg-sand-100 border border-brand-200 rounded-lg p-3 flex items-center space-x-3"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5 + index * 0.1 }}
                       >
-                        <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-sand-300 rounded-full flex items-center justify-center">
                           <Trophy className="h-5 w-5 text-white" />
                         </div>
                         <div className="flex-1">
@@ -262,10 +230,10 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xs text-yellow-600 font-medium">
+                          <p className="text-xs text-brand-600 font-medium">
                             +{achievement.xp_reward} XP
                           </p>
-                          <p className="text-xs text-yellow-600">
+                          <p className="text-xs text-brand-600">
                             +{achievement.star_seeds_reward} ⭐
                           </p>
                         </div>
@@ -278,12 +246,10 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               {/* Continue Button */}
               <motion.button
                 onClick={onClose}
-                className="w-full bg-gradient-to-r from-purple-500 to-orange-500 hover:from-purple-600 hover:to-orange-600 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-card"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: currentStep >= 3 ? 1 : 0, y: currentStep >= 3 ? 0 : 20 }}
                 transition={{ delay: 1 }}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
               >
                 ดูสวนของฉัน 🌱
               </motion.button>

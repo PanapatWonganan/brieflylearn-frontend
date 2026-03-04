@@ -44,7 +44,8 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
   if (!plant) return null
 
   // Get category colors with fallback to 'learning' if category not found
-  const categoryColors = PLANT_CATEGORY_COLORS[plant.category as keyof typeof PLANT_CATEGORY_COLORS] || PLANT_CATEGORY_COLORS.learning
+  const category = plant.category as keyof typeof PLANT_CATEGORY_COLORS
+  const categoryColors = PLANT_CATEGORY_COLORS[category] || PLANT_CATEGORY_COLORS['learning']
   const rarityColors = plantType ? RARITY_COLORS[plantType.rarity] : RARITY_COLORS.common
 
   const handleWater = async () => {
@@ -89,13 +90,13 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl"
+            className="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto shadow-card"
           >
             {/* Header */}
-            <div 
-              className="relative p-6 text-white rounded-t-2xl"
-              style={{ 
-                background: `linear-gradient(135deg, ${categoryColors.primary}, ${categoryColors.dark})` 
+            <div
+              className="relative p-6 text-white rounded-t-lg"
+              style={{
+                backgroundColor: categoryColors.primary
               }}
             >
               <button
@@ -137,15 +138,15 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
               {/* Plant Stats */}
               <div className="grid grid-cols-2 gap-4">
                 {/* Health */}
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <Heart className="w-5 h-5 text-red-500" />
-                    <span className="font-medium">ความรู้</span>
+                    <Heart className="w-5 h-5 text-error" />
+                    <span className="font-medium">คุณภาพ</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                       <motion.div
-                        className={`h-full ${plant.health > 70 ? 'bg-blue-500' : plant.health > 40 ? 'bg-yellow-500' : 'bg-red-500'}`}
+                        className={`h-full ${plant.health > 70 ? 'bg-brand-500' : plant.health > 40 ? 'bg-warning' : 'bg-error'}`}
                         initial={{ width: 0 }}
                         animate={{ width: `${plant.health}%` }}
                         transition={{ duration: 1 }}
@@ -156,15 +157,15 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                 </div>
 
                 {/* Growth Progress */}
-                <div className="bg-gray-50 rounded-xl p-4">
+                <div className="bg-gray-50 rounded-lg p-4">
                   <div className="flex items-center space-x-2 mb-2">
-                    <TrendingUp className="w-5 h-5 text-blue-500" />
+                    <TrendingUp className="w-5 h-5 text-ink-light" />
                     <span className="font-medium">ความคืบหน้า</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
                       <motion.div
-                        className="h-full bg-gradient-to-r from-blue-400 to-indigo-600"
+                        className="h-full bg-brand-600"
                         initial={{ width: 0 }}
                         animate={{ width: `${plant.growth_progress}%` }}
                         transition={{ duration: 1 }}
@@ -179,12 +180,12 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
 
               {/* Next Stage Preview */}
               {nextStageInfo && (
-                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
+                <div className="bg-sand-100 rounded-lg p-4 border border-sand-300">
                   <div className="flex items-center space-x-3">
                     <div className="text-3xl">{nextStageInfo.emoji}</div>
                     <div>
-                      <h3 className="font-semibold text-blue-800">ชั้นต่อไป</h3>
-                      <p className="text-blue-600">{nextStageInfo.name}</p>
+                      <h3 className="font-semibold text-ink-dark">ชั้นต่อไป</h3>
+                      <p className="text-ink-light">{nextStageInfo.name}</p>
                     </div>
                   </div>
                 </div>
@@ -194,17 +195,17 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
               <div className="space-y-2">
                 <h3 className="font-semibold flex items-center space-x-2">
                   <Calendar className="w-5 h-5" />
-                  <span>เวลาการเรียน</span>
+                  <span>เวลาการพัฒนา</span>
                 </h3>
-                <div className="bg-gray-50 rounded-xl p-4 space-y-2">
+                <div className="bg-gray-50 rounded-lg p-4 space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">เริ่มเรียนเมื่อ:</span>
+                    <span className="text-gray-600">เริ่มโปรเจกต์เมื่อ:</span>
                     <span className="font-medium">{formatThaiDateTime(plant.planted_at)}</span>
                   </div>
                   {plant.next_water_at && (
                     <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">ทบทวนครั้งต่อไป:</span>
-                      <span className="font-medium text-blue-600">
+                      <span className="text-gray-600">พัฒนาต่อครั้งต่อไป:</span>
+                      <span className="font-medium text-ink-light">
                         {formatThaiDateTime(plant.next_water_at)}
                       </span>
                     </div>
@@ -217,11 +218,11 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                 <div className="space-y-2">
                   <button
                     onClick={() => setShowCareDetails(!showCareDetails)}
-                    className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                    className="w-full flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex items-center space-x-2">
                       <TreePine className="w-5 h-5" />
-                      <span className="font-medium">ข้อมูลวิชา</span>
+                      <span className="font-medium">ข้อมูลโปรเจกต์</span>
                     </div>
                     <motion.div
                       animate={{ rotate: showCareDetails ? 180 : 0 }}
@@ -239,7 +240,7 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                         exit={{ height: 0, opacity: 0 }}
                         className="overflow-hidden"
                       >
-                        <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                        <div className="bg-gray-50 rounded-lg p-4 space-y-3">
                           <p className="text-sm text-gray-700">{plantType.description}</p>
                           <div className="grid grid-cols-2 gap-3 text-sm">
                             <div>
@@ -247,12 +248,12 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                               <span className="font-medium ml-2">{plantType.base_xp_reward}</span>
                             </div>
                             <div>
-                              <span className="text-gray-600">Star Seeds:</span>
+                              <span className="text-gray-600">เครดิต AI:</span>
                               <span className="font-medium ml-2">{plantType.star_seeds_reward}</span>
                             </div>
                           </div>
                           <div className="text-sm">
-                            <span className="text-gray-600">วิธีการเรียน:</span>
+                            <span className="text-gray-600">วิธีการพัฒนา:</span>
                             <p className="mt-1">{plantType.care_requirements}</p>
                           </div>
                         </div>
@@ -268,7 +269,7 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                   <motion.button
                     onClick={handleWater}
                     disabled={isWatering}
-                    className="flex-1 bg-blue-500 hover:bg-blue-600 disabled:bg-blue-300 text-white py-3 px-4 rounded-xl font-medium flex items-center justify-center space-x-2 transition-colors"
+                    className="flex-1 bg-brand-500 hover:opacity-90 disabled:opacity-40 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors"
                     whileTap={{ scale: 0.98 }}
                   >
                     {isWatering ? (
@@ -281,7 +282,7 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                     ) : (
                       <Droplets className="w-5 h-5" />
                     )}
-                    <span>{isWatering ? 'กำลังทบทวน...' : 'ทบทวน'}</span>
+                    <span>{isWatering ? 'กำลังพัฒนาต่อ...' : 'พัฒนาต่อ'}</span>
                   </motion.button>
                 )}
 
@@ -289,7 +290,7 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                   <motion.button
                     onClick={handleHarvest}
                     disabled={isHarvesting}
-                    className="flex-1 bg-yellow-500 hover:bg-yellow-600 disabled:bg-yellow-300 text-white py-3 px-4 rounded-xl font-medium flex items-center justify-center space-x-2 transition-colors"
+                    className="flex-1 bg-sand-200 hover:opacity-90 disabled:opacity-40 text-ink-light py-3 px-4 rounded-lg font-medium flex items-center justify-center space-x-2 transition-colors"
                     whileTap={{ scale: 0.98 }}
                   >
                     {isHarvesting ? (
@@ -302,13 +303,13 @@ const PlantCareModal: React.FC<PlantCareModalProps> = ({
                     ) : (
                       <Scissors className="w-5 h-5" />
                     )}
-                    <span>{isHarvesting ? 'กำลังรับผลลัพธ์...' : 'รับผลลัพธ์'}</span>
+                    <span>{isHarvesting ? 'กำลังเปิดตัว...' : 'เปิดตัวโปรเจกต์'}</span>
                   </motion.button>
                 )}
 
                 {!plant.needs_watering && !plant.can_harvest && (
-                  <div className="flex-1 bg-gray-100 text-gray-500 py-3 px-4 rounded-xl font-medium text-center">
-                    การเรียนเป็นไปตามแผน
+                  <div className="flex-1 bg-gray-100 text-gray-500 py-3 px-4 rounded-lg font-medium text-center">
+                    โปรเจกต์เป็นไปตามแผน
                   </div>
                 )}
               </div>

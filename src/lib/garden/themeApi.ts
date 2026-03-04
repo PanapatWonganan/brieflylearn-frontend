@@ -138,14 +138,14 @@ export const getThemeCategoryEmoji = (category: string): string => {
 
 export const getThemeCategoryColor = (category: string): string => {
   const colorMap: { [key: string]: string } = {
-    nature: 'from-green-400 to-emerald-500',
-    mindfulness: 'from-purple-400 to-indigo-500',
-    cozy: 'from-pink-400 to-rose-500',
-    modern: 'from-gray-400 to-slate-500',
-    seasonal: 'from-yellow-400 to-orange-500',
-    premium: 'from-yellow-500 to-amber-600'
+    nature: 'bg-brand-500 text-white',
+    mindfulness: 'bg-brand-700 text-white',
+    cozy: 'bg-brand-400 text-white',
+    modern: 'bg-sand-400 text-white',
+    seasonal: 'bg-brand-500 text-white',
+    premium: 'bg-brand-900 text-white'
   }
-  return colorMap[category] || 'from-blue-400 to-cyan-500'
+  return colorMap[category] || 'bg-brand-500 text-white'
 }
 
 export const formatThemePrice = (price: number): string => {
@@ -167,9 +167,9 @@ export const getUnlockStatusText = (theme: GardenTheme): string => {
 }
 
 export const getUnlockStatusColor = (theme: GardenTheme): string => {
-  if (theme.is_active) return 'bg-green-100 text-green-700 border-green-200'
-  if (theme.is_unlocked) return 'bg-blue-100 text-blue-700 border-blue-200'
-  return 'bg-gray-100 text-gray-600 border-gray-200'
+  if (theme.is_active) return 'bg-sand-100 text-brand-600 border-sand-200'
+  if (theme.is_unlocked) return 'bg-sand-100 text-ink-light border-sand-200'
+  return 'bg-sand-100 text-ink border-sand-200'
 }
 
 // Theme preview generator (for demo purposes)

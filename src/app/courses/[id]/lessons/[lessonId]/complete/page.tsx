@@ -100,31 +100,6 @@ export default function LessonCompletePage() {
   useEffect(() => {
     // Trigger celebration animation
     setShowCelebration(true);
-    
-    // Fire confetti
-    const duration = 3000;
-    const end = Date.now() + duration;
-
-    (function frame() {
-      confetti({
-        particleCount: 2,
-        angle: 60,
-        spread: 55,
-        origin: { x: 0 },
-        colors: ['#EC4899', '#F472B6', '#FBBF24', '#34D399']
-      });
-      confetti({
-        particleCount: 2,
-        angle: 120,
-        spread: 55,
-        origin: { x: 1 },
-        colors: ['#EC4899', '#F472B6', '#FBBF24', '#34D399']
-      });
-
-      if (Date.now() < end) {
-        requestAnimationFrame(frame);
-      }
-    }());
 
     // Step through completion sequence
     const stepTimers = [
@@ -140,11 +115,11 @@ export default function LessonCompletePage() {
 
   const getRarityColor = (rarity: string) => {
     switch (rarity) {
-      case 'common': return 'from-gray-400 to-gray-600';
-      case 'rare': return 'from-blue-400 to-blue-600';
-      case 'epic': return 'from-purple-400 to-purple-600';
-      case 'legendary': return 'from-yellow-400 to-yellow-600';
-      default: return 'from-gray-400 to-gray-600';
+      case 'common': return 'bg-sand-400';
+      case 'rare': return 'bg-brand-500';
+      case 'epic': return 'bg-brand-700';
+      case 'legendary': return 'bg-sand-400';
+      default: return 'bg-sand-400';
     }
   };
 
@@ -164,22 +139,22 @@ export default function LessonCompletePage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 via-orange-50 to-yellow-50 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-50 relative overflow-hidden">
       {/* Background Decorations */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-10 left-10 w-20 h-20 bg-orange-200 rounded-full opacity-20 animate-bounce" />
-        <div className="absolute top-32 right-20 w-16 h-16 bg-yellow-200 rounded-full opacity-30 animate-pulse" />
-        <div className="absolute bottom-20 left-20 w-24 h-24 bg-orange-200 rounded-full opacity-25 animate-bounce" style={{ animationDelay: '1s' }} />
-        <div className="absolute bottom-40 right-40 w-12 h-12 bg-orange-300 rounded-full opacity-20 animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute top-10 left-10 w-20 h-20 bg-brand-200 rounded-full opacity-20" />
+        <div className="absolute top-32 right-20 w-16 h-16 bg-sand-200 rounded-full opacity-30" />
+        <div className="absolute bottom-20 left-20 w-24 h-24 bg-brand-200 rounded-full opacity-25" />
+        <div className="absolute bottom-40 right-40 w-12 h-12 bg-brand-300 rounded-full opacity-20" />
       </div>
 
       {/* Header */}
-      <div className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-orange-100">
+      <div className="relative z-10 bg-white/80 backdrop-blur-sm border-b border-brand-100">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link 
               href={`/courses/${courseId}`}
-              className="text-gray-600 hover:text-orange-600 transition-colors"
+              className="text-gray-600 hover:text-brand-600 transition-colors"
             >
               ← กลับไปคอร์ส
             </Link>
@@ -213,7 +188,7 @@ export default function LessonCompletePage() {
                   ยินดีด้วยค่ะ! 
                 </h1>
                 <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-                  คุณได้จบบทเรียน <span className="font-semibold text-orange-600">&ldquo;{completionData.lessonTitle}&rdquo;</span> 
+                  คุณได้จบบทเรียน <span className="font-semibold text-brand-600">&ldquo;{completionData.lessonTitle}&rdquo;</span> 
                   เรียบร้อยแล้ว สุดยอดเลยค่ะ! 💕
                 </p>
               </motion.div>
@@ -229,12 +204,12 @@ export default function LessonCompletePage() {
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6 }}
-                  className="bg-white rounded-2xl p-6 shadow-lg border border-yellow-100 relative overflow-hidden"
+                  className="bg-white rounded-lg p-6 shadow-card border border-sand-300 relative overflow-hidden"
                 >
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-100 rounded-full -translate-y-10 translate-x-10" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-sand-100 rounded-full -translate-y-10 translate-x-10" />
                   <div className="relative">
                     <div className="text-3xl mb-2">⭐</div>
-                    <div className="text-3xl font-bold text-yellow-600 mb-1">
+                    <div className="text-3xl font-bold text-warning mb-1">
                       +{completionData.pointsEarned}
                     </div>
                     <p className="text-gray-600 font-medium">คะแนนที่ได้รับ</p>
@@ -251,18 +226,18 @@ export default function LessonCompletePage() {
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.1 }}
-                  className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100 relative overflow-hidden"
+                  className="bg-white rounded-lg p-6 shadow-card border border-brand-100 relative overflow-hidden"
                 >
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-orange-100 rounded-full -translate-y-10 translate-x-10" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-brand-100 rounded-full -translate-y-10 translate-x-10" />
                   <div className="relative">
                     <div className="text-3xl mb-2">💗</div>
                     <div className="flex items-center justify-center space-x-2 mb-1">
                       <span className="text-lg text-gray-400 line-through">{completionData.wellnessScore.previous}</span>
-                      <ArrowRight className="h-4 w-4 text-orange-500" />
-                      <span className="text-3xl font-bold text-orange-600">{completionData.wellnessScore.current}</span>
+                      <ArrowRight className="h-4 w-4 text-brand-600" />
+                      <span className="text-3xl font-bold text-brand-600">{completionData.wellnessScore.current}</span>
                     </div>
                     <p className="text-gray-600 font-medium">Wellness Score</p>
-                    <p className="text-sm text-green-600 font-medium">+{completionData.wellnessScore.increase} คะแนน!</p>
+                    <p className="text-sm text-brand-600 font-medium">+{completionData.wellnessScore.increase} คะแนน!</p>
                   </div>
                 </motion.div>
               )}
@@ -275,17 +250,17 @@ export default function LessonCompletePage() {
                   initial={{ y: 50, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="bg-white rounded-2xl p-6 shadow-lg border border-orange-100 relative overflow-hidden"
+                  className="bg-white rounded-lg p-6 shadow-card border border-brand-100 relative overflow-hidden"
                 >
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-orange-100 rounded-full -translate-y-10 translate-x-10" />
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-brand-100 rounded-full -translate-y-10 translate-x-10" />
                   <div className="relative">
                     <div className="text-3xl mb-2">🔥</div>
-                    <div className="text-3xl font-bold text-orange-600 mb-1">
+                    <div className="text-3xl font-bold text-brand-600 mb-1">
                       {completionData.streakInfo.currentStreak}
                     </div>
                     <p className="text-gray-600 font-medium">วันติดต่อกัน</p>
                     {completionData.streakInfo.isNewRecord && (
-                      <p className="text-sm text-orange-600 font-medium">🏆 สถิติใหม่!</p>
+                      <p className="text-sm text-brand-600 font-medium">🏆 สถิติใหม่!</p>
                     )}
                   </div>
                 </motion.div>
@@ -300,26 +275,26 @@ export default function LessonCompletePage() {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-2xl p-8 shadow-lg border border-purple-100 mb-8"
+                className="bg-white rounded-lg p-8 shadow-card border border-sand-300 mb-8"
               >
                 <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center justify-center">
-                  <Trophy className="h-6 w-6 mr-2 text-yellow-500" />
+                  <Trophy className="h-6 w-6 mr-2 text-warning" />
                   Badges ใหม่ที่ได้รับ!
                 </h2>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {completionData.badgesEarned.map((badge, index) => (
                     <motion.div
                       key={badge.id}
                       initial={{ scale: 0, rotate: -180 }}
                       animate={{ scale: 1, rotate: 0 }}
-                      transition={{ 
-                        duration: 0.6, 
+                      transition={{
+                        duration: 0.6,
                         delay: index * 0.2,
                         type: "spring",
                         stiffness: 200
                       }}
-                      className={`bg-gradient-to-br ${getRarityColor(badge.rarity)} p-6 rounded-xl text-white text-center relative overflow-hidden`}
+                      className={`${getRarityColor(badge.rarity)} p-6 rounded-lg text-white text-center relative overflow-hidden`}
                     >
                       <div className="absolute inset-0 bg-white/10 opacity-50" />
                       <div className="relative">
@@ -346,27 +321,27 @@ export default function LessonCompletePage() {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="bg-gradient-to-r from-orange-500 to-orange-500 text-white rounded-2xl p-8 mb-8"
+                className="bg-brand-700 text-white rounded-lg p-8 mb-8"
               >
                 <h2 className="text-2xl font-bold mb-6 flex items-center justify-center">
                   <Target className="h-6 w-6 mr-2" />
                   ความคืบหน้าในคอร์ส
                 </h2>
-                
+
                 <div className="max-w-md mx-auto">
-                  <div className="flex justify-between text-orange-100 mb-2">
+                  <div className="flex justify-between text-brand-100 mb-2">
                     <span>บทเรียนที่เสร็จสิ้น</span>
                     <span>{completionData.milestoneProgress.current}/{completionData.milestoneProgress.total}</span>
                   </div>
                   <div className="w-full bg-white/20 rounded-full h-3 mb-4">
-                    <motion.div 
+                    <motion.div
                       initial={{ width: `${((completionData.milestoneProgress.current - 1) / completionData.milestoneProgress.total) * 100}%` }}
                       animate={{ width: `${(completionData.milestoneProgress.current / completionData.milestoneProgress.total) * 100}%` }}
                       transition={{ duration: 1, delay: 0.5 }}
-                      className="bg-gradient-to-r from-yellow-300 to-yellow-400 h-3 rounded-full"
+                      className="bg-sand-300 h-3 rounded-full"
                     />
                   </div>
-                  <p className="text-orange-100">
+                  <p className="text-brand-100">
                     เป้าหมายต่อไป: <span className="font-semibold">{completionData.milestoneProgress.nextMilestone}</span>
                   </p>
                 </div>
@@ -381,23 +356,23 @@ export default function LessonCompletePage() {
                 initial={{ y: 30, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6 }}
-                className="bg-white rounded-2xl p-8 shadow-lg border border-green-100 mb-8"
+                className="bg-white rounded-lg p-8 shadow-card border border-brand-200 mb-8"
               >
                 <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center justify-center">
-                  <Sparkles className="h-6 w-6 mr-2 text-green-500" />
+                  <Sparkles className="h-6 w-6 mr-2 text-brand-600" />
                   แนะนำสำหรับคุณ
                 </h2>
-                
-                <div className="bg-green-50 border border-green-200 rounded-xl p-6">
+
+                <div className="bg-brand-50 border border-brand-200 rounded-lg p-6">
                   <div className="text-center">
                     <div className="text-4xl mb-3">🌸</div>
-                    <h3 className="text-xl font-semibold text-green-800 mb-2">
+                    <h3 className="text-xl font-semibold text-brand-700 mb-2">
                       {completionData.nextRecommendation.title}
                     </h3>
-                    <p className="text-green-700 mb-4">
+                    <p className="text-brand-600 mb-4">
                       {completionData.nextRecommendation.description}
                     </p>
-                    <div className="text-sm text-green-600">
+                    <div className="text-sm text-brand-600">
                       💡 การพักผ่อนที่เพียงพอช่วยให้ร่างกายและจิตใจฟื้นฟูได้ดีที่สุด
                     </div>
                   </div>
@@ -416,17 +391,17 @@ export default function LessonCompletePage() {
                 className="space-y-4"
               >
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                  <Link 
+                  <Link
                     href="/dashboard"
-                    className="bg-gradient-to-r from-orange-500 to-orange-500 text-white px-8 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all flex items-center space-x-2 group"
+                    className="bg-brand-600 text-white px-8 py-4 rounded-lg font-semibold shadow-card hover:opacity-90 transition-all flex items-center space-x-2 group"
                   >
-                    <Sparkles className="h-5 w-5 group-hover:animate-spin" />
+                    <Sparkles className="h-5 w-5" />
                     <span>ดู Wellness Garden</span>
                   </Link>
-                  
-                  <Link 
+
+                  <Link
                     href={`/courses/${courseId}`}
-                    className="bg-white text-orange-600 border-2 border-orange-600 px-8 py-4 rounded-xl font-semibold hover:bg-orange-50 transition-all flex items-center space-x-2"
+                    className="bg-white text-brand-600 border-2 border-brand-600 px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-all flex items-center space-x-2"
                   >
                     <BookOpen className="h-5 w-5" />
                     <span>กลับไปคอร์ส</span>
@@ -450,17 +425,17 @@ export default function LessonCompletePage() {
 
                 {/* Fun Stats */}
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center">
-                  <div className="bg-blue-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-orange-600">{completionData.milestoneProgress.current}</div>
-                    <div className="text-sm text-orange-700">บทเรียนที่จบ</div>
+                  <div className="bg-sand-100 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-brand-600">{completionData.milestoneProgress.current}</div>
+                    <div className="text-sm text-brand-700">บทเรียนที่จบ</div>
                   </div>
-                  <div className="bg-purple-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-purple-600">{completionData.badgesEarned.length}</div>
-                    <div className="text-sm text-purple-700">Badge ใหม่วันนี้</div>
+                  <div className="bg-sand-100 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-brand-700">{completionData.badgesEarned.length}</div>
+                    <div className="text-sm text-brand-700">Badge ใหม่วันนี้</div>
                   </div>
-                  <div className="bg-green-50 rounded-lg p-4">
-                    <div className="text-2xl font-bold text-green-600">{completionData.timeSpent}</div>
-                    <div className="text-sm text-green-700">เวลาที่ใช้เรียน</div>
+                  <div className="bg-brand-50 rounded-lg p-4">
+                    <div className="text-2xl font-bold text-brand-600">{completionData.timeSpent}</div>
+                    <div className="text-sm text-brand-700">เวลาที่ใช้เรียน</div>
                   </div>
                 </div>
               </motion.div>

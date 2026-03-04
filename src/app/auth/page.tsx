@@ -27,8 +27,8 @@ function AuthContent() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
-          <p className="mt-2 text-orange-600">กำลังโหลด...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ink mx-auto"></div>
+          <p className="mt-3 text-sm text-ink-muted">กำลังโหลด...</p>
         </div>
       </div>
     )
@@ -39,7 +39,7 @@ function AuthContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-100 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center px-5 sm:px-8">
       <div className="w-full max-w-md">
         {mode === 'login' ? (
           <LoginForm
@@ -62,8 +62,8 @@ export default function AuthPage() {
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-orange-500 mx-auto"></div>
-          <p className="mt-2 text-orange-600">กำลังโหลด...</p>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-ink mx-auto"></div>
+          <p className="mt-3 text-sm text-ink-muted">กำลังโหลด...</p>
         </div>
       </div>
     }>

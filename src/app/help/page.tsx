@@ -1,14 +1,13 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ChevronRight, MessageCircle, Phone, Mail, Clock, Search } from 'lucide-react'
+import { ChevronRight, MessageCircle, Phone, Mail, Search, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
 const faqs = [
   {
     question: 'ฉันจะเริ่มใช้งานแพลตฟอร์มได้อย่างไร?',
-    answer: 'เริ่มต้นด้วยการสมัครสมาชิก จากนั้นสามารถเลือกคอร์สที่ต้องการเรียนและเริ่มเดินทางสู่สุขภาพที่ดีได้เลย'
+    answer: 'เริ่มต้นด้วยการสมัครสมาชิก จากนั้นทำแบบประเมิน AI Readiness เพื่อเลือกเส้นทาง AI ที่เหมาะกับคุณ แล้วเริ่มเรียนได้เลย'
   },
   {
     question: 'สามารถยกเลิกการสมัครสมาชิกได้ไหม?',
@@ -35,7 +34,7 @@ const supportChannels = [
   {
     icon: Mail,
     title: 'อีเมล',
-    description: 'support@boostme.com',
+    description: 'support@brieflylearn.com',
     action: 'ส่งอีเมล',
     available: 'ตอบกลับภายใน 24 ชม.'
   },
@@ -58,167 +57,132 @@ export default function HelpPage() {
   )
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50">
+    <div className="bg-white">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              ศูนย์ช่วยเหลือ
-            </h1>
-            <p className="text-xl text-gray-600 mb-8">
-              ค้นหาคำตอบ หรือติดต่อทีมสนับสนุนของเรา
-            </p>
-            
-            {/* Search */}
-            <div className="max-w-2xl mx-auto relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-              <input
-                type="text"
-                placeholder="ค้นหาคำถามหรือหัวข้อ..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 rounded-xl border border-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent text-lg"
-              />
-            </div>
-          </motion.div>
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto pt-24 pb-20">
+        <div className="text-center max-w-2xl mx-auto">
+          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">ศูนย์ช่วยเหลือ</p>
+          <h1 className="text-heading font-serif text-ink mb-4">
+            เราพร้อมช่วยเหลือคุณ
+          </h1>
+          <p className="text-base text-ink-light leading-relaxed mb-10">
+            ค้นหาคำตอบ หรือติดต่อทีมสนับสนุนของเรา
+          </p>
+
+          {/* Search */}
+          <div className="max-w-xl mx-auto relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-ink-faint h-4 w-4" />
+            <input
+              type="text"
+              placeholder="ค้นหาคำถามหรือหัวข้อ..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-11 pr-4 py-3.5 rounded-lg border border-gray-200 focus:ring-1 focus:ring-ink focus:border-ink text-sm transition-colors"
+            />
+          </div>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Support Channels */}
-        <section className="mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl font-bold text-center text-gray-800 mb-12"
-          >
-            ช่องทางการติดต่อ
-          </motion.h2>
-          
-          <div className="grid md:grid-cols-3 gap-8">
-            {supportChannels.map((channel, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.1 }}
-                className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow border border-gray-100"
-              >
-                <div className="flex items-center justify-center w-16 h-16 bg-orange-100 rounded-full mb-6 mx-auto">
-                  <channel.icon className="h-8 w-8 text-orange-600" />
-                </div>
-                
-                <h3 className="text-xl font-semibold text-gray-800 text-center mb-2">
-                  {channel.title}
-                </h3>
-                
-                <p className="text-gray-600 text-center mb-2">
-                  {channel.description}
-                </p>
-                
-                <p className="text-sm text-gray-500 text-center mb-6">
-                  {channel.available}
-                </p>
-                
-                <button className="w-full bg-orange-600 text-white py-3 rounded-xl hover:bg-orange-700 transition-colors font-medium">
-                  {channel.action}
-                </button>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+      {/* Support Channels */}
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-24 border-t border-gray-100">
+        <div className="mb-16">
+          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">ช่องทาง</p>
+          <h2 className="text-heading font-serif text-ink">ช่องทางการติดต่อ</h2>
+        </div>
 
-        {/* FAQ Section */}
-        <section>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="text-3xl font-bold text-center text-gray-800 mb-12"
-          >
-            คำถามที่พบบ่อย
-          </motion.h2>
-          
-          <div className="max-w-4xl mx-auto space-y-4">
-            {filteredFAQs.map((faq, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 + index * 0.1 }}
-                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
-              >
-                <button
-                  onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
-                  className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                >
-                  <span className="font-medium text-gray-800">{faq.question}</span>
-                  <ChevronRight 
-                    className={`h-5 w-5 text-gray-400 transition-transform ${
-                      openFAQ === index ? 'rotate-90' : ''
-                    }`}
-                  />
-                </button>
-                
-                {openFAQ === index && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    className="px-6 pb-4"
-                  >
-                    <p className="text-gray-600 leading-relaxed">
-                      {faq.answer}
-                    </p>
-                  </motion.div>
-                )}
-              </motion.div>
-            ))}
-          </div>
-          
-          {filteredFAQs.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12"
+        <div className="grid md:grid-cols-3 gap-6">
+          {supportChannels.map((channel, index) => (
+            <div
+              key={index}
+              className="group p-8 border border-gray-100/60 shadow-card rounded-xl hover:shadow-lifted transition-all duration-300"
             >
-              <p className="text-gray-500 text-lg">
-                ไม่พบคำถามที่ตรงกับการค้นหา
+              <div className="flex items-center justify-center w-12 h-12 bg-gray-50 rounded-lg mb-6">
+                <channel.icon className="h-5 w-5 text-ink" />
+              </div>
+
+              <h3 className="text-lg font-semibold text-ink mb-1">
+                {channel.title}
+              </h3>
+
+              <p className="text-sm text-ink-light mb-1">
+                {channel.description}
               </p>
-            </motion.div>
-          )}
-        </section>
 
-        {/* Additional Help */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-16 text-center"
-        >
-          <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-2xl p-8 text-white">
-            <h3 className="text-2xl font-bold mb-4">
-              ยังไม่พบคำตอบที่ต้องการ?
-            </h3>
-            <p className="text-lg mb-6 opacity-90">
-              ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณ 24/7
-            </p>
-            <Link
-              href="/contact"
-              className="inline-flex items-center space-x-2 bg-white text-orange-600 px-6 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
+              <p className="text-xs text-ink-muted mb-6">
+                {channel.available}
+              </p>
+
+              <button className="w-full px-5 py-2.5 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink-light transition-colors">
+                {channel.action}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-24 border-t border-gray-100">
+        <div className="mb-16">
+          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">FAQ</p>
+          <h2 className="text-heading font-serif text-ink">คำถามที่พบบ่อย</h2>
+        </div>
+
+        <div className="max-w-3xl space-y-3">
+          {filteredFAQs.map((faq, index) => (
+            <div
+              key={index}
+              className="border border-gray-100 rounded-lg overflow-hidden"
             >
-              <MessageCircle className="h-5 w-5" />
-              <span>ติดต่อเรา</span>
-            </Link>
+              <button
+                onClick={() => setOpenFAQ(openFAQ === index ? null : index)}
+                className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+              >
+                <span className="text-sm font-medium text-ink pr-4">{faq.question}</span>
+                <ChevronRight
+                  className={`h-4 w-4 text-ink-faint transition-transform flex-shrink-0 ${
+                    openFAQ === index ? 'rotate-90' : ''
+                  }`}
+                />
+              </button>
+
+              {openFAQ === index && (
+                <div className="px-6 pb-4 border-t border-gray-100">
+                  <p className="text-sm text-ink-light leading-relaxed pt-4">
+                    {faq.answer}
+                  </p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {filteredFAQs.length === 0 && (
+          <div className="text-center py-16">
+            <p className="text-sm text-ink-muted">
+              ไม่พบคำถามที่ตรงกับการค้นหา
+            </p>
           </div>
-        </motion.div>
-      </div>
+        )}
+      </section>
+
+      {/* CTA */}
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-28 border-t border-gray-100">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-heading font-serif text-ink mb-4">
+            ยังไม่พบคำตอบที่ต้องการ?
+          </h2>
+          <p className="text-base text-ink-muted leading-relaxed mb-8">
+            ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณ
+          </p>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-7 py-3.5 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink-light transition-colors"
+          >
+            ติดต่อเรา
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }

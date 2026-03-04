@@ -30,8 +30,8 @@ const LearningProgressWidget = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="animate-pulse">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="">
           <div className="h-6 bg-gray-200 rounded w-1/2 mb-4"></div>
           <div className="space-y-3">
             <div className="h-4 bg-gray-200 rounded"></div>
@@ -45,13 +45,13 @@ const LearningProgressWidget = () => {
 
   if (error) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="text-center text-red-500">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="text-center text-error">
           <Target className="h-8 w-8 mx-auto mb-2" />
           <p className="text-sm">{error}</p>
-          <button 
+          <button
             onClick={loadLearningProgress}
-            className="mt-2 text-blue-500 hover:text-blue-600 text-xs underline"
+            className="mt-2 text-brand-600 hover:text-brand-700 text-xs underline"
           >
             ลองใหม่
           </button>
@@ -63,10 +63,10 @@ const LearningProgressWidget = () => {
   const progressPercentage = learningData ? Math.min((learningData.garden_xp / 1000) * 100, 100) : 0
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6">
+    <div className="bg-white rounded-lg shadow-card p-6">
       <div className="flex items-center justify-between mb-6">
         <h3 className="text-xl font-bold text-gray-900 flex items-center space-x-2">
-          <BookOpen className="h-5 w-5 text-blue-500" />
+          <BookOpen className="h-5 w-5 text-brand-600" />
           <span>ความก้าวหน้าการตรียมสอบ</span>
         </h3>
         <button 
@@ -81,10 +81,10 @@ const LearningProgressWidget = () => {
       {learningData && (
         <div className="space-y-6">
           {/* Garden Level & XP */}
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4">
+          <div className="bg-brand-50 rounded-lg p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                <div className="w-8 h-8 bg-brand-600 rounded-full flex items-center justify-center">
                   <Star className="h-4 w-4 text-white" />
                 </div>
                 <div>
@@ -93,14 +93,14 @@ const LearningProgressWidget = () => {
                 </div>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-blue-600">{learningData.star_seeds}</p>
+                <p className="text-lg font-bold text-brand-600">{learningData.star_seeds}</p>
                 <p className="text-xs text-gray-500">⭐ Star Seeds</p>
               </div>
             </div>
-            
+
             <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full"
+                className="h-full bg-brand-600 rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progressPercentage}%` }}
                 transition={{ duration: 1.5, ease: "easeOut" }}
@@ -110,15 +110,15 @@ const LearningProgressWidget = () => {
 
           {/* Learning Stats */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-blue-50 rounded-xl p-4 text-center">
-              <CheckCircle className="h-6 w-6 text-blue-500 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-blue-600">{learningData.completed_lessons}</p>
+            <div className="bg-sand-100 rounded-lg p-4 text-center">
+              <CheckCircle className="h-6 w-6 text-brand-600 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-brand-600">{learningData.completed_lessons}</p>
               <p className="text-xs text-gray-600">เนื้อหาที่เรียนจบ</p>
             </div>
-            
-            <div className="bg-purple-50 rounded-xl p-4 text-center">
-              <Award className="h-6 w-6 text-purple-500 mx-auto mb-2" />
-              <p className="text-2xl font-bold text-purple-600">{learningData.completed_courses}</p>
+
+            <div className="bg-sand-100 rounded-lg p-4 text-center">
+              <Award className="h-6 w-6 text-brand-700 mx-auto mb-2" />
+              <p className="text-2xl font-bold text-brand-700">{learningData.completed_courses}</p>
               <p className="text-xs text-gray-600">วิชาที่จบ</p>
             </div>
           </div>
@@ -131,7 +131,7 @@ const LearningProgressWidget = () => {
                 {learningData.recent_learning_activities.slice(0, 3).map((activity) => (
                   <div
                     key={activity.id}
-                    className="flex items-center space-x-3 p-3 bg-gray-50 rounded-xl"
+                    className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg"
                   >
                     <div className="text-xl">{activity.icon}</div>
                     <div className="flex-1 min-w-0">
@@ -140,7 +140,7 @@ const LearningProgressWidget = () => {
                       </p>
                       <p className="text-xs text-gray-500">{activity.time_ago}</p>
                     </div>
-                    <div className="text-xs text-blue-600 font-medium">
+                    <div className="text-xs text-brand-600 font-medium">
                       +{activity.xp_earned} XP
                     </div>
                   </div>
@@ -150,14 +150,14 @@ const LearningProgressWidget = () => {
           )}
 
           {/* Learning Progress Summary */}
-          <div className="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-4">
+          <div className="bg-brand-50 rounded-lg p-4">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-gray-700">XP จากการตรียมสอบ</p>
                 <p className="text-xs text-gray-500">รวมทั้งหมดที่ได้รับ</p>
               </div>
               <div className="text-right">
-                <p className="text-lg font-bold text-indigo-600">{learningData.total_learning_xp}</p>
+                <p className="text-lg font-bold text-brand-600">{learningData.total_learning_xp}</p>
                 <p className="text-xs text-gray-500">Study XP</p>
               </div>
             </div>

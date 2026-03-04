@@ -1,41 +1,251 @@
 @import "tailwindcss";
 
-/* Dark mode support and smooth transitions */
+/* ── Tailwind v4 theme configuration ── */
+@theme {
+  /* Brand (deep green — Aesop-inspired) */
+  --color-brand-50: #f3f7f4;
+  --color-brand-100: #e0ebe3;
+  --color-brand-200: #c2d7c8;
+  --color-brand-300: #96b8a0;
+  --color-brand-400: #6b9478;
+  --color-brand-500: #4a7a5a;
+  --color-brand-600: #3a6348;
+  --color-brand-700: #2d5a3d;
+  --color-brand-800: #264a33;
+  --color-brand-900: #1e3d2a;
+
+  /* Sand (warm neutral) */
+  --color-sand-50: #fdfcfa;
+  --color-sand-100: #f7f4ef;
+  --color-sand-200: #ede8df;
+  --color-sand-300: #ddd5c7;
+  --color-sand-400: #c4b8a5;
+  --color-sand-500: #a99c88;
+
+  /* Ink (text hierarchy) */
+  --color-ink: #1a1a1a;
+  --color-ink-light: #4a4a4a;
+  --color-ink-muted: #8a8a8a;
+  --color-ink-faint: #c5c5c5;
+
+  /* Semantic — single warm tone for error/danger, brand for success */
+  --color-error: #9b4d4d;
+  --color-error-light: #f0e6e6;
+  --color-error-dark: #7a3535;
+  --color-warning: #8b7355;
+  --color-warning-light: #f5f0e8;
+
+  /* Font families */
+  --font-sans: var(--font-sans, "Sarabun", sans-serif);
+  --font-serif: var(--font-serif, "Noto Serif Thai", serif);
+
+  /* Custom font sizes */
+  --font-size-display: clamp(2.5rem, 6vw, 5rem);
+  --font-size-heading: clamp(1.75rem, 3.5vw, 3rem);
+  --font-size-subheading: clamp(1.125rem, 2vw, 1.5rem);
+
+  /* Minimal shadow system — 2 levels only */
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+
+  /* Breakpoints */
+  --breakpoint-xs: 475px;
+}
+
 @layer base {
   html {
-    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
-  
+
   body {
-    @apply transition-colors duration-300;
+    background-color: #fafaf8;
   }
-  
-  /* Ensure proper theme transition */
-  * {
-    @apply transition-colors duration-300;
+
+  /* Subtle noise grain texture overlay (lightweight base64 PNG) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABnRSTlMEBQYHCAl1bDqOAAAARklEQVQ4y2MYBaNg2AImKMEMJVigBAuUYIYSLECCGUqwAAkWKMECJJihBAuQYIESLFCCBUgwQwkWIMEMJViABDOU2D8AAK6nCLEbHagUAAAAAElFTkSuQmCC");
+    background-repeat: repeat;
+    will-change: auto;
   }
-  
-  /* Hide scrollbar but keep functionality */
+
+  ::selection {
+    background-color: #4a7a5a;
+    color: white;
+  }
+
   ::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
-  
+
   ::-webkit-scrollbar-track {
-    @apply bg-gray-100 dark:bg-gray-800;
+    background: transparent;
   }
-  
+
   ::-webkit-scrollbar-thumb {
-    @apply bg-gray-300 dark:bg-gray-600 rounded-full;
+    background: #d4d4d8;
+    border-radius: 3px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-gray-400 dark:bg-gray-500;
+    background: #a1a1aa;
   }
 }
 
-/* Custom utilities for smooth animations */
-@layer utilities {
-  .theme-transition {
-    @apply transition-all duration-300 ease-in-out;
+/* ── Custom utility classes for typography ── */
+@utility text-display {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+
+@utility text-heading {
+  font-family: var(--font-serif), serif;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+@utility text-subheading {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+}
+
+/* ── Minimal shadow utilities ── */
+@utility shadow-subtle {
+  box-shadow: var(--shadow-subtle);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Minimal interactions (Direction A: Warm Minimalism) ── */
+
+/* Subtle transitions only — no transforms, no lifts */
+@layer base {
+  button:not(:disabled),
+  a[role="button"] {
+    transition: opacity 0.2s ease, background-color 0.2s ease;
   }
+
+  button:not(:disabled):active,
+  a[role="button"]:active {
+    opacity: 0.85;
+  }
+}
+
+/* Card hover — opacity only, no lift */
+@utility card-interactive {
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+/* Link underline — always visible, subtle */
+@utility link-reveal {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-ink-faint);
+  transition: text-decoration-color 0.2s ease;
+  &:hover {
+    text-decoration-color: var(--color-ink);
+  }
+}
+
+/* Button system — 3 variants */
+@utility btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-brand-700);
+  color: white;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.9;
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+@utility btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: transparent;
+  color: var(--color-ink);
+  font-weight: 500;
+  border: 1px solid var(--color-ink-faint);
+  border-radius: 0.5rem;
+  transition: border-color 0.2s ease;
+  &:hover {
+    border-color: var(--color-ink);
+  }
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+@utility btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  background-color: transparent;
+  color: var(--color-ink-light);
+  font-weight: 400;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--color-ink-faint);
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  &:hover {
+    color: var(--color-ink);
+    text-decoration-color: var(--color-ink);
+  }
+}
+
+/* GSAP text reveal helper */
+.word {
+  display: inline-block;
+  overflow: hidden;
+}
+
+.word-inner {
+  display: inline-block;
+  transform: translateY(100%);
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
 }

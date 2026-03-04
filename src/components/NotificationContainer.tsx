@@ -10,13 +10,13 @@ const NotificationContainer = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-6 w-6 text-green-400" />;
+        return <CheckCircle className="h-6 w-6 text-brand-600" />;
       case 'error':
-        return <AlertCircle className="h-6 w-6 text-red-400" />;
+        return <AlertCircle className="h-6 w-6 text-error" />;
       case 'warning':
-        return <AlertTriangle className="h-6 w-6 text-yellow-400" />;
+        return <AlertTriangle className="h-6 w-6 text-warning" />;
       case 'info':
-        return <Info className="h-6 w-6 text-blue-400" />;
+        return <Info className="h-6 w-6 text-ink-light" />;
       default:
         return <Info className="h-6 w-6 text-gray-400" />;
     }
@@ -25,13 +25,13 @@ const NotificationContainer = () => {
   const getBackgroundColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'bg-green-50 border-green-200';
+        return 'bg-brand-50 border-brand-200';
       case 'error':
-        return 'bg-red-50 border-red-200';
+        return 'bg-error-light border-error/20';
       case 'warning':
-        return 'bg-yellow-50 border-yellow-200';
+        return 'bg-sand-100 border-sand-300';
       case 'info':
-        return 'bg-blue-50 border-blue-200';
+        return 'bg-sand-100 border-sand-300';
       default:
         return 'bg-gray-50 border-gray-200';
     }
@@ -40,13 +40,13 @@ const NotificationContainer = () => {
   const getTextColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'text-green-800';
+        return 'text-brand-700';
       case 'error':
-        return 'text-red-800';
+        return 'text-error-dark';
       case 'warning':
-        return 'text-yellow-800';
+        return 'text-ink-light';
       case 'info':
-        return 'text-blue-800';
+        return 'text-ink-light';
       default:
         return 'text-gray-800';
     }
@@ -64,7 +64,7 @@ const NotificationContainer = () => {
           className={`
             ${getBackgroundColor(notification.type)}
             ${getTextColor(notification.type)}
-            relative rounded-lg border p-4 shadow-lg
+            relative rounded-lg border p-4 shadow-card
             transform transition-all duration-300 ease-in-out
             animate-in slide-in-from-right-full
           `}
@@ -91,14 +91,14 @@ const NotificationContainer = () => {
                     onClick={notification.action.onClick}
                     className={`
                       inline-flex items-center rounded-md px-2.5 py-1.5 text-xs font-medium
-                      transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2
-                      ${notification.type === 'success' 
-                        ? 'bg-green-100 text-green-800 hover:bg-green-200 focus:ring-green-500'
+                      transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300
+                      ${notification.type === 'success'
+                        ? 'bg-brand-50 text-brand-700 hover:opacity-90'
                         : notification.type === 'error'
-                        ? 'bg-red-100 text-red-800 hover:bg-red-200 focus:ring-red-500'
+                        ? 'bg-error-light text-error-dark hover:opacity-90'
                         : notification.type === 'warning'
-                        ? 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200 focus:ring-yellow-500'
-                        : 'bg-blue-100 text-blue-800 hover:bg-blue-200 focus:ring-blue-500'
+                        ? 'bg-sand-100 text-ink-light hover:opacity-90'
+                        : 'bg-sand-100 text-ink-light hover:opacity-90'
                       }
                     `}
                   >
@@ -112,14 +112,14 @@ const NotificationContainer = () => {
               <button
                 className={`
                   inline-flex rounded-md p-1.5 transition-colors
-                  focus:outline-none focus:ring-2 focus:ring-offset-2
-                  ${notification.type === 'success' 
-                    ? 'text-green-500 hover:bg-green-100 focus:ring-green-500'
+                  focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300
+                  ${notification.type === 'success'
+                    ? 'text-brand-600 hover:bg-brand-50'
                     : notification.type === 'error'
-                    ? 'text-red-500 hover:bg-red-100 focus:ring-red-500'
+                    ? 'text-error hover:bg-error-light'
                     : notification.type === 'warning'
-                    ? 'text-yellow-500 hover:bg-yellow-100 focus:ring-yellow-500'
-                    : 'text-blue-500 hover:bg-blue-100 focus:ring-blue-500'
+                    ? 'text-warning hover:bg-sand-100'
+                    : 'text-ink-light hover:bg-sand-100'
                   }
                 `}
                 onClick={() => removeNotification(notification.id)}

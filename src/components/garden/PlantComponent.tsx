@@ -89,10 +89,10 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
       {/* Main Plant Container */}
       <motion.div
         className={`
-          ${sizeClass.container} 
-          relative rounded-2xl border-2 cursor-pointer
-          transition-all duration-300 hover:shadow-lg
-          ${plant.needs_watering ? 'border-red-300 bg-red-50' : `border-${plant.category === 'fitness' ? 'red' : plant.category === 'nutrition' ? 'orange' : plant.category === 'mental' ? 'indigo' : 'emerald'}-200`}
+          ${sizeClass.container}
+          relative rounded-lg border-2 cursor-pointer
+          transition-all duration-300
+          ${plant.needs_watering ? 'border-sand-300 bg-error-light' : `border-${plant.category === 'fitness' ? 'red' : plant.category === 'nutrition' ? 'orange' : plant.category === 'mental' ? 'indigo' : 'emerald'}-200`}
         `}
         style={{
           backgroundColor: plant.needs_watering ? '#FEF2F2' : categoryColors.light,
@@ -105,22 +105,18 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
         onMouseLeave={() => setShowTooltip(false)}
       >
         {/* Plant Stage Background */}
-        <div className="absolute inset-2 rounded-xl bg-white/50 flex items-center justify-center">
+        <div className="absolute inset-2 rounded-lg bg-white/50 flex items-center justify-center">
           {/* Plant Emoji */}
-          <motion.div
-            className={sizeClass.emoji}
-            animate={plant.needs_watering ? { rotate: [-2, 2, -2] } : {}}
-            transition={{ duration: 2, repeat: plant.needs_watering ? Infinity : 0 }}
-          >
+          <div className={sizeClass.emoji}>
             {plant.is_fully_grown ? getPlantEmoji(plant.category) : getStageEmoji(plant.stage)}
-          </motion.div>
+          </div>
         </div>
 
         {/* Progress Bar */}
         <div className="absolute top-1 left-1 right-1">
           <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
             <motion.div
-              className={`h-full ${plant.health > 70 ? 'bg-blue-500' : plant.health > 40 ? 'bg-indigo-500' : 'bg-red-500'}`}
+              className={`h-full ${plant.health > 70 ? 'bg-brand-500' : plant.health > 40 ? 'bg-warning' : 'bg-error'}`}
               initial={{ width: 0 }}
               animate={{ width: `${plant.health}%` }}
               transition={{ duration: 1 }}
@@ -133,7 +129,7 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
           <div className="absolute bottom-1 left-1 right-1">
             <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
               <motion.div
-                className="h-full bg-gradient-to-r from-blue-400 to-indigo-600"
+                className="h-full bg-brand-600"
                 initial={{ width: 0 }}
                 animate={{ width: `${plant.growth_progress}%` }}
                 transition={{ duration: 1 }}
@@ -145,23 +141,15 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
         {/* Status Icons */}
         <div className="absolute top-2 right-2 flex flex-col space-y-1">
           {plant.needs_watering && (
-            <motion.div
-              animate={{ scale: [1, 1.2, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="text-red-500"
-            >
+            <div className="text-error">
               <AlertCircle className={sizeClass.icon} />
-            </motion.div>
+            </div>
           )}
-          
+
           {plant.can_harvest && (
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="text-yellow-500"
-            >
+            <div className="text-warning">
               <Crown className={sizeClass.icon} />
-            </motion.div>
+            </div>
           )}
         </div>
 
@@ -176,24 +164,11 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
             >
               {plant.needs_watering && onWater && (
                 <motion.button
-                  className={`${sizeClass.button} bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center shadow-lg transition-all`}
+                  className={`${sizeClass.button} bg-brand-500 hover:opacity-90 text-white rounded-full flex items-center justify-center shadow-card transition-all`}
                   onClick={handleWater}
                   disabled={isWatering}
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  animate={{ 
-                    scale: [1, 1.2, 1],
-                    boxShadow: [
-                      '0 4px 6px rgba(0, 0, 0, 0.1)',
-                      '0 8px 15px rgba(59, 130, 246, 0.4)', 
-                      '0 4px 6px rgba(0, 0, 0, 0.1)'
-                    ]
-                  }}
-                  transition={{ 
-                    duration: 2,
-                    repeat: Infinity,
-                    ease: "easeInOut"
-                  }}
                 >
                   {isWatering ? (
                     <motion.div
@@ -210,7 +185,7 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
               
               {plant.can_harvest && onHarvest && (
                 <motion.button
-                  className={`${sizeClass.button} bg-yellow-500 hover:bg-yellow-600 text-white rounded-full flex items-center justify-center shadow-lg`}
+                  className={`${sizeClass.button} bg-sand-200 hover:opacity-90 text-ink-light rounded-full flex items-center justify-center shadow-card`}
                   onClick={handleHarvest}
                   disabled={isHarvesting}
                   whileHover={{ scale: 1.1 }}
@@ -240,17 +215,17 @@ const PlantComponent: React.FC<PlantComponentProps> = ({
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
-            className="absolute z-10 bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-lg"
+            className="absolute z-10 bottom-full mb-2 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white px-3 py-2 rounded-lg text-sm whitespace-nowrap shadow-card"
           >
             <div className="text-center">
               <div className="font-semibold">{plant.name}</div>
               <div className="text-gray-300">{PLANT_STAGE_NAMES[plant.stage as keyof typeof PLANT_STAGE_NAMES]}</div>
               <div className="text-xs text-gray-400">
-                ความรู้ {plant.health}% • {plant.is_fully_grown ? 'เรียนจบแล้ว' : `เรียนไปแล้ว ${plant.growth_progress}%`}
+                คุณภาพ {plant.health}% • {plant.is_fully_grown ? 'เปิดตัวแล้ว' : `พัฒนาแล้ว ${plant.growth_progress}%`}
               </div>
               {plant.next_water_at && (
-                <div className="text-xs text-blue-300">
-                  ทบทวนครั้งต่อไป: {formatThaiDateTime(plant.next_water_at)}
+                <div className="text-xs text-ink-light">
+                  พัฒนาต่อครั้งต่อไป: {formatThaiDateTime(plant.next_water_at)}
                 </div>
               )}
             </div>
@@ -306,14 +281,14 @@ export const PlantGrid: React.FC<PlantGridProps> = ({
       {Array.from({ length: emptySlots }, (_, index) => (
         <motion.div
           key={`empty-${index}`}
-          className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-2xl flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+          className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onEmptySlotClick}
         >
           <div className="text-gray-400 text-center">
-            <div className="text-2xl mb-1">📚</div>
-            <div className="text-xs">เรียนวิชาใหม่</div>
+            <div className="text-2xl mb-1">💡</div>
+            <div className="text-xs">เริ่มโปรเจกต์ใหม่</div>
           </div>
         </motion.div>
       ))}

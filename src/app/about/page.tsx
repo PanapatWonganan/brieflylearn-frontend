@@ -1,252 +1,205 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
-import { 
-  GraduationCap, 
-  Users, 
-  Target, 
+import {
+  GraduationCap,
+  Users,
+  Target,
   BookOpen,
-  Sparkles,
   Shield,
   Award,
   Star,
-  CheckCircle,
   TrendingUp,
-  Clock,
-  FileText
+  User
 } from 'lucide-react';
 
 export default function About() {
   const values = [
     {
       icon: GraduationCap,
-      title: "Excellence in Education",
-      subtitle: "การศึกษาที่เป็นเลิศ",
-      description: "เราเชื่อว่าทุกคนสมควรได้รับการศึกษาที่มีคุณภาพ เราจึงออกแบบหลักสูตรด้วยความใส่ใจและมาตรฐานสูง เพื่อให้ผู้เรียนประสบความสำเร็จในการพัฒนาตัวเอง"
+      title: "AI-First Education",
+      subtitle: "การศึกษา AI ที่เป็นเลิศ",
+      description: "เราออกแบบหลักสูตร AI ด้วยความใส่ใจและมาตรฐานสูง เพื่อให้ผู้เรียนนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กรได้จริง"
     },
     {
       icon: Shield,
-      title: "Guaranteed Results",
-      subtitle: "รับประกันผลสอบ",
-      description: "หลักสูตรของเราได้รับการพิสูจน์แล้วจากผู้สอบผ่านกว่า 15,000 คน เราจึงมั่นใจให้การรับประกัน หากไม่ผ่านสามารถเรียนซ้ำฟรี"
+      title: "Practical Results",
+      subtitle: "ผลลัพธ์ที่จับต้องได้",
+      description: "ผู้เรียนกว่า 3,200 คนได้นำ AI ไปใช้จริง ทั้งสร้างธุรกิจออนไลน์ ทำ Automation และเพิ่มประสิทธิภาพการทำงานในองค์กร"
     },
     {
       icon: Users,
-      title: "Expert Community",
-      subtitle: "ชุมชนผู้เชี่ยวชาญ",
-      description: "อาจารย์และผู้สอนทุกคนเป็นผู้เชี่ยวชาญในสาขาของตนเอง พร้อมกับชุมชนผู้เรียนที่คอยสนับสนุนและแบ่งปันประสบการณ์ระหว่างกัน"
+      title: "AI Community",
+      subtitle: "ชุมชนคนใช้ AI",
+      description: "ผู้สอนทุกคนเป็นผู้เชี่ยวชาญที่นำ AI ไปใช้จริง พร้อมชุมชนผู้เรียนที่แลกเปลี่ยนไอเดียและประสบการณ์ AI ระหว่างกัน"
     },
     {
       icon: TrendingUp,
-      title: "Data-Driven Approach",
-      subtitle: "การสอนที่อิงข้อมูล",
-      description: "เราใช้ข้อมูลและสถิติจากข้อสอบจริงหลายปีที่ผ่านมา วิเคราะห์แนวโน้มและรูปแบบข้อสอบเพื่อให้การสอนตรงจุดและมีประสิทธิภาพสูงสุด"
+      title: "Always Updated",
+      subtitle: "อัปเดตตาม AI ล่าสุด",
+      description: "เนื้อหาอัปเดตตาม AI Tools และเทรนด์ใหม่อยู่เสมอ ทั้ง ChatGPT, Claude, Midjourney และเครื่องมืออื่นๆ ที่เปลี่ยนแปลงเร็ว"
     }
   ];
 
   const milestones = [
     {
-      year: "2018",
-      title: "ก่อตั้ง BrieflyLearn",
-      description: "เริ่มต้นด้วยความมุ่งมั่นที่จะช่วยคนไทยสอบเป็นการพัฒนาตัวเอง"
-    },
-    {
-      year: "2020",
-      title: "5,000+ ผู้สอบผ่าน",
-      description: "มีผู้เรียนสอบผ่านการพัฒนาตัวเองจากคอร์สของเรามากกว่า 5,000 คน"
-    },
-    {
-      year: "2022",
-      title: "10,000+ ผู้สอบผ่าน",
-      description: "ขยายการเรียนการสอนและมีผู้สอบผ่านแล้วกว่า 10,000 คน"
-    },
-    {
       year: "2024",
-      title: "15,000+ ผู้สอบผ่าน",
-      description: "ตอกย้ำความเป็นผู้นำด้วยผลสำเร็จที่เพิ่มขึ้นอย่างต่อเนื่อง"
+      title: "ก่อตั้ง BrieflyLearn",
+      description: "เริ่มต้นด้วยวิสัยทัศน์ช่วยคนไทยนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร"
+    },
+    {
+      year: "Q3 2024",
+      title: "เปิดตัว 2 เส้นทาง AI",
+      description: "เปิดตัว Entrepreneur Track และ Leader Track สำหรับผู้เรียนที่มีเป้าหมายต่างกัน"
+    },
+    {
+      year: "Q1 2025",
+      title: "1,000+ ผู้เรียน",
+      description: "มีผู้เรียนนำ AI ไปใช้จริงมากกว่า 1,000 คน ทั้งสร้างธุรกิจและบริหารทีม"
+    },
+    {
+      year: "2026",
+      title: "3,200+ ผู้เรียน",
+      description: "ขยายคอร์ส AI ครอบคลุม Prompt Engineering, Automation และ AI Strategy"
     }
   ];
 
   const teamMembers = [
     {
-      name: "ผศ.ดร.สมชาย วิชาการ",
-      role: "Chief Academic Officer",
-      specialty: "ผู้เชี่ยวชาญภาค ก. ความรู้ทั่วไป",
-      description: "ประสบการณ์การสอน 20+ ปี อดีตอาจารย์มหาวิทยาลัย",
-      image: "👨‍🏫"
+      name: "ดร.ณัฐพล วิสุทธิ์",
+      role: "AI Strategy & Business",
+      specialty: "ผู้เชี่ยวชาญ AI Transformation",
+      description: "ที่ปรึกษา AI ให้องค์กรชั้นนำ ประสบการณ์ 12 ปี"
     },
     {
-      name: "อ.สุดา กฎหมายไทย",
-      role: "Senior Law Instructor",
-      specialty: "ผู้เชี่ยวชาญกฎหมายและระเบียบราชการ",
-      description: "อดีตการพัฒนาตัวเองระดับสูง ผู้เชี่ยวชาญด้านกฎหมาย",
-      image: "⚖️"
+      name: "พญ.ชนิกา ศรีวัฒนา",
+      role: "AI for Productivity",
+      specialty: "ผู้เชี่ยวชาญ Prompt Engineering",
+      description: "M.S. HCI จาก Carnegie Mellon, Certified Prompt Engineer"
     },
     {
-      name: "อ.วิทย์ คณิตศาสตร์",
-      role: "Mathematics Specialist",
-      specialty: "ผู้เชี่ยวชาญคณิตศาสตร์และเหตุผล",
-      description: "อาจารย์คณิตศาสตร์ที่มีชื่อเสียงระดับประเทศ",
-      image: "🔢"
+      name: "รศ.ดร.วรพจน์ อมรเลิศ",
+      role: "AI in Organization",
+      specialty: "ผู้เชี่ยวชาญ Digital Transformation",
+      description: "Ph.D. จาก MIT, ที่ปรึกษา AI Governance"
     },
     {
-      name: "อ.นันท์ ภาษาไทย",
-      role: "Thai Language Expert",
-      specialty: "ผู้เชี่ยวชาญภาษาไทยและการเขียน",
-      description: "นักภาษาศาสตร์ ผู้เชี่ยวชาญด้านภาษาไทย",
-      image: "📝"
+      name: "ธนวัฒน์ เศรษฐกุล",
+      role: "AI Automation & No-Code",
+      specialty: "ผู้เชี่ยวชาญ AI Workflow Automation",
+      description: "Founder ที่สร้างธุรกิจ 7 หลักด้วย AI"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-50">
-      
+    <div className="min-h-screen">
+
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-white/10"></div>
-        <div className="absolute top-20 right-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 left-20 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <div className="flex items-center justify-center space-x-2 text-blue-100 mb-6">
-              <GraduationCap className="h-8 w-8" />
-              <span className="text-2xl font-semibold">BrieflyLearn</span>
-            </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              ผู้นำการคอร์สเรียน
-              <br />
-              <span className="text-accent-400">การพัฒนาตัวเองออนไลน์</span>
-            </h1>
-            
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              เราคือแพลตฟอร์มคอร์สพัฒนาตัวเองออนไลน์อันดับ 1 ที่ช่วยให้คนไทยมากกว่า 15,000 คน
-              ประสบความสำเร็จในการสอบเป็นการพัฒนาตัวเอง ด้วยหลักสูตรที่ครบครันและมีคุณภาพสูง
+      <section className="py-24 bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="max-w-3xl">
+            <p className="text-xs uppercase tracking-wider text-ink-muted mb-6 font-medium">
+              เกี่ยวกับเรา
             </p>
-          </motion.div>
+
+            <h1 className="text-heading font-serif text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+              แพลตฟอร์มเรียน AI เพื่อสร้างธุรกิจและบริหารองค์กร
+            </h1>
+
+            <p className="text-xl text-ink-light leading-relaxed">
+              เราคือแพลตฟอร์มเรียน AI ออนไลน์ที่ช่วยให้คนไทยมากกว่า 3,200 คน
+              นำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-8"
-            >
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="bg-blue-100 p-3 rounded-full">
-                    <Target className="h-6 w-6 text-orange-600" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-blue-900">พันธกิจของเรา</h2>
-                </div>
-                <p className="text-orange-600 text-lg leading-relaxed">
-                  สร้างแพลตฟอร์มการเรียนรู้ออนไลน์ที่มีคุณภาพสูง เพื่อให้คนไทยทุกคนสามารถเข้าถึง
-                  การศึกษาที่ดีและประสบความสำเร็จในการสอบเป็นการพัฒนาตัวเอง สร้างอนาคตที่มั่นคงให้กับตนเองและครอบครัว
-                </p>
-              </div>
-              
-              <div>
-                <div className="flex items-center space-x-3 mb-4">
-                  <div className="bg-accent-100 p-3 rounded-full">
-                    <Sparkles className="h-6 w-6 text-accent-600" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-blue-900">วิสัยทัศน์</h2>
-                </div>
-                <p className="text-orange-600 text-lg leading-relaxed">
-                  เป็นแพลตฟอร์มคอร์สพัฒนาตัวเองออนไลน์อันดับ 1 ของประเทศไทย ที่ให้บริการการศึกษา
-                  ครบวงจรและมีคุณภาพสูงสุด พร้อมการันตีผลสำเร็จให้กับผู้เรียนทุกคน
-                </p>
-              </div>
-            </motion.div>
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100"
-            >
-              <div className="text-center space-y-6">
-                <div className="bg-gradient-to-br from-blue-100 to-slate-100 rounded-full w-20 h-20 mx-auto flex items-center justify-center">
-                  <BookOpen className="h-10 w-10 text-orange-600" />
+            <div className="space-y-12">
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <Target className="h-6 w-6 text-brand-600" />
+                  <h2 className="text-2xl font-bold font-serif text-ink">พันธกิจของเรา</h2>
                 </div>
-                
-                <h3 className="text-2xl font-bold text-blue-900">ทำไมถึงเลือก BrieflyLearn?</h3>
-                
-                <div className="space-y-4 text-orange-600">
-                  <p>
-                    &ldquo;เราเริ่มต้นจากการสังเกตเห็นว่าการคอร์สพัฒนาตัวเองในรูปแบบเดิมยังมีข้อจำกัด&rdquo;
-                  </p>
-                  <p>
-                    &ldquo;ผู้เรียนหลายคนไม่สามารถเข้าถึงการคอร์สเรียนที่มีคุณภาพได้ เนื่องจากข้อจำกัดด้านสถานที่และเวลา&rdquo;
-                  </p>
-                  <p>
-                    &ldquo;เราจึงสร้าง BrieflyLearn เพื่อให้ทุกคนสามารถเรียนรู้และเตรียมตัวพัฒนาตัวเองได้อย่างมีประสิทธิภาพ ไม่ว่าจะอยู่ที่ไหน&rdquo;
-                  </p>
-                </div>
-                
-                <div className="text-orange-600 font-semibold">
-                  - ทีมก่อตั้ง BrieflyLearn
-                </div>
+                <p className="text-ink-light text-lg leading-relaxed">
+                  ช่วยให้คนไทยทุกคนสามารถเรียนรู้และนำ AI ไปใช้จริงได้ ไม่ว่าจะเป็นการสร้างธุรกิจส่วนตัว
+                  หรือบริหารองค์กรให้ก้าวหน้า ด้วยหลักสูตรที่เน้นลงมือทำจริงจากผู้เชี่ยวชาญ
+                </p>
               </div>
-            </motion.div>
+
+              <div>
+                <div className="flex items-center space-x-3 mb-4">
+                  <BookOpen className="h-6 w-6 text-brand-600" />
+                  <h2 className="text-2xl font-bold font-serif text-ink">วิสัยทัศน์</h2>
+                </div>
+                <p className="text-ink-light text-lg leading-relaxed">
+                  เป็นแพลตฟอร์มเรียน AI อันดับ 1 ของประเทศไทย ที่ช่วยให้ทุกคนนำ AI ไปใช้สร้างธุรกิจ
+                  และบริหารองค์กรได้จริง ด้วยเนื้อหาที่อัปเดตตาม AI ล่าสุดเสมอ
+                </p>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-lg p-8 border border-gray-100/60 shadow-card">
+              <h3 className="text-2xl font-bold text-ink mb-6">ทำไมถึงเลือก BrieflyLearn?</h3>
+
+              <div className="space-y-6 text-ink-light leading-relaxed">
+                <p>
+                  เราเห็นว่า AI กำลังเปลี่ยนโลกธุรกิจ แต่คนส่วนใหญ่ยังไม่รู้จะเริ่มต้นอย่างไร
+                </p>
+                <p>
+                  คอร์ส AI ที่มีอยู่มักเน้นทฤษฎีเทคนิค ขาดการเชื่อมโยงกับการใช้งานจริงในธุรกิจและองค์กร
+                </p>
+                <p>
+                  เราจึงสร้าง BrieflyLearn เพื่อให้ทุกคนเรียนรู้ AI แล้วนำไปใช้ได้จริง
+                  ไม่ว่าจะสร้างธุรกิจส่วนตัวหรือบริหารทีมในองค์กร
+                </p>
+
+                <p className="text-ink font-medium pt-4">
+                  - ทีมก่อตั้ง BrieflyLearn
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="mb-16 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
               ค่านิยมของเรา
             </h2>
-            <p className="text-xl text-orange-600 max-w-3xl mx-auto">
+            <p className="text-xl text-ink-light">
               หลักการที่เราใช้ในการสร้างสรรค์หลักสูตรและให้บริการ
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <motion.div
+                <div
                   key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8 border border-orange-100 hover:shadow-lg transition-shadow"
+                  className="bg-white rounded-lg p-8 border border-gray-100/60 shadow-card"
                 >
                   <div className="flex items-start space-x-4">
-                    <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
-                      <Icon className="h-6 w-6 text-orange-600" />
+                    <div className="flex-shrink-0">
+                      <Icon className="h-6 w-6 text-brand-600" />
                     </div>
                     <div className="space-y-3">
                       <div>
-                        <h3 className="text-xl font-bold text-blue-900">{value.title}</h3>
-                        <p className="text-orange-600 font-medium">{value.subtitle}</p>
+                        <h3 className="text-xl font-bold text-ink">{value.title}</h3>
+                        <p className="text-ink-light font-medium">{value.subtitle}</p>
                       </div>
-                      <p className="text-orange-600 leading-relaxed">{value.description}</p>
+                      <p className="text-ink-light leading-relaxed">{value.description}</p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               );
             })}
           </div>
@@ -254,118 +207,90 @@ export default function About() {
       </section>
 
       {/* Timeline/Milestones */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="mb-16 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
               เส้นทางความสำเร็จ
             </h2>
-            <p className="text-xl text-orange-600">
+            <p className="text-xl text-ink-light">
               การเติบโตและพัฒนาของ BrieflyLearn
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {milestones.map((milestone, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-orange-100 text-center"
-              >
-                <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 text-xl font-bold">
+              <div key={index} className="space-y-4">
+                <div className="text-4xl font-bold text-brand-600">
                   {milestone.year}
                 </div>
-                <h3 className="text-lg font-semibold text-blue-900 mb-2">{milestone.title}</h3>
-                <p className="text-orange-600 text-sm">{milestone.description}</p>
-              </motion.div>
+                <h3 className="text-lg font-semibold text-ink">{milestone.title}</h3>
+                <p className="text-ink-light text-sm leading-relaxed">{milestone.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">
-              ทีมอาจารย์ผู้เชี่ยวชาญ
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="mb-16 max-w-2xl">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
+              ทีมผู้เชี่ยวชาญด้าน AI
             </h2>
-            <p className="text-xl text-orange-600">
-              อาจารย์ที่มีประสบการณ์และความเชี่ยวชาญในแต่ละสาขา
+            <p className="text-xl text-ink-light">
+              ผู้สอนที่มีประสบการณ์ตรงในการนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร
             </p>
-          </motion.div>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {teamMembers.map((member, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-6 text-center border border-orange-100 hover:shadow-lg transition-shadow"
+                className="bg-white rounded-lg p-6 border border-gray-100/60 shadow-card"
               >
-                <div className="text-6xl mb-4">{member.image}</div>
-                <h3 className="text-lg font-semibold text-blue-900 mb-1">{member.name}</h3>
-                <p className="text-orange-600 font-medium text-sm mb-2">{member.role}</p>
-                <p className="text-orange-700 text-sm font-medium mb-3">{member.specialty}</p>
-                <p className="text-orange-600 text-xs leading-relaxed">{member.description}</p>
-              </motion.div>
+                <div className="flex justify-center mb-4">
+                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center">
+                    <User className="h-8 w-8 text-ink-muted" />
+                  </div>
+                </div>
+                <h3 className="text-lg font-semibold text-ink mb-1 text-center">{member.name}</h3>
+                <p className="text-ink-light text-sm mb-2 text-center">{member.role}</p>
+                <p className="text-ink text-sm font-medium mb-3 text-center">{member.specialty}</p>
+                <p className="text-ink-muted text-xs leading-relaxed text-center">{member.description}</p>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+      <section className="py-24 bg-white border-t border-gray-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="mb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
               ผลงานที่เราภูมิใจ
             </h2>
-            <p className="text-xl text-blue-100">
+            <p className="text-xl text-ink-light">
               ความสำเร็จของผู้เรียนคือความสำเร็จของเรา
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {[
-              { number: "15,000+", label: "ผู้สอบผ่านการพัฒนาตัวเอง", icon: Users },
-              { number: "4.9", label: "คะแนนความพึงพอใจ", icon: Star },
-              { number: "500+", label: "หลักสูตรและคอร์ส", icon: BookOpen },
-              { number: "98%", label: "อัตราการสอบผ่าน", icon: Award }
+              { number: "3,200+", label: "ผู้เรียน AI ทั่วประเทศ", icon: Users },
+              { number: "4.7", label: "คะแนนความพึงพอใจ", icon: Star },
+              { number: "15+", label: "คอร์ส AI ครบทุกเส้นทาง", icon: BookOpen },
+              { number: "92%", label: "นำ AI ไปใช้จริงได้", icon: Award }
             ].map((stat, index) => {
               const Icon = stat.icon;
               return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="bg-white/20 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8" />
-                  </div>
-                  <div className="text-3xl font-bold mb-2">{stat.number}</div>
-                  <div className="text-blue-100">{stat.label}</div>
-                </motion.div>
+                <div key={index} className="text-center space-y-3">
+                  <Icon className="h-8 w-8 text-brand-600 mx-auto" />
+                  <div className="text-3xl font-bold text-ink">{stat.number}</div>
+                  <div className="text-ink-light text-sm">{stat.label}</div>
+                </div>
               );
             })}
           </div>
@@ -373,35 +298,30 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="bg-white rounded-2xl p-8 shadow-lg border border-orange-100"
-          >
-            <div className="bg-gradient-to-br from-blue-100 to-slate-100 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <GraduationCap className="h-10 w-10 text-orange-600" />
+      <section className="py-24 bg-gray-50">
+        <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
+          <div className="flex justify-center mb-6">
+            <div className="w-16 h-16 rounded-full bg-white border border-gray-100 flex items-center justify-center">
+              <GraduationCap className="h-8 w-8 text-brand-600" />
             </div>
-            
-            <h2 className="text-3xl font-bold text-blue-900 mb-4">
-              พร้อมเริ่มต้นเส้นทางสู่ความสำเร็จแล้วหรือยัง?
-            </h2>
-            
-            <p className="text-xl text-orange-600 mb-8">
-              เข้าร่วมกับผู้เรียนมากกว่า 15,000 คนที่เลือกเตรียมพัฒนาตัวเองกับ BrieflyLearn
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-4 rounded-xl font-semibold text-lg hover:from-blue-600 hover:to-indigo-600 transition-all duration-300">
-                เริ่มเรียนเลย
-              </button>
-              <button className="border-2 border-orange-600 text-orange-600 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-blue-50 transition-colors duration-300">
-                ดูคอร์สทั้งหมด
-              </button>
-            </div>
-          </motion.div>
+          </div>
+
+          <h2 className="text-3xl font-bold font-serif text-ink mb-4">
+            พร้อมเริ่มต้นเส้นทางสู่ความสำเร็จแล้วหรือยัง?
+          </h2>
+
+          <p className="text-xl text-ink-light mb-8">
+            เข้าร่วมกับผู้เรียนกว่า 3,200 คนที่กำลังเรียนรู้ AI เพื่อสร้างอนาคตกับ BrieflyLearn
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-ink text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-ink/90 transition-colors">
+              เริ่มเรียนเลย
+            </button>
+            <button className="border-2 border-ink text-ink px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors">
+              ดูคอร์สทั้งหมด
+            </button>
+          </div>
         </div>
       </section>
 

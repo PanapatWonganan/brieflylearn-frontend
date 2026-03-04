@@ -11,30 +11,23 @@ interface SkeletonProps {
 
 export function Skeleton({ className, children, ...props }: SkeletonProps) {
   return (
-    <motion.div
+    <div
       className={cn(
         "animate-pulse rounded-md bg-gray-200 dark:bg-gray-700",
         className
       )}
-      initial={{ opacity: 0.6 }}
-      animate={{ opacity: [0.6, 1, 0.6] }}
-      transition={{
-        duration: 1.5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
       {...props}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
 export function CourseCardSkeleton() {
   return (
-    <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-orange-100 dark:border-gray-700">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-card overflow-hidden border border-brand-100 dark:border-gray-700">
       {/* Video Preview Skeleton */}
-      <Skeleton className="h-48 w-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600" />
+      <Skeleton className="h-48 w-full bg-gray-200 dark:from-gray-700 dark:to-gray-600" />
       
       {/* Content Skeleton */}
       <div className="p-4 sm:p-6 space-y-4">
@@ -71,7 +64,7 @@ export function CourseCardSkeleton() {
 
 export function DashboardSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-brand-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Skeleton */}
         <div className="mb-8">
@@ -80,13 +73,13 @@ export function DashboardSkeleton() {
         </div>
 
         {/* Current Journey Status */}
-        <Skeleton className="h-32 w-full rounded-2xl mb-8" />
+        <Skeleton className="h-32 w-full rounded-lg mb-8" />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
           {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             {/* Wellness Score Chart */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-orange-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-card border border-brand-100 dark:border-gray-700">
               <Skeleton className="h-6 w-48 mb-4" />
               <Skeleton className="h-64 w-full" />
             </div>
@@ -95,17 +88,17 @@ export function DashboardSkeleton() {
           {/* Right Column */}
           <div className="space-y-6">
             {/* Badge Collection */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-orange-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-card border border-brand-100 dark:border-gray-700">
               <Skeleton className="h-6 w-32 mb-4" />
               <div className="grid grid-cols-3 gap-3">
                 {[...Array(6)].map((_, i) => (
-                  <Skeleton key={i} className="h-16 w-16 rounded-xl" />
+                  <Skeleton key={i} className="h-16 w-16 rounded-lg" />
                 ))}
               </div>
             </div>
 
             {/* Recent Achievements */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm border border-orange-100 dark:border-gray-700">
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-6 shadow-card border border-brand-100 dark:border-gray-700">
               <Skeleton className="h-6 w-40 mb-4" />
               <div className="space-y-3">
                 {[...Array(3)].map((_, i) => (
@@ -128,9 +121,9 @@ export function DashboardSkeleton() {
 
 export function LessonPageSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-brand-50 dark:from-gray-900 dark:to-gray-800">
       {/* Header Skeleton */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-orange-100 dark:border-gray-700">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b border-brand-100 dark:border-gray-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
@@ -154,7 +147,7 @@ export function LessonPageSkeleton() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Video Player */}
           <div className="lg:col-span-2">
-            <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden">
+            <div className="bg-white dark:bg-gray-800 rounded-lg shadow-card overflow-hidden">
               {/* Video Container */}
               <Skeleton className="aspect-video w-full" />
               
@@ -177,7 +170,7 @@ export function LessonPageSkeleton() {
           {/* Sidebar */}
           <div className="space-y-6">
             {/* Safety Reminders */}
-            <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-6">
+            <div className="bg-error-light dark:bg-red-900/20 border border-error/20 dark:border-red-800 rounded-lg p-6">
               <Skeleton className="h-5 w-24 mb-4" />
               <div className="space-y-2">
                 {[...Array(3)].map((_, i) => (
@@ -190,7 +183,7 @@ export function LessonPageSkeleton() {
             </div>
 
             {/* Progress Tracking */}
-            <div className="bg-white dark:bg-gray-800 border border-orange-100 dark:border-gray-700 rounded-2xl p-6">
+            <div className="bg-white dark:bg-gray-800 border border-brand-100 dark:border-gray-700 rounded-lg p-6">
               <Skeleton className="h-5 w-28 mb-4" />
               <div className="space-y-4">
                 <div>
@@ -209,7 +202,7 @@ export function LessonPageSkeleton() {
 
 export function CoursesPageSkeleton() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 py-8">
+    <div className="min-h-screen bg-brand-50 dark:from-gray-900 dark:to-gray-800 py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
@@ -223,7 +216,7 @@ export function CoursesPageSkeleton() {
         </div>
 
         {/* Search and Filter */}
-        <Skeleton className="h-20 w-full rounded-2xl mb-6" />
+        <Skeleton className="h-20 w-full rounded-lg mb-6" />
 
         {/* Results Count */}
         <Skeleton className="h-4 w-40 mb-6" />

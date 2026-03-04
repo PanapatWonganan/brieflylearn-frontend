@@ -228,12 +228,12 @@ export const getEventTypeEmoji = (type: string): string => {
 
 export const getEventTypeColor = (type: string): string => {
   const colorMap: { [key: string]: string } = {
-    thai_festival: 'from-red-500 to-yellow-500',
-    national_day: 'from-blue-500 to-red-500',
-    seasonal_change: 'from-green-500 to-pink-500',
-    weather_event: 'from-blue-400 to-indigo-500'
+    thai_festival: 'bg-brand-500 text-white',
+    national_day: 'bg-brand-600 text-white',
+    seasonal_change: 'bg-brand-500 text-white',
+    weather_event: 'bg-brand-600 text-white'
   }
-  return colorMap[type] || 'from-purple-400 to-purple-600'
+  return colorMap[type] || 'bg-brand-700 text-white'
 }
 
 export const getWeatherEmoji = (weatherType: string): string => {
@@ -249,13 +249,13 @@ export const getWeatherEmoji = (weatherType: string): string => {
 
 export const getWeatherColor = (weatherType: string): string => {
   const colorMap: { [key: string]: string } = {
-    sunny: 'from-yellow-400 to-orange-500',
-    cloudy: 'from-gray-400 to-gray-600',
-    rainy: 'from-blue-400 to-blue-600',
-    storm: 'from-purple-600 to-indigo-800',
-    misty: 'from-gray-300 to-blue-300'
+    sunny: 'bg-brand-500 text-white',
+    cloudy: 'bg-sand-400 text-white',
+    rainy: 'bg-brand-500 text-white',
+    storm: 'bg-brand-800 text-white',
+    misty: 'bg-sand-300 text-ink'
   }
-  return colorMap[weatherType] || 'from-blue-400 to-blue-600'
+  return colorMap[weatherType] || 'bg-brand-500 text-white'
 }
 
 export const formatTemperature = (temp: number): string => {
@@ -311,10 +311,10 @@ export const isEventActive = (startDate: string, endDate: string): boolean => {
 
 export const getPlantRarityColor = (rarity: string): string => {
   const colorMap: { [key: string]: string } = {
-    common: 'from-gray-400 to-gray-600',
-    rare: 'from-blue-400 to-blue-600',
-    legendary: 'from-purple-500 to-pink-500',
-    seasonal: 'from-green-400 to-emerald-500'
+    common: 'bg-sand-400 text-white',
+    rare: 'bg-brand-500 text-white',
+    legendary: 'bg-brand-700 text-white',
+    seasonal: 'bg-brand-500 text-white'
   }
   return colorMap[rarity] || colorMap['common']
 }

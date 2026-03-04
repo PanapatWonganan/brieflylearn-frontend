@@ -148,12 +148,12 @@ const SeasonalEventsPanel = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="animate-pulse space-y-4">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-20 bg-gray-200 rounded-xl"></div>
+              <div key={i} className="h-20 bg-gray-200 rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -162,9 +162,9 @@ const SeasonalEventsPanel = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-card overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-indigo-500 to-purple-500 text-white">
+      <div className="p-6 bg-brand-600 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Calendar className="h-6 w-6" />
@@ -184,7 +184,7 @@ const SeasonalEventsPanel = () => {
           <span className="text-2xl">{getSeasonEmoji(new Date().getMonth() + 1)}</span>
           <div>
             <h3 className="text-lg font-bold">{getSeasonName(new Date().getMonth() + 1)}</h3>
-            <p className="text-indigo-100">
+            <p className="text-brand-100">
               เดือน{new Date().toLocaleDateString('th-TH', { month: 'long' })} พ.ศ. {new Date().getFullYear() + 543}
             </p>
           </div>
@@ -200,7 +200,7 @@ const SeasonalEventsPanel = () => {
               onClick={() => setSelectedTab(tab.id as any)}
               className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center space-x-2 transition-colors ${
                 selectedTab === tab.id
-                  ? 'border-b-2 border-indigo-500 text-indigo-600 bg-indigo-50'
+                  ? 'border-b-2 border-brand-600 text-brand-600 bg-brand-50'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
             >
@@ -232,7 +232,7 @@ const SeasonalEventsPanel = () => {
                         key={event.id}
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
+                        className="border border-gray-200 rounded-lg p-6 transition-shadow"
                       >
                         <div className="flex items-start justify-between mb-4">
                           <div className="flex items-center space-x-3">
@@ -246,34 +246,34 @@ const SeasonalEventsPanel = () => {
                               </div>
                             </div>
                           </div>
-                          <span className={`px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${getEventTypeColor(event.type)} text-white`}>
+                          <span className={`px-3 py-1 rounded-full text-sm font-medium ${getEventTypeColor(event.type)} text-white`}>
                             กำลังจัด
                           </span>
                         </div>
 
                         {/* Community Goal */}
                         {event.community_goal && (
-                          <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                            <h5 className="font-semibold text-blue-900 mb-2 flex items-center space-x-2">
+                          <div className="bg-sand-100 rounded-lg p-4 mb-4">
+                            <h5 className="font-semibold text-brand-700 mb-2 flex items-center space-x-2">
                               <Users className="h-4 w-4" />
                               <span>เป้าหมายชุมชน</span>
                             </h5>
-                            <p className="text-blue-800 text-sm mb-2">{event.community_goal.description}</p>
+                            <p className="text-brand-700 text-sm mb-2">{event.community_goal.description}</p>
                             <div className="mb-2">
                               <div className="flex justify-between text-sm mb-1">
                                 <span>ความคืบหน้า</span>
                                 <span>{event.community_goal.progress}/{event.community_goal.target}</span>
                               </div>
-                              <div className="w-full bg-blue-200 rounded-full h-2">
-                                <div 
-                                  className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                              <div className="w-full bg-sand-200 rounded-full h-2">
+                                <div
+                                  className="bg-brand-600 h-2 rounded-full transition-all duration-300"
                                   style={{ width: `${getEventProgress(event.community_goal.progress, event.community_goal.target)}%` }}
                                 />
                               </div>
                             </div>
                             <div className="flex items-center space-x-2 text-sm">
-                              <Trophy className="h-4 w-4 text-yellow-500" />
-                              <span className="text-blue-800">รางวัล: {event.community_goal.reward}</span>
+                              <Trophy className="h-4 w-4 text-sand-300" />
+                              <span className="text-brand-700">รางวัล: {event.community_goal.reward}</span>
                             </div>
                           </div>
                         )}
@@ -290,14 +290,14 @@ const SeasonalEventsPanel = () => {
                                   <span>+{activity.reward_xp} XP</span>
                                   <span>+{activity.reward_star_seeds} Seeds</span>
                                   {activity.special_plant && (
-                                    <span className="text-green-600">🌸 {activity.special_plant}</span>
+                                    <span className="text-brand-600">🌸 {activity.special_plant}</span>
                                   )}
                                 </div>
                               </div>
                               <button
                                 onClick={() => handleParticipateEvent(event.id, 'join_ceremony')}
                                 disabled={isParticipating === event.id}
-                                className="bg-indigo-500 hover:bg-indigo-600 disabled:bg-indigo-300 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
+                                className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center space-x-2"
                               >
                                 {isParticipating === event.id ? (
                                   <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -314,14 +314,14 @@ const SeasonalEventsPanel = () => {
 
                         {/* Special Effects */}
                         {event.special_effects && Object.keys(event.special_effects).length > 0 && (
-                          <div className="mt-4 bg-purple-50 rounded-lg p-3">
-                            <h5 className="font-semibold text-purple-900 mb-2 flex items-center space-x-2">
+                          <div className="mt-4 bg-sand-100 rounded-lg p-3">
+                            <h5 className="font-semibold text-brand-700 mb-2 flex items-center space-x-2">
                               <Sparkles className="h-4 w-4" />
                               <span>เอฟเฟกต์พิเศษ</span>
                             </h5>
                             <div className="flex flex-wrap gap-2">
                               {Object.entries(event.special_effects).map(([key, value]) => (
-                                <span key={key} className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">
+                                <span key={key} className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full text-xs">
                                   {key}: {value}
                                 </span>
                               ))}
@@ -372,7 +372,7 @@ const SeasonalEventsPanel = () => {
               className="space-y-6"
             >
               {/* Current Weather */}
-              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6">
+              <div className="bg-sand-100 rounded-lg p-6">
                 <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
                   {React.createElement(getWeatherIcon(weatherData.current_weather.type), { className: "h-5 w-5" })}
                   <span>สภาพอากาศปัจจุบัน</span>
@@ -384,13 +384,13 @@ const SeasonalEventsPanel = () => {
                     <p className="text-sm font-medium mt-1">{weatherData.current_weather.type}</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-orange-600">
+                    <div className="text-2xl font-bold text-brand-600">
                       {formatTemperature(weatherData.current_weather.temperature)}
                     </div>
                     <p className="text-sm text-gray-600">อุณหภูมิ</p>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-600">
+                    <div className="text-2xl font-bold text-brand-600">
                       {formatHumidity(weatherData.current_weather.humidity)}
                     </div>
                     <p className="text-sm text-gray-600">ความชื้น</p>
@@ -408,7 +408,7 @@ const SeasonalEventsPanel = () => {
                   <div className="space-y-1">
                     {weatherData.current_weather.effects.map((effect: string, index: number) => (
                       <div key={index} className="text-sm text-gray-600 flex items-center space-x-2">
-                        <Sparkles className="h-3 w-3 text-blue-500" />
+                        <Sparkles className="h-3 w-3 text-brand-600" />
                         <span>{effect}</span>
                       </div>
                     ))}
@@ -420,36 +420,36 @@ const SeasonalEventsPanel = () => {
               <div>
                 <h3 className="text-lg font-bold mb-4">ผลกระทบต่อสวน</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-green-900 mb-2">ผลกระทบเชิงบวก</h4>
+                  <div className="bg-brand-50 border border-brand-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-brand-700 mb-2">ผลกระทบเชิงบวก</h4>
                     <div className="space-y-1">
                       {weatherData.effects.special_bonuses.map((bonus: string, index: number) => (
-                        <div key={index} className="text-sm text-green-700 flex items-center space-x-2">
+                        <div key={index} className="text-sm text-brand-700 flex items-center space-x-2">
                           <Star className="h-3 w-3" />
                           <span>{bonus}</span>
                         </div>
                       ))}
                     </div>
                   </div>
-                  
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-                    <h4 className="font-semibold text-blue-900 mb-2">สถิติการเปลี่ยนแปลง</h4>
+
+                  <div className="bg-sand-100 border border-brand-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-brand-700 mb-2">สถิติการเปลี่ยนแปลง</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>การใช้น้ำ:</span>
-                        <span className={weatherData.effects.water_consumption > 1 ? 'text-red-600' : 'text-green-600'}>
+                        <span className={weatherData.effects.water_consumption > 1 ? 'text-error' : 'text-brand-600'}>
                           {(weatherData.effects.water_consumption * 100).toFixed(0)}%
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>ความเร็วการเติบโต:</span>
-                        <span className="text-green-600">
+                        <span className="text-brand-600">
                           {(weatherData.effects.growth_speed * 100).toFixed(0)}%
                         </span>
                       </div>
                       <div className="flex justify-between">
                         <span>XP เพิ่มเติม:</span>
-                        <span className="text-purple-600">
+                        <span className="text-brand-700">
                           {(weatherData.effects.xp_modifier * 100).toFixed(0)}%
                         </span>
                       </div>
@@ -462,11 +462,11 @@ const SeasonalEventsPanel = () => {
               {weatherData.garden_recommendations && (
                 <div>
                   <h3 className="text-lg font-bold mb-4">คำแนะนำการทำสวน</h3>
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <div className="bg-sand-200 border border-sand-300 rounded-lg p-4">
                     <div className="space-y-2">
                       {weatherData.garden_recommendations.map((rec: string, index: number) => (
-                        <div key={index} className="text-sm text-yellow-800 flex items-center space-x-2">
-                          <span className="text-yellow-600">💡</span>
+                        <div key={index} className="text-sm text-text-warning flex items-center space-x-2">
+                          <span className="text-sand-300">💡</span>
                           <span>{rec}</span>
                         </div>
                       ))}
@@ -486,15 +486,15 @@ const SeasonalEventsPanel = () => {
               className="space-y-6"
             >
               {/* Thai Calendar Info */}
-              <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-6">
+              <div className="bg-brand-50 rounded-lg p-6">
                 <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
-                  <MapPin className="h-5 w-5 text-orange-500" />
+                  <MapPin className="h-5 w-5 text-brand-500" />
                   <span>ปฏิทินไทย</span>
                 </h3>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <h4 className="font-semibold text-orange-900 mb-3">ข้อมูลวันที่</h4>
+                    <h4 className="font-semibold text-brand-900 mb-3">ข้อมูลวันที่</h4>
                     <div className="space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span>ปีพุทธศักราช:</span>
@@ -512,16 +512,16 @@ const SeasonalEventsPanel = () => {
                   </div>
                   
                   <div>
-                    <h4 className="font-semibold text-orange-900 mb-3">เวลามงคล</h4>
+                    <h4 className="font-semibold text-brand-900 mb-3">เวลามงคล</h4>
                     <div className="flex items-center space-x-2 mb-3">
                       <span className="text-xl">{getAuspiciousTimeEmoji(eventsData.thai_calendar.auspicious_time)}</span>
                       <span className="text-sm font-medium">{eventsData.thai_calendar.auspicious_time}</span>
                     </div>
                     
-                    <h4 className="font-semibold text-orange-900 mb-2">พืชมงคลวันนี้</h4>
+                    <h4 className="font-semibold text-brand-900 mb-2">พืชมงคลวันนี้</h4>
                     <div className="flex flex-wrap gap-2">
                       {eventsData.thai_calendar.lucky_plants.map((plant: string, index: number) => (
-                        <span key={index} className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs flex items-center space-x-1">
+                        <span key={index} className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full text-xs flex items-center space-x-1">
                           <Flower className="h-3 w-3" />
                           <span>{plant}</span>
                         </span>
@@ -570,7 +570,7 @@ const SeasonalEventsPanel = () => {
                     </div>
                     <button
                       onClick={() => handleActivateSeasonalPlant('songkran_lotus')}
-                      className="w-full bg-orange-500 hover:bg-orange-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
+                      className="w-full bg-brand-600 hover:bg-brand-700 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
                     >
                       ปลูกบัวสงกรานต์
                     </button>

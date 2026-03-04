@@ -54,27 +54,30 @@ class GardenAPI {
     })
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}))
+      const errorData = await response.json().catch(() => ({}))
       console.error('❌ Garden API error:', {
         endpoint,
         url,
         status: response.status,
         statusText: response.statusText,
-        error,
+        error: errorData,
         hasToken: !!token
       })
-      throw new Error(error.message || `HTTP error! status: ${response.status}`)
+      const err = new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      ;(err as any).status = response.status
+      ;(err as any).data = errorData
+      throw err
     }
 
     const data = await response.json()
     console.log('✅ Garden API response:', { endpoint, success: data.success })
-    
+
     if (!data.success) {
       console.error('❌ Garden API failed:', data.message)
       throw new Error(data.message || 'API request failed')
     }
 
-    return data.data
+    return data?.data ?? null
   }
 
   // Garden Management

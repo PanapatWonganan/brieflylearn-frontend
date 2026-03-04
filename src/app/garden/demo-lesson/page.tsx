@@ -77,7 +77,7 @@ const DemoLessonPage = () => {
         addNotification({
           type: 'success',
           title: 'เรียนจบบทเรียนแล้ว! 🎉',
-          message: `ได้รับ ${response.data.garden_progress.garden_xp} XP และ ${response.data.garden_progress.star_seeds} Star Seeds`,
+          message: `ได้รับ ${response.data.garden_progress.garden_xp} Impact Points และ ${response.data.garden_progress.star_seeds} AI Credits`,
           duration: 5000
         })
 
@@ -134,24 +134,24 @@ const DemoLessonPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-4xl mx-auto px-4 py-6">
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link 
                 href="/garden"
                 className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
               >
-                <ArrowLeft className="h-5 w-5 text-gray-600" />
+                <ArrowLeft className="h-5 w-5 text-ink-muted" />
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900 flex items-center space-x-2">
+                <h1 className="text-2xl font-bold font-serif text-ink flex items-center space-x-2">
                   <BookOpen className="h-6 w-6 text-blue-500" />
-                  <span>ทดสอบ Course Integration</span>
+                  <span>ทดสอบ Demo</span>
                 </h1>
-                <p className="text-gray-600 mt-1">เรียนจบบทเรียนเพื่อรับ Garden Rewards</p>
+                <p className="text-ink-muted mt-1">ทำ Challenge สำเร็จเพื่อรับ Impact Points</p>
               </div>
             </div>
           </div>
@@ -159,28 +159,28 @@ const DemoLessonPage = () => {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8">
+        <div className="bg-white rounded-xl border border-gray-100 p-6 mb-8">
           <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-900 mb-2">
-              🌱 Course-Garden Integration Demo
+            <h2 className="text-xl font-bold text-ink mb-2">
+              🌱 AI Challenge Demo
             </h2>
-            <p className="text-gray-600">
-              เลือกบทเรียนเพื่อทดสอบระบบเชื่อมโยงระหว่างการเรียนกับ Garden Rewards
+            <p className="text-ink-muted">
+              เลือก Challenge เพื่อทดสอบระบบ AI Lab Rewards
             </p>
           </div>
 
           {/* Integration Info */}
-          <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4 mb-6">
-            <h3 className="font-semibold text-green-800 mb-2 flex items-center space-x-2">
+          <div className="bg-gray-50 rounded-xl p-4 mb-6">
+            <h3 className="font-semibold text-ink mb-2 flex items-center space-x-2">
               <Sparkles className="h-5 w-5" />
-              <span>ระบบ Garden Integration</span>
+              <span>ระบบ AI Lab Integration</span>
             </h3>
-            <div className="text-sm text-green-700 space-y-1">
-              <p>• ✅ เรียนจบ lesson → ได้ XP + Star Seeds อัตโนมัติ</p>
-              <p>• ✅ เรียนจบ course → ได้โบนัส reward พิเศษ</p>
-              <p>• ✅ Achievement system → ปลดล็อคตาม progress</p>
-              <p>• ✅ Real-time garden updates → เห็นผลทันที</p>
+            <div className="text-sm text-ink-light space-y-1">
+              <p>• ✅ ทำ challenge สำเร็จ → ได้ Impact Points + AI Credits อัตโนมัติ</p>
+              <p>• ✅ ทำ challenge ครบ → ได้โบนัส reward พิเศษ</p>
+              <p>• ✅ Impact tracking → ปลดล็อคตาม progress</p>
+              <p>• ✅ Real-time lab updates → เห็นผลทันที</p>
             </div>
           </div>
         </div>
@@ -190,25 +190,25 @@ const DemoLessonPage = () => {
           {demoLessons.map((lesson) => (
             <motion.div
               key={lesson.id}
-              className={`bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 ${
-                lesson.isCompleted 
-                  ? 'border-2 border-green-200 bg-green-50' 
-                  : 'hover:shadow-xl'
+              className={`bg-white rounded-xl border border-gray-100 overflow-hidden transition-all duration-300 ${
+                lesson.isCompleted
+                  ? 'border-2 border-green-200 bg-gray-50'
+                  : ''
               }`}
               whileHover={{ scale: 1.02 }}
             >
               <div className="p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-bold text-gray-900">{lesson.title}</h3>
+                  <h3 className="text-lg font-bold text-ink">{lesson.title}</h3>
                   {lesson.isCompleted && (
                     <CheckCircle className="h-6 w-6 text-green-500" />
                   )}
                 </div>
 
-                <p className="text-gray-600 text-sm mb-4">{lesson.description}</p>
+                <p className="text-ink-muted text-sm mb-4">{lesson.description}</p>
 
                 <div className="flex items-center space-x-4 mb-4">
-                  <div className="flex items-center space-x-1 text-sm text-gray-500">
+                  <div className="flex items-center space-x-1 text-sm text-ink-muted">
                     <Clock className="h-4 w-4" />
                     <span>{lesson.duration} นาที</span>
                   </div>
@@ -223,7 +223,7 @@ const DemoLessonPage = () => {
                   <motion.button
                     onClick={() => simulateWatchLesson(lesson.id, lesson.duration)}
                     disabled={completingLesson === lesson.id || selectedLesson === lesson.id}
-                    className="w-full bg-orange-500 hover:bg-orange-600 disabled:bg-blue-300 text-white py-3 px-4 rounded-xl font-medium flex items-center justify-center space-x-2 transition-colors"
+                    className="w-full bg-ink hover:bg-ink-light disabled:bg-gray-300 text-white py-3 px-4 rounded-xl font-medium flex items-center justify-center space-x-2 transition-colors"
                     whileTap={{ scale: 0.98 }}
                   >
                     {completingLesson === lesson.id ? (
@@ -247,14 +247,14 @@ const DemoLessonPage = () => {
 
                 {/* Expected Rewards Preview */}
                 {!lesson.isCompleted && (
-                  <div className="mt-4 bg-yellow-50 rounded-xl p-3">
-                    <h4 className="text-sm font-semibold text-yellow-800 mb-2 flex items-center space-x-1">
+                  <div className="mt-4 bg-gray-50 rounded-xl p-3">
+                    <h4 className="text-sm font-semibold text-ink mb-2 flex items-center space-x-1">
                       <Star className="h-4 w-4" />
                       <span>รางวัลที่จะได้รับ</span>
                     </h4>
                     <div className="flex justify-between text-sm">
-                      <span className="text-yellow-700">XP: +{20 + lesson.duration}</span>
-                      <span className="text-yellow-700">⭐ Seeds: +{Math.floor((20 + lesson.duration) * 0.3)}</span>
+                      <span className="text-ink-light">XP: +{20 + lesson.duration}</span>
+                      <span className="text-ink-light">⭐ Seeds: +{Math.floor((20 + lesson.duration) * 0.3)}</span>
                     </div>
                   </div>
                 )}
@@ -264,12 +264,12 @@ const DemoLessonPage = () => {
         </div>
 
         {/* Instructions */}
-        <div className="mt-8 bg-blue-50 rounded-2xl p-6">
-          <h3 className="font-bold text-blue-900 mb-3 flex items-center space-x-2">
+        <div className="mt-8 bg-gray-50 rounded-xl p-6">
+          <h3 className="font-bold text-ink mb-3 flex items-center space-x-2">
             <Trophy className="h-5 w-5" />
             <span>วิธีทดสอบ</span>
           </h3>
-          <div className="text-sm text-blue-800 space-y-2">
+          <div className="text-sm text-ink-light space-y-2">
             <p>1. 📚 คลิก "เริ่มเรียน" ในบทเรียนที่ยังไม่จบ</p>
             <p>2. ⏱️ รอ 2 วินาที (จำลองการดูบทเรียน)</p>
             <p>3. 🎉 ระบบจะเรียก API เพื่อบันทึกความก้าวหน้า</p>
@@ -282,10 +282,10 @@ const DemoLessonPage = () => {
         <div className="mt-8 text-center">
           <Link 
             href="/garden"
-            className="inline-flex items-center space-x-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-medium transition-colors"
+            className="inline-flex items-center space-x-2 bg-ink text-white hover:bg-ink-light px-6 py-3 rounded-xl font-medium transition-colors"
           >
             <ArrowLeft className="h-5 w-5" />
-            <span>กลับไปสวน</span>
+            <span>กลับไปแล็บ</span>
           </Link>
         </div>
       </div>

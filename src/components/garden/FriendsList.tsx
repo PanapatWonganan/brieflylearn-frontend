@@ -197,8 +197,8 @@ const FriendsList = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="animate-pulse space-y-4">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
@@ -217,9 +217,9 @@ const FriendsList = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-card overflow-hidden">
       {/* Header with Tabs */}
-      <div className="p-6 bg-gradient-to-r from-purple-500 to-orange-500 text-white">
+      <div className="p-6 bg-brand-600 text-white">
         <h2 className="text-xl font-bold mb-4 flex items-center space-x-2">
           <Users className="h-6 w-6" />
           <span>เพื่อนในสวน</span>
@@ -230,8 +230,8 @@ const FriendsList = () => {
             onClick={() => setActiveTab('friends')}
             className={`px-4 py-2 rounded-lg font-medium transition-all ${
               activeTab === 'friends'
-                ? 'bg-white text-purple-600'
-                : 'bg-purple-600/30 text-white hover:bg-purple-600/50'
+                ? 'bg-white text-brand-600'
+                : 'bg-brand-700 text-white hover:bg-brand-500'
             }`}
           >
             เพื่อน ({friends.length})
@@ -240,13 +240,13 @@ const FriendsList = () => {
             onClick={() => setActiveTab('requests')}
             className={`px-4 py-2 rounded-lg font-medium transition-all relative ${
               activeTab === 'requests'
-                ? 'bg-white text-purple-600'
-                : 'bg-purple-600/30 text-white hover:bg-purple-600/50'
+                ? 'bg-white text-brand-600'
+                : 'bg-brand-700 text-white hover:bg-brand-500'
             }`}
           >
             คำขอ ({pendingRequests.length})
             {pendingRequests.length > 0 && (
-              <span className="absolute -top-2 -right-2 w-5 h-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-error text-white text-xs rounded-full flex items-center justify-center">
                 {pendingRequests.length}
               </span>
             )}
@@ -255,8 +255,8 @@ const FriendsList = () => {
             onClick={() => setActiveTab('search')}
             className={`px-4 py-2 rounded-lg font-medium transition-all ${
               activeTab === 'search'
-                ? 'bg-white text-purple-600'
-                : 'bg-purple-600/30 text-white hover:bg-purple-600/50'
+                ? 'bg-white text-brand-600'
+                : 'bg-brand-700 text-white hover:bg-brand-500'
             }`}
           >
             ค้นหา
@@ -282,7 +282,7 @@ const FriendsList = () => {
                   <p className="text-gray-500 mb-4">คุณยังไม่มีเพื่อนในสวน</p>
                   <button
                     onClick={() => setActiveTab('search')}
-                    className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg transition-colors"
                   >
                     เริ่มหาเพื่อน
                   </button>
@@ -291,11 +291,10 @@ const FriendsList = () => {
                 friends.map((friend) => (
                   <motion.div
                     key={friend.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
-                    whileHover={{ scale: 1.02 }}
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-brand-600 rounded-full flex items-center justify-center text-white font-bold">
                         {friend.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -304,11 +303,11 @@ const FriendsList = () => {
                           {friend.garden && (
                             <>
                               <div className="flex items-center space-x-1">
-                                <Crown className="h-3 w-3 text-yellow-500" />
+                                <Crown className="h-3 w-3 text-sand-300" />
                                 <span>Level {friend.garden.level}</span>
                               </div>
                               <div className="flex items-center space-x-1">
-                                <Star className="h-3 w-3 text-purple-500" />
+                                <Star className="h-3 w-3 text-brand-600" />
                                 <span>{friend.garden.total_plants} พืช</span>
                               </div>
                             </>
@@ -322,7 +321,7 @@ const FriendsList = () => {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => {
@@ -332,14 +331,14 @@ const FriendsList = () => {
                             message: 'ฟีเจอร์เยี่ยมชมสวนจะมาเร็วๆ นี้!'
                           })
                         }}
-                        className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg transition-colors"
+                        className="p-2 text-text-ink-light hover:bg-sand-100 rounded-lg transition-colors"
                         title="เยี่ยมชมสวน"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleRemoveFriend(friend.id, friend.name)}
-                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                        className="p-2 text-error hover:bg-error-light rounded-lg transition-colors"
                         title="ลบเพื่อน"
                       >
                         <UserMinus className="h-4 w-4" />
@@ -361,8 +360,8 @@ const FriendsList = () => {
               className="space-y-4"
             >
               {/* Add Friend Form */}
-              <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-4">
-                <h3 className="font-semibold text-green-800 mb-3 flex items-center space-x-2">
+              <div className="bg-brand-50 rounded-lg p-4">
+                <h3 className="font-semibold text-brand-700 mb-3 flex items-center space-x-2">
                   <UserPlus className="h-5 w-5" />
                   <span>เพิ่มเพื่อนใหม่</span>
                 </h3>
@@ -372,13 +371,13 @@ const FriendsList = () => {
                     value={newFriendEmail}
                     onChange={(e) => setNewFriendEmail(e.target.value)}
                     placeholder="อีเมลของเพื่อน"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
                     onKeyPress={(e) => e.key === 'Enter' && handleSendFriendRequest()}
                   />
                   <button
                     onClick={() => handleSendFriendRequest()}
                     disabled={isSendingRequest}
-                    className="bg-green-500 hover:bg-green-600 disabled:bg-green-300 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                    className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
                   >
                     {isSendingRequest ? (
                       <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -400,12 +399,12 @@ const FriendsList = () => {
                 pendingRequests.map((request) => (
                   <motion.div
                     key={request.id}
-                    className="flex items-center justify-between p-4 bg-blue-50 rounded-xl"
+                    className="flex items-center justify-between p-4 bg-sand-100 rounded-lg"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-brand-600 rounded-full flex items-center justify-center text-white font-bold">
                         {request.user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
@@ -416,18 +415,18 @@ const FriendsList = () => {
                         </p>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleAcceptRequest(request.id)}
-                        className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                        className="p-2 text-brand-600 hover:bg-brand-100 rounded-lg transition-colors"
                         title="ยอมรับ"
                       >
                         <Check className="h-5 w-5" />
                       </button>
                       <button
                         onClick={() => handleRejectRequest(request.id)}
-                        className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+                        className="p-2 text-error hover:bg-error-light rounded-lg transition-colors"
                         title="ปฏิเสธ"
                       >
                         <X className="h-5 w-5" />
@@ -455,13 +454,13 @@ const FriendsList = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ค้นหาด้วยชื่อหรืออีเมล"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 <button
                   onClick={handleSearch}
                   disabled={isSearching}
-                  className="bg-purple-500 hover:bg-purple-600 disabled:bg-purple-300 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                  className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
                 >
                   {isSearching ? (
                     <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -482,24 +481,24 @@ const FriendsList = () => {
                 searchResults.map((user) => (
                   <motion.div
                     key={user.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-gray-600 rounded-full flex items-center justify-center text-white font-bold">
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
                         <h4 className="font-semibold text-gray-900">{user.name}</h4>
                         <p className="text-sm text-gray-600">{user.email}</p>
                         <div className="flex items-center space-x-2 text-xs text-gray-500">
-                          <Crown className="h-3 w-3 text-yellow-500" />
+                          <Crown className="h-3 w-3 text-sand-300" />
                           <span>Level {user.garden_level}</span>
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <span className={`px-3 py-1 rounded-full text-xs font-medium ${getFriendshipStatusColor(user.friendship_status)}`}>
                         {getFriendshipStatusText(user.friendship_status)}
@@ -508,7 +507,7 @@ const FriendsList = () => {
                         <button
                           onClick={() => handleSendFriendRequest(user.email)}
                           disabled={isSendingRequest}
-                          className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                          className="p-2 text-brand-600 hover:bg-brand-100 rounded-lg transition-colors"
                           title="เพิ่มเพื่อน"
                         >
                           <UserPlus className="h-4 w-4" />

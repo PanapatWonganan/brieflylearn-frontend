@@ -184,9 +184,9 @@ export default function LessonPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-50 flex items-center justify-center">
+      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-orange-600" />
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-brand-600" />
           <p className="text-gray-600">Loading lesson...</p>
         </div>
       </div>
@@ -195,14 +195,14 @@ export default function LessonPage() {
 
   if (error || !lesson) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg p-8 shadow-lg text-center">
-          <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
+        <div className="bg-white rounded-lg p-8 shadow-card text-center">
+          <AlertCircle className="w-16 h-16 text-error mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">เกิดข้อผิดพลาด</h1>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => router.back()}
-            className="bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700"
+            className="bg-brand-600 text-white px-6 py-2 rounded-lg hover:opacity-90"
           >
             กลับหน้าก่อน
           </button>
@@ -217,7 +217,7 @@ export default function LessonPage() {
   const hasVideoError = lesson.video?.status === 'failed';
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-50">
+    <div className="min-h-screen bg-sand-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -227,7 +227,7 @@ export default function LessonPage() {
         >
           <button
             onClick={() => router.back()}
-            className="flex items-center text-gray-600 hover:text-orange-600 mb-4"
+            className="flex items-center text-gray-600 hover:opacity-90 mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             กลับ
@@ -241,7 +241,7 @@ export default function LessonPage() {
               {lesson.is_free && (
                 <>
                   <span className="mx-2">•</span>
-                  <span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">
+                  <span className="bg-brand-50 text-brand-700 px-2 py-1 rounded text-xs">
                     ดูฟรี
                   </span>
                 </>
@@ -267,7 +267,7 @@ export default function LessonPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-lg shadow-lg overflow-hidden"
+              className="bg-white rounded-lg shadow-card overflow-hidden"
             >
               {/* Video Status Messages */}
               {!lesson.video && !lesson.video_url && (
@@ -280,35 +280,35 @@ export default function LessonPage() {
               )}
 
               {!lesson.video_url && lesson.video && (isVideoProcessing || isVideoPending) && (
-                <div className="aspect-video bg-blue-50 flex items-center justify-center">
+                <div className="aspect-video bg-sand-100 flex items-center justify-center">
                   <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-orange-600" />
-                    <p className="text-blue-800 font-medium">
+                    <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-brand-600" />
+                    <p className="text-ink font-medium">
                       {isVideoPending ? 'กำลังรอการประมวลผลวิดีโอ...' : 'กำลังประมวลผลวิดีโอ...'}
                     </p>
-                    <p className="text-orange-600 text-sm">กรุณารอสักครู่</p>
+                    <p className="text-brand-600 text-sm">กรุณารอสักครู่</p>
                   </div>
                 </div>
               )}
 
               {!lesson.video_url && lesson.video && hasVideoError && (
-                <div className="aspect-video bg-red-50 flex items-center justify-center">
+                <div className="aspect-video bg-error-light flex items-center justify-center">
                   <div className="text-center">
-                    <AlertCircle className="w-12 h-12 mx-auto mb-4 text-red-600" />
-                    <p className="text-red-800 font-medium">เกิดข้อผิดพลาดในการประมวลผลวิดีโอ</p>
+                    <AlertCircle className="w-12 h-12 mx-auto mb-4 text-error" />
+                    <p className="text-error-dark font-medium">เกิดข้อผิดพลาดในการประมวลผลวิดีโอ</p>
                     {lesson.video.processing_error && (
-                      <p className="text-red-600 text-sm mt-2">{lesson.video.processing_error}</p>
+                      <p className="text-error text-sm mt-2">{lesson.video.processing_error}</p>
                     )}
                   </div>
                 </div>
               )}
 
               {!lesson.video_url && !lesson.can_watch && lesson.video?.ready && (
-                <div className="aspect-video bg-yellow-50 flex items-center justify-center">
+                <div className="aspect-video bg-sand-100 flex items-center justify-center">
                   <div className="text-center">
-                    <Eye className="w-12 h-12 mx-auto mb-4 text-yellow-600" />
-                    <p className="text-yellow-800 font-medium">ต้องซื้อคอร์สเพื่อดูบทเรียนนี้</p>
-                    <button className="mt-4 bg-orange-600 text-white px-6 py-2 rounded-lg hover:bg-orange-700">
+                    <Eye className="w-12 h-12 mx-auto mb-4 text-warning" />
+                    <p className="text-ink font-medium">ต้องซื้อคอร์สเพื่อดูบทเรียนนี้</p>
+                    <button className="mt-4 bg-brand-600 text-white px-6 py-2 rounded-lg hover:opacity-90">
                       ซื้อคอร์ส
                     </button>
                   </div>
@@ -317,7 +317,7 @@ export default function LessonPage() {
 
               {/* Notice when both YouTube and uploaded video exist */}
               {lesson.video_url && lesson.video?.ready && lesson.can_watch && (
-                <div className="bg-blue-50 border border-orange-200 p-2 mb-2 rounded text-sm text-orange-700">
+                <div className="bg-sand-100 border border-sand-300 p-2 mb-2 rounded text-sm text-brand-700">
                   <p>💡 บทเรียนนี้มีทั้งวิดีโอ YouTube และวิดีโอที่อัปโหลด กำลังแสดงวิดีโอ YouTube</p>
                 </div>
               )}
@@ -342,16 +342,16 @@ export default function LessonPage() {
                       allow="autoplay; fullscreen; picture-in-picture"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-orange-100 to-orange-100">
+                    <div className="w-full h-full flex items-center justify-center bg-sand-100">
                       <div className="text-center p-8">
-                        <PlayCircle className="w-16 h-16 text-orange-500 mx-auto mb-4" />
+                        <PlayCircle className="w-16 h-16 text-brand-600 mx-auto mb-4" />
                         <h3 className="text-lg font-semibold text-gray-900 mb-2">วิดีโอภายนอก</h3>
                         <p className="text-gray-600 mb-4">คลิกเพื่อดูวิดีโอในหน้าต่างใหม่</p>
                         <a
                           href={lesson.video_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center space-x-2 bg-orange-500 text-white px-6 py-3 rounded-lg hover:bg-orange-600 transition-colors"
+                          className="inline-flex items-center space-x-2 bg-brand-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
                         >
                           <span>ดูวิดีโอ</span>
                         </a>
@@ -378,7 +378,7 @@ export default function LessonPage() {
                       getStreamUrl();
                     }}
                     disabled={streamLoading}
-                    className="bg-orange-600 text-white px-8 py-4 rounded-lg hover:bg-orange-700 disabled:opacity-50 flex items-center cursor-pointer"
+                    className="bg-brand-600 text-white px-8 py-4 rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center cursor-pointer"
                     style={{ pointerEvents: streamLoading ? 'none' : 'auto' }}
                   >
                     {streamLoading ? (
@@ -424,7 +424,7 @@ export default function LessonPage() {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-lg shadow-lg p-6"
+              className="bg-white rounded-lg shadow-card p-6"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-4">รายละเอียดบทเรียน</h3>
               
@@ -441,16 +441,16 @@ export default function LessonPage() {
                     <h4 className="font-medium text-gray-900 mb-2">สถานะวิดีโอ</h4>
                     <div className="flex items-center text-sm">
                       {lesson.video.status === 'ready' && (
-                        <><CheckCircle className="w-4 h-4 text-green-500 mr-2" />
-                        <span className="text-green-700">พร้อมใช้งาน</span></>
+                        <><CheckCircle className="w-4 h-4 text-brand-600 mr-2" />
+                        <span className="text-brand-700">พร้อมใช้งาน</span></>
                       )}
                       {lesson.video.status === 'processing' && (
-                        <><Loader2 className="w-4 h-4 text-blue-500 mr-2 animate-spin" />
-                        <span className="text-orange-700">กำลังประมวลผล</span></>
+                        <><Loader2 className="w-4 h-4 text-ink-light mr-2 animate-spin" />
+                        <span className="text-brand-700">กำลังประมวลผล</span></>
                       )}
                       {lesson.video.status === 'failed' && (
-                        <><AlertCircle className="w-4 h-4 text-red-500 mr-2" />
-                        <span className="text-red-700">เกิดข้อผิดพลาด</span></>
+                        <><AlertCircle className="w-4 h-4 text-error mr-2" />
+                        <span className="text-error-dark">เกิดข้อผิดพลาด</span></>
                       )}
                     </div>
                   </div>
@@ -461,7 +461,7 @@ export default function LessonPage() {
                     <h4 className="font-medium text-gray-900 mb-2">ความคืบหน้า</h4>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div 
-                        className="bg-orange-600 h-2 rounded-full"
+                        className="bg-brand-600 h-2 rounded-full"
                         style={{ 
                           width: `${(watchProgress.currentTime / watchProgress.duration) * 100}%` 
                         }}

@@ -18,24 +18,18 @@ const sizeClasses = {
 };
 
 const colorClasses = {
-  pink: 'text-orange-500',
+  pink: 'text-brand-600',
   white: 'text-white',
   gray: 'text-gray-500'
 };
 
-export function LoadingSpinner({ 
-  size = 'md', 
-  color = 'pink', 
-  className 
+export function LoadingSpinner({
+  size = 'md',
+  color = 'pink',
+  className
 }: LoadingSpinnerProps) {
   return (
-    <motion.div
-      animate={{ rotate: 360 }}
-      transition={{
-        duration: 1,
-        repeat: Infinity,
-        ease: "linear"
-      }}
+    <div
       className={cn(
         sizeClasses[size],
         colorClasses[color],
@@ -62,7 +56,7 @@ export function LoadingSpinner({
           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
         />
       </svg>
-    </motion.div>
+    </div>
   );
 }
 
@@ -81,23 +75,17 @@ export function LoadingDots({
   return (
     <div className={cn('flex space-x-1', className)}>
       {[0, 1, 2].map((index) => (
-        <motion.div
+        <div
           key={index}
           className={cn(
             dotSize[size],
-            'rounded-full',
-            color === 'pink' && 'bg-orange-500',
+            'rounded-full animate-pulse',
+            color === 'pink' && 'bg-brand-600',
             color === 'white' && 'bg-white',
             color === 'gray' && 'bg-gray-500'
           )}
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.7, 1, 0.7]
-          }}
-          transition={{
-            duration: 0.6,
-            repeat: Infinity,
-            delay: index * 0.1
+          style={{
+            animationDelay: `${index * 0.1}s`
           }}
         />
       ))}
@@ -105,30 +93,21 @@ export function LoadingDots({
   );
 }
 
-export function LoadingPulse({ 
-  size = 'md', 
+export function LoadingPulse({
+  size = 'md',
   color = 'pink',
-  className 
+  className
 }: LoadingSpinnerProps) {
   return (
-    <motion.div
+    <div
       className={cn(
         sizeClasses[size],
-        'rounded-full',
-        color === 'pink' && 'bg-orange-500',
+        'rounded-full animate-pulse',
+        color === 'pink' && 'bg-brand-600',
         color === 'white' && 'bg-white',
         color === 'gray' && 'bg-gray-500',
         className
       )}
-      animate={{
-        scale: [1, 1.1, 1],
-        opacity: [0.7, 1, 0.7]
-      }}
-      transition={{
-        duration: 1.5,
-        repeat: Infinity,
-        ease: "easeInOut"
-      }}
     />
   );
 } 

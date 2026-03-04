@@ -24,7 +24,7 @@ const XPProgressBar: React.FC<XPProgressBarProps> = ({
   size = 'md',
   showLevelIcon = true
 }) => {
-  const progressPercentage = xpForNextLevel > 0 ? (currentXP / xpForNextLevel) * 100 : 100
+  const progressPercentage = xpForNextLevel > 0 ? (currentXP / xpForNextLevel) * 100 : 0
   
   const sizeClasses = {
     sm: {
@@ -55,7 +55,7 @@ const XPProgressBar: React.FC<XPProgressBarProps> = ({
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
           {showLevelIcon && (
-            <div className={`${sizeClass.padding} bg-gradient-to-r from-blue-400 to-indigo-500 text-white rounded-full flex items-center space-x-1`}>
+            <div className={`${sizeClass.padding} bg-brand-600 text-white rounded-full flex items-center space-x-1`}>
               <Crown className={sizeClass.icon} />
               <span className={`font-bold ${sizeClass.text}`}>
                 Level {level}
@@ -63,14 +63,10 @@ const XPProgressBar: React.FC<XPProgressBarProps> = ({
             </div>
           )}
           {canLevelUp && (
-            <motion.div
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 1, repeat: Infinity }}
-              className="flex items-center space-x-1 text-yellow-500"
-            >
+            <div className="flex items-center space-x-1 text-warning">
               <Sparkles className="w-4 h-4" />
               <span className="text-xs font-medium">พร้อมเลื่อนระดับความรู้!</span>
-            </motion.div>
+            </div>
           )}
         </div>
         
@@ -83,29 +79,12 @@ const XPProgressBar: React.FC<XPProgressBarProps> = ({
       <div className="relative">
         <div className={`w-full ${sizeClass.height} bg-gray-200 rounded-full overflow-hidden`}>
           <motion.div
-            className={`${sizeClass.height} bg-gradient-to-r from-blue-400 to-indigo-500 rounded-full relative`}
+            className={`${sizeClass.height} bg-brand-600 rounded-full`}
             initial={{ width: 0 }}
             animate={{ width: `${Math.min(progressPercentage, 100)}%` }}
             transition={{ duration: 1.5, ease: "easeOut" }}
-          >
-            {/* Shimmer Effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
-              animate={{ x: [-100, 300] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: "100px" }}
-            />
-          </motion.div>
-        </div>
-
-        {/* Level Up Glow Effect */}
-        {canLevelUp && (
-          <motion.div
-            className={`absolute inset-0 ${sizeClass.height} bg-gradient-to-r from-yellow-400/50 to-orange-500/50 rounded-full`}
-            animate={{ opacity: [0.3, 0.8, 0.3] }}
-            transition={{ duration: 1.5, repeat: Infinity }}
           />
-        )}
+        </div>
       </div>
 
       {/* XP Gain Animation Container */}
@@ -135,7 +114,7 @@ export const XPGainAnimation: React.FC<XPGainAnimationProps> = ({
       onAnimationComplete={onComplete}
       className="absolute right-0 pointer-events-none"
     >
-      <div className="flex items-center space-x-1 bg-blue-500 text-white px-2 py-1 rounded-full text-sm font-bold shadow-lg">
+      <div className="flex items-center space-x-1 bg-brand-500 text-white px-2 py-1 rounded-full text-sm font-bold shadow-card">
         <Sparkles className="w-3 h-3" />
         <span>+{formatXP(xpGained)} XP</span>
       </div>
@@ -157,38 +136,10 @@ export const LevelUpAnimation: React.FC<{ newLevel: number; onComplete?: () => v
       onAnimationComplete={onComplete}
       className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
     >
-      <div className="bg-gradient-to-r from-blue-400 via-indigo-500 to-purple-500 text-white px-8 py-6 rounded-2xl shadow-2xl text-center">
-        <motion.div
-          animate={{ rotate: [0, 10, -10, 0] }}
-          transition={{ duration: 0.5, repeat: 2 }}
-        >
-          <Crown className="w-12 h-12 mx-auto mb-2" />
-        </motion.div>
+      <div className="bg-brand-700 text-white px-8 py-6 rounded-lg shadow-card text-center">
+        <Crown className="w-12 h-12 mx-auto mb-2" />
         <h2 className="text-2xl font-bold mb-1">เลื่อนระดับความรู้แล้ว!</h2>
         <p className="text-lg">Level {newLevel}</p>
-        
-        {/* Sparkle Effects */}
-        <div className="absolute inset-0 pointer-events-none">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-2 h-2 bg-yellow-300 rounded-full"
-              style={{
-                left: `${20 + (i * 10)}%`,
-                top: `${20 + (i % 3) * 20}%`,
-              }}
-              animate={{
-                scale: [0, 1, 0],
-                rotate: [0, 180, 360],
-              }}
-              transition={{
-                duration: 2,
-                delay: i * 0.2,
-                repeat: 1,
-              }}
-            />
-          ))}
-        </div>
       </div>
     </motion.div>
   )

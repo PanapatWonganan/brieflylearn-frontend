@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Search, Filter, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 
 interface SearchFilterProps {
   onSearch: (query: string) => void;
@@ -87,16 +86,16 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
   const hasActiveFilters = Object.values(filters).some(filter => filter !== "");
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
+    <div className="bg-white border border-gray-100 rounded-xl p-6 mb-8">
       {/* Search Bar */}
       <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-ink-muted" />
         <input
           type="text"
           placeholder="ค้นหาคอร์สที่คุณสนใจ..."
           value={searchQuery}
           onChange={(e) => handleSearchChange(e.target.value)}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          className="w-full pl-10 pr-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-ink placeholder:text-ink-muted"
         />
       </div>
 
@@ -104,12 +103,12 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setShowFilters(!showFilters)}
-          className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+          className="flex items-center gap-2 text-ink-light hover:text-ink transition-colors"
         >
           <Filter className="h-5 w-5" />
           <span>ตัวกรอง</span>
           {hasActiveFilters && (
-            <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full">
+            <span className="bg-brand-500 text-white text-xs px-2 py-1 rounded-full">
               {Object.values(filters).filter(f => f !== "").length}
             </span>
           )}
@@ -118,7 +117,7 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
         {hasActiveFilters && (
           <button
             onClick={clearFilters}
-            className="flex items-center space-x-1 text-red-500 hover:text-red-700 transition-colors text-sm"
+            className="flex items-center gap-1 text-ink-light hover:text-ink transition-colors text-sm"
           >
             <X className="h-4 w-4" />
             <span>ล้างตัวกรอง</span>
@@ -127,88 +126,87 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
       </div>
 
       {/* Filters */}
-      <AnimatePresence>
-        {showFilters && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-          >
-            {/* Category Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                หมวดหมู่
-              </label>
-              <select
-                value={filters.category}
-                onChange={(e) => handleFilterChange("category", e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                {categories.map((category) => (
-                  <option key={category} value={category === "ทั้งหมด" ? "" : category}>
-                    {category}
-                  </option>
-                ))}
-              </select>
-            </div>
+      {showFilters && (
+        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-gray-100"
+          style={{
+            opacity: showFilters ? 1 : 0,
+            maxHeight: showFilters ? '500px' : '0',
+            transition: 'opacity 0.3s ease, max-height 0.3s ease'
+          }}
+        >
+          {/* Category Filter */}
+          <div>
+            <label className="block text-sm font-medium text-ink mb-2">
+              หมวดหมู่
+            </label>
+            <select
+              value={filters.category}
+              onChange={(e) => handleFilterChange("category", e.target.value)}
+              className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-ink"
+            >
+              {categories.map((category) => (
+                <option key={category} value={category === "ทั้งหมด" ? "" : category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* Level Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ระดับความยาก
-              </label>
-              <select
-                value={filters.level}
-                onChange={(e) => handleFilterChange("level", e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                {levels.map((level) => (
-                  <option key={level} value={level === "ทั้งหมด" ? "" : level}>
-                    {level}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Level Filter */}
+          <div>
+            <label className="block text-sm font-medium text-ink mb-2">
+              ระดับความยาก
+            </label>
+            <select
+              value={filters.level}
+              onChange={(e) => handleFilterChange("level", e.target.value)}
+              className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-ink"
+            >
+              {levels.map((level) => (
+                <option key={level} value={level === "ทั้งหมด" ? "" : level}>
+                  {level}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* Price Range Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ช่วงราคา
-              </label>
-              <select
-                value={filters.priceRange}
-                onChange={(e) => handleFilterChange("priceRange", e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                {priceRanges.map((range) => (
-                  <option key={range} value={range === "ทั้งหมด" ? "" : range}>
-                    {range}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* Price Range Filter */}
+          <div>
+            <label className="block text-sm font-medium text-ink mb-2">
+              ช่วงราคา
+            </label>
+            <select
+              value={filters.priceRange}
+              onChange={(e) => handleFilterChange("priceRange", e.target.value)}
+              className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-ink"
+            >
+              {priceRanges.map((range) => (
+                <option key={range} value={range === "ทั้งหมด" ? "" : range}>
+                  {range}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* Duration Filter */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ระยะเวลาโปรแกรม
-              </label>
-              <select
-                value={filters.duration}
-                onChange={(e) => handleFilterChange("duration", e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
-              >
-                {durations.map((duration) => (
-                  <option key={duration} value={duration === "ทั้งหมด" ? "" : duration}>
-                    {duration}
-                  </option>
-                ))}
-              </select>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          {/* Duration Filter */}
+          <div>
+            <label className="block text-sm font-medium text-ink mb-2">
+              ระยะเวลาโปรแกรม
+            </label>
+            <select
+              value={filters.duration}
+              onChange={(e) => handleFilterChange("duration", e.target.value)}
+              className="w-full p-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 text-ink"
+            >
+              {durations.map((duration) => (
+                <option key={duration} value={duration === "ทั้งหมด" ? "" : duration}>
+                  {duration}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
     </div>
   );
-} 
+}

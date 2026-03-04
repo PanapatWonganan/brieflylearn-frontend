@@ -114,7 +114,7 @@ export default function DebugPage() {
           <button
             onClick={testAPI}
             disabled={loading}
-            className="bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 disabled:bg-gray-400 mb-4"
+            className="bg-brand-600 text-white px-6 py-2 rounded hover:opacity-90 disabled:bg-gray-400 mb-4"
           >
             {loading ? 'Testing...' : 'Test Garden API'}
           </button>
@@ -138,7 +138,7 @@ export default function DebugPage() {
                 alert('✅ Token set! Refresh the page.')
                 window.location.reload()
               }}
-              className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+              className="bg-brand-600 text-white px-4 py-2 rounded hover:opacity-90 w-full"
             >
               🔧 Fix Token Manually (Set Correct Token)
             </button>
@@ -147,7 +147,7 @@ export default function DebugPage() {
                 localStorage.clear()
                 window.location.reload()
               }}
-              className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 w-full"
+              className="bg-error text-white px-4 py-2 rounded hover:opacity-90 w-full"
             >
               Clear All localStorage & Reload
             </button>
@@ -155,7 +155,7 @@ export default function DebugPage() {
               onClick={() => {
                 window.location.href = '/dashboard'
               }}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full"
+              className="bg-brand-500 text-white px-4 py-2 rounded hover:opacity-90 w-full"
             >
               Go to Dashboard
             </button>

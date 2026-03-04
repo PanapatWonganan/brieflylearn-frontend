@@ -144,11 +144,11 @@ export default function LessonPage() {
 
   if (!lesson) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-brand-50 to-brand-50 flex items-center justify-center">
         <div className="text-center">
           <div className="text-6xl mb-4">📚</div>
           <h1 className="text-2xl font-bold text-gray-900 mb-2">ไม่พบบทเรียน</h1>
-          <Link href={`/courses/${courseId}`} className="text-orange-600 hover:text-orange-700">
+          <Link href={`/courses/${courseId}`} className="text-brand-600 hover:text-brand-700">
             กลับไปหน้าคอร์ส
           </Link>
         </div>
@@ -157,15 +157,15 @@ export default function LessonPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50">
+    <div className="min-h-screen bg-brand-50">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-orange-100">
+      <div className="bg-white shadow-sm border-b border-brand-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
               <Link 
                 href={`/courses/${courseId}`}
-                className="flex items-center space-x-2 text-gray-600 hover:text-orange-600 transition-colors"
+                className="flex items-center space-x-2 text-gray-600 hover:text-brand-600 transition-colors"
               >
                 <ArrowLeft className="h-5 w-5" />
                 <span>กลับไปคอร์ส</span>
@@ -177,12 +177,12 @@ export default function LessonPage() {
               </div>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="bg-orange-100 px-3 py-1 rounded-full">
-                <span className="text-sm font-medium text-orange-800">{progress.toFixed(0)}% สำเร็จ</span>
+              <div className="bg-brand-100 px-3 py-1 rounded-full">
+                <span className="text-sm font-medium text-brand-800">{progress.toFixed(0)}% สำเร็จ</span>
               </div>
               {earnedPoints > 0 && (
-                <div className="bg-yellow-100 px-3 py-1 rounded-full">
-                  <span className="text-sm font-medium text-yellow-800">+{earnedPoints} คะแนน</span>
+                <div className="bg-sand-100 px-3 py-1 rounded-full">
+                  <span className="text-sm font-medium text-warning">+{earnedPoints} คะแนน</span>
                 </div>
               )}
             </div>
@@ -203,7 +203,7 @@ export default function LessonPage() {
               {/* Video Container */}
               <div className="relative aspect-video bg-gray-900">
                 {/* Mock Video Player */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-500 flex items-center justify-center">
+                <div className="absolute inset-0 bg-brand-500 flex items-center justify-center">
                   <div className="text-center text-white">
                     <Play className="h-20 w-20 mx-auto mb-4 opacity-80" />
                     <p className="text-lg">Mock Video Player</p>
@@ -221,7 +221,7 @@ export default function LessonPage() {
                     </div>
                     <div className="w-full bg-white/20 rounded-full h-2">
                       <div 
-                        className="bg-orange-400 h-2 rounded-full transition-all duration-300"
+                        className="bg-brand-400 h-2 rounded-full transition-all duration-300"
                         style={{ width: `${progress}%` }}
                       />
                     </div>
@@ -256,7 +256,7 @@ export default function LessonPage() {
                         onClick={handlePauseForBaby}
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="bg-yellow-400 hover:bg-yellow-500 text-gray-900 px-4 py-2 rounded-full font-medium transition-colors flex items-center space-x-2"
+                        className="bg-sand-300 hover:opacity-90 text-gray-900 px-4 py-2 rounded-full font-medium transition-colors flex items-center space-x-2"
                       >
                         <Baby className="h-4 w-4" />
                         <span>Pause for Baby</span>
@@ -292,7 +292,7 @@ export default function LessonPage() {
                   <ul className="space-y-1">
                     {lesson.keyPoints.map((point, index) => (
                       <li key={index} className="flex items-center space-x-2 text-gray-600">
-                        <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0" />
+                        <CheckCircle className="h-4 w-4 text-brand-600 flex-shrink-0" />
                         <span>{point}</span>
                       </li>
                     ))}
@@ -320,7 +320,7 @@ export default function LessonPage() {
                   onClick={handleCompleteLesson}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-gradient-to-r from-green-500 to-green-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all flex items-center space-x-2"
+                  className="bg-brand-600 text-white px-8 py-3 rounded-lg font-semibold shadow-card hover:opacity-90 transition-all flex items-center space-x-2"
                 >
                   <Award className="h-5 w-5" />
                   <span>รับรางวัลและจบบทเรียน</span>
@@ -328,7 +328,7 @@ export default function LessonPage() {
               ) : lesson.nextLesson ? (
                 <Link 
                   href={`/courses/${courseId}/lessons/${lesson.nextLesson}`}
-                  className="flex items-center space-x-2 bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors"
+                  className="flex items-center space-x-2 bg-brand-600 text-white px-6 py-3 rounded-lg hover:bg-brand-700 transition-colors"
                 >
                   <span>บทเรียนถัดไป</span>
                   <ArrowRight className="h-4 w-4" />
@@ -346,23 +346,23 @@ export default function LessonPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-red-50 border border-red-200 rounded-2xl p-6"
+              className="bg-error-light border border-error/20 rounded-lg p-6"
             >
-              <h3 className="text-lg font-semibold text-red-800 mb-4 flex items-center">
+              <h3 className="text-lg font-semibold text-error-dark mb-4 flex items-center">
                 <Shield className="h-5 w-5 mr-2" />
                 ข้อควรระวัง
               </h3>
               <ul className="space-y-2">
                 {lesson.safetyReminders.map((reminder, index) => (
-                  <li key={index} className="flex items-start space-x-2 text-red-700">
+                  <li key={index} className="flex items-start space-x-2 text-error">
                     <AlertTriangle className="h-4 w-4 mt-0.5 flex-shrink-0" />
                     <span className="text-sm">{reminder}</span>
                   </li>
                 ))}
               </ul>
-              
-              <div className="mt-4 p-3 bg-red-100 rounded-lg">
-                <p className="text-sm text-red-800 font-medium">
+
+              <div className="mt-4 p-3 bg-error-light rounded-lg">
+                <p className="text-sm text-error-dark font-medium">
                   🚨 ฉุกเฉิน: 1669 | สอบถาม: 1646
                 </p>
               </div>
@@ -373,10 +373,10 @@ export default function LessonPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="bg-white border border-orange-100 rounded-2xl p-6"
+              className="bg-white border border-brand-100 rounded-2xl p-6"
             >
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <Target className="h-5 w-5 mr-2 text-orange-600" />
+                <Target className="h-5 w-5 mr-2 text-brand-600" />
                 ความคืบหน้า
               </h3>
               
@@ -388,24 +388,24 @@ export default function LessonPage() {
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
                     <div 
-                      className="bg-orange-600 h-2 rounded-full transition-all duration-300"
+                      className="bg-brand-600 h-2 rounded-full transition-all duration-300"
                       style={{ width: `${progress}%` }}
                     />
                   </div>
                 </div>
 
                 {earnedPoints > 0 && (
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                  <div className="bg-sand-100 border border-sand-300 rounded-lg p-3">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-yellow-800">คะแนนที่ได้</span>
-                      <span className="text-lg font-bold text-yellow-600">+{earnedPoints}</span>
+                      <span className="text-sm font-medium text-warning">คะแนนที่ได้</span>
+                      <span className="text-lg font-bold text-warning">+{earnedPoints}</span>
                     </div>
                   </div>
                 )}
 
                 {lessonCompleted && (
-                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
-                    <div className="flex items-center space-x-2 text-green-800">
+                  <div className="bg-brand-50 border border-brand-200 rounded-lg p-3">
+                    <div className="flex items-center space-x-2 text-brand-700">
                       <CheckCircle className="h-5 w-5" />
                       <span className="font-medium">บทเรียนสำเร็จ!</span>
                     </div>
@@ -419,18 +419,18 @@ export default function LessonPage() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
-              className="bg-gradient-to-br from-orange-500 to-orange-500 text-white rounded-2xl p-6"
+              className="bg-brand-600 text-white rounded-lg p-6"
             >
               <h3 className="text-lg font-semibold mb-2 flex items-center">
                 <Sparkles className="h-5 w-5 mr-2" />
                 Wellness Garden
               </h3>
-              <p className="text-orange-100 text-sm mb-4">
+              <p className="text-brand-100 text-sm mb-4">
                 ดูความคืบหน้าทั้งหมดและรับรางวัลในสวนแห่งสุขภาพของคุณ
               </p>
-              <Link 
+              <Link
                 href="/dashboard"
-                className="bg-white text-orange-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-50 transition-colors inline-block"
+                className="bg-white text-brand-600 px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-colors inline-block"
               >
                 เข้าสู่ Wellness Garden
               </Link>
@@ -452,7 +452,7 @@ export default function LessonPage() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="bg-white rounded-2xl p-8 max-w-md w-full text-center"
+              className="bg-white rounded-lg p-8 max-w-md w-full text-center"
             >
               <div className="text-6xl mb-4">👶💕</div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4">
@@ -468,7 +468,7 @@ export default function LessonPage() {
                     setPauseForBaby(false);
                     togglePlay();
                   }}
-                  className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition-colors font-medium"
+                  className="w-full bg-brand-600 text-white py-3 rounded-lg hover:opacity-90 transition-colors font-medium"
                 >
                   เล่นต่อเลย
                 </button>

@@ -32,11 +32,11 @@ export function AuthGuard({
   // แสดง loading หรือ redirect หาก auth กำลังโหลดหรือไม่ได้ login
   if (loading || !isAuthenticated) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center">
+      <div className="min-h-screen bg-brand-50 flex items-center justify-center">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-          className="w-12 h-12 border-4 border-green-500 border-t-transparent rounded-full"
+          className="w-12 h-12 border-4 border-brand-600 border-t-transparent rounded-full"
         />
         {showLoadingMessage && (
           <div className="ml-4 text-gray-600">

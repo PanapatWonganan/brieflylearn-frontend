@@ -149,13 +149,13 @@ const ThemeGallery = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="animate-pulse space-y-4">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="space-y-3">
-                <div className="w-full h-32 bg-gray-200 rounded-xl"></div>
+                <div className="w-full h-32 bg-gray-200 rounded-lg"></div>
                 <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2"></div>
               </div>
@@ -167,9 +167,9 @@ const ThemeGallery = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-card overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-purple-500 to-orange-500 text-white">
+      <div className="p-6 bg-brand-600 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Palette className="h-6 w-6" />
@@ -210,7 +210,7 @@ const ThemeGallery = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 bg-yellow-500/20 border border-yellow-300/30 rounded-lg p-3 flex items-center justify-between"
+            className="mt-4 bg-sand-200 border border-sand-300 rounded-lg p-3 flex items-center justify-between"
           >
             <div className="flex items-center space-x-2">
               <Eye className="h-4 w-4" />
@@ -245,11 +245,9 @@ const ThemeGallery = () => {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                   isSelected
-                    ? 'bg-purple-100 text-purple-700 border-2 border-purple-300'
+                    ? 'bg-brand-100 text-brand-700 border-2 border-brand-200'
                     : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent'
                 }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 <span>{category.emoji}</span>
                 <span>{category.name}</span>
@@ -273,25 +271,24 @@ const ThemeGallery = () => {
             {filteredThemes.map((theme) => (
               <motion.div
                 key={theme.id}
-                className={`relative overflow-hidden rounded-xl shadow-lg transition-all duration-300 border-2 ${
-                  theme.is_active 
-                    ? 'border-green-300 bg-green-50' 
+                className={`relative overflow-hidden rounded-lg shadow-card transition-all duration-300 border-2 ${
+                  theme.is_active
+                    ? 'border-brand-200 bg-brand-50'
                     : theme.is_unlocked
-                      ? 'border-gray-200 bg-white hover:border-purple-300 hover:shadow-xl'
+                      ? 'border-gray-200 bg-white hover:border-brand-200'
                       : 'border-gray-200 bg-gray-50'
                 }`}
                 style={generateThemePreview(theme)}
-                whileHover={{ scale: 1.02, y: -5 }}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
               >
                 {/* Theme Preview */}
                 <div className="relative h-32 overflow-hidden">
-                  <div 
+                  <div
                     className="w-full h-full"
                     style={{
-                      background: `linear-gradient(135deg, ${theme.background_color}, ${theme.accent_color})`
+                      backgroundColor: theme.background_color
                     }}
                   >
                     {/* Theme Pattern/Effects */}
@@ -320,12 +317,12 @@ const ThemeGallery = () => {
                   {/* Status Badges */}
                   <div className="absolute top-2 left-2 flex space-x-1">
                     {theme.is_premium && (
-                      <span className="bg-yellow-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                      <span className="bg-sand-300 text-white text-xs px-2 py-1 rounded-full font-medium">
                         PREMIUM
                       </span>
                     )}
                     {theme.is_seasonal && (
-                      <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                      <span className="bg-brand-600 text-white text-xs px-2 py-1 rounded-full font-medium">
                         SEASONAL
                       </span>
                     )}
@@ -334,8 +331,8 @@ const ThemeGallery = () => {
                   {/* Price Badge */}
                   <div className="absolute top-2 right-2">
                     <span className={`text-xs px-2 py-1 rounded-full font-medium ${
-                      theme.price === 0 
-                        ? 'bg-green-500 text-white' 
+                      theme.price === 0
+                        ? 'bg-brand-600 text-white'
                         : 'bg-white text-gray-800'
                     }`}>
                       {formatThemePrice(theme.price)}
@@ -357,7 +354,7 @@ const ThemeGallery = () => {
                       {getThemeCategoryEmoji(theme.category)} {theme.name}
                     </h3>
                     {theme.is_active && (
-                      <Check className="h-5 w-5 text-green-500" />
+                      <Check className="h-5 w-5 text-brand-600" />
                     )}
                   </div>
 
@@ -412,9 +409,9 @@ const ThemeGallery = () => {
                       disabled={isApplyingTheme === theme.id || !theme.is_unlocked}
                       className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center space-x-1 ${
                         theme.is_active
-                          ? 'bg-green-100 text-green-700 cursor-default'
+                          ? 'bg-brand-100 text-brand-700 cursor-default'
                           : theme.is_unlocked
-                            ? 'bg-purple-500 hover:bg-purple-600 text-white'
+                            ? 'bg-brand-600 hover:bg-brand-700 text-white'
                             : 'bg-gray-200 text-gray-400 cursor-not-allowed'
                       }`}
                     >

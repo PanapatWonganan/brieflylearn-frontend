@@ -187,10 +187,10 @@ export default function PreClassChecklist() {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'safety': return 'red';
-      case 'health': return 'pink';
-      case 'preparation': return 'blue';
-      case 'environment': return 'green';
+      case 'safety': return 'error';
+      case 'health': return 'brand';
+      case 'preparation': return 'sand';
+      case 'environment': return 'brand';
       default: return 'gray';
     }
   };
@@ -215,10 +215,10 @@ export default function PreClassChecklist() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50">
+    <div className="min-h-screen bg-sand-50">
       
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-orange-100">
+      <div className="bg-white shadow-sm border-b border-sand-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link 
@@ -243,7 +243,7 @@ export default function PreClassChecklist() {
       </div>
 
       {/* Progress Overview */}
-      <div className="bg-white border-b border-orange-100">
+      <div className="bg-white border-b border-sand-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
@@ -254,10 +254,10 @@ export default function PreClassChecklist() {
             </div>
             
             <div className="text-right">
-              <div className="text-2xl font-bold text-orange-600">{completedPercentage}%</div>
+              <div className="text-2xl font-bold text-brand-600">{completedPercentage}%</div>
               <div className="w-32 bg-gray-200 rounded-full h-2 mt-1">
-                <div 
-                  className="bg-orange-500 h-2 rounded-full transition-all duration-500"
+                <div
+                  className="bg-brand-600 h-2 rounded-full transition-all duration-500"
                   style={{ width: `${completedPercentage}%` }}
                 />
               </div>
@@ -272,17 +272,17 @@ export default function PreClassChecklist() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-2xl p-6 max-w-md w-full"
+            className="bg-white rounded-lg p-6 max-w-md w-full"
           >
             <div className="flex items-center space-x-3 mb-4">
-              <AlertTriangle className="h-6 w-6 text-red-600" />
-              <h3 className="text-lg font-bold text-red-800">คำเตือนด้านความปลอดภัย</h3>
+              <AlertTriangle className="h-6 w-6 text-error" />
+              <h3 className="text-lg font-bold text-error-dark">คำเตือนด้านความปลอดภัย</h3>
             </div>
             <p className="text-gray-700 mb-6">{showWarning}</p>
             <div className="flex space-x-3">
               <button
                 onClick={() => setShowWarning(null)}
-                className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-xl hover:bg-gray-50 transition-colors"
+                className="flex-1 border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors"
               >
                 ปิด
               </button>
@@ -291,7 +291,7 @@ export default function PreClassChecklist() {
                   setShowWarning(null);
                   // Could add emergency contact functionality here
                 }}
-                className="flex-1 bg-red-600 text-white py-2 px-4 rounded-xl hover:bg-red-700 transition-colors flex items-center justify-center space-x-2"
+                className="flex-1 bg-error text-white py-2 px-4 rounded-lg hover:opacity-90 transition-colors flex items-center justify-center space-x-2"
               >
                 <Phone className="h-4 w-4" />
                 <span>ติดต่อแพทย์</span>
@@ -315,7 +315,7 @@ export default function PreClassChecklist() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4 }}
-                className="bg-white rounded-2xl shadow-sm border border-orange-100 overflow-hidden"
+                className="bg-white rounded-lg shadow-sm border border-sand-300 overflow-hidden"
               >
                 <div className={`bg-${color}-50 border-b border-${color}-100 px-6 py-4`}>
                   <div className="flex items-center space-x-3">
@@ -339,9 +339,9 @@ export default function PreClassChecklist() {
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ duration: 0.3, delay: index * 0.1 }}
-                      className={`flex items-start space-x-4 p-4 rounded-xl cursor-pointer transition-all duration-200 ${
-                        item.checked 
-                          ? `bg-${color}-50 border-2 border-${color}-200` 
+                      className={`flex items-start space-x-4 p-4 rounded-lg cursor-pointer transition-all duration-200 ${
+                        item.checked
+                          ? 'bg-brand-50 border-2 border-brand-200'
                           : 'bg-gray-50 border-2 border-gray-200 hover:border-gray-300'
                       }`}
                     >
@@ -350,7 +350,7 @@ export default function PreClassChecklist() {
                           type="checkbox"
                           checked={item.checked}
                           onChange={(e) => handleChecklistChange(item.id, e.target.checked)}
-                          className={`h-5 w-5 rounded focus:ring-2 focus:ring-${color}-500 text-${color}-600`}
+                          className="h-5 w-5 rounded text-brand-600"
                         />
                         {item.checked && (
                           <motion.div
@@ -358,22 +358,22 @@ export default function PreClassChecklist() {
                             animate={{ scale: 1 }}
                             className="absolute -top-1 -right-1"
                           >
-                            <CheckCircle className={`h-3 w-3 text-${color}-600 fill-current`} />
+                            <CheckCircle className="h-3 w-3 text-brand-600 fill-current" />
                           </motion.div>
                         )}
                       </div>
                       
                       <div className="flex-1">
                         <div className="flex items-center space-x-2">
-                          <span className={`font-medium ${item.checked ? `text-${color}-800` : 'text-gray-700'}`}>
+                          <span className={`font-medium ${item.checked ? 'text-brand-700' : 'text-gray-700'}`}>
                             {item.question}
                           </span>
                           {item.required && (
-                            <span className="text-red-500 text-sm">*</span>
+                            <span className="text-error text-sm">*</span>
                           )}
                         </div>
                         {item.warning && !item.checked && (
-                          <p className="text-xs text-yellow-600 mt-1 flex items-center">
+                          <p className="text-xs text-warning mt-1 flex items-center">
                             <AlertTriangle className="h-3 w-3 mr-1" />
                             คำเตือน: {item.warning}
                           </p>
@@ -391,42 +391,42 @@ export default function PreClassChecklist() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.3 }}
-            className="bg-red-50 border border-red-200 rounded-2xl p-6"
+            className="bg-error-light border border-sand-300 rounded-lg p-6"
           >
             <div className="flex items-center space-x-3 mb-4">
-              <div className="bg-red-100 p-2 rounded-full">
-                <AlertTriangle className="h-5 w-5 text-red-600" />
+              <div className="bg-error-light p-2 rounded-full">
+                <AlertTriangle className="h-5 w-5 text-error" />
               </div>
-              <h3 className="text-lg font-semibold text-red-800">หยุดออกกำลังกายทันทีหาก:</h3>
+              <h3 className="text-lg font-semibold text-error-dark">หยุดออกกำลังกายทันทีหาก:</h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-red-700">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm text-error-dark">
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>เลือดออกจากช่องคลอด</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>ปวดหน้าอกหรือหายใจลำบาก</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>ปวดศีรษะรุนแรง</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>บวมมือ ใบหน้า อย่างฉับพลัน</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>ปวดท้องรุนแรง</span>
               </div>
               <div className="flex items-center space-x-2">
-                <div className="w-2 h-2 bg-red-500 rounded-full flex-shrink-0" />
+                <div className="w-2 h-2 bg-error rounded-full flex-shrink-0" />
                 <span>รู้สึกเจ็บน่องอย่างต่อเนื่อง</span>
               </div>
             </div>
-            <div className="mt-4 p-3 bg-red-100 rounded-lg">
-              <p className="text-red-800 text-sm font-medium">
+            <div className="mt-4 p-3 bg-error-light rounded-lg">
+              <p className="text-error-dark text-sm font-medium">
                 📞 กรณีฉุกเฉิน: โทร 1669 หรือติดต่อแพทย์ผู้ดูแลทันที
               </p>
             </div>
@@ -436,18 +436,18 @@ export default function PreClassChecklist() {
           <div className="flex justify-between pt-4">
             <Link
               href={`/courses/${courseId}/assessment`}
-              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+              className="flex items-center space-x-2 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
             >
               <ArrowLeft className="h-4 w-4" />
               <span>กลับไปแก้ไขการประเมิน</span>
             </Link>
-            
+
             <button
               onClick={handleStartLesson}
               disabled={!canProceed}
-              className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition-all duration-300 ${
+              className={`flex items-center space-x-2 px-8 py-3 rounded-lg font-semibold shadow-card transition-all duration-300 ${
                 canProceed
-                  ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white hover:from-orange-700 hover:to-orange-800 shadow-lg hover:shadow-xl'
+                  ? 'bg-brand-600 text-white hover:opacity-90'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
             >
@@ -461,7 +461,7 @@ export default function PreClassChecklist() {
               <p className="text-sm text-gray-600">
                 กรุณาเช็ครายการที่มีเครื่องหมาย * ให้ครบถ้วนก่อนเริ่มบทเรียน
               </p>
-              <p className="text-xs text-red-600 mt-1">
+              <p className="text-xs text-error mt-1">
                 ยังขาดอีก {requiredItems.length - checkedRequiredItems.length} รายการ
               </p>
             </div>

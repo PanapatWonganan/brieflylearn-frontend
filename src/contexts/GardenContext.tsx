@@ -110,10 +110,10 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
         const gardenData = await gardenAPI.getMyGarden()
         console.log('✅ Garden data loaded:', gardenData)
         setGardenData(gardenData)
-      } catch (error) {
+      } catch (error: any) {
         console.error('❌ Failed to load garden data:', error)
         // If auth failed, clear data
-        if (error?.message?.includes('401') || error?.message?.includes('Authentication')) {
+        if (error?.message?.includes('401') || error?.message?.includes('Authentication') || error?.status === 401 || error?.response?.status === 401) {
           clearGardenData()
           return
         }

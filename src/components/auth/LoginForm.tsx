@@ -44,15 +44,15 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="bg-white rounded-lg shadow-card p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">เข้าสู่ระบบ</h1>
           <p className="text-gray-600">ยินดีต้อนรับกลับมา!</p>
         </div>
 
         {error && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{error}</p>
+          <div className="mb-6 p-4 bg-error-light border border-error/20 rounded-lg">
+            <p className="text-error-dark text-sm">{error}</p>
           </div>
         )}
 
@@ -70,7 +70,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors"
                 placeholder="กรุณากรอกอีเมล"
                 required
                 disabled={loading}
@@ -91,7 +91,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors"
+                className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors"
                 placeholder="กรุณากรอกรหัสผ่าน"
                 required
                 disabled={loading}
@@ -111,7 +111,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            className="w-full bg-brand-600 text-white py-3 px-4 rounded-lg hover:opacity-90 focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             {loading ? 'กำลังเข้าสู่ระบบ...' : 'เข้าสู่ระบบ'}
           </button>
@@ -124,7 +124,7 @@ export default function LoginForm({ onSuccess, onSwitchToRegister }: LoginFormPr
               ยังไม่มีบัญชี?{' '}
               <button
                 onClick={onSwitchToRegister}
-                className="text-orange-600 hover:text-orange-700 font-medium"
+                className="text-brand-600 hover:opacity-90 font-medium"
                 disabled={loading}
               >
                 สมัครสมาชิก

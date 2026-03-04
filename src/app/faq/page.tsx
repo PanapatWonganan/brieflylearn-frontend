@@ -1,7 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { ChevronRight, Heart, Star, Shield, Clock } from 'lucide-react'
+import { ChevronRight, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'
 
@@ -9,28 +8,24 @@ const faqCategories = [
   {
     id: 'general',
     title: 'ทั่วไป',
-    icon: Heart,
-    color: 'pink',
     questions: [
       {
-        question: 'BoostMe คืออะไร?',
-        answer: 'BoostMe เป็นแพลตฟอร์มสุขภาพออนไลน์ที่ออกแบบมาเพื่อผู้หญิงโดยเฉพาะ มีคอร์สการออกกำลังกาย โภชนาการ และการดูแลสุขภาพในแต่ละช่วงวัย'
+        question: 'BrieflyLearn คืออะไร?',
+        answer: 'BrieflyLearn เป็นแพลตฟอร์มเรียน AI ออนไลน์ มีคอร์สเกี่ยวกับ AI Strategy, Prompt Engineering, AI Automation สำหรับสร้างธุรกิจและบริหารองค์กร'
       },
       {
-        question: 'ใครสามารถใช้ BoostMe ได้บ้าง?',
-        answer: 'ผู้หญิงทุกวัย โดยเฉพาะผู้ที่ตั้งครรภ์ หลังคลอด หรือต้องการดูแลสมดุลฮอร์โมน สามารถใช้บริการได้ มีคอร์สที่เหมาะสมกับแต่ละช่วงชีวิต'
+        question: 'ใครสามารถใช้ BrieflyLearn ได้บ้าง?',
+        answer: 'ทุกคนที่ต้องการเรียนรู้ AI ไม่ว่าจะเป็นเจ้าของธุรกิจที่อยากใช้ AI สร้างรายได้ หรือผู้บริหารที่ต้องนำ AI เข้าองค์กร มีคอร์สที่เหมาะกับทุกระดับ'
       },
       {
-        question: 'จำเป็นต้องมีอุปกรณ์พิเศษไหม?',
-        answer: 'ไม่จำเป็นค่ะ คอร์สส่วนใหญ่สามารถทำได้ที่บ้านโดยไม่ต้องใช้อุปกรณ์ หรือใช้อุปกรณ์พื้นฐานที่หาได้ง่าย'
+        question: 'จำเป็นต้องมีพื้นฐานมาก่อนไหม?',
+        answer: 'ไม่จำเป็นครับ คอร์สส่วนใหญ่เริ่มต้นจากพื้นฐาน และมีคอร์สระดับต่างๆ ให้เลือกตามความเหมาะสม'
       }
     ]
   },
   {
     id: 'subscription',
     title: 'การสมัครสมาชิก',
-    icon: Star,
-    color: 'yellow',
     questions: [
       {
         question: 'มีแผนการสมัครสมาชิกแบบไหนบ้าง?',
@@ -38,23 +33,21 @@ const faqCategories = [
       },
       {
         question: 'สามารถยกเลิกการสมัครสมาชิกได้ตลอดเวลาไหม?',
-        answer: 'ได้ค่ะ สามารถยกเลิกได้ตลอดเวลาโดยไม่มีค่าปรับ การยกเลิกจะมีผลในรอบการชำระเงินถัดไป'
+        answer: 'ได้ครับ สามารถยกเลิกได้ตลอดเวลาโดยไม่มีค่าปรับ การยกเลิกจะมีผลในรอบการชำระเงินถัดไป'
       },
       {
         question: 'มีช่วงทดลองใช้ฟรีไหม?',
-        answer: 'มีค่ะ ทดลองใช้ฟรี 7 วัน สามารถเข้าถึงคอร์สทั้งหมดและฟีเจอร์ต่างๆ ได้เต็มรูปแบบ'
+        answer: 'มีครับ ทดลองใช้ฟรี 7 วัน สามารถเข้าถึงคอร์สทั้งหมดและฟีเจอร์ต่างๆ ได้เต็มรูปแบบ'
       }
     ]
   },
   {
     id: 'courses',
     title: 'คอร์สเรียน',
-    icon: Shield,
-    color: 'green',
     questions: [
       {
         question: 'มีคอร์สอะไรบ้าง?',
-        answer: 'มีคอร์สออกกำลังกายขณะตั้งครรภ์ โยคะหลังคลอด การดูแลสมดุลฮอร์โมน โภชนาการ และการจัดการความเครียด'
+        answer: 'มีคอร์ส AI หลากหลายหมวด ทั้ง AI Strategy, Prompt Engineering, AI Automation, AI สร้างธุรกิจ และ AI บริหารองค์กร'
       },
       {
         question: 'คอร์สมีความยาวเท่าไหร่?',
@@ -62,19 +55,17 @@ const faqCategories = [
       },
       {
         question: 'สามารถเรียนซ้ำได้ไหม?',
-        answer: 'ได้ค่ะ สามารถเรียนซ้ำได้ไม่จำกัดครั้ง และสามารถดูย้อนหลังได้ตลอดระยะเวลาการสมัครสมาชิก'
+        answer: 'ได้ครับ สามารถเรียนซ้ำได้ไม่จำกัดครั้ง และสามารถดูย้อนหลังได้ตลอดระยะเวลาการสมัครสมาชิก'
       }
     ]
   },
   {
     id: 'technical',
     title: 'เทคนิค',
-    icon: Clock,
-    color: 'blue',
     questions: [
       {
         question: 'รองรับอุปกรณ์อะไรบ้าง?',
-        answer: 'รองรับทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ ทำงานได้บนเบราว์เซอร์ทุกประเภท และมี Mobile App สำหรับ iOS และ Android'
+        answer: 'รองรับทั้งมือถือ แท็บเล็ต และคอมพิวเตอร์ ทำงานได้บนเบราว์เซอร์ทุกประเภท'
       },
       {
         question: 'หากมีปัญหาการเชื่อมต่อควรทำอย่างไร?',
@@ -88,13 +79,6 @@ const faqCategories = [
   }
 ]
 
-const colorClasses = {
-  pink: 'bg-orange-100 text-orange-600',
-  yellow: 'bg-yellow-100 text-yellow-600',
-  green: 'bg-green-100 text-green-600',
-  blue: 'bg-blue-100 text-orange-600'
-}
-
 export default function FAQPage() {
   const [activeCategory, setActiveCategory] = useState('general')
   const [openQuestion, setOpenQuestion] = useState<number | null>(null)
@@ -102,36 +86,28 @@ export default function FAQPage() {
   const currentCategory = faqCategories.find(cat => cat.id === activeCategory)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-white to-purple-50">
+    <div className="bg-white">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
-        <div className="max-w-6xl mx-auto px-4 py-12">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              คำถามที่พบบ่อย
-            </h1>
-            <p className="text-xl text-orange-600">
-              ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ BoostMe
-            </p>
-          </motion.div>
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto pt-24 pb-20">
+        <div className="text-center max-w-2xl mx-auto">
+          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">FAQ</p>
+          <h1 className="text-heading text-ink mb-4">
+            คำถามที่พบบ่อย
+          </h1>
+          <p className="text-base text-ink-light leading-relaxed">
+            ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ BrieflyLearn
+          </p>
         </div>
-      </div>
+      </section>
 
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+      {/* Content */}
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-20 border-t border-gray-100">
+        <div className="grid lg:grid-cols-4 gap-12">
           {/* Category Sidebar */}
           <div className="lg:col-span-1">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 sticky top-8"
-            >
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">หมวดหมู่</h3>
-              <nav className="space-y-2">
+            <div className="border border-gray-100/60 shadow-card rounded-xl p-6 sticky top-8">
+              <h3 className="text-sm font-semibold text-ink mb-4">หมวดหมู่</h3>
+              <nav className="space-y-1">
                 {faqCategories.map((category) => (
                   <button
                     key={category.id}
@@ -139,118 +115,89 @@ export default function FAQPage() {
                       setActiveCategory(category.id)
                       setOpenQuestion(null)
                     }}
-                    className={`w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-colors text-left ${
+                    className={`w-full text-left px-4 py-2.5 rounded-lg text-sm transition-colors ${
                       activeCategory === category.id
-                        ? 'bg-orange-50 text-orange-600 border border-orange-200'
-                        : 'hover:bg-gray-50 text-orange-600'
+                        ? 'bg-ink text-white font-medium'
+                        : 'text-ink-light hover:bg-gray-50'
                     }`}
                   >
-                    <div className={`p-2 rounded-lg ${
-                      activeCategory === category.id 
-                        ? colorClasses[category.color as keyof typeof colorClasses]
-                        : 'bg-gray-100 text-gray-500'
-                    }`}>
-                      <category.icon className="h-4 w-4" />
-                    </div>
-                    <span className="font-medium">{category.title}</span>
+                    {category.title}
                   </button>
                 ))}
               </nav>
-            </motion.div>
+            </div>
           </div>
 
           {/* FAQ Content */}
           <div className="lg:col-span-3">
             {currentCategory && (
-              <motion.div
-                key={activeCategory}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-6"
-              >
-                <div className="flex items-center space-x-3 mb-8">
-                  <div className={`p-3 rounded-xl ${colorClasses[currentCategory.color as keyof typeof colorClasses]}`}>
-                    <currentCategory.icon className="h-6 w-6" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-800">
-                    {currentCategory.title}
-                  </h2>
-                </div>
+              <div>
+                <h2 className="text-2xl font-semibold text-ink mb-8">
+                  {currentCategory.title}
+                </h2>
 
-                <div className="space-y-4">
+                <div className="space-y-3">
                   {currentCategory.questions.map((faq, index) => (
-                    <motion.div
+                    <div
                       key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm"
+                      className="border border-gray-100 rounded-lg overflow-hidden"
                     >
                       <button
                         onClick={() => setOpenQuestion(openQuestion === index ? null : index)}
                         className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
                       >
-                        <span className="font-medium text-gray-800 pr-4">
+                        <span className="text-sm font-medium text-ink pr-4">
                           {faq.question}
                         </span>
-                        <ChevronRight 
-                          className={`h-5 w-5 text-gray-400 transition-transform flex-shrink-0 ${
+                        <ChevronRight
+                          className={`h-4 w-4 text-ink-faint transition-transform flex-shrink-0 ${
                             openQuestion === index ? 'rotate-90' : ''
                           }`}
                         />
                       </button>
-                      
+
                       {openQuestion === index && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="px-6 pb-4 border-t border-gray-100"
-                        >
-                          <p className="text-orange-600 leading-relaxed pt-4">
+                        <div className="px-6 pb-4 border-t border-gray-100">
+                          <p className="text-sm text-ink-light leading-relaxed pt-4">
                             {faq.answer}
                           </p>
-                        </motion.div>
+                        </div>
                       )}
-                    </motion.div>
+                    </div>
                   ))}
                 </div>
-              </motion.div>
+              </div>
             )}
           </div>
         </div>
+      </section>
 
-        {/* Additional Help */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
-          className="mt-16"
-        >
-          <div className="bg-gradient-to-r from-orange-500 to-purple-600 rounded-2xl p-8 text-white text-center">
-            <h3 className="text-2xl font-bold mb-4">
-              ยังไม่พบคำตอบที่ต้องการ?
-            </h3>
-            <p className="text-lg mb-6 opacity-90">
-              ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณตลอด 24 ชั่วโมง
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link
-                href="/help"
-                className="bg-white text-orange-600 px-6 py-3 rounded-xl font-medium hover:bg-gray-100 transition-colors"
-              >
-                ศูนย์ช่วยเหลือ
-              </Link>
-              <Link
-                href="/contact"
-                className="border border-white text-white px-6 py-3 rounded-xl font-medium hover:bg-white hover:text-orange-600 transition-colors"
-              >
-                ติดต่อเรา
-              </Link>
-            </div>
+      {/* CTA */}
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-28 border-t border-gray-100">
+        <div className="text-center max-w-2xl mx-auto">
+          <h2 className="text-heading text-ink mb-4">
+            ยังไม่พบคำตอบที่ต้องการ?
+          </h2>
+          <p className="text-base text-ink-muted leading-relaxed mb-8">
+            ทีมสนับสนุนของเราพร้อมช่วยเหลือคุณตลอด 24 ชั่วโมง
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/help"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink-light transition-colors"
+            >
+              ศูนย์ช่วยเหลือ
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm text-ink-light font-medium border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
+            >
+              ติดต่อเรา
+            </Link>
           </div>
-        </motion.div>
-      </div>
+        </div>
+      </section>
     </div>
   )
 }

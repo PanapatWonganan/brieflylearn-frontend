@@ -3,23 +3,24 @@
 import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { useGarden } from '@/contexts/GardenContext'
-import { Achievement, UserAchievement } from '@/lib/garden/types'
+import { Achievement } from '@/lib/garden/types'
 import { gardenAPI } from '@/lib/garden/api'
 import { Trophy, Star, Lock, Calendar, Award, Target, Users, Zap } from 'lucide-react'
+import { PageSkeleton } from '@/components/Skeleton'
 
 const AchievementGallery = () => {
   const { achievements, isLoading } = useGarden()
-  const [userAchievements, setUserAchievements] = useState<UserAchievement[]>([])
+  const [userAchievements, setUserAchievements] = useState<Achievement[]>([])
   const [selectedCategory, setSelectedCategory] = useState<string>('all')
   const [loadingUserAchievements, setLoadingUserAchievements] = useState(true)
 
   const categories = [
-    { id: 'all', name: 'ทั้งหมด', icon: Trophy, color: 'from-purple-400 to-purple-600' },
-    { id: 'learning', name: 'การเรียนรู้', icon: Star, color: 'from-blue-400 to-blue-600' },
-    { id: 'fitness', name: 'การออกกำลังกาย', icon: Zap, color: 'from-red-400 to-red-600' },
-    { id: 'mental', name: 'จิตใจ', icon: Target, color: 'from-indigo-400 to-indigo-600' },
-    { id: 'social', name: 'สังคม', icon: Users, color: 'from-green-400 to-green-600' },
-    { id: 'special', name: 'พิเศษ', icon: Award, color: 'from-yellow-400 to-yellow-600' }
+    { id: 'all', name: 'ทั้งหมด', icon: Trophy, color: 'bg-brand-700' },
+    { id: 'learning', name: 'AI Mastery', icon: Star, color: 'bg-brand-500' },
+    { id: 'fitness', name: 'Business Impact', icon: Zap, color: 'bg-error' },
+    { id: 'mental', name: 'Innovation', icon: Target, color: 'bg-brand-600' },
+    { id: 'social', name: 'Knowledge Sharing', icon: Users, color: 'bg-brand-600' },
+    { id: 'special', name: 'Continuous Learning', icon: Award, color: 'bg-sand-400' }
   ]
 
   // Load user achievements
@@ -27,8 +28,8 @@ const AchievementGallery = () => {
     const loadUserAchievements = async () => {
       try {
         setLoadingUserAchievements(true)
-        const response = await gardenAPI.getUserAchievements()
-        setUserAchievements(response.user_achievements || [])
+        const response = await gardenAPI.getMyAchievements()
+        setUserAchievements(response.achievements || [])
       } catch (error) {
         console.error('Failed to load user achievements:', error)
         setUserAchievements([])
@@ -52,12 +53,12 @@ const AchievementGallery = () => {
 
   // Check if user has earned an achievement
   const hasEarned = (achievementId: string) => {
-    return userAchievements.some(ua => ua.achievement_id === achievementId)
+    return userAchievements.some(ua => ua.id === achievementId && ua.is_earned)
   }
 
   // Get user achievement progress
   const getProgress = (achievementId: string) => {
-    const userAchievement = userAchievements.find(ua => ua.achievement_id === achievementId)
+    const userAchievement = userAchievements.find(ua => ua.id === achievementId)
     return userAchievement?.progress_data || {}
   }
 
@@ -93,9 +94,11 @@ const AchievementGallery = () => {
   // Get achievement progress for learning achievements
   const getAchievementProgress = (achievement: Achievement) => {
     if (!achievement.criteria) return null
-    
+
     try {
-      const criteria = JSON.parse(achievement.criteria)
+      const criteria = typeof achievement.criteria === 'string'
+        ? JSON.parse(achievement.criteria)
+        : achievement.criteria
       // For demo purposes, get some sample progress data
       // In real implementation, this would come from the API
       return {
@@ -110,44 +113,35 @@ const AchievementGallery = () => {
 
   if (isLoading || loadingUserAchievements) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-orange-100 flex items-center justify-center">
-        <motion.div
-          className="text-8xl"
-          animate={{ 
-            scale: [1, 1.1, 1],
-            rotate: [0, 5, -5, 0]
-          }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          🏆
-        </motion.div>
+      <div className="min-h-screen">
+        <PageSkeleton cards={6} />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-orange-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-2">
+              <h1 className="text-3xl font-bold text-ink flex items-center space-x-2">
                 <span>🏆</span>
-                <span>แกลเลอรี่รางวัล</span>
+                <span>Hall of Fame</span>
               </h1>
-              <p className="text-gray-600 mt-1">ความสำเร็จและรางวัลที่คุณได้รับ</p>
+              <p className="text-ink-muted mt-1">ความสำเร็จและรางวัลที่คุณได้รับ</p>
             </div>
             
-            <div className="bg-gradient-to-r from-purple-400 to-orange-500 text-white px-6 py-3 rounded-xl flex items-center space-x-2">
-              <Trophy className="h-5 w-5" />
-              <span className="font-bold">{userAchievements.length} / {allAchievements.length}</span>
+            <div className="border border-gray-100 rounded-lg px-6 py-2.5 flex items-center space-x-2">
+              <Trophy className="h-5 w-5 text-ink" />
+              <span className="font-bold text-ink">{userAchievements.length} / {allAchievements.length}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8">
         {/* Category Filter */}
         <div className="mb-8">
           <div className="flex flex-wrap gap-2">
@@ -161,8 +155,8 @@ const AchievementGallery = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center space-x-2 px-4 py-2 rounded-xl font-medium transition-all duration-300 ${
                     isSelected
-                      ? `bg-gradient-to-r ${category.color} text-white shadow-lg`
-                      : 'bg-white text-gray-600 hover:text-gray-900 hover:shadow-md'
+                      ? 'bg-ink text-white'
+                      : 'border border-gray-100 text-ink-light hover:text-ink'
                   }`}
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
@@ -186,9 +180,9 @@ const AchievementGallery = () => {
             return (
               <motion.div
                 key={achievement.id}
-                className={`relative overflow-hidden rounded-2xl shadow-lg transition-all duration-300 ${
-                  earned 
-                    ? 'bg-gradient-to-br from-yellow-50 to-orange-100 border-2 border-yellow-300' 
+                className={`relative overflow-hidden rounded-lg border border-gray-100 transition-all duration-300 ${
+                  earned
+                    ? 'bg-gray-50 border-2 border-sand-300'
                     : 'bg-white border-2 border-gray-200'
                 }`}
                 whileHover={{ scale: 1.02, y: -5 }}
@@ -198,12 +192,12 @@ const AchievementGallery = () => {
                 {/* Achievement Icon */}
                 <div className="p-6 text-center">
                   <div className={`relative inline-flex items-center justify-center w-20 h-20 rounded-full mb-4 ${
-                    earned ? 'bg-gradient-to-br from-yellow-400 to-orange-500' : 'bg-gray-200'
+                    earned ? 'bg-gray-50' : 'bg-gray-50'
                   }`}>
                     {earned ? (
                       <span className="text-3xl">{emoji}</span>
                     ) : (
-                      <Lock className="h-8 w-8 text-gray-400" />
+                      <Lock className="h-8 w-8 text-ink-faint" />
                     )}
                     
                     {earned && (
@@ -218,11 +212,11 @@ const AchievementGallery = () => {
                     )}
                   </div>
 
-                  <h3 className={`text-lg font-bold mb-2 ${earned ? 'text-gray-900' : 'text-gray-500'}`}>
+                  <h3 className={`text-lg font-bold mb-2 ${earned ? 'text-ink' : 'text-ink-muted'}`}>
                     {achievement.name}
                   </h3>
                   
-                  <p className={`text-sm mb-4 ${earned ? 'text-gray-700' : 'text-gray-400'}`}>
+                  <p className={`text-sm mb-4 ${earned ? 'text-ink-light' : 'text-ink-faint'}`}>
                     {achievement.description}
                   </p>
 
@@ -230,26 +224,26 @@ const AchievementGallery = () => {
                   <div className="flex justify-center space-x-4 mb-4">
                     <div className="flex items-center space-x-1 text-sm">
                       <Star className="h-4 w-4 text-blue-500" />
-                      <span className={earned ? 'text-orange-600 font-medium' : 'text-gray-400'}>
-                        {achievement.xp_reward} XP
+                      <span className={earned ? 'text-ink-light font-medium' : 'text-ink-faint'}>
+                        {achievement.xp_reward} Impact Points
                       </span>
                     </div>
                     <div className="flex items-center space-x-1 text-sm">
-                      <span className="text-yellow-500">⭐</span>
-                      <span className={earned ? 'text-yellow-600 font-medium' : 'text-gray-400'}>
-                        {achievement.star_seeds_reward} Seeds
+                      <span className="text-warning">⭐</span>
+                      <span className={earned ? 'text-warning font-medium' : 'text-ink-faint'}>
+                        {achievement.star_seeds_reward} AI Credits
                       </span>
                     </div>
                   </div>
 
                   {/* Progress or Earned Date */}
                   {earned ? (
-                    <div className="flex items-center justify-center space-x-1 text-xs text-green-600">
+                    <div className="flex items-center justify-center space-x-1 text-xs text-brand-600">
                       <Calendar className="h-3 w-3" />
                       <span>ได้รับแล้ว</span>
                     </div>
                   ) : (
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-ink-muted">
                       <Lock className="h-3 w-3 mx-auto mb-1" />
                       <span>ยังไม่ได้รับ</span>
                     </div>
@@ -259,7 +253,7 @@ const AchievementGallery = () => {
                 {/* Category Badge */}
                 <div className="absolute top-3 right-3">
                   <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    earned ? 'bg-yellow-200 text-yellow-800' : 'bg-gray-200 text-gray-600'
+                    earned ? 'bg-sand-200 text-warning' : 'bg-gray-50 text-ink-muted'
                   }`}>
                     {categories.find(c => c.id === achievement.category)?.name || achievement.category}
                   </div>
@@ -267,7 +261,7 @@ const AchievementGallery = () => {
 
                 {/* Achievement Glow Effect for Earned */}
                 {earned && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 pointer-events-none" />
+                  <div className="absolute inset-0 bg-brand-50 pointer-events-none" />
                 )}
               </motion.div>
             )
@@ -278,47 +272,45 @@ const AchievementGallery = () => {
         {filteredAchievements.length === 0 && (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🎯</div>
-            <h3 className="text-xl font-bold text-gray-700 mb-2">ไม่มีรางวัลในหมวดหมู่นี้</h3>
-            <p className="text-gray-500">ลองเลือกหมวดหมู่อื่นดูสิ</p>
+            <h3 className="text-xl font-bold text-ink-light mb-2">ไม่มีรางวัลในหมวดหมู่นี้</h3>
+            <p className="text-ink-muted">ลองเลือกหมวดหมู่อื่นดูสิ</p>
           </div>
         )}
 
         {/* Summary Stats */}
         <div className="mt-12 grid grid-cols-1 md:grid-cols-4 gap-4">
-          <div className="bg-white rounded-xl p-6 text-center shadow-lg">
+          <div className="bg-white rounded-xl p-6 text-center border border-gray-100">
             <div className="text-3xl mb-2">🏆</div>
-            <div className="text-2xl font-bold text-gray-900">{userAchievements.length}</div>
-            <div className="text-sm text-gray-600">รางวัลที่ได้รับ</div>
+            <div className="text-2xl font-bold text-ink">{userAchievements.length}</div>
+            <div className="text-sm text-ink-muted">รางวัลที่ได้รับ</div>
           </div>
           
-          <div className="bg-white rounded-xl p-6 text-center shadow-lg">
+          <div className="bg-white rounded-lg p-6 text-center border border-gray-100">
             <div className="text-3xl mb-2">⭐</div>
-            <div className="text-2xl font-bold text-yellow-600">
+            <div className="text-2xl font-bold text-warning">
               {userAchievements.reduce((sum, ua) => {
-                const achievement = allAchievements.find(a => a.id === ua.achievement_id)
-                return sum + (achievement?.star_seeds_reward || 0)
+                return ua.is_earned ? sum + (ua.star_seeds_reward || 0) : sum
               }, 0)}
             </div>
-            <div className="text-sm text-gray-600">Seeds จากรางวัล</div>
+            <div className="text-sm text-ink-muted">AI Credits จากรางวัล</div>
           </div>
-          
-          <div className="bg-white rounded-xl p-6 text-center shadow-lg">
+
+          <div className="bg-white rounded-lg p-6 text-center border border-gray-100">
             <div className="text-3xl mb-2">📈</div>
-            <div className="text-2xl font-bold text-orange-600">
+            <div className="text-2xl font-bold text-ink-light">
               {userAchievements.reduce((sum, ua) => {
-                const achievement = allAchievements.find(a => a.id === ua.achievement_id)
-                return sum + (achievement?.xp_reward || 0)
+                return ua.is_earned ? sum + (ua.xp_reward || 0) : sum
               }, 0)}
             </div>
-            <div className="text-sm text-gray-600">XP จากรางวัล</div>
+            <div className="text-sm text-ink-muted">Impact Points จากรางวัล</div>
           </div>
-          
-          <div className="bg-white rounded-xl p-6 text-center shadow-lg">
+
+          <div className="bg-white rounded-lg p-6 text-center border border-gray-100">
             <div className="text-3xl mb-2">🎯</div>
-            <div className="text-2xl font-bold text-purple-600">
+            <div className="text-2xl font-bold text-brand-700">
               {Math.round((userAchievements.length / allAchievements.length) * 100)}%
             </div>
-            <div className="text-sm text-gray-600">ความสำเร็จ</div>
+            <div className="text-sm text-ink-muted">ความสำเร็จ</div>
           </div>
         </div>
       </div>

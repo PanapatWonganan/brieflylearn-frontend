@@ -83,15 +83,15 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white rounded-2xl shadow-xl p-8">
+      <div className="bg-white rounded-lg shadow-card p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">สมัครสมาชิก</h1>
           <p className="text-gray-600">เริ่มต้นการเรียนรู้กับเรา</p>
         </div>
 
         {errors.general && (
-          <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-700 text-sm">{errors.general}</p>
+          <div className="mb-6 p-4 bg-error-light border border-error/20 rounded-lg">
+            <p className="text-error-dark text-sm">{errors.general}</p>
           </div>
         )}
 
@@ -109,8 +109,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors ${
-                  errors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
+                  errors.fullName ? 'border-error/20 bg-error-light' : 'border-gray-300'
                 }`}
                 placeholder="กรุณากรอกชื่อ-นามสกุล"
                 required
@@ -118,7 +118,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               />
             </div>
             {errors.fullName && (
-              <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
+              <p className="mt-1 text-sm text-error">{errors.fullName}</p>
             )}
           </div>
 
@@ -135,8 +135,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors ${
-                  errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
+                  errors.email ? 'border-error/20 bg-error-light' : 'border-gray-300'
                 }`}
                 placeholder="กรุณากรอกอีเมล"
                 required
@@ -144,7 +144,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+              <p className="mt-1 text-sm text-error">{errors.email}</p>
             )}
           </div>
 
@@ -161,7 +161,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors"
                 placeholder="กรุณากรอกเบอร์โทรศัพท์"
                 disabled={loading}
               />
@@ -180,7 +180,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors appearance-none"
+                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors appearance-none"
                 disabled={loading}
               >
                 <option value="student">ผู้เรียน</option>
@@ -202,8 +202,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors ${
-                  errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
+                  errors.password ? 'border-error/20 bg-error-light' : 'border-gray-300'
                 }`}
                 placeholder="กรุณากรอกรหัสผ่าน (อย่างน้อย 8 ตัวอักษร)"
                 required
@@ -219,7 +219,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+              <p className="mt-1 text-sm text-error">{errors.password}</p>
             )}
           </div>
 
@@ -236,8 +236,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-colors ${
-                  errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'
+                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
+                  errors.confirmPassword ? 'border-error/20 bg-error-light' : 'border-gray-300'
                 }`}
                 placeholder="กรุณายืนยันรหัสผ่าน"
                 required
@@ -253,7 +253,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
+              <p className="mt-1 text-sm text-error">{errors.confirmPassword}</p>
             )}
           </div>
 
@@ -261,7 +261,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            className="w-full bg-brand-600 text-white py-3 px-4 rounded-lg hover:opacity-90 focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             {loading ? 'กำลังสมัครสมาชิก...' : 'สมัครสมาชิก'}
           </button>
@@ -274,7 +274,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               มีบัญชีแล้ว?{' '}
               <button
                 onClick={onSwitchToLogin}
-                className="text-orange-600 hover:text-orange-700 font-medium"
+                className="text-brand-600 hover:opacity-90 font-medium"
                 disabled={loading}
               >
                 เข้าสู่ระบบ

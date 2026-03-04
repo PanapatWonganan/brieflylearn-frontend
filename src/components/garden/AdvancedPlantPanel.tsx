@@ -139,12 +139,12 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="animate-pulse space-y-4">
+      <div className="bg-white rounded-lg shadow-card p-6">
+        <div className="space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
-              <div key={i} className="h-16 bg-gray-200 rounded-xl"></div>
+              <div key={i} className="h-16 bg-gray-200 rounded-lg"></div>
             ))}
           </div>
         </div>
@@ -154,7 +154,7 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
 
   if (!plantInfo) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <div className="bg-white rounded-lg shadow-card p-6 text-center">
         <div className="text-6xl mb-4">🌱</div>
         <h2 className="text-2xl font-bold text-gray-700 mb-2">ไม่พบข้อมูลพืช</h2>
         <p className="text-gray-500">กรุณาลองใหม่อีกครั้ง</p>
@@ -163,9 +163,9 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-card overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-white">
+      <div className="p-6 bg-brand-600 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Sparkles className="h-6 w-6" />
@@ -184,7 +184,7 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
           <div className="text-2xl">🌿</div>
           <div>
             <h3 className="text-lg font-bold">{plantInfo.plant_name}</h3>
-            <p className="text-emerald-100">
+            <p className="text-brand-100">
               {plantInfo.plant_type} • Stage {plantInfo.current_stage}
             </p>
           </div>
@@ -200,7 +200,7 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
               onClick={() => setSelectedTab(tab.id as any)}
               className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center space-x-2 transition-colors ${
                 selectedTab === tab.id
-                  ? 'border-b-2 border-emerald-500 text-emerald-600 bg-emerald-50'
+                  ? 'border-b-2 border-brand-600 text-brand-600 bg-brand-50'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
             >
@@ -244,9 +244,9 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className={`relative overflow-hidden rounded-xl border-2 p-4 transition-all ${
-                          canUse 
-                            ? 'border-emerald-200 bg-emerald-50 hover:border-emerald-300' 
+                        className={`relative overflow-hidden rounded-lg border-2 p-4 transition-all ${
+                          canUse
+                            ? 'border-brand-200 bg-brand-50 hover:border-brand-300'
                             : 'border-gray-200 bg-gray-50'
                         }`}
                       >
@@ -256,8 +256,8 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                               <span className="text-2xl">{ability.icon}</span>
                               <h4 className="font-bold text-gray-900">{ability.name}</h4>
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                canUse 
-                                  ? 'bg-green-100 text-green-700' 
+                                canUse
+                                  ? 'bg-brand-100 text-brand-700'
                                   : 'bg-gray-100 text-gray-600'
                               }`}>
                                 {canUse ? 'พร้อมใช้' : `คูลดาวน์ ${cooldownRemaining}h`}
@@ -266,13 +266,13 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                             <p className="text-gray-600 text-sm mb-3">{ability.description}</p>
                             
                             <div className="flex flex-wrap gap-2 text-xs">
-                              <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                              <span className="bg-sand-100 text-text-ink-light px-2 py-1 rounded-full">
                                 เพิ่ม {ability.boost_percentage}%
                               </span>
-                              <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                              <span className="bg-sand-100 text-brand-700 px-2 py-1 rounded-full">
                                 นาน {formatDuration(ability.duration_hours)}
                               </span>
-                              <span className="bg-orange-100 text-orange-700 px-2 py-1 rounded-full">
+                              <span className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full">
                                 คูลดาวน์ {formatCooldown(ability.cooldown_hours)}
                               </span>
                             </div>
@@ -284,7 +284,7 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                               disabled={!canUse || isActivating === ability.type}
                               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all flex items-center space-x-2 ${
                                 canUse
-                                  ? 'bg-emerald-500 hover:bg-emerald-600 text-white'
+                                  ? 'bg-brand-600 hover:bg-brand-700 text-white'
                                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                               }`}
                             >
@@ -340,14 +340,14 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: index * 0.1 }}
-                        className="border border-gray-200 rounded-xl p-6 hover:shadow-md transition-shadow"
+                        className="border border-gray-200 rounded-lg p-6 transition-shadow"
                       >
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
                             <div className="flex items-center space-x-3 mb-3">
-                              <Crown className="h-6 w-6 text-yellow-500" />
+                              <Crown className="h-6 w-6 text-sand-300" />
                               <h4 className="text-xl font-bold">{evolution.name}</h4>
-                              <span className={`px-3 py-1 rounded-full text-sm font-medium bg-gradient-to-r ${rarityColor} text-white`}>
+                              <span className={`px-3 py-1 rounded-full text-sm font-medium ${rarityColor} text-white`}>
                                 {rarity}
                               </span>
                             </div>
@@ -357,22 +357,22 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                               <h5 className="font-semibold text-gray-900 mb-2">ความต้องการ:</h5>
                               <div className="grid grid-cols-2 gap-2 text-sm">
                                 <div className="flex items-center space-x-2">
-                                  <Star className="h-4 w-4 text-yellow-500" />
+                                  <Star className="h-4 w-4 text-sand-300" />
                                   <span>Level {evolution.requirements.level}</span>
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                  <Sparkles className="h-4 w-4 text-blue-500" />
+                                  <Sparkles className="h-4 w-4 text-brand-600" />
                                   <span>{evolution.requirements.star_seeds} Seeds</span>
                                 </div>
                                 {evolution.requirements.days_mature && (
                                   <div className="flex items-center space-x-2">
-                                    <Clock className="h-4 w-4 text-green-500" />
+                                    <Clock className="h-4 w-4 text-brand-600" />
                                     <span>โตเต็มที่ {evolution.requirements.days_mature} วัน</span>
                                   </div>
                                 )}
                                 {evolution.requirements.friend_help && (
                                   <div className="flex items-center space-x-2">
-                                    <Users className="h-4 w-4 text-orange-500" />
+                                    <Users className="h-4 w-4 text-brand-600" />
                                     <span>ความช่วยเหลือ {evolution.requirements.friend_help} ครั้ง</span>
                                   </div>
                                 )}
@@ -384,7 +384,7 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                             <button
                               onClick={handleEvolvePlant}
                               disabled={isEvolving}
-                              className="bg-gradient-to-r from-purple-500 to-orange-500 hover:from-purple-600 hover:to-orange-600 disabled:from-gray-400 disabled:to-gray-500 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center space-x-2"
+                              className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-6 py-3 rounded-lg font-medium transition-all flex items-center space-x-2"
                             >
                               {isEvolving ? (
                                 <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -423,18 +423,18 @@ const AdvancedPlantPanel: React.FC<AdvancedPlantPanelProps> = ({
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="bg-purple-50 border border-purple-200 rounded-xl p-6">
-                    <h4 className="font-bold text-purple-900 mb-3">ศักยภาพการผสมพันธุ์</h4>
+                  <div className="bg-sand-100 border border-brand-200 rounded-lg p-6">
+                    <h4 className="font-bold text-brand-700 mb-3">ศักยภาพการผสมพันธุ์</h4>
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <span className="text-purple-700 font-medium">คะแนนผสมพันธุ์:</span>
+                        <span className="text-brand-700 font-medium">คะแนนผสมพันธุ์:</span>
                         <span className="ml-2 font-bold">{plantInfo.breeding_potential.breeding_value}/100</span>
                       </div>
                       <div>
-                        <span className="text-purple-700 font-medium">ลักษณะหายาก:</span>
+                        <span className="text-brand-700 font-medium">ลักษณะหายาก:</span>
                         <div className="ml-2">
                           {plantInfo.breeding_potential.rare_traits?.map((trait, index) => (
-                            <span key={index} className="inline-block bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs mr-1 mt-1">
+                            <span key={index} className="inline-block bg-brand-100 text-brand-700 px-2 py-1 rounded-full text-xs mr-1 mt-1">
                               {trait}
                             </span>
                           ))}

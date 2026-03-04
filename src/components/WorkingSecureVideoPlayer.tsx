@@ -386,7 +386,7 @@ export default function WorkingSecureVideoPlayer({
             onMouseEnter={() => console.log('🔴 WorkingSecureVideoPlayer: Mouse entered play button')}
           >
             <div 
-              className="bg-orange-600 bg-opacity-80 rounded-full p-8 hover:bg-opacity-90 transition-all hover:scale-110 shadow-lg"
+              className="bg-brand-600 bg-opacity-80 rounded-full p-8 hover:bg-opacity-90 transition-all hover:scale-110 shadow-lg"
               style={{ zIndex: 51 }}
             >
               <Play className="w-20 h-20 text-white fill-white" />
@@ -423,7 +423,7 @@ export default function WorkingSecureVideoPlayer({
           {/* Progress Bar */}
           <div className="w-full h-2 bg-gray-600 rounded-full mb-4">
             <div 
-              className="h-full bg-orange-500 rounded-full"
+              className="h-full bg-brand-500 rounded-full"
               style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
             />
           </div>
@@ -431,11 +431,11 @@ export default function WorkingSecureVideoPlayer({
           {/* Control Buttons */}
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center space-x-4">
-              <button onClick={togglePlay} className="hover:text-orange-400">
+              <button onClick={togglePlay} className="hover:text-brand-400">
                 {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
               </button>
               
-              <button onClick={toggleMute} className="hover:text-orange-400">
+              <button onClick={toggleMute} className="hover:text-brand-400">
                 {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
               

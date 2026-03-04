@@ -2,10 +2,10 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  AlertTriangle, 
-  CheckCircle, 
-  ArrowLeft, 
+import {
+  AlertTriangle,
+  CheckCircle,
+  ArrowLeft,
   ArrowRight,
   Shield,
   FileText,
@@ -17,33 +17,30 @@ import Link from 'next/link';
 
 interface AssessmentData {
   personalInfo: {
-    age: string;
-    weight: string;
-    height: string;
-    pregnancyWeek: string;
-    pregnancyType: string;
+    role: string;
+    industry: string;
+    companySize: string;
+    experience: string;
   };
-  medicalHistory: {
-    previousPregnancies: string;
-    complications: string[];
-    medications: string[];
-    conditions: string[];
-    doctorApproval: boolean;
-    lastCheckup: string;
+  aiExperience: {
+    currentTools: string[];
+    usageFrequency: string;
+    challenges: string[];
+    previousTraining: string;
   };
-  currentSymptoms: {
-    symptoms: string[];
-    severity: string;
-    activityLevel: string;
+  goals: {
+    objectives: string[];
+    timeline: string;
+    commitment: string;
   };
   consent: {
-    understoodRisks: boolean;
-    emergencyContact: string;
-    doctorContact: string;
+    understoodTerms: boolean;
+    contactEmail: string;
+    contactPhone: string;
   };
 }
 
-export default function HealthAssessment() {
+export default function AIReadinessAssessment() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.id;
@@ -51,66 +48,62 @@ export default function HealthAssessment() {
   const [currentStep, setCurrentStep] = useState(1);
   const [assessmentData, setAssessmentData] = useState<AssessmentData>({
     personalInfo: {
-      age: '',
-      weight: '',
-      height: '',
-      pregnancyWeek: '',
-      pregnancyType: ''
+      role: '',
+      industry: '',
+      companySize: '',
+      experience: ''
     },
-    medicalHistory: {
-      previousPregnancies: '',
-      complications: [],
-      medications: [],
-      conditions: [],
-      doctorApproval: false,
-      lastCheckup: ''
+    aiExperience: {
+      currentTools: [],
+      usageFrequency: '',
+      challenges: [],
+      previousTraining: ''
     },
-    currentSymptoms: {
-      symptoms: [],
-      severity: '',
-      activityLevel: ''
+    goals: {
+      objectives: [],
+      timeline: '',
+      commitment: ''
     },
     consent: {
-      understoodRisks: false,
-      emergencyContact: '',
-      doctorContact: ''
+      understoodTerms: false,
+      contactEmail: '',
+      contactPhone: ''
     }
   });
 
   const totalSteps = 4;
 
-  const complications = [
-    'ไม่มีปัญหาฮอร์โมน',
-    'อาการ PMS รุนแรง',
-    'ประจำเดือนไม่สม่ำเสมอ',
-    'ประจำเดือนมาเยอะหรือน้อยผิดปกติ',
-    'ปัญหาต่อมไทรอยด์',
-    'ความดันโลหิตสูง',
-    'เบาหวาน',
+  const aiTools = [
+    'ยังไม่เคยใช้เครื่องมือ AI',
+    'ChatGPT',
+    'Claude',
+    'Gemini',
+    'Midjourney / DALL-E',
+    'Copilot',
+    'Make / Zapier',
     'อื่นๆ'
   ];
 
-  const medications = [
-    'ไม่ได้ใช้ยาใดๆ',
-    'ยาคุมกำเนิด',
-    'ยาฮอร์โมนทดแทน',
-    'ยาต่อมไทรอยด์',
-    'ยาลดระดับน้ำตาล',
-    'ยารักษาความดันโลหิตสูง',
+  const challenges = [
+    'ไม่รู้จะเริ่มต้นอย่างไร',
+    'ใช้ AI แล้วได้ผลลัพธ์ไม่ตรงใจ',
+    'ไม่รู้จะนำ AI ไปใช้กับงานอย่างไร',
+    'กังวลเรื่องความปลอดภัยข้อมูล',
+    'ทีมงานไม่พร้อมรับ AI',
+    'งบประมาณจำกัด',
+    'ไม่มีเวลาเรียนรู้',
     'อื่นๆ'
   ];
 
-
-  const currentSymptoms = [
-    'ไม่มีอาการ',
-    'คลื่นไส้ อาเจียน',
-    'ปวดหลัง',
-    'ปวดเอว',
-    'บวมมือ เท้า',
-    'วิงเวียนศีรษะ',
-    'เหนื่อยง่าย',
-    'นอนไม่หลับ',
-    'ปวดข้อ กล้ามเนื้อ'
+  const objectives = [
+    'ใช้ AI เพิ่มประสิทธิภาพการทำงาน',
+    'สร้างธุรกิจใหม่ด้วย AI',
+    'นำ AI เข้าองค์กร',
+    'สร้างคอนเทนต์ด้วย AI',
+    'ทำ AI Automation ลดงานซ้ำซ้อน',
+    'วิเคราะห์ข้อมูลด้วย AI',
+    'พัฒนาทักษะ Prompt Engineering',
+    'เตรียมพร้อมสำหรับอนาคต'
   ];
 
   const handleInputChange = (section: keyof AssessmentData, field: string, value: string | boolean | string[]) => {
@@ -130,7 +123,7 @@ export default function HealthAssessment() {
       const newArray = currentArray.includes(value)
         ? currentArray.filter(item => item !== value)
         : [...currentArray, value];
-      
+
       return {
         ...prev,
         [section]: {
@@ -144,20 +137,18 @@ export default function HealthAssessment() {
   const validateCurrentStep = () => {
     switch (currentStep) {
       case 1:
-        return assessmentData.personalInfo.age && 
-               assessmentData.personalInfo.pregnancyWeek && 
-               assessmentData.personalInfo.pregnancyType;
+        return assessmentData.personalInfo.role &&
+               assessmentData.personalInfo.industry &&
+               assessmentData.personalInfo.experience;
       case 2:
-        return assessmentData.medicalHistory.previousPregnancies && 
-               assessmentData.medicalHistory.complications.length > 0 &&
-               assessmentData.medicalHistory.lastCheckup;
+        return assessmentData.aiExperience.currentTools.length > 0 &&
+               assessmentData.aiExperience.usageFrequency;
       case 3:
-        return assessmentData.currentSymptoms.symptoms.length > 0 && 
-               assessmentData.currentSymptoms.activityLevel;
+        return assessmentData.goals.objectives.length > 0 &&
+               assessmentData.goals.commitment;
       case 4:
-        return assessmentData.consent.understoodRisks && 
-               assessmentData.consent.emergencyContact && 
-               assessmentData.consent.doctorContact;
+        return assessmentData.consent.understoodTerms &&
+               assessmentData.consent.contactEmail;
       default:
         return false;
     }
@@ -176,39 +167,30 @@ export default function HealthAssessment() {
   };
 
   const handleSubmit = () => {
-    // Process assessment and navigate to pre-class checklist
-    router.push(`/courses/${courseId}/checklist`);
+    router.push(`/courses/${courseId}`);
   };
 
-  const getRiskLevel = () => {
-    let riskFactors = 0;
-    
-    // Check for high-risk factors
-    if (assessmentData.medicalHistory.complications.some(comp => 
-      ['อาการ PMS รุนแรง', 'ประจำเดือนไม่สม่ำเสมอ', 'ปัญหาต่อมไทรอยด์', 'ความดันโลหิตสูง', 'เบาหวาน'].includes(comp)
-    )) {
-      riskFactors += 2;
-    }
-    
-    if (assessmentData.medicalHistory.conditions.some(cond => 
-      ['โรคหัวใจ', 'โรคปอด/หอบหืด', 'โรคไต', 'โรคเบาหวาน'].includes(cond)
-    )) {
-      riskFactors += 2;
-    }
-    
-    if (assessmentData.currentSymptoms.symptoms.some(symptom => 
-      ['บวมมือ เท้า', 'วิงเวียนศีรษะ', 'ปวดข้อ กล้ามเนื้อ'].includes(symptom)
-    )) {
-      riskFactors += 1;
-    }
-    
-    if (parseInt(assessmentData.personalInfo.pregnancyWeek) < 12) {
-      riskFactors += 1;
-    }
-    
-    if (riskFactors >= 3) return 'high';
-    if (riskFactors >= 1) return 'medium';
-    return 'low';
+  const getReadinessLevel = () => {
+    let score = 0;
+
+    // AI experience
+    if (assessmentData.aiExperience.currentTools.length > 3) score += 2;
+    else if (assessmentData.aiExperience.currentTools.length > 1) score += 1;
+
+    // Usage frequency
+    if (assessmentData.aiExperience.usageFrequency === 'daily') score += 2;
+    else if (assessmentData.aiExperience.usageFrequency === 'weekly') score += 1;
+
+    // Previous training
+    if (assessmentData.aiExperience.previousTraining === 'certified') score += 2;
+    else if (assessmentData.aiExperience.previousTraining === 'self-taught') score += 1;
+
+    // Goals clarity
+    if (assessmentData.goals.objectives.length > 3) score += 1;
+
+    if (score >= 5) return 'advanced';
+    if (score >= 2) return 'intermediate';
+    return 'beginner';
   };
 
   const renderStepContent = () => {
@@ -223,83 +205,92 @@ export default function HealthAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <User className="h-8 w-8 text-orange-600" />
+              <div className="bg-brand-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <User className="h-8 w-8 text-brand-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">ข้อมูลส่วนบุคคล</h2>
-              <p className="text-gray-600">เพื่อให้เราเข้าใจสถานะของคุณมากขึ้น</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">ข้อมูลทั่วไป</h2>
+              <p className="text-gray-600">เพื่อให้เราแนะนำเส้นทางการเรียน AI ที่เหมาะกับคุณ</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  อายุ (ปี) *
-                </label>
-                <input
-                  type="number"
-                  value={assessmentData.personalInfo.age}
-                  onChange={(e) => handleInputChange('personalInfo', 'age', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                  placeholder="25"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  อายุครรภ์ (สัปดาห์) *
-                </label>
-                <input
-                  type="number"
-                  value={assessmentData.personalInfo.pregnancyWeek}
-                  onChange={(e) => handleInputChange('personalInfo', 'pregnancyWeek', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                  placeholder="20"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  น้ำหนัก (กิโลกรัม)
-                </label>
-                <input
-                  type="number"
-                  value={assessmentData.personalInfo.weight}
-                  onChange={(e) => handleInputChange('personalInfo', 'weight', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                  placeholder="60"
-                />
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  ส่วนสูง (เซนติเมตร)
-                </label>
-                <input
-                  type="number"
-                  value={assessmentData.personalInfo.height}
-                  onChange={(e) => handleInputChange('personalInfo', 'height', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                  placeholder="160"
-                />
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                บทบาทของคุณ *
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {['เจ้าของธุรกิจ / ผู้ประกอบการ', 'ผู้บริหาร / Manager', 'พนักงานบริษัท', 'ฟรีแลนซ์ / ครีเอเตอร์'].map((role) => (
+                  <label key={role} className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                    <input
+                      type="radio"
+                      name="role"
+                      value={role}
+                      checked={assessmentData.personalInfo.role === role}
+                      onChange={(e) => handleInputChange('personalInfo', 'role', e.target.value)}
+                      className="h-4 w-4 text-brand-600"
+                    />
+                    <span className="ml-3 text-gray-700">{role}</span>
+                  </label>
+                ))}
               </div>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                สถานะสุขภาพฮอร์โมนปัจจุบัน *
+                อุตสาหกรรม / สายงาน *
               </label>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {['สุขภาพดี', 'มีอาการ PMS เล็กน้อย', 'มีปัญหาฮอร์โมนปานกลาง', 'มีปัญหาฮอร์โมนรุนแรง'].map((type) => (
-                  <label key={type} className="flex items-center p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-orange-50 transition-colors">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {['การตลาด / โฆษณา', 'เทคโนโลยี / IT', 'การเงิน / บัญชี', 'ค้าปลีก / E-Commerce', 'การศึกษา', 'อื่นๆ'].map((industry) => (
+                  <label key={industry} className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
                     <input
                       type="radio"
-                      name="pregnancyType"
-                      value={type}
-                      checked={assessmentData.personalInfo.pregnancyType === type}
-                      onChange={(e) => handleInputChange('personalInfo', 'pregnancyType', e.target.value)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+                      name="industry"
+                      value={industry}
+                      checked={assessmentData.personalInfo.industry === industry}
+                      onChange={(e) => handleInputChange('personalInfo', 'industry', e.target.value)}
+                      className="h-4 w-4 text-brand-600"
                     />
-                    <span className="ml-3 text-gray-700">{type}</span>
+                    <span className="ml-2 text-sm text-gray-700">{industry}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                ประสบการณ์ทำงาน *
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {['0-2 ปี', '3-5 ปี', '6-10 ปี', '10+ ปี'].map((exp) => (
+                  <label key={exp} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                    <input
+                      type="radio"
+                      name="experience"
+                      value={exp}
+                      checked={assessmentData.personalInfo.experience === exp}
+                      onChange={(e) => handleInputChange('personalInfo', 'experience', e.target.value)}
+                      className="h-4 w-4 text-brand-600 mr-2"
+                    />
+                    <span className="text-gray-700">{exp}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                ขนาดองค์กร
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {['1 คน (Solo)', '2-10 คน', '11-50 คน', '50+ คน'].map((size) => (
+                  <label key={size} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                    <input
+                      type="radio"
+                      name="companySize"
+                      value={size}
+                      checked={assessmentData.personalInfo.companySize === size}
+                      onChange={(e) => handleInputChange('personalInfo', 'companySize', e.target.value)}
+                      className="h-4 w-4 text-brand-600 mr-2"
+                    />
+                    <span className="text-sm text-gray-700">{size}</span>
                   </label>
                 ))}
               </div>
@@ -317,29 +308,57 @@ export default function HealthAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <FileText className="h-8 w-8 text-orange-600" />
+              <div className="bg-sand-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <FileText className="h-8 w-8 text-brand-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">ประวัติสุขภาพ</h2>
-              <p className="text-gray-600">ข้อมูลทางการแพทย์ที่เกี่ยวข้อง</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">ประสบการณ์ด้าน AI</h2>
+              <p className="text-gray-600">ช่วยให้เราเข้าใจระดับความรู้ AI ของคุณ</p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                ความยาววงจรประจำเดือน (วัน) *
+                เครื่องมือ AI ที่คุณเคยใช้ *
+              </label>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                {aiTools.map((tool) => (
+                  <label key={tool} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                    assessmentData.aiExperience.currentTools.includes(tool)
+                      ? 'border-brand-600 bg-brand-50'
+                      : 'border-gray-200 hover:bg-gray-50'
+                  }`}>
+                    <input
+                      type="checkbox"
+                      checked={assessmentData.aiExperience.currentTools.includes(tool)}
+                      onChange={() => handleArrayToggle('aiExperience', 'currentTools', tool)}
+                      className="h-4 w-4 text-brand-600"
+                    />
+                    <span className="ml-3 text-sm text-gray-700">{tool}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                ความถี่ในการใช้ AI *
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                {['21-24', '25-28', '29-32', '33+ หรือไม่สม่ำเสมอ'].map((num) => (
-                  <label key={num} className="flex items-center justify-center p-3 border border-gray-200 rounded-xl cursor-pointer hover:bg-orange-50 transition-colors">
+                {[
+                  { value: 'never', label: 'ยังไม่เคยใช้' },
+                  { value: 'rarely', label: 'นานๆ ครั้ง' },
+                  { value: 'weekly', label: 'ทุกสัปดาห์' },
+                  { value: 'daily', label: 'ทุกวัน' }
+                ].map((freq) => (
+                  <label key={freq.value} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
                     <input
                       type="radio"
-                      name="previousPregnancies"
-                      value={num}
-                      checked={assessmentData.medicalHistory.previousPregnancies === num}
-                      onChange={(e) => handleInputChange('medicalHistory', 'previousPregnancies', e.target.value)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 mr-2"
+                      name="usageFrequency"
+                      value={freq.value}
+                      checked={assessmentData.aiExperience.usageFrequency === freq.value}
+                      onChange={(e) => handleInputChange('aiExperience', 'usageFrequency', e.target.value)}
+                      className="h-4 w-4 text-brand-600 mr-2"
                     />
-                    <span className="text-gray-700">{num} วัน</span>
+                    <span className="text-sm text-gray-700">{freq.label}</span>
                   </label>
                 ))}
               </div>
@@ -347,22 +366,22 @@ export default function HealthAssessment() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                ภาวะแทรกซ้อนที่เคยเกิดขึ้น *
+                ปัญหาที่เจอในการใช้ AI
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {complications.map((comp) => (
-                  <label key={comp} className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${
-                    assessmentData.medicalHistory.complications.includes(comp)
-                      ? 'border-orange-500 bg-orange-50'
+                {challenges.map((challenge) => (
+                  <label key={challenge} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                    assessmentData.aiExperience.challenges.includes(challenge)
+                      ? 'border-brand-600 bg-brand-50'
                       : 'border-gray-200 hover:bg-gray-50'
                   }`}>
                     <input
                       type="checkbox"
-                      checked={assessmentData.medicalHistory.complications.includes(comp)}
-                      onChange={() => handleArrayToggle('medicalHistory', 'complications', comp)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+                      checked={assessmentData.aiExperience.challenges.includes(challenge)}
+                      onChange={() => handleArrayToggle('aiExperience', 'challenges', challenge)}
+                      className="h-4 w-4 text-brand-600"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{comp}</span>
+                    <span className="ml-3 text-sm text-gray-700">{challenge}</span>
                   </label>
                 ))}
               </div>
@@ -370,37 +389,28 @@ export default function HealthAssessment() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                ยาที่ใช้ประจำ
+                การเรียนรู้ AI ที่ผ่านมา
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {medications.map((med) => (
-                  <label key={med} className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${
-                    assessmentData.medicalHistory.medications.includes(med)
-                      ? 'border-orange-500 bg-orange-50'
-                      : 'border-gray-200 hover:bg-gray-50'
-                  }`}>
+                {[
+                  { value: 'none', label: 'ยังไม่เคยเรียน' },
+                  { value: 'self-taught', label: 'ศึกษาด้วยตัวเอง (YouTube, บทความ)' },
+                  { value: 'workshop', label: 'เคยเข้า Workshop / สัมมนา' },
+                  { value: 'certified', label: 'เรียนคอร์สออนไลน์ / มี Certificate' }
+                ].map((training) => (
+                  <label key={training.value} className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
                     <input
-                      type="checkbox"
-                      checked={assessmentData.medicalHistory.medications.includes(med)}
-                      onChange={() => handleArrayToggle('medicalHistory', 'medications', med)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+                      type="radio"
+                      name="previousTraining"
+                      value={training.value}
+                      checked={assessmentData.aiExperience.previousTraining === training.value}
+                      onChange={(e) => handleInputChange('aiExperience', 'previousTraining', e.target.value)}
+                      className="h-4 w-4 text-brand-600"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{med}</span>
+                    <span className="ml-3 text-sm text-gray-700">{training.label}</span>
                   </label>
                 ))}
               </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                ครั้งสุดท้ายที่ไปตรวจครรภ์ *
-              </label>
-              <input
-                type="date"
-                value={assessmentData.medicalHistory.lastCheckup}
-                onChange={(e) => handleInputChange('medicalHistory', 'lastCheckup', e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-              />
             </div>
           </motion.div>
         );
@@ -415,31 +425,31 @@ export default function HealthAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Activity className="h-8 w-8 text-green-600" />
+              <div className="bg-brand-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Activity className="h-8 w-8 text-brand-600" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">อาการปัจจุบัน</h2>
-              <p className="text-gray-600">สถานะสุขภาพและความพร้อมในการออกกำลังกาย</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">เป้าหมายการเรียนรู้</h2>
+              <p className="text-gray-600">บอกเราว่าคุณอยากทำอะไรกับ AI</p>
             </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                อาการที่คุณมีในปัจจุบัน *
+                สิ่งที่คุณอยากทำได้ด้วย AI *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {currentSymptoms.map((symptom) => (
-                  <label key={symptom} className={`flex items-center p-3 border rounded-xl cursor-pointer transition-colors ${
-                    assessmentData.currentSymptoms.symptoms.includes(symptom)
-                      ? 'border-orange-500 bg-orange-50'
+                {objectives.map((objective) => (
+                  <label key={objective} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                    assessmentData.goals.objectives.includes(objective)
+                      ? 'border-brand-600 bg-brand-50'
                       : 'border-gray-200 hover:bg-gray-50'
                   }`}>
                     <input
                       type="checkbox"
-                      checked={assessmentData.currentSymptoms.symptoms.includes(symptom)}
-                      onChange={() => handleArrayToggle('currentSymptoms', 'symptoms', symptom)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500"
+                      checked={assessmentData.goals.objectives.includes(objective)}
+                      onChange={() => handleArrayToggle('goals', 'objectives', objective)}
+                      className="h-4 w-4 text-brand-600"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{symptom}</span>
+                    <span className="ml-3 text-sm text-gray-700">{objective}</span>
                   </label>
                 ))}
               </div>
@@ -447,23 +457,44 @@ export default function HealthAssessment() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-3">
-                ระดับกิจกรรมการออกกำลังกายปัจจุบัน *
+                ระยะเวลาที่คุณตั้งเป้าจะนำ AI ไปใช้จริง
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                {['ภายใน 1 เดือน', '1-3 เดือน', '3-6 เดือน', '6+ เดือน'].map((timeline) => (
+                  <label key={timeline} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                    <input
+                      type="radio"
+                      name="timeline"
+                      value={timeline}
+                      checked={assessmentData.goals.timeline === timeline}
+                      onChange={(e) => handleInputChange('goals', 'timeline', e.target.value)}
+                      className="h-4 w-4 text-brand-600 mr-2"
+                    />
+                    <span className="text-sm text-gray-700">{timeline}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                เวลาที่คุณสามารถจัดสรรให้กับการเรียน *
               </label>
               <div className="space-y-3">
                 {[
-                  { value: 'none', label: 'ไม่เคยออกกำลังกาย', desc: 'นั่งทำงานเป็นส่วนใหญ่' },
-                  { value: 'light', label: 'ออกกำลังกายเบาๆ', desc: 'เดินเล่น โยคะ 1-2 ครั้ง/สัปดาห์' },
-                  { value: 'moderate', label: 'ออกกำลังกายปานกลาง', desc: 'วิ่ง ว่ายน้ำ 3-4 ครั้ง/สัปดาห์' },
-                  { value: 'high', label: 'ออกกำลังกายหนัก', desc: 'ฟิตเนส กีฬาแข่งขัน 5+ ครั้ง/สัปดาห์' }
+                  { value: 'minimal', label: '30 นาที/สัปดาห์', desc: 'เรียนตามสะดวก ทีละนิด' },
+                  { value: 'moderate', label: '1-3 ชั่วโมง/สัปดาห์', desc: 'เรียนสม่ำเสมอ ลงมือทำตาม' },
+                  { value: 'dedicated', label: '3-5 ชั่วโมง/สัปดาห์', desc: 'เรียนจริงจัง ทำโปรเจกต์จริง' },
+                  { value: 'intensive', label: '5+ ชั่วโมง/สัปดาห์', desc: 'เร่งเรียนเต็มที่ ต้องการผลลัพธ์เร็ว' }
                 ].map((level) => (
-                  <label key={level.value} className="flex items-start p-4 border border-gray-200 rounded-xl cursor-pointer hover:bg-orange-50 transition-colors">
+                  <label key={level.value} className="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
                     <input
                       type="radio"
-                      name="activityLevel"
+                      name="commitment"
                       value={level.value}
-                      checked={assessmentData.currentSymptoms.activityLevel === level.value}
-                      onChange={(e) => handleInputChange('currentSymptoms', 'activityLevel', e.target.value)}
-                      className="h-4 w-4 text-orange-600 focus:ring-orange-500 mt-1"
+                      checked={assessmentData.goals.commitment === level.value}
+                      onChange={(e) => handleInputChange('goals', 'commitment', e.target.value)}
+                      className="h-4 w-4 text-brand-600 mt-1"
                     />
                     <div className="ml-3">
                       <div className="font-medium text-gray-900">{level.label}</div>
@@ -477,7 +508,7 @@ export default function HealthAssessment() {
         );
 
       case 4:
-        const riskLevel = getRiskLevel();
+        const readinessLevel = getReadinessLevel();
         return (
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -488,106 +519,100 @@ export default function HealthAssessment() {
           >
             <div className="text-center mb-8">
               <div className={`rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 ${
-                riskLevel === 'high' ? 'bg-red-100' : riskLevel === 'medium' ? 'bg-yellow-100' : 'bg-green-100'
+                readinessLevel === 'advanced' ? 'bg-brand-50' : readinessLevel === 'intermediate' ? 'bg-sand-100' : 'bg-brand-50'
               }`}>
                 <Shield className={`h-8 w-8 ${
-                  riskLevel === 'high' ? 'text-red-600' : riskLevel === 'medium' ? 'text-yellow-600' : 'text-green-600'
+                  readinessLevel === 'advanced' ? 'text-brand-600' : readinessLevel === 'intermediate' ? 'text-brand-600' : 'text-brand-600'
                 }`} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">การประเมินความเสี่ยง</h2>
-              <p className="text-gray-600">ผลการประเมินและข้อตกลงในการออกกำลังกาย</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">ผลประเมิน AI Readiness</h2>
+              <p className="text-gray-600">ระดับความพร้อมด้าน AI ของคุณ</p>
             </div>
 
-            {/* Risk Assessment Result */}
-            <div className={`p-6 rounded-2xl border-2 ${
-              riskLevel === 'high' ? 'bg-red-50 border-red-200' : 
-              riskLevel === 'medium' ? 'bg-yellow-50 border-yellow-200' : 
-              'bg-green-50 border-green-200'
+            {/* Readiness Assessment Result */}
+            <div className={`p-6 rounded-lg border-2 ${
+              readinessLevel === 'advanced' ? 'bg-brand-50 border-brand-200' :
+              readinessLevel === 'intermediate' ? 'bg-sand-100 border-sand-300' :
+              'bg-brand-50 border-brand-200'
             }`}>
               <div className="flex items-center space-x-3 mb-4">
                 <Shield className={`h-6 w-6 ${
-                  riskLevel === 'high' ? 'text-red-600' : riskLevel === 'medium' ? 'text-yellow-600' : 'text-green-600'
+                  readinessLevel === 'advanced' ? 'text-brand-600' : readinessLevel === 'intermediate' ? 'text-brand-600' : 'text-brand-600'
                 }`} />
                 <h3 className={`text-lg font-semibold ${
-                  riskLevel === 'high' ? 'text-red-800' : riskLevel === 'medium' ? 'text-yellow-800' : 'text-green-800'
+                  readinessLevel === 'advanced' ? 'text-brand-700' : readinessLevel === 'intermediate' ? 'text-brand-700' : 'text-brand-700'
                 }`}>
-                  ระดับความเสี่ยง: {riskLevel === 'high' ? 'สูง' : riskLevel === 'medium' ? 'ปานกลาง' : 'ต่ำ'}
+                  ระดับ: {readinessLevel === 'advanced' ? 'ขั้นสูง (Advanced)' : readinessLevel === 'intermediate' ? 'ระดับกลาง (Intermediate)' : 'เริ่มต้น (Beginner)'}
                 </h3>
               </div>
-              
-              {riskLevel === 'high' && (
-                <div className="bg-red-100 border border-red-300 rounded-xl p-4 mb-4">
-                  <div className="flex items-start space-x-2">
-                    <AlertTriangle className="h-5 w-5 text-red-600 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-red-800 font-medium">ต้องได้รับอนุมัติจากแพทย์ก่อน</p>
-                      <p className="text-red-700 text-sm mt-1">
-                        จากข้อมูลที่คุณให้มา เราแนะนำให้ปรึกษาแพทย์เฉพาะทางด้านฮอร์โมนของคุณก่อนเริ่มออกกำลังกาย
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              {riskLevel === 'medium' && (
-                <div className="bg-yellow-100 border border-yellow-300 rounded-xl p-4 mb-4">
-                  <p className="text-yellow-800">
-                    คุณสามารถเริ่มออกกำลังกายได้ แต่ควรระมัดระวังเป็นพิเศษและหยุดทันทีหากมีอาการผิดปกติ
+
+              {readinessLevel === 'beginner' && (
+                <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 mb-4">
+                  <p className="text-brand-700">
+                    คอร์สนี้เหมาะกับคุณมาก! เราจะพาคุณเริ่มต้นจากพื้นฐาน AI ทีละขั้นตอน พร้อมตัวอย่างจริงที่นำไปใช้ได้ทันที
                   </p>
                 </div>
               )}
-              
-              {riskLevel === 'low' && (
-                <div className="bg-green-100 border border-green-300 rounded-xl p-4 mb-4">
-                  <p className="text-green-800">
-                    คุณสามารถเริ่มออกกำลังกายได้อย่างปลอดภัย โปรดปฏิบัติตามคำแนะนำในบทเรียน
+
+              {readinessLevel === 'intermediate' && (
+                <div className="bg-sand-100 border border-sand-300 rounded-lg p-4 mb-4">
+                  <p className="text-brand-700">
+                    คุณมีพื้นฐาน AI ที่ดี! คอร์สนี้จะช่วยยกระดับทักษะของคุณ และเรียนรู้เทคนิคขั้นสูงเพื่อนำ AI ไปใช้ได้อย่างมีประสิทธิภาพมากขึ้น
+                  </p>
+                </div>
+              )}
+
+              {readinessLevel === 'advanced' && (
+                <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 mb-4">
+                  <p className="text-brand-700">
+                    คุณมีประสบการณ์ AI มาก! คอร์สนี้จะช่วยเติมเต็มในส่วนที่ยังขาด พร้อม Framework และ Case Study ที่นำไปประยุกต์ใช้ในระดับองค์กร
                   </p>
                 </div>
               )}
             </div>
 
-            {/* Consent Form */}
+            {/* Contact & Consent Form */}
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  เบอร์โทรศัพท์ฉุกเฉิน *
+                  อีเมลติดต่อ *
+                </label>
+                <input
+                  type="email"
+                  value={assessmentData.consent.contactEmail}
+                  onChange={(e) => handleInputChange('consent', 'contactEmail', e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none"
+                  placeholder="your@email.com"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  เบอร์โทรศัพท์
                 </label>
                 <input
                   type="tel"
-                  value={assessmentData.consent.emergencyContact}
-                  onChange={(e) => handleInputChange('consent', 'emergencyContact', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
+                  value={assessmentData.consent.contactPhone}
+                  onChange={(e) => handleInputChange('consent', 'contactPhone', e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none"
                   placeholder="08X-XXX-XXXX"
                 />
               </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  เบอร์โทรศัพท์แพทย์ผู้ดูแล *
-                </label>
-                <input
-                  type="tel"
-                  value={assessmentData.consent.doctorContact}
-                  onChange={(e) => handleInputChange('consent', 'doctorContact', e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200"
-                  placeholder="02-XXX-XXXX"
-                />
-              </div>
-
-              <label className="flex items-start p-4 border border-gray-200 rounded-xl cursor-pointer">
+              <label className="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer">
                 <input
                   type="checkbox"
-                  checked={assessmentData.consent.understoodRisks}
-                  onChange={(e) => handleInputChange('consent', 'understoodRisks', e.target.checked)}
-                  className="h-4 w-4 text-orange-600 focus:ring-orange-500 mt-1"
+                  checked={assessmentData.consent.understoodTerms}
+                  onChange={(e) => handleInputChange('consent', 'understoodTerms', e.target.checked)}
+                  className="h-4 w-4 text-brand-600 mt-1"
                 />
                 <div className="ml-3 text-sm text-gray-700">
                   <span className="font-medium">ฉันรับทราบและยินยอม *</span>
                   <ul className="mt-2 space-y-1 text-xs text-gray-600">
-                    <li>• ฉันเข้าใจความเสี่ยงที่อาจเกิดขึ้นจากการออกกำลังกายเพื่อปรับสมดุลฮอร์โมน</li>
-                    <li>• ฉันจะหยุดออกกำลังกายทันทีหากมีอาการผิดปกติ</li>
-                    <li>• ฉันจะปรึกษาแพทย์หากมีข้อสงสัยเกี่ยวกับสุขภาพฮอร์โมน</li>
-                    <li>• ข้อมูลที่ให้มาเป็นความจริงและถูกต้อง</li>
+                    <li>- ฉันยินยอมให้ BrieflyLearn ใช้ข้อมูลนี้เพื่อปรับปรุงเนื้อหาให้เหมาะกับฉัน</li>
+                    <li>- ฉันเข้าใจว่าผลลัพธ์จากการเรียนอาจแตกต่างกันตามบุคคล</li>
+                    <li>- ข้อมูลที่ให้มาเป็นความจริงและถูกต้อง</li>
+                    <li>- ฉันยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</li>
                   </ul>
                 </div>
               </label>
@@ -601,40 +626,40 @@ export default function HealthAssessment() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50">
-      
+    <div className="min-h-screen bg-sand-50">
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-orange-100">
+      <div className="bg-white shadow-sm border-b border-sand-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <Link 
+            <Link
               href={`/courses/${courseId}`}
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>กลับไปหน้าคอร์ส</span>
             </Link>
-            
+
             <div className="text-center">
-              <h1 className="text-xl font-bold text-gray-900">การประเมินสุขภาพ</h1>
+              <h1 className="text-xl font-bold text-gray-900">แบบประเมิน AI Readiness</h1>
               <p className="text-sm text-gray-600">ขั้นตอนที่ {currentStep} จาก {totalSteps}</p>
             </div>
-            
-            <div className="w-24" /> {/* Spacer for alignment */}
+
+            <div className="w-24" />
           </div>
         </div>
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-white border-b border-orange-100">
+      <div className="bg-white border-b border-sand-300">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-1 py-4">
             {Array.from({ length: totalSteps }, (_, index) => (
-              <div 
+              <div
                 key={index}
                 className={`flex-1 h-2 rounded-full transition-colors duration-300 ${
-                  index < currentStep ? 'bg-orange-500' : 
-                  index === currentStep - 1 ? 'bg-orange-300' : 'bg-gray-200'
+                  index < currentStep ? 'bg-brand-500' :
+                  index === currentStep - 1 ? 'bg-brand-300' : 'bg-gray-200'
                 }`}
               />
             ))}
@@ -644,17 +669,17 @@ export default function HealthAssessment() {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-2xl shadow-sm border border-orange-100 p-8">
+        <div className="bg-white rounded-lg shadow-sm border border-sand-300 p-8">
           <AnimatePresence mode="wait">
             {renderStepContent()}
           </AnimatePresence>
-          
+
           {/* Navigation Buttons */}
           <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-colors ${
+              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                 currentStep === 1
                   ? 'text-gray-400 cursor-not-allowed'
                   : 'text-gray-700 border border-gray-300 hover:bg-gray-50'
@@ -663,14 +688,14 @@ export default function HealthAssessment() {
               <ArrowLeft className="h-4 w-4" />
               <span>ก่อนหน้า</span>
             </button>
-            
+
             {currentStep < totalSteps ? (
               <button
                 onClick={nextStep}
                 disabled={!validateCurrentStep()}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-xl font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
                   validateCurrentStep()
-                    ? 'bg-orange-600 text-white hover:bg-orange-700'
+                    ? 'bg-brand-600 text-white hover:opacity-90'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
@@ -681,14 +706,14 @@ export default function HealthAssessment() {
               <button
                 onClick={handleSubmit}
                 disabled={!validateCurrentStep()}
-                className={`flex items-center space-x-2 px-8 py-3 rounded-xl font-semibold transition-colors ${
+                className={`flex items-center space-x-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
                   validateCurrentStep()
-                    ? 'bg-gradient-to-r from-orange-600 to-orange-700 text-white hover:from-orange-700 hover:to-orange-800'
+                    ? 'bg-brand-600 text-white hover:opacity-90'
                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                 }`}
               >
                 <CheckCircle className="h-5 w-5" />
-                <span>เสร็จสิ้นการประเมิน</span>
+                <span>เสร็จสิ้น เริ่มเรียนเลย</span>
               </button>
             )}
           </div>
@@ -696,4 +721,4 @@ export default function HealthAssessment() {
       </div>
     </div>
   );
-} 
+}

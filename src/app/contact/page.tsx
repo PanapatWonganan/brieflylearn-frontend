@@ -1,24 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { 
-  GraduationCap, 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Clock, 
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Clock,
   MessageCircle,
   Send,
   CheckCircle,
-  Facebook,
-  Instagram,
-  Youtube,
   Users,
   BookOpen,
   Award,
-  Target,
-  HeadphonesIcon
+  Target
 } from 'lucide-react';
 
 export default function Contact() {
@@ -51,16 +45,16 @@ export default function Contact() {
     {
       icon: Mail,
       title: "อีเมล",
-      value: "info@exammaster.com",
+      value: "hello@brieflylearn.com",
       description: "ตอบกลับภายใน 24 ชั่วโมง",
-      action: "mailto:info@exammaster.com"
+      action: "mailto:hello@brieflylearn.com"
     },
     {
       icon: Phone,
       title: "โทรศัพท์",
-      value: "02-987-6543",
+      value: "02-024-9955",
       description: "จันทร์-ศุกร์ 9:00-18:00",
-      action: "tel:029876543"
+      action: "tel:0202499055"
     },
     {
       icon: MessageCircle,
@@ -73,7 +67,7 @@ export default function Contact() {
       icon: MapPin,
       title: "ที่ตั้ง",
       value: "กรุงเทพมหานคร",
-      description: "เลขที่ 123 ถนนราชดำเนิน เขตพระนคร",
+      description: "อาคารสยามพิวรรธน์ ชั้น 12 ถนนพระราม 1 เขตปทุมวัน",
       action: "#"
     }
   ];
@@ -81,26 +75,26 @@ export default function Contact() {
   const supportCategories = [
     {
       icon: BookOpen,
-      title: "คำปรึกษาการเลือกคอร์ส",
-      description: "แนะนำคอร์สที่เหมาะสมกับเป้าหมายและระดับการศึกษา",
+      title: "คำปรึกษาเลือกเส้นทาง AI",
+      description: "แนะนำคอร์ส AI ที่เหมาะกับเป้าหมาย ทั้ง Entrepreneur Track และ Leader Track",
       available: "ทุกวัน 8:00-20:00"
     },
     {
       icon: Target,
-      title: "เทคนิคการสอบ",
-      description: "วิธีการทำข้อสอบและกลยุทธ์การสอบแต่ละภาค",
+      title: "วาง AI Roadmap",
+      description: "วางแผนเส้นทางเรียนรู้ AI ตั้งแต่พื้นฐานจนถึงนำไปใช้จริงในธุรกิจหรือองค์กร",
       available: "จันทร์-ศุกร์ 9:00-18:00"
     },
     {
       icon: Award,
-      title: "การเตรียมตัวสอบ",
-      description: "วางแผนการเรียนและตารางเวลาคอร์สเรียน",
-      available: "จันทร์,พุธ,ศุกร์ 10:00-16:00"
+      title: "ปัญหาด้านเทคนิค",
+      description: "แก้ปัญหาการใช้งานแพลตฟอร์ม การเข้าสู่ระบบ และการชำระเงิน",
+      available: "จันทร์-เสาร์ 9:00-18:00"
     },
     {
       icon: Users,
-      title: "ชุมชนผู้เรียน",
-      description: "เข้าร่วมกลุ่มสนับสนุนและแชร์ประสบการณ์การเรียน",
+      title: "ชุมชนคนใช้ AI",
+      description: "เข้าร่วมชุมชนผู้เรียน AI เพื่อแลกเปลี่ยนไอเดียและประสบการณ์",
       available: "ตลอด 24 ชั่วโมง"
     }
   ];
@@ -115,15 +109,15 @@ export default function Contact() {
       ]
     },
     {
-      category: "การสอบ",
+      category: "การเรียนรู้",
       questions: [
-        "วิธีสมัครพัฒนาตัวเองอย่างไร?",
-        "เทคนิคการทำข้อสอบแต่ละภาคคืออะไร?",
-        "ถ้าสอบไม่ผ่านควรทำอย่างไร?"
+        "ใช้เวลาเรียนแต่ละคอร์สนานเท่าไร?",
+        "เรียนจบแล้วจะได้ใบรับรองหรือไม่?",
+        "สามารถเรียนซ้ำได้กี่ครั้ง?"
       ]
     },
     {
-      category: "เทคนิค",
+      category: "การใช้งาน",
       questions: [
         "ใช้งานผ่านมือถือได้หรือไม่?",
         "ดาวน์โหลดเนื้อหาเก็บไว้ได้หรือไม่?",
@@ -133,91 +127,74 @@ export default function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-slate-50">
-      
+    <div className="min-h-screen">
+
       {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-white/10"></div>
-        <div className="absolute top-20 right-20 w-32 h-32 bg-white/10 rounded-full blur-xl"></div>
-        <div className="absolute bottom-20 left-20 w-40 h-40 bg-white/5 rounded-full blur-2xl"></div>
-        
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
-            <div className="flex items-center justify-center space-x-2 text-blue-100 mb-6">
-              <MessageCircle className="h-8 w-8" />
-              <span className="text-2xl font-semibold">ติดต่อเรา</span>
+      <section className="bg-white border-b border-gray-100 py-20">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="text-center">
+            <div className="flex items-center justify-center space-x-2 text-ink-muted mb-4">
+              <MessageCircle className="h-6 w-6" />
+              <span className="text-sm uppercase tracking-wider font-medium">ติดต่อเรา</span>
             </div>
-            
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
+
+            <h1 className="text-4xl sm:text-5xl font-bold font-serif text-ink mb-4">
               ให้เราช่วยคุณ
               <br />
-              <span className="text-accent-400">ผ่านการพัฒนาตัวเอง</span>
+              เรียนรู้ AI ให้ได้ผลจริง
             </h1>
-            
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-              ทีมผู้เชี่ยวชาญของเราพร้อมให้คำปรึกษาและแนะนำเส้นทางการเตรียมพัฒนาตัวเอง
-              ไม่ว่าจะเป็นการเลือกคอร์ส วิธีการเรียน หรือเทคนิคการสอบ
+
+            <p className="text-lg text-ink-light max-w-3xl mx-auto leading-relaxed">
+              ทีมผู้เชี่ยวชาญ AI พร้อมให้คำปรึกษาและแนะนำเส้นทางการเรียน AI
+              ไม่ว่าจะเป็นการเลือกคอร์ส การวาง AI Roadmap หรือแนวทางนำ AI ไปใช้จริง
             </p>
-            
-            <div className="flex items-center justify-center space-x-8 mt-8 text-blue-100">
+
+            <div className="flex items-center justify-center space-x-8 mt-8 text-ink-muted text-sm">
               <div className="flex items-center space-x-2">
-                <Clock className="h-5 w-5" />
+                <Clock className="h-4 w-4" />
                 <span>ตอบภายใน 24 ชม.</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Award className="h-5 w-5" />
+                <Award className="h-4 w-4" />
                 <span>ปรึกษาฟรี</span>
               </div>
               <div className="flex items-center space-x-2">
-                <HeadphonesIcon className="h-5 w-5" />
+                <Users className="h-4 w-4" />
                 <span>20+ ผู้เชี่ยวชาญ</span>
               </div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Contact Methods */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold font-serif text-ink mb-3">
               วิธีติดต่อเรา
             </h2>
-            <p className="text-xl text-orange-600">
+            <p className="text-lg text-ink-light">
               เลือกช่องทางที่สะดวกสำหรับคุณ
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactInfo.map((info, index) => {
               const Icon = info.icon;
               return (
-                <motion.a
+                <a
                   key={index}
                   href={info.action}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-white rounded-2xl p-6 shadow-sm border border-orange-100 hover:shadow-lg transition-all duration-300 text-center group"
+                  className="bg-white border border-gray-100 p-6 hover:border-brand-500 transition-colors text-center group"
                 >
-                  <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 group-hover:bg-blue-200 transition-colors">
-                    <Icon className="h-8 w-8 text-orange-600" />
+                  <div className="mb-4">
+                    <Icon className="h-8 w-8 text-ink mx-auto" />
                   </div>
-                  <h3 className="text-lg font-semibold text-blue-900 mb-2">{info.title}</h3>
-                  <p className="text-orange-600 font-medium mb-2">{info.value}</p>
-                  <p className="text-orange-600 text-sm">{info.description}</p>
-                </motion.a>
+                  <h3 className="text-lg font-semibold text-ink mb-2">{info.title}</h3>
+                  <p className="text-brand-600 font-medium mb-2">{info.value}</p>
+                  <p className="text-ink-muted text-sm">{info.description}</p>
+                </a>
               );
             })}
           </div>
@@ -226,28 +203,21 @@ export default function Contact() {
 
       {/* Contact Form & Support */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
+
             {/* Contact Form */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8 border border-orange-100"
-            >
+            <div className="bg-white border border-gray-100 p-8">
               <div className="text-center mb-8">
-                <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Mail className="h-8 w-8 text-orange-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-blue-900 mb-2">ส่งข้อความถึงเรา</h3>
-                <p className="text-orange-600">เราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+                <Mail className="h-8 w-8 text-ink mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-ink mb-2">ส่งข้อความถึงเรา</h3>
+                <p className="text-ink-light">เราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-orange-700 mb-2">
+                    <label className="block text-sm font-medium text-ink mb-2">
                       ชื่อ-นามสกุล *
                     </label>
                     <input
@@ -256,12 +226,12 @@ export default function Contact() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+                      className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
                       placeholder="กรุณากรอกชื่อ-นามสกุล"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-orange-700 mb-2">
+                    <label className="block text-sm font-medium text-ink mb-2">
                       เบอร์โทรศัพท์
                     </label>
                     <input
@@ -269,14 +239,14 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+                      className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
                       placeholder="08X-XXX-XXXX"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-orange-700 mb-2">
+                  <label className="block text-sm font-medium text-ink mb-2">
                     อีเมล *
                   </label>
                   <input
@@ -285,13 +255,13 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
                     placeholder="your.email@example.com"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-orange-700 mb-2">
+                  <label className="block text-sm font-medium text-ink mb-2">
                     ประเภทการติดต่อ *
                   </label>
                   <select
@@ -299,11 +269,11 @@ export default function Contact() {
                     required
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
                   >
                     <option value="">เลือกประเภท</option>
-                    <option value="course">สอบถามเกี่ยวกับคอร์ส</option>
-                    <option value="exam_tips">ขอคำแนะนำการสอบ</option>
+                    <option value="course">สอบถามเกี่ยวกับคอร์ส AI</option>
+                    <option value="ai_roadmap">ปรึกษาเส้นทางเรียน AI</option>
                     <option value="study_plan">วางแผนการเรียน</option>
                     <option value="technical">ปัญหาทางเทคนิค</option>
                     <option value="payment">การชำระเงิน</option>
@@ -312,7 +282,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-orange-700 mb-2">
+                  <label className="block text-sm font-medium text-ink mb-2">
                     หัวข้อ *
                   </label>
                   <input
@@ -321,13 +291,13 @@ export default function Contact() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors"
+                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
                     placeholder="หัวข้อที่ต้องการปรึกษา"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-orange-700 mb-2">
+                  <label className="block text-sm font-medium text-ink mb-2">
                     รายละเอียด *
                   </label>
                   <textarea
@@ -336,7 +306,7 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full px-4 py-3 rounded-xl border border-orange-200 focus:border-orange-500 focus:ring-2 focus:ring-orange-200 transition-colors resize-none"
+                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors resize-none"
                     placeholder="กรุณาอธิบายรายละเอียดที่ต้องการปรึกษา..."
                   />
                 </div>
@@ -344,10 +314,10 @@ export default function Contact() {
                 <button
                   type="submit"
                   disabled={isSubmitted}
-                  className={`w-full py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
+                  className={`w-full py-4 font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
                     isSubmitted
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-blue-600 hover:to-indigo-600'
+                      ? 'bg-brand-500 text-white'
+                      : 'bg-ink text-white hover:bg-brand-600'
                   }`}
                 >
                   {isSubmitted ? (
@@ -363,20 +333,15 @@ export default function Contact() {
                   )}
                 </button>
               </form>
-            </motion.div>
+            </div>
 
             {/* Support Categories */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="space-y-6"
-            >
+            <div className="space-y-6">
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-blue-900 mb-4">
+                <h3 className="text-2xl font-bold text-ink mb-4">
                   บริการให้คำปรึกษาเฉพาะทาง
                 </h3>
-                <p className="text-orange-600">
+                <p className="text-ink-light">
                   ทีมผู้เชี่ยวชาญพร้อมให้คำปรึกษาในแต่ละสาขา
                 </p>
               </div>
@@ -385,218 +350,141 @@ export default function Contact() {
                 {supportCategories.map((category, index) => {
                   const Icon = category.icon;
                   return (
-                    <motion.div
+                    <div
                       key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.4, delay: index * 0.1 }}
-                      className="bg-white rounded-xl p-6 border border-orange-100 hover:shadow-md transition-shadow"
+                      className="bg-white border border-gray-100 p-6 hover:border-brand-500 transition-colors"
                     >
                       <div className="flex items-start space-x-4">
-                        <div className="bg-blue-100 p-3 rounded-full flex-shrink-0">
-                          <Icon className="h-6 w-6 text-orange-600" />
+                        <div className="flex-shrink-0">
+                          <Icon className="h-6 w-6 text-ink" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-blue-900 mb-2">
+                          <h4 className="text-lg font-semibold text-ink mb-2">
                             {category.title}
                           </h4>
-                          <p className="text-orange-600 mb-3">{category.description}</p>
-                          <div className="flex items-center space-x-2 text-sm text-orange-600">
+                          <p className="text-ink-light mb-3">{category.description}</p>
+                          <div className="flex items-center space-x-2 text-sm text-ink-muted">
                             <Clock className="h-4 w-4" />
                             <span>{category.available}</span>
                           </div>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl sm:text-4xl font-bold text-blue-900 mb-4">
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-bold font-serif text-ink mb-3">
               คำถามที่พบบ่อย
             </h2>
-            <p className="text-xl text-orange-600">
+            <p className="text-lg text-ink-light">
               ตอบข้อสงสัยที่ผู้เรียนถามบ่อยที่สุด
             </p>
-          </motion.div>
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {faqTopics.map((topic, index) => (
-              <motion.div
+              <div
                 key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-2xl p-6 shadow-sm border border-orange-100"
+                className="bg-white border border-gray-100 p-6"
               >
-                <h3 className="text-lg font-semibold text-blue-900 mb-4 text-center">
+                <h3 className="text-lg font-semibold text-ink mb-4 text-center">
                   {topic.category}
                 </h3>
                 <ul className="space-y-3">
                   {topic.questions.map((question, qIndex) => (
                     <li key={qIndex} className="flex items-start space-x-2">
-                      <div className="bg-blue-100 rounded-full p-1 flex-shrink-0 mt-1">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full" />
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-1.5 h-1.5 bg-brand-500 rounded-full" />
                       </div>
-                      <span className="text-orange-600 text-sm leading-relaxed">{question}</span>
+                      <span className="text-ink-light text-sm leading-relaxed">{question}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="w-full mt-4 text-orange-600 hover:text-orange-700 text-sm font-medium">
+                <button className="w-full mt-4 text-brand-600 hover:text-brand-700 text-sm font-medium">
                   ดูคำถามทั้งหมด →
                 </button>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Social Media & Hours */}
+      {/* Business Hours */}
       <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
-            {/* Social Media */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center"
-            >
-              <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                <Users className="h-8 w-8 text-orange-600" />
-              </div>
-              <h3 className="text-2xl font-bold text-blue-900 mb-4">
-                ติดตามเราบน Social Media
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="border border-gray-100 p-8">
+            <div className="text-center mb-8">
+              <Clock className="h-8 w-8 text-ink mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-ink mb-2">
+                เวลาให้บริการ
               </h3>
-              <p className="text-orange-600 mb-8">
-                อัปเดตเทคนิคการสอบและข่าวสารการเปิดรับสมัครการพัฒนาตัวเองใหม่ๆ ทุกวัน
+              <p className="text-ink-light">
+                เวลาที่ทีมงานพร้อมให้คำปรึกษา
               </p>
-              
-              <div className="flex justify-center space-x-6">
-                {[
-                  { icon: Facebook, name: 'Facebook', followers: '45K', color: 'blue' },
-                  { icon: Instagram, name: 'Instagram', followers: '32K', color: 'blue' },
-                  { icon: Youtube, name: 'YouTube', followers: '28K', color: 'red' }
-                ].map((social, index) => {
-                  const Icon = social.icon;
-                  return (
-                    <motion.a
-                      key={index}
-                      href="#"
-                      whileHover={{ scale: 1.05 }}
-                      whileTap={{ scale: 0.95 }}
-                      className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-xl p-6 hover:shadow-md transition-all duration-300 text-center"
-                    >
-                      <Icon className={`h-8 w-8 text-${social.color}-600 mx-auto mb-2`} />
-                      <div className="text-sm font-medium text-blue-900">{social.name}</div>
-                      <div className="text-xs text-blue-500">{social.followers} followers</div>
-                    </motion.a>
-                  );
-                })}
-              </div>
-            </motion.div>
+            </div>
 
-            {/* Business Hours */}
-            <motion.div
-              initial={{ opacity: 0, x: 30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8 border border-orange-100"
-            >
-              <div className="text-center mb-6">
-                <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <Clock className="h-8 w-8 text-orange-600" />
-                </div>
-                <h3 className="text-2xl font-bold text-blue-900 mb-2">
-                  เวลาให้บริการ
-                </h3>
-                <p className="text-orange-600">
-                  เวลาที่ทีมงานพร้อมให้คำปรึกษา
-                </p>
-              </div>
-
-              <div className="space-y-4">
-                {[
-                  { service: 'Live Chat & Email', time: 'ทุกวัน 24 ชั่วโมง', status: 'online' },
-                  { service: 'โทรศัพท์', time: 'จันทร์-ศุกร์ 9:00-18:00', status: 'business' },
-                  { service: 'คำปรึกษาผู้เชี่ยวชาญ', time: 'จันทร์-เสาร์ 8:00-20:00', status: 'expert' },
-                  { service: 'สนับสนุนเทคนิค', time: 'ทุกวัน 24 ชั่วโมง', status: 'support' }
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 bg-white rounded-xl">
-                    <div>
-                      <div className="font-medium text-blue-900">{item.service}</div>
-                      <div className="text-sm text-orange-600">{item.time}</div>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-medium ${
-                      item.status === 'online' ? 'bg-green-100 text-green-700' :
-                      item.status === 'business' ? 'bg-blue-100 text-orange-700' :
-                      item.status === 'expert' ? 'bg-purple-100 text-purple-700' :
-                      'bg-orange-100 text-orange-700'
-                    }`}>
-                      {item.status === 'online' ? 'Online' :
-                       item.status === 'business' ? 'Business' :
-                       item.status === 'expert' ? 'Expert' :
-                       'Support'}
-                    </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl mx-auto">
+              {[
+                { service: 'Live Chat & Email', time: 'ทุกวัน 24 ชั่วโมง', status: 'เปิดตลอดเวลา' },
+                { service: 'โทรศัพท์', time: 'จันทร์-ศุกร์ 9:00-18:00', status: 'เวลาทำการ' },
+                { service: 'คำปรึกษาผู้เชี่ยวชาญ', time: 'จันทร์-เสาร์ 8:00-20:00', status: 'นัดหมายล่วงหน้า' },
+                { service: 'สนับสนุนเทคนิค', time: 'ทุกวัน 24 ชั่วโมง', status: 'เปิดตลอดเวลา' }
+              ].map((item, index) => (
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100">
+                  <div>
+                    <div className="font-medium text-ink">{item.service}</div>
+                    <div className="text-sm text-ink-light">{item.time}</div>
                   </div>
-                ))}
-              </div>
-            </motion.div>
+                  <div className="text-xs text-ink-muted">
+                    {item.status}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Success Guarantee */}
-      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="bg-white/20 rounded-full w-20 h-20 mx-auto mb-6 flex items-center justify-center">
-              <Award className="h-10 w-10" />
-            </div>
-            
-            <h2 className="text-3xl font-bold mb-4">
-              การันตีความสำเร็จ
+      {/* Bottom CTA */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
+          <div className="border border-gray-100 bg-white p-12 text-center">
+            <Award className="h-10 w-10 text-ink mx-auto mb-6" />
+
+            <h2 className="text-3xl font-bold font-serif text-ink mb-4">
+              รับประกันผลลัพธ์
             </h2>
-            
-            <p className="text-xl text-blue-100 mb-8">
-              เราเชื่อมั่นในคุณภาพการสอนของเรา หากคุณไม่ผ่านการสอบ สามารถเรียนซ้ำได้ฟรี
+
+            <p className="text-lg text-ink-light mb-8 max-w-2xl mx-auto">
+              เราเชื่อมั่นในคุณภาพการสอน AI ของเรา หากไม่พอใจภายใน 30 วัน คืนเงิน 100%
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="/courses"
-                className="bg-yellow-400 text-blue-900 px-8 py-4 rounded-xl font-semibold text-lg hover:bg-yellow-300 transition-colors duration-300 flex items-center justify-center space-x-2"
+                className="bg-ink text-white px-8 py-4 font-semibold text-lg hover:bg-brand-600 transition-colors duration-300 flex items-center justify-center space-x-2"
               >
                 <BookOpen className="h-5 w-5" />
                 <span>เริ่มเรียนเลยวันนี้</span>
               </a>
               <a
                 href="/about"
-                className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold text-lg hover:bg-white hover:text-orange-600 transition-colors duration-300 flex items-center justify-center space-x-2"
+                className="border-2 border-ink text-ink px-8 py-4 font-semibold text-lg hover:bg-ink hover:text-white transition-colors duration-300 flex items-center justify-center space-x-2"
               >
-                <HeadphonesIcon className="h-5 w-5" />
+                <Users className="h-5 w-5" />
                 <span>ดูเพิ่มเติม</span>
               </a>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

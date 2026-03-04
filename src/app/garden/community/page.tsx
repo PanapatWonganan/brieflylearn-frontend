@@ -8,32 +8,32 @@ import CommunityDashboard from '@/components/garden/CommunityDashboard'
 
 const CommunityGardenPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100">
+    <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white shadow-sm">
-        <div className="max-w-6xl mx-auto px-4 py-6">
+      <div className="bg-white border-b border-gray-100">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-6">
           <div className="flex items-center space-x-4">
             <Link 
               href="/garden"
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+              className="flex items-center space-x-2 text-ink-light hover:text-ink transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
-              <span>กลับสู่สวน</span>
+              <span>กลับสู่แล็บ</span>
             </Link>
             <div className="h-5 border-l border-gray-300" />
             <div>
-              <h1 className="text-3xl font-bold text-gray-900 flex items-center space-x-2">
+              <h1 className="text-3xl font-bold font-serif text-ink flex items-center space-x-2">
                 <Users className="h-8 w-8 text-green-500" />
-                <span>ชุมชนสวนสุขภาพ</span>
+                <span>ชุมชน AI</span>
               </h1>
-              <p className="text-gray-600 mt-1">ร่วมสร้างสรรค์สวนแห่งความสุขร้วมกัน</p>
+              <p className="text-ink-muted mt-1">ร่วมสร้างโปรเจกต์ AI ไปด้วยกัน</p>
             </div>
           </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -47,40 +47,40 @@ const CommunityGardenPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 bg-gradient-to-r from-blue-50 to-indigo-50 border border-orange-200 rounded-2xl p-6"
+          className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6"
         >
-          <h3 className="text-lg font-bold text-blue-900 mb-3 flex items-center space-x-2">
+          <h3 className="text-lg font-bold text-ink mb-3 flex items-center space-x-2">
             <Users className="h-5 w-5" />
-            <span>เกี่ยวกับชุมชนสวนสุขภาพ</span>
+            <span>เกี่ยวกับชุมชน AI</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div>
-              <h4 className="font-semibold text-blue-800 mb-2">🌍 ชุมชนแห่งการแบ่งปัน</h4>
-              <ul className="space-y-1 text-orange-700">
-                <li>• <strong>สวนยอดนิยม</strong> - ชมและเรียนรู้จากสวนที่สวยงาม</li>
+              <h4 className="font-semibold text-ink mb-2">🌍 ชุมชนแห่งการแบ่งปัน</h4>
+              <ul className="space-y-1 text-ink-light">
+                <li>• <strong>แล็บยอดนิยม</strong> - ชมและเรียนรู้จากแล็บที่ประสบความสำเร็จ</li>
                 <li>• <strong>โครงการชุมชน</strong> - ร่วมทำกิจกรรมเพื่อเป้าหมายร่วม</li>
-                <li>• <strong>อันดับคะแนน</strong> - แข่งขันกับเพื่อนนักสวน</li>
-                <li>• <strong>การช่วยเหลือ</strong> - รดน้ำและดูแลพืชร่วมกัน</li>
-                <li>• <strong>แรงบันดาลใจ</strong> - เรียนรู้เทคนิคการปลูกใหม่ๆ</li>
-                <li>• <strong>รางวัลพิเศษ</strong> - ได้ XP และ Star Seeds เพิ่ม</li>
+                <li>• <strong>อันดับคะแนน</strong> - แข่งขันกับเพื่อน AI Builder</li>
+                <li>• <strong>การช่วยเหลือ</strong> - พัฒนาโปรเจกต์ร่วมกัน</li>
+                <li>• <strong>แรงบันดาลใจ</strong> - เรียนรู้เทคนิคการพัฒนาใหม่ๆ</li>
+                <li>• <strong>รางวัลพิเศษ</strong> - ได้ Impact Points และ AI Credits เพิ่ม</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-blue-800 mb-2">✨ กิจกรรมที่ทำได้</h4>
-              <ul className="space-y-1 text-orange-700">
-                <li>• เยี่ยมชมสวนสาธารณะของสมาชิก</li>
-                <li>• ถูกใจสวนที่ชอบ (+5 XP)</li>
-                <li>• รดน้ำพืชในสวนเพื่อน (+10 XP, +3 Seeds)</li>
+              <h4 className="font-semibold text-ink mb-2">✨ กิจกรรมที่ทำได้</h4>
+              <ul className="space-y-1 text-ink-light">
+                <li>• เยี่ยมชมแล็บของสมาชิก</li>
+                <li>• ถูกใจแล็บที่ชอบ (+5 Impact Points)</li>
+                <li>• ช่วยพัฒนาโปรเจกต์เพื่อน (+10 Impact Points, +3 Seeds)</li>
                 <li>• เข้าร่วมโครงการชุมชนรายเดือน</li>
-                <li>• ดูอันดับนักสวนยอดเยี่ยม</li>
-                <li>• แลกเปลี่ยนประสบการณ์การทำสวน</li>
+                <li>• ดูอันดับAI Builder ยอดเยี่ยม</li>
+                <li>• แลกเปลี่ยนประสบการณ์การพัฒนาโปรเจกต์</li>
               </ul>
             </div>
           </div>
           
-          <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-sm text-yellow-800">
-              <strong>💡 เคล็ดลับ:</strong> การมีส่วนร่วมในชุมชนจะช่วยให้คุณได้รับ XP และ Star Seeds เพิ่มเติม 
+          <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+            <p className="text-sm text-ink-light">
+              <strong>💡 เคล็ดลับ:</strong> การมีส่วนร่วมในชุมชนจะช่วยให้คุณได้รับ Impact Points และ AI Credits เพิ่มเติม 
               พร้อมทั้งแรงบันดาลใจจากสวนสวยๆ ของเพื่อนสมาชิก!
             </p>
           </div>

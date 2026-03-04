@@ -1,133 +1,106 @@
 import Link from "next/link";
-import { GraduationCap, Facebook, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-2 rounded-xl">
-                <GraduationCap className="h-6 w-6 text-white" />
-              </div>
-              <span className="text-xl font-bold">BrieflyLearn</span>
-            </div>
-            <p className="text-gray-300 text-sm">
-              แพลตฟอร์มคอร์สพัฒนาตัวเองออนไลน์ เรียนรู้ทักษะใหม่ๆ พัฒนาตัวเองอย่างต่อเนื่อง
+    <footer className="border-t border-gray-100">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
+
+          {/* Brand — takes more space */}
+          <div className="md:col-span-4 space-y-4">
+            <Link href="/" className="inline-block">
+              <img
+                src="/logo.svg"
+                alt="BrieflyLearn"
+                className="h-8 w-auto"
+              />
+            </Link>
+            <p className="text-sm text-ink-muted leading-relaxed max-w-xs">
+              แพลตฟอร์มพัฒนาตัวเองออนไลน์
+              ที่ออกแบบมาเพื่อคนที่ต้องการเติบโต
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-orange-400 transition-colors">
-                <Youtube className="h-5 w-5" />
-              </a>
-            </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h3 className="font-semibold mb-4">ลิงก์ด่วน</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/courses" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  คอร์สเรียนทั้งหมด
-                </Link>
-              </li>
-              <li>
-                <Link href="/exams" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  แบบประเมิน
-                </Link>
-              </li>
-              <li>
-                <Link href="/results" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  ผลการเรียน
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  บทความ
-                </Link>
-              </li>
+          {/* Navigation columns */}
+          <nav className="md:col-span-2">
+            <h4 className="text-xs tracking-widest uppercase text-ink-muted mb-4">
+              เรียนรู้
+            </h4>
+            <ul className="space-y-2.5">
+              {[
+                { href: "/courses", label: "คอร์สทั้งหมด" },
+                { href: "/exams", label: "แบบประเมิน" },
+                { href: "/results", label: "ผลการเรียน" },
+                { href: "/garden", label: "สวนการเรียน" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-ink-light hover:text-ink transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Support */}
-          <div>
-            <h3 className="font-semibold mb-4">ช่วยเหลือ</h3>
-            <ul className="space-y-2">
-              <li>
-                <Link href="/help" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  ศูนย์ช่วยเหลือ
-                </Link>
-              </li>
-              <li>
-                <Link href="/faq" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  คำถามที่พบบ่อย
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacy" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  นโยบายความเป็นส่วนตัว
-                </Link>
-              </li>
-              <li>
-                <Link href="/terms" className="text-gray-300 hover:text-orange-400 transition-colors text-sm">
-                  เงื่อนไขการใช้งาน
-                </Link>
-              </li>
+          <nav className="md:col-span-2">
+            <h4 className="text-xs tracking-widest uppercase text-ink-muted mb-4">
+              ช่วยเหลือ
+            </h4>
+            <ul className="space-y-2.5">
+              {[
+                { href: "/help", label: "ศูนย์ช่วยเหลือ" },
+                { href: "/faq", label: "คำถามที่พบบ่อย" },
+                { href: "/privacy", label: "ความเป็นส่วนตัว" },
+                { href: "/terms", label: "เงื่อนไขการใช้งาน" },
+              ].map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-sm text-ink-light hover:text-ink transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
+          </nav>
 
-          {/* Contact */}
-          <div>
-            <h3 className="font-semibold mb-4">ติดต่อเรา</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center space-x-2 text-sm text-gray-300">
-                <Mail className="h-4 w-4" />
-                <span>info@brieflylearn.com</span>
-              </li>
-              <li className="flex items-center space-x-2 text-sm text-gray-300">
-                <Phone className="h-4 w-4" />
-                <span>02-987-6543</span>
-              </li>
-              <li className="flex items-start space-x-2 text-sm text-gray-300">
-                <MapPin className="h-4 w-4 mt-0.5" />
-                <span>เลขที่ 123 ถนนราชดำเนิน เขตพระนคร กรุงเทพมหานคร 10200</span>
+          <div className="md:col-span-4">
+            <h4 className="text-xs tracking-widest uppercase text-ink-muted mb-4">
+              ติดต่อ
+            </h4>
+            <ul className="space-y-2.5 text-sm text-ink-light">
+              <li>info@brieflylearn.com</li>
+              <li>02-987-6543</li>
+              <li className="leading-relaxed">
+                เลขที่ 123 ถนนราชดำเนิน<br />
+                เขตพระนคร กรุงเทพฯ 10200
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-gray-700 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm">
-            © 2024 BrieflyLearn. สงวนลิขสิทธิ์ทุกประการ.
+        {/* Bottom rule */}
+        <div className="mt-14 pt-6 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-xs text-ink-faint">
+            &copy; {new Date().getFullYear()} BrieflyLearn
           </p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link
-              href="/privacy"
-              className="text-gray-300 hover:text-orange-400 text-sm transition-colors"
-            >
-              ความเป็นส่วนตัว
-            </Link>
-            <Link
-              href="/terms"
-              className="text-gray-300 hover:text-orange-400 text-sm transition-colors"
-            >
-              เงื่อนไขการใช้
-            </Link>
-            <Link
-              href="/cookies"
-              className="text-gray-300 hover:text-orange-400 text-sm transition-colors"
-            >
-              นโยบายคุกกี้
-            </Link>
+          <div className="flex gap-6">
+            {[
+              { href: "/privacy", label: "ความเป็นส่วนตัว" },
+              { href: "/terms", label: "เงื่อนไขการใช้" },
+            ].map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-xs text-ink-faint hover:text-ink-muted transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </div>
         </div>
       </div>

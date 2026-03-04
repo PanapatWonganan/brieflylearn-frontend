@@ -20,77 +20,74 @@ interface ExamResult {
 const mockResults: ExamResult[] = [
   {
     id: '1',
-    examTitle: 'แบบประเมินภาวะผู้นำและการจัดการ',
-    category: 'ภาวะผู้นำ',
-    completedAt: '2025-09-05T14:30:00',
-    duration: 42,
-    score: 85,
-    totalQuestions: 50,
-    correctAnswers: 43,
-    percentile: 78,
-    status: 'ผ่าน',
-    difficulty: 'ปานกลาง'
-  },
-  {
-    id: '2',
-    examTitle: 'แบบประเมินสติและการจัดการอารมณ์',
-    category: 'สติและจิตใจ',
-    completedAt: '2025-09-03T10:15:00',
-    duration: 28,
-    score: 92,
-    totalQuestions: 40,
-    correctAnswers: 37,
-    percentile: 89,
+    examTitle: 'AI Readiness Assessment — คุณพร้อมใช้ AI แค่ไหน?',
+    category: 'AI พื้นฐาน',
+    completedAt: '2026-02-20T14:30:00',
+    duration: 18,
+    score: 88,
+    totalQuestions: 30,
+    correctAnswers: 26,
+    percentile: 82,
     status: 'ผ่าน',
     difficulty: 'ง่าย'
   },
   {
-    id: '3',
-    examTitle: 'แบบประเมินทักษะการสื่อสาร',
-    category: 'การสื่อสาร',
-    completedAt: '2025-09-01T16:45:00',
-    duration: 38,
+    id: '2',
+    examTitle: 'AI สำหรับสร้างธุรกิจ — Entrepreneur Track',
+    category: 'AI สร้างธุรกิจ',
+    completedAt: '2026-02-15T10:15:00',
+    duration: 32,
     score: 76,
-    totalQuestions: 45,
-    correctAnswers: 34,
-    percentile: 65,
+    totalQuestions: 40,
+    correctAnswers: 30,
+    percentile: 68,
+    status: 'ผ่าน',
+    difficulty: 'ปานกลาง'
+  },
+  {
+    id: '3',
+    examTitle: 'Prompt Engineering Mastery',
+    category: 'Prompt & Tools',
+    completedAt: '2026-02-10T16:45:00',
+    duration: 25,
+    score: 92,
+    totalQuestions: 35,
+    correctAnswers: 32,
+    percentile: 91,
     status: 'ผ่าน',
     difficulty: 'ปานกลาง'
   },
   {
     id: '4',
-    examTitle: 'แบบประเมินความฉลาดทางการเงิน',
-    category: 'การเงินส่วนบุคคล',
-    completedAt: '2025-08-30T09:20:00',
-    duration: 47,
-    score: 58,
-    totalQuestions: 60,
-    correctAnswers: 35,
-    percentile: 42,
+    examTitle: 'AI Strategy for Executives',
+    category: 'AI บริหารองค์กร',
+    completedAt: '2026-02-05T09:20:00',
+    duration: 42,
+    score: 54,
+    totalQuestions: 50,
+    correctAnswers: 27,
+    percentile: 38,
     status: 'ไม่ผ่าน',
     difficulty: 'ยาก'
   }
 ]
 
 const getScoreColor = (score: number) => {
-  if (score >= 80) return 'text-green-600'
-  if (score >= 70) return 'text-orange-600'  
-  if (score >= 60) return 'text-yellow-600'
-  return 'text-red-600'
+  if (score >= 80) return 'text-brand-600'
+  if (score >= 70) return 'text-brand-600'
+  if (score >= 60) return 'text-warning'
+  return 'text-error'
 }
 
 const getScoreBackground = (score: number) => {
-  if (score >= 80) return 'bg-green-50 border-green-200'
-  if (score >= 70) return 'bg-blue-50 border-orange-200'
-  if (score >= 60) return 'bg-yellow-50 border-yellow-200'
-  return 'bg-red-50 border-red-200'
+  return 'border border-gray-100'
 }
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
   return date.toLocaleDateString('th-TH', {
     year: 'numeric',
-    month: 'long', 
+    month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit'
@@ -108,7 +105,7 @@ const formatDuration = (minutes: number) => {
 
 export default function ResultsPage() {
   const [selectedTab, setSelectedTab] = useState<'all' | 'passed' | 'failed'>('all')
-  
+
   const filteredResults = mockResults.filter(result => {
     if (selectedTab === 'passed') return result.status === 'ผ่าน'
     if (selectedTab === 'failed') return result.status === 'ไม่ผ่าน'
@@ -121,57 +118,60 @@ export default function ResultsPage() {
   const bestScore = Math.max(...mockResults.map(r => r.score))
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white border-b border-gray-100 py-20">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
+            <div className="text-xs uppercase tracking-wider text-ink/60 mb-4">
+              ผลประเมิน
+            </div>
+            <h1 className="text-heading font-serif text-ink mb-6">
               ผลการประเมิน
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-orange-100">
-              ติดตามและวิเคราะห์ผลการประเมินของคุณเพื่อพัฒนาทักษะต่อไป
+            <p className="text-base text-ink-light leading-relaxed mb-8">
+              ติดตามและวิเคราะห์ผลการประเมินด้าน AI เพื่อวางแผนการเรียนรู้ต่อไป
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <BarChart3 className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">{totalExams}</div>
-            <div className="text-gray-600">แบบประเมินทั้งหมด</div>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
+          <div className="bg-white border border-gray-100/60 shadow-card rounded-lg p-6 text-center">
+            <BarChart3 className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">{totalExams}</div>
+            <div className="text-sm text-ink-muted">แบบประเมินทั้งหมด</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Trophy className="h-8 w-8 text-green-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">{passedExams}</div>
-            <div className="text-gray-600">ผ่านการประเมิน</div>
+          <div className="bg-white border border-gray-100/60 shadow-card rounded-lg p-6 text-center">
+            <Trophy className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">{passedExams}</div>
+            <div className="text-sm text-ink-muted">ผ่านการประเมิน</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Target className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">{averageScore.toFixed(1)}%</div>
-            <div className="text-gray-600">คะแนนเฉลี่ย</div>
+          <div className="bg-white border border-gray-100/60 shadow-card rounded-lg p-6 text-center">
+            <Target className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">{averageScore.toFixed(1)}%</div>
+            <div className="text-sm text-ink-muted">คะแนนเฉลี่ย</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Award className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">{bestScore}%</div>
-            <div className="text-gray-600">คะแนนสูงสุด</div>
+          <div className="bg-white border border-gray-100/60 shadow-card rounded-lg p-6 text-center">
+            <Award className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">{bestScore}%</div>
+            <div className="text-sm text-ink-muted">คะแนนสูงสุด</div>
           </div>
         </div>
 
         {/* Progress Chart Placeholder */}
-        <div className="bg-white rounded-xl p-6 shadow-sm mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
+        <div className="bg-white border border-gray-100/60 shadow-card rounded-lg p-6 mb-8">
+          <h2 className="text-xl font-semibold font-serif text-ink mb-4 flex items-center space-x-2">
             <TrendingUp className="h-5 w-5" />
             <span>แนวโน้มคะแนนการประเมิน</span>
           </h2>
           <div className="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
             <div className="text-center">
               <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">กราฟแสดงแนวโน้มการพัฒนาตัวเอง</p>
-              <p className="text-gray-400 text-sm">จะแสดงเมื่อมีข้อมูลเพิ่มเติม</p>
+              <p className="text-ink-muted">กราฟแสดงแนวโน้มการพัฒนาทักษะ AI</p>
+              <p className="text-ink-faint text-sm">จะแสดงเมื่อมีข้อมูลเพิ่มเติม</p>
             </div>
           </div>
         </div>
@@ -182,8 +182,8 @@ export default function ResultsPage() {
             onClick={() => setSelectedTab('all')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedTab === 'all'
-                ? 'bg-orange-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-blue-50'
+                ? 'bg-ink text-white'
+                : 'bg-white text-ink-light hover:bg-gray-50 border border-gray-100'
             }`}
           >
             ทั้งหมด ({totalExams})
@@ -192,8 +192,8 @@ export default function ResultsPage() {
             onClick={() => setSelectedTab('passed')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedTab === 'passed'
-                ? 'bg-green-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-green-50'
+                ? 'bg-ink text-white'
+                : 'bg-white text-ink-light hover:bg-gray-50 border border-gray-100'
             }`}
           >
             ผ่าน ({passedExams})
@@ -202,8 +202,8 @@ export default function ResultsPage() {
             onClick={() => setSelectedTab('failed')}
             className={`px-4 py-2 rounded-lg font-medium transition-colors ${
               selectedTab === 'failed'
-                ? 'bg-red-600 text-white'
-                : 'bg-white text-gray-700 hover:bg-red-50'
+                ? 'bg-ink text-white'
+                : 'bg-white text-ink-light hover:bg-gray-50 border border-gray-100'
             }`}
           >
             ไม่ผ่าน ({totalExams - passedExams})
@@ -215,25 +215,25 @@ export default function ResultsPage() {
           {filteredResults.map((result) => (
             <div
               key={result.id}
-              className={`bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition-all ${getScoreBackground(result.score)}`}
+              className={`bg-white rounded-lg p-6 shadow-card transition-all ${getScoreBackground(result.score)}`}
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   {/* Header */}
                   <div className="flex items-center space-x-3 mb-3">
-                    <h3 className="text-lg font-bold text-gray-900">
+                    <h3 className="text-lg font-semibold text-ink">
                       {result.examTitle}
                     </h3>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${
-                      result.status === 'ผ่าน' 
-                        ? 'bg-green-100 text-green-700' 
-                        : 'bg-red-100 text-red-700'
+                      result.status === 'ผ่าน'
+                        ? 'bg-brand-50 text-brand-700'
+                        : 'bg-error-light text-error-dark'
                     }`}>
                       {result.status}
                     </span>
                   </div>
 
-                  <div className="text-sm text-gray-600 mb-4">
+                  <div className="text-sm text-ink-muted mb-4">
                     หมวดหมู่: {result.category} • ระดับ: {result.difficulty}
                   </div>
 
@@ -241,7 +241,7 @@ export default function ResultsPage() {
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
                     <div className="flex items-center space-x-2">
                       <Target className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-ink-muted">
                         คะแนน: <span className={`font-bold ${getScoreColor(result.score)}`}>
                           {result.score}%
                         </span>
@@ -249,19 +249,19 @@ export default function ResultsPage() {
                     </div>
                     <div className="flex items-center space-x-2">
                       <Medal className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-ink-muted">
                         อันดับ: {result.percentile}%
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Clock className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-ink-muted">
                         {formatDuration(result.duration)}
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Calendar className="h-4 w-4 text-gray-400" />
-                      <span className="text-sm text-gray-600">
+                      <span className="text-sm text-ink-muted">
                         {formatDate(result.completedAt)}
                       </span>
                     </div>
@@ -269,17 +269,13 @@ export default function ResultsPage() {
 
                   {/* Progress Bar */}
                   <div className="mb-3">
-                    <div className="flex items-center justify-between text-sm text-gray-600 mb-1">
+                    <div className="flex items-center justify-between text-sm text-ink-muted mb-1">
                       <span>ตอบถูก {result.correctAnswers} จาก {result.totalQuestions} ข้อ</span>
                       <span>{result.score}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
                       <div
-                        className={`h-2 rounded-full ${
-                          result.score >= 80 ? 'bg-green-500' :
-                          result.score >= 70 ? 'bg-orange-500' :
-                          result.score >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}
+                        className="h-2 rounded-full bg-brand-600"
                         style={{ width: `${result.score}%` }}
                       />
                     </div>
@@ -288,7 +284,7 @@ export default function ResultsPage() {
 
                 {/* Action Button */}
                 <div className="ml-6">
-                  <button className="flex items-center space-x-2 px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg transition-colors">
+                  <button className="flex items-center space-x-2 px-4 py-2 bg-ink hover:opacity-90 text-white rounded-lg transition-colors">
                     <span>ดูรายละเอียด</span>
                     <ChevronRight className="h-4 w-4" />
                   </button>
@@ -302,8 +298,8 @@ export default function ResultsPage() {
         {filteredResults.length === 0 && (
           <div className="text-center py-12">
             <Trophy className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">ไม่พบผลการประเมิน</h3>
-            <p className="text-gray-600">
+            <h3 className="text-lg font-medium text-ink mb-2">ไม่พบผลการประเมิน</h3>
+            <p className="text-ink-muted">
               {selectedTab === 'passed' && 'ยังไม่มีผลประเมินที่ผ่าน'}
               {selectedTab === 'failed' && 'ไม่มีผลประเมินที่ไม่ผ่าน'}
               {selectedTab === 'all' && 'ยังไม่มีผลการประเมิน เริ่มทำแบบประเมินเพื่อดูผลลัพธ์'}

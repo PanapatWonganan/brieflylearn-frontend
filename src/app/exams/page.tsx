@@ -20,85 +20,97 @@ interface Exam {
 const mockExams: Exam[] = [
   {
     id: '1',
-    title: 'แบบประเมินภาวะผู้นำและการจัดการ',
-    description: 'ประเมินความสามารถด้านภาวะผู้นำ การตัดสินใจ และการจัดการทีม',
-    duration: 45,
-    questions: 50,
-    participants: 1250,
-    difficulty: 'ปานกลาง',
-    category: 'ภาวะผู้นำ',
-    rating: 4.8,
-    price: 299,
-    tags: ['แนะนำ', 'ยอดนิยม']
+    title: 'AI Readiness Assessment — คุณพร้อมใช้ AI แค่ไหน?',
+    description: 'ประเมินความเข้าใจพื้นฐานเกี่ยวกับ AI, Machine Learning และ Generative AI เพื่อวางแผนการเรียนรู้ที่เหมาะกับคุณ',
+    duration: 20,
+    questions: 30,
+    participants: 2450,
+    difficulty: 'ง่าย',
+    category: 'AI พื้นฐาน',
+    rating: 4.9,
+    price: 0,
+    tags: ['ฟรี', 'แนะนำ', 'ยอดนิยม']
   },
   {
     id: '2',
-    title: 'แบบประเมินสติและการจัดการอารมณ์',
-    description: 'ทดสอบความเข้าใจตนเอง การจัดการอารมณ์ และทักษะสติ',
-    duration: 30,
+    title: 'AI สำหรับสร้างธุรกิจ — Entrepreneur Track',
+    description: 'ทดสอบความพร้อมในการนำ AI ไปสร้างรายได้ ตั้งแต่ไอเดีย MVP การทำ Automation ไปจนถึงการ Scale ธุรกิจด้วย AI',
+    duration: 35,
     questions: 40,
-    participants: 890,
-    difficulty: 'ง่าย',
-    category: 'สติและจิตใจ',
-    rating: 4.9,
-    price: 249,
-    tags: ['ใหม่']
-  },
-  {
-    id: '3',
-    title: 'แบบประเมินทักษะการสื่อสาร',
-    description: 'วัดความสามารถในการสื่อสาร การนำเสนอ และการเจรจาต่อรอง',
-    duration: 40,
-    questions: 45,
-    participants: 2100,
+    participants: 1820,
     difficulty: 'ปานกลาง',
-    category: 'การสื่อสาร',
-    rating: 4.7,
-    price: 279,
+    category: 'AI สร้างธุรกิจ',
+    rating: 4.8,
+    price: 299,
     tags: ['ยอดนิยม']
   },
   {
-    id: '4',
-    title: 'แบบประเมินการบริหารเวลาและประสิทธิภาพ',
-    description: 'ทดสอบทักษะการจัดการเวลา การวางแผน และเพิ่มประสิทธิภาพในการทำงาน',
-    duration: 35,
-    questions: 40,
-    participants: 1680,
+    id: '3',
+    title: 'AI สำหรับบริหารองค์กร — Leader Track',
+    description: 'วัดทักษะการนำ AI มาใช้ในองค์กร ทั้งด้านกลยุทธ์ การจัดการทีม การเลือก AI Tools และการวัดผล ROI',
+    duration: 40,
+    questions: 45,
+    participants: 1350,
     difficulty: 'ปานกลาง',
-    category: 'ประสิทธิภาพ',
-    rating: 4.6,
+    category: 'AI บริหารองค์กร',
+    rating: 4.7,
     price: 299,
     tags: ['แนะนำ']
   },
   {
+    id: '4',
+    title: 'Prompt Engineering Mastery',
+    description: 'ประเมินทักษะการเขียน Prompt สำหรับ ChatGPT, Claude และ AI อื่นๆ ตั้งแต่พื้นฐานไปจนถึงเทคนิคขั้นสูง',
+    duration: 30,
+    questions: 35,
+    participants: 3100,
+    difficulty: 'ปานกลาง',
+    category: 'Prompt & Tools',
+    rating: 4.8,
+    price: 199,
+    tags: ['ยอดนิยม']
+  },
+  {
     id: '5',
-    title: 'แบบประเมินความฉลาดทางการเงิน',
-    description: 'วัดความรู้เรื่องการเงินส่วนบุคคล การลงทุน และการวางแผนทางการเงิน',
-    duration: 50,
-    questions: 60,
-    participants: 950,
+    title: 'AI Automation & No-Code — สร้างระบบอัตโนมัติ',
+    description: 'ทดสอบความรู้ด้าน AI Workflow Automation, No-Code/Low-Code Tools เช่น Make, Zapier, n8n สำหรับธุรกิจ',
+    duration: 30,
+    questions: 35,
+    participants: 980,
+    difficulty: 'ปานกลาง',
+    category: 'AI สร้างธุรกิจ',
+    rating: 4.6,
+    price: 249,
+    tags: ['ใหม่']
+  },
+  {
+    id: '6',
+    title: 'AI Strategy for Executives',
+    description: 'แบบประเมินสำหรับผู้บริหาร ครอบคลุม AI Governance, Data Strategy, Change Management และ AI Ethics ในองค์กร',
+    duration: 45,
+    questions: 50,
+    participants: 720,
     difficulty: 'ยาก',
-    category: 'การเงินส่วนบุคคล',
-    rating: 4.5,
-    price: 349,
+    category: 'AI บริหารองค์กร',
+    rating: 4.7,
+    price: 399,
     tags: []
   }
 ]
 
 const categories = [
   'ทั้งหมด',
-  'ภาวะผู้นำ',
-  'สติและจิตใจ',
-  'การสื่อสาร',
-  'ประสิทธิภาพ',
-  'การเงินส่วนบุคคล'
+  'AI พื้นฐาน',
+  'AI สร้างธุรกิจ',
+  'AI บริหารองค์กร',
+  'Prompt & Tools'
 ]
 
 const getDifficultyColor = (difficulty: string) => {
   switch (difficulty) {
-    case 'ง่าย': return 'bg-green-100 text-green-700'
-    case 'ปานกลาง': return 'bg-yellow-100 text-yellow-700' 
-    case 'ยาก': return 'bg-red-100 text-red-700'
+    case 'ง่าย': return 'bg-brand-50 text-brand-700'
+    case 'ปานกลาง': return 'bg-sand-100 text-ink-light'
+    case 'ยาก': return 'bg-error-light text-error-dark'
     default: return 'bg-gray-100 text-gray-700'
   }
 }
@@ -112,7 +124,7 @@ export default function ExamsPage() {
     let filtered = mockExams
 
     if (searchTerm) {
-      filtered = filtered.filter(exam => 
+      filtered = filtered.filter(exam =>
         exam.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         exam.description.toLowerCase().includes(searchTerm.toLowerCase())
       )
@@ -130,28 +142,32 @@ export default function ExamsPage() {
   }, [searchTerm, selectedCategory])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white border-b border-gray-100 py-16">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              แบบประเมินความสามารถ
+            <div className="text-xs uppercase tracking-wider text-ink-muted mb-3">
+              แบบประเมิน
+            </div>
+            <h1 className="text-heading font-serif text-ink mb-6">
+              ประเมินความพร้อมด้าน AI
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-orange-100">
-              ทดสอบและประเมินทักษะของคุณเพื่อพัฒนาตัวเองอย่างมีประสิทธิภาพ
+            <p className="text-lg text-ink-light mb-8">
+              ค้นหาจุดแข็งและสิ่งที่ต้องพัฒนา เพื่อวางแผนเรียนรู้ AI ได้ตรงจุด
+              ไม่ว่าจะสร้างธุรกิจหรือบริหารองค์กร
             </p>
-            
+
             {/* Search Bar */}
             <div className="max-w-2xl mx-auto">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
                   type="text"
-                  placeholder="ค้นหาแบบทดสอบ..."
+                  placeholder="ค้นหาแบบประเมิน AI..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 text-gray-900 bg-white rounded-xl border-0 shadow-lg focus:ring-2 focus:ring-orange-300 focus:outline-none text-lg"
+                  className="w-full pl-12 pr-4 py-4 text-ink bg-white rounded-lg border border-gray-200 focus:outline-none text-lg"
                 />
               </div>
             </div>
@@ -159,28 +175,28 @@ export default function ExamsPage() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-12">
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Target className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">50+</div>
-            <div className="text-gray-600">แบบทดสอบ</div>
+          <div className="bg-white rounded-lg p-6 border border-gray-100 text-center">
+            <Target className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">15+</div>
+            <div className="text-ink-muted">แบบประเมิน</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Users className="h-8 w-8 text-green-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">25,000+</div>
-            <div className="text-gray-600">ผู้เข้าสอบ</div>
+          <div className="bg-white rounded-lg p-6 border border-gray-100 text-center">
+            <Users className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">3,200+</div>
+            <div className="text-ink-muted">ผู้ทำแบบประเมิน</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <Trophy className="h-8 w-8 text-yellow-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">89%</div>
-            <div className="text-gray-600">อัตราผ่าน</div>
+          <div className="bg-white rounded-lg p-6 border border-gray-100 text-center">
+            <Trophy className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">87%</div>
+            <div className="text-ink-muted">อัตราพัฒนาขึ้น</div>
           </div>
-          <div className="bg-white rounded-xl p-6 shadow-sm text-center">
-            <FileText className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-900">5,000+</div>
-            <div className="text-gray-600">ข้อสอบ</div>
+          <div className="bg-white rounded-lg p-6 border border-gray-100 text-center">
+            <FileText className="h-8 w-8 text-ink mx-auto mb-2" />
+            <div className="text-2xl font-bold text-ink">500+</div>
+            <div className="text-ink-muted">คำถามประเมิน</div>
           </div>
         </div>
 
@@ -193,8 +209,8 @@ export default function ExamsPage() {
                 onClick={() => setSelectedCategory(category)}
                 className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                   selectedCategory === category
-                    ? 'bg-orange-600 text-white'
-                    : 'bg-white text-gray-700 hover:bg-blue-50 border border-gray-200'
+                    ? 'bg-ink text-white'
+                    : 'bg-white text-ink hover:bg-gray-50 border border-gray-200'
                 }`}
               >
                 {category}
@@ -206,7 +222,7 @@ export default function ExamsPage() {
         {/* Exam Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {filteredExams.map((exam) => (
-            <div key={exam.id} className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+            <div key={exam.id} className="bg-white rounded-lg border border-gray-100 hover:border-gray-300 transition-colors">
               <div className="p-6">
                 {/* Tags */}
                 {exam.tags.length > 0 && (
@@ -214,11 +230,7 @@ export default function ExamsPage() {
                     {exam.tags.map((tag) => (
                       <span
                         key={tag}
-                        className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          tag === 'ยอดนิยม' ? 'bg-green-100 text-green-700' :
-                          tag === 'แนะนำ' ? 'bg-blue-100 text-orange-700' :
-                          'bg-purple-100 text-purple-700'
-                        }`}
+                        className="px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-ink-muted"
                       >
                         {tag}
                       </span>
@@ -227,24 +239,24 @@ export default function ExamsPage() {
                 )}
 
                 {/* Title and Description */}
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-ink mb-2">
                   {exam.title}
                 </h3>
-                <p className="text-gray-600 mb-4 line-clamp-2">
+                <p className="text-ink-muted mb-4 line-clamp-2">
                   {exam.description}
                 </p>
 
                 {/* Details */}
                 <div className="grid grid-cols-2 gap-4 mb-4">
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-ink-muted">
                     <Clock className="h-4 w-4" />
                     <span>{exam.duration} นาที</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-ink-muted">
                     <BookOpen className="h-4 w-4" />
                     <span>{exam.questions} ข้อ</span>
                   </div>
-                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                  <div className="flex items-center space-x-2 text-sm text-ink-muted">
                     <Users className="h-4 w-4" />
                     <span>{exam.participants.toLocaleString()} คน</span>
                   </div>
@@ -258,16 +270,15 @@ export default function ExamsPage() {
                 {/* Rating and Price */}
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center space-x-1">
-                    <Star className="h-4 w-4 text-yellow-400 fill-current" />
-                    <span className="text-sm text-gray-600">{exam.rating}</span>
+                    <span className="text-sm text-ink-muted">{exam.rating} ดาว</span>
                   </div>
-                  <div className="text-lg font-bold text-orange-600">
+                  <div className="text-lg font-bold text-ink">
                     ฿{exam.price}
                   </div>
                 </div>
 
                 {/* Action Button */}
-                <button className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+                <button className="w-full bg-ink hover:opacity-90 text-white py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
                   <span>เริ่มทำแบบประเมิน</span>
                   <ChevronRight className="h-4 w-4" />
                 </button>
@@ -280,8 +291,8 @@ export default function ExamsPage() {
         {filteredExams.length === 0 && (
           <div className="text-center py-12">
             <FileText className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">ไม่พบแบบทดสอบ</h3>
-            <p className="text-gray-600">ลองค้นหาด้วยคำค้นอื่น หรือเลือกหมวดหมู่อื่น</p>
+            <h3 className="text-lg font-medium text-ink mb-2">ไม่พบแบบทดสอบ</h3>
+            <p className="text-ink-muted">ลองค้นหาด้วยคำค้นอื่น หรือเลือกหมวดหมู่อื่น</p>
           </div>
         )}
       </div>

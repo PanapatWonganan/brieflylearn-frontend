@@ -22,12 +22,7 @@ export interface PlantType {
   star_seeds_reward: number
   unlock_level: number
   care_requirements: string
-  growth_stages: {
-    [key: number]: {
-      name: string
-      duration_hours: number
-    }
-  }
+  growth_stages: number | Record<string, any>
   icon_path: string
 }
 
@@ -102,103 +97,103 @@ export interface GardenData {
   stats: GardenStats
 }
 
-// Plant Category Colors
+// Plant Category Colors - Brand Palette
 export const PLANT_CATEGORY_COLORS = {
   fitness: {
-    primary: '#EF4444', // red-500
-    light: '#FECACA',   // red-200
-    dark: '#B91C1C'     // red-700
+    primary: '#9b4d4d', // error color (brand equivalent of red)
+    light: '#d4a5a5',   // error-light
+    dark: '#7a3d3d'     // error-dark
   },
   nutrition: {
-    primary: '#F97316', // orange-500
-    light: '#FED7AA',   // orange-200
-    dark: '#C2410C'     // orange-700
+    primary: '#4a7a5a', // brand-500
+    light: '#96b8a0',   // brand-200
+    dark: '#2d5a3d'     // brand-700
   },
   mental: {
-    primary: '#6366F1', // indigo-500
-    light: '#C7D2FE',   // indigo-200
-    dark: '#3730A3'     // indigo-700
+    primary: '#5a6a7a', // brand-600 (replacing indigo)
+    light: '#a0b0c0',   // brand-300
+    dark: '#3d4a5a'     // brand-800
   },
   learning: {
-    primary: '#10B981', // emerald-500
-    light: '#A7F3D0',   // emerald-200
-    dark: '#047857'     // emerald-700
+    primary: '#4a7a5a', // brand-500 (replacing emerald)
+    light: '#96b8a0',   // brand-200
+    dark: '#2d5a3d'     // brand-700
   },
   mindfulness: {
-    primary: '#8B5CF6', // violet-500
-    light: '#DDD6FE',   // violet-200
-    dark: '#6D28D9'     // violet-700
+    primary: '#3d4a5a', // brand-800 (replacing violet)
+    light: '#a0b0c0',   // brand-300
+    dark: '#2d3a4a'     // brand-900
   },
   leadership: {
-    primary: '#F59E0B', // amber-500
-    light: '#FDE68A',   // amber-200
-    dark: '#D97706'     // amber-700
+    primary: '#7a6a4a', // brand-900 (replacing amber)
+    light: '#c0b0a0',   // sand-300
+    dark: '#5a4a3d'     // brand-900 dark
   },
   productivity: {
-    primary: '#3B82F6', // blue-500
-    light: '#BFDBFE',   // blue-200
-    dark: '#1D4ED8'     // blue-700
+    primary: '#5a6a7a', // brand-600 (replacing blue)
+    light: '#a0b0c0',   // brand-300
+    dark: '#3d4a5a'     // brand-800
   },
   growth: {
-    primary: '#10B981', // emerald-500
-    light: '#A7F3D0',   // emerald-200
-    dark: '#047857'     // emerald-700
+    primary: '#4a7a5a', // brand-500 (replacing emerald)
+    light: '#96b8a0',   // brand-200
+    dark: '#2d5a3d'     // brand-700
   },
   health: {
-    primary: '#EC4899', // pink-500
-    light: '#FBCFE8',   // pink-200
-    dark: '#BE185D'     // pink-700
+    primary: '#6a5a7a', // brand-700 (replacing pink)
+    light: '#b0a0c0',   // brand-400
+    dark: '#4a3d5a'     // brand-800
   },
   finance: {
-    primary: '#14B8A6', // teal-500
-    light: '#99F6E4',   // teal-200
-    dark: '#0F766E'     // teal-700
+    primary: '#5a7a6a', // brand-500 (replacing teal)
+    light: '#a0c0b0',   // brand-300
+    dark: '#3d5a4a'     // brand-700
   },
   creativity: {
-    primary: '#A855F7', // purple-500
-    light: '#E9D5FF',   // purple-200
-    dark: '#7E22CE'     // purple-700
+    primary: '#6a5a7a', // brand-700 (replacing purple)
+    light: '#b0a0c0',   // brand-400
+    dark: '#4a3d5a'     // brand-800
   }
 } as const
 
-// Rarity Colors
+// Rarity Colors - Brand Palette with Solid Colors
 export const RARITY_COLORS = {
   common: {
-    primary: '#6B7280', // gray-500
-    light: '#E5E7EB',   // gray-200
-    gradient: 'from-gray-400 to-gray-600'
+    primary: '#8a8a7a', // sand-400
+    light: '#d4d4c4',   // sand-200
+    gradient: 'bg-sand-400 text-white'
   },
   rare: {
-    primary: '#3B82F6', // blue-500
-    light: '#BFDBFE',   // blue-200
-    gradient: 'from-blue-400 to-blue-600'
+    primary: '#5a6a7a', // brand-600
+    light: '#a0b0c0',   // brand-300
+    gradient: 'bg-brand-500 text-white'
   },
   epic: {
-    primary: '#8B5CF6', // violet-500
-    light: '#DDD6FE',   // violet-200
-    gradient: 'from-violet-400 to-violet-600'
+    primary: '#6a5a7a', // brand-700
+    light: '#b0a0c0',   // brand-400
+    gradient: 'bg-brand-700 text-white'
   },
   legendary: {
-    primary: '#F59E0B', // amber-500
-    light: '#FDE68A',   // amber-200
-    gradient: 'from-amber-400 to-amber-600'
+    primary: '#7a6a4a', // brand-900
+    light: '#c0b0a0',   // sand-300
+    gradient: 'bg-brand-900 text-white'
   }
 } as const
 
-// Plant Stage Names in Thai
+// AI Lab Project Stage Names in Thai
 export const PLANT_STAGE_NAMES = {
-  0: 'เมล็ด',
-  1: 'หน่อ',
-  2: 'ต้นอ่อน',
-  3: 'ก่อนบาน',
-  4: 'บาน/โต'
+  0: 'แนวคิด', // Concept 💡
+  1: 'ต้นแบบ', // Prototype 🔧
+  2: 'ทดสอบ', // Beta 🧪
+  3: 'พร้อมใช้', // Production ⚙️
+  4: 'ขยายผล' // Scaled 🚀
 } as const
 
-// Achievement Category Icons
+// Achievement Category Icons - AI Lab Theme
 export const ACHIEVEMENT_CATEGORY_ICONS = {
-  learning: '📚',
-  fitness: '💪',
-  mental: '🧘‍♀️',
-  social: '🤝',
+  learning: '🤖', // AI Mastery
+  fitness: '💼', // Business Impact
+  mental: '💡', // Innovation
+  social: '🤝', // Sharing
   special: '🏆'
 } as const

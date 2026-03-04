@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Kanit } from "next/font/google";
+import { Sarabun, Noto_Serif_Thai } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,17 +8,26 @@ import { AuthProvider } from "@/contexts/AuthContextNew";
 import { GardenProvider } from "@/contexts/GardenContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationContainer from "@/components/NotificationContainer";
+import { SmoothScroll } from "@/components/SmoothScroll";
 
-const kanit = Kanit({ 
-  subsets: ["thai", "latin"], 
+const sarabun = Sarabun({
+  subsets: ["thai", "latin"],
   weight: ["300", "400", "500", "600", "700"],
-  display: "swap"
+  display: "swap",
+  variable: "--font-sans",
+});
+
+const notoSerifThai = Noto_Serif_Thai({
+  subsets: ["thai", "latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+  variable: "--font-serif",
 });
 
 export const metadata: Metadata = {
-  title: "BrieflyLearn - แพลตฟอร์มพัฒนาตัวเองออนไลน์",
-  description: "พัฒนาตัวเองสู่ความสำเร็จด้วยคอร์สเรียนออนไลน์คุณภาพสูง เรียนรู้ภาวะผู้นำ สติ การสื่อสาร และทักษะชีวิต",
-  keywords: "พัฒนาตัวเอง, คอร์สออนไลน์, ภาวะผู้นำ, สติและจิตใจ, การสื่อสาร, ประสิทธิภาพ, การเงินส่วนบุคคล",
+  title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
+  description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
+  keywords: "AI, เรียน AI, สร้างธุรกิจด้วย AI, AI สำหรับองค์กร, Prompt Engineering, AI Automation, คอร์ส AI ออนไลน์",
   authors: [{ name: "BrieflyLearn Team" }],
   creator: "BrieflyLearn",
   publisher: "BrieflyLearn",
@@ -32,8 +41,8 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "BrieflyLearn - แพลตฟอร์มพัฒนาตัวเองออนไลน์",
-    description: "พัฒนาตัวเองสู่ความสำเร็จด้วยคอร์สเรียนออนไลน์คุณภาพสูง เรียนรู้ภาวะผู้นำ สติ การสื่อสาร และทักษะชีวิต",
+    title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
+    description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
     url: "https://brieflylearn.com",
     siteName: "BrieflyLearn",
     locale: "th_TH",
@@ -41,8 +50,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BrieflyLearn - แพลตฟอร์มพัฒนาตัวเองออนไลน์",
-    description: "พัฒนาตัวเองสู่ความสำเร็จด้วยคอร์สเรียนออนไลน์คุณภาพสูง เรียนรู้ภาวะผู้นำ สติ การสื่อสาร และทักษะชีวิต",
+    title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
+    description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
     creator: "@brieflylearn",
   },
   robots: {
@@ -66,14 +75,15 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#f97316" />
+        <meta name="theme-color" content="#2d5a3d" />
       </head>
-      <body className={`${kanit.className} antialiased transition-colors duration-300`}>
+      <body className={`${sarabun.variable} ${notoSerifThai.variable} antialiased`}>
+        <SmoothScroll />
         <NotificationProvider>
           <AuthProvider>
             <GardenProvider>
               <ErrorBoundary>
-                <div className="min-h-screen flex flex-col bg-white">
+                <div className="min-h-screen flex flex-col">
                   <Header />
                   <main className="flex-1">{children}</main>
                   <Footer />

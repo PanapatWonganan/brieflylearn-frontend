@@ -193,13 +193,13 @@ export const getAbilityTypeEmoji = (type: string): string => {
 
 export const getAbilityColor = (type: string): string => {
   const colorMap: { [key: string]: string } = {
-    xp_boost: 'from-blue-400 to-blue-600',
-    star_seeds_boost: 'from-yellow-400 to-yellow-600',
-    garden_boost: 'from-green-400 to-green-600',
-    friend_boost: 'from-pink-400 to-pink-600',
-    healing: 'from-emerald-400 to-emerald-600'
+    xp_boost: 'bg-brand-500 text-white',
+    star_seeds_boost: 'bg-sand-400 text-ink',
+    garden_boost: 'bg-brand-500 text-white',
+    friend_boost: 'bg-brand-400 text-white',
+    healing: 'bg-brand-500 text-white'
   }
-  return colorMap[type] || 'from-purple-400 to-purple-600'
+  return colorMap[type] || 'bg-brand-700 text-white'
 }
 
 export const formatDuration = (hours: number): string => {
@@ -227,10 +227,10 @@ export const getEvolutionRarity = (evolution: PlantEvolution): string => {
 
 export const getEvolutionRarityColor = (rarity: string): string => {
   const colorMap: { [key: string]: string } = {
-    'ตำนาน': 'from-purple-500 to-pink-500',
-    'หายาก': 'from-yellow-500 to-orange-500',
-    'พิเศษ': 'from-blue-500 to-indigo-500',
-    'ธรรมดา': 'from-gray-400 to-gray-600'
+    'ตำนาน': 'bg-brand-700 text-white',
+    'หายาก': 'bg-brand-600 text-white',
+    'พิเศษ': 'bg-brand-500 text-white',
+    'ธรรมดา': 'bg-sand-400 text-white'
   }
   return colorMap[rarity] || colorMap['ธรรมดา']
 }

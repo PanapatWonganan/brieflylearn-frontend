@@ -5,116 +5,62 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
-  darkMode: 'class',
   theme: {
     extend: {
+      keyframes: {
+        shimmer: {
+          '0%': { transform: 'translateX(-100%)' },
+          '100%': { transform: 'translateX(100%)' },
+        },
+      },
+      animation: {
+        shimmer: 'shimmer 1.5s infinite',
+      },
       colors: {
-        // Claude Orange Theme
-        primary: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316', // Main Claude orange
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          950: '#431407',
+        brand: {
+          50: '#f3f7f4',
+          100: '#e0ebe3',
+          200: '#c2d7c8',
+          300: '#96b8a0',
+          400: '#6b9478',
+          500: '#4a7a5a',
+          600: '#3a6348',
+          700: '#2d5a3d',
+          800: '#264a33',
+          900: '#1e3d2a',
         },
-        orange: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316', // Claude orange
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-          950: '#431407',
+        sand: {
+          50: '#fdfcfa',
+          100: '#f7f4ef',
+          200: '#ede8df',
+          300: '#ddd5c7',
+          400: '#c4b8a5',
+          500: '#a99c88',
         },
-        // Dark/Black theme
-        gray: {
-          50: '#fafafa',
-          100: '#f4f4f5',
-          200: '#e4e4e7',
-          300: '#d4d4d8',
-          400: '#a1a1aa',
-          500: '#71717a',
-          600: '#52525b',
-          700: '#3f3f46',
-          800: '#27272a',
-          900: '#18181b', // Near black
-          950: '#09090b', // Pure black
+        ink: {
+          DEFAULT: '#1a1a1a',
+          light: '#4a4a4a',
+          muted: '#8a8a8a',
+          faint: '#c5c5c5',
         },
-        slate: {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          950: '#020617',
+        error: {
+          DEFAULT: '#9b4d4d',
+          light: '#f0e6e6',
+          dark: '#7a3535',
         },
-        // Keep blue for occasional use
-        blue: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-          950: '#172554',
-        },
-        // Accent colors - keep yellow for highlights
-        accent: {
-          50: '#fefce8',
-          100: '#fef9c3',
-          200: '#fef08a',
-          300: '#fde047',
-          400: '#facc15',
-          500: '#eab308',
-          600: '#ca8a04',
-          700: '#a16207',
-          800: '#854d0e',
-          900: '#713f12',
+        warning: {
+          DEFAULT: '#8b7355',
+          light: '#f5f0e8',
         },
       },
       fontFamily: {
-        sans: ['Kanit', 'sans-serif'],
+        sans: ['var(--font-sans)', 'Sarabun', 'sans-serif'],
+        serif: ['var(--font-serif)', 'Noto Serif Thai', 'serif'],
       },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'bounce-gentle': 'bounceGentle 2s infinite',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(20px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        bounceGentle: {
-          '0%, 100%': { transform: 'translateY(0)' },
-          '50%': { transform: 'translateY(-10px)' },
-        },
-      },
-      backdropBlur: {
-        xs: '2px',
+      fontSize: {
+        'display': ['clamp(2.5rem, 6vw, 5rem)', { lineHeight: '1.05', letterSpacing: '-0.03em', fontWeight: '600' }],
+        'heading': ['clamp(1.75rem, 3.5vw, 3rem)', { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '600' }],
+        'subheading': ['clamp(1.125rem, 2vw, 1.5rem)', { lineHeight: '1.4', letterSpacing: '-0.01em', fontWeight: '400' }],
       },
       screens: {
         'xs': '475px',
@@ -122,4 +68,4 @@ module.exports = {
     },
   },
   plugins: [],
-}; 
+};

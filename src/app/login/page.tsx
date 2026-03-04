@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContextNew'
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
-import { Eye, EyeOff, Mail, Lock, GraduationCap, AlertCircle, Loader2 } from 'lucide-react'
+import { Eye, EyeOff, AlertCircle, Loader2 } from 'lucide-react'
 import Link from 'next/link'
 
 export default function LoginPage() {
@@ -25,13 +24,13 @@ export default function LoginPage() {
     setError('')
 
     const result = await login(formData.email, formData.password)
-    
+
     if (result.success) {
       router.push('/dashboard')
     } else {
       setError(result.error || 'เกิดข้อผิดพลาดในการเข้าสู่ระบบ')
     }
-    
+
     setIsLoading(false)
   }
 
@@ -43,64 +42,52 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-md w-full space-y-8"
-      >
-        {/* Logo */}
-        <div className="text-center">
-          <motion.div
-            initial={{ scale: 0.8 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center"
-          >
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-3 rounded-xl">
-              <GraduationCap className="h-8 w-8 text-white" />
-            </div>
-          </motion.div>
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
-            เข้าสู่ระบบ ExamPrep
-          </h2>
-          <p className="mt-2 text-sm text-gray-600">
-            แพลตฟอร์มติวสอบราชการออนไลน์
-          </p>
+    <div className="min-h-screen">
+      <div className="flex min-h-screen">
+        {/* Left Side - Brand Statement (Desktop Only) */}
+        <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-16 xl:px-24 bg-gray-50 border-r border-gray-100">
+          <div className="max-w-lg">
+            <h1 className="text-5xl xl:text-6xl font-bold font-serif text-ink mb-6 leading-tight">
+              BrieflyLearn
+            </h1>
+            <p className="text-xl text-ink-light leading-relaxed mb-4">
+              เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร
+            </p>
+            <p className="text-base text-ink-muted leading-relaxed">
+              แพลตฟอร์มเรียน AI ออนไลน์ เพื่อนำ AI ไปใช้จริงทั้งสร้างธุรกิจและบริหารองค์กร
+            </p>
+          </div>
         </div>
 
-        {/* Demo Credentials */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="bg-blue-50 border border-orange-200 rounded-lg p-4"
-        >
-          <h3 className="text-sm font-semibold text-blue-800 mb-2">บัญชีทดสอบ:</h3>
-          <div className="space-y-1 text-xs text-orange-700">
-            <div><strong>Admin:</strong> admin@examprep.com / password123</div>
-            <div><strong>User:</strong> user@examprep.com / password123</div>
-          </div>
-        </motion.div>
+        {/* Right Side - Login Form */}
+        <div className="flex-1 flex items-center justify-center px-6 py-12 lg:px-16">
+          <div className="w-full max-w-md">
+            {/* Mobile Header */}
+            <div className="lg:hidden mb-12">
+              <h1 className="text-3xl font-bold font-serif text-ink mb-2">
+                BrieflyLearn
+              </h1>
+              <p className="text-sm text-ink-muted">
+                เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร
+              </p>
+            </div>
 
-        {/* Login Form */}
-        <motion.form
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-8 space-y-6"
-          onSubmit={handleSubmit}
-        >
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                อีเมล
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Mail className="h-5 w-5 text-gray-400" />
-                </div>
+            {/* Form Header */}
+            <div className="mb-8">
+              <h2 className="text-2xl font-bold font-serif text-ink mb-2">
+                เข้าสู่ระบบ
+              </h2>
+              <p className="text-sm text-ink-muted">
+                ยินดีต้อนรับกลับมา กรุณาเข้าสู่ระบบเพื่อดำเนินการต่อ
+              </p>
+            </div>
+
+            {/* Login Form */}
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-ink-light mb-2">
+                  อีเมล
+                </label>
                 <input
                   id="email"
                   name="email"
@@ -109,97 +96,87 @@ export default function LoginPage() {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                  className="appearance-none block w-full px-4 py-3 border border-gray-200 rounded-lg text-ink placeholder-ink-faint focus:outline-none transition-all"
                   placeholder="กรอกอีเมลของคุณ"
                 />
               </div>
-            </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                รหัสผ่าน
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
+              <div>
+                <label htmlFor="password" className="block text-sm font-medium text-ink-light mb-2">
+                  รหัสผ่าน
+                </label>
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? 'text' : 'password'}
+                    autoComplete="current-password"
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="appearance-none block w-full px-4 py-3 pr-12 border border-gray-200 rounded-lg text-ink placeholder-ink-faint focus:outline-none transition-all"
+                    placeholder="กรอกรหัสผ่านของคุณ"
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-ink-faint hover:text-ink-muted transition-colors" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-ink-faint hover:text-ink-muted transition-colors" />
+                    )}
+                  </button>
                 </div>
-                <input
-                  id="password"
-                  name="password"
-                  type={showPassword ? 'text' : 'password'}
-                  autoComplete="current-password"
-                  required
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="appearance-none block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 transition-colors"
-                  placeholder="กรอกรหัสผ่านของคุณ"
-                />
+              </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="bg-error-light border border-sand-300 rounded-lg p-4 flex items-start space-x-3">
+                  <AlertCircle className="h-5 w-5 text-error flex-shrink-0 mt-0.5" />
+                  <span className="text-sm text-error-dark">{error}</span>
+                </div>
+              )}
+
+              <div className="space-y-4">
                 <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full flex justify-center items-center py-3 px-4 text-sm font-medium rounded-lg text-white bg-ink hover:opacity-90 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                 >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin mr-2" />
+                      กำลังเข้าสู่ระบบ...
+                    </>
                   ) : (
-                    <Eye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
+                    'เข้าสู่ระบบ'
                   )}
                 </button>
+
+                <p className="text-center text-sm text-ink-muted">
+                  ยังไม่มีบัญชี?{' '}
+                  <Link href="/register" className="font-medium text-brand-600 hover:opacity-90 transition-colors">
+                    สมัครสมาชิก
+                  </Link>
+                </p>
               </div>
+            </form>
+
+            {/* Back to Home */}
+            <div className="mt-8 text-center">
+              <Link
+                href="/"
+                className="text-sm text-ink-muted hover:text-ink-light transition-colors inline-flex items-center"
+              >
+                <span className="mr-1">←</span>
+                กลับหน้าแรก
+              </Link>
             </div>
           </div>
-
-          {/* Error Message */}
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2"
-            >
-              <AlertCircle className="h-5 w-5 text-red-500 flex-shrink-0" />
-              <span className="text-sm text-red-700">{error}</span>
-            </motion.div>
-          )}
-
-          <div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              disabled={isLoading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-orange-500 to-orange-600 hover:from-blue-600 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                  กำลังเข้าสู่ระบบ...
-                </>
-              ) : (
-                'เข้าสู่ระบบ'
-              )}
-            </motion.button>
-          </div>
-
-          <div className="text-center">
-            <p className="text-sm text-gray-600">
-              ยังไม่มีบัญชี?{' '}
-              <Link href="/register" className="font-medium text-orange-600 hover:text-blue-500">
-                สมัครสมาชิก
-              </Link>
-            </p>
-          </div>
-        </motion.form>
-
-        {/* Back to Home */}
-        <div className="text-center">
-          <Link
-            href="/"
-            className="text-sm text-gray-500 hover:text-orange-600 transition-colors"
-          >
-            ← กลับหน้าแรก
-          </Link>
         </div>
-      </motion.div>
+      </div>
     </div>
   )
 }

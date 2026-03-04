@@ -272,7 +272,7 @@ export default function SecureVideoPlayer({
         <p>{error}</p>
         <button 
           onClick={() => window.location.reload()} 
-          className="mt-4 bg-orange-600 px-4 py-2 rounded hover:bg-orange-700"
+          className="mt-4 bg-brand-600 px-4 py-2 rounded hover:bg-brand-700"
         >
           <RotateCcw className="w-4 h-4 inline mr-2" />
           Retry
@@ -300,7 +300,7 @@ export default function SecureVideoPlayer({
       {loading && (
         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
           <div className="text-white text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600 mx-auto mb-4"></div>
             <p>Loading video...</p>
           </div>
         </div>
@@ -336,8 +336,8 @@ export default function SecureVideoPlayer({
           className="w-full h-2 bg-gray-600 rounded-full mb-4 cursor-pointer"
           onClick={handleSeek}
         >
-          <div 
-            className="h-full bg-orange-500 rounded-full"
+          <div
+            className="h-full bg-brand-600 rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -345,11 +345,11 @@ export default function SecureVideoPlayer({
         {/* Control Buttons */}
         <div className="flex items-center justify-between text-white">
           <div className="flex items-center space-x-4">
-            <button onClick={togglePlay} className="hover:text-orange-400">
+            <button onClick={togglePlay} className="hover:text-brand-400">
               {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
             </button>
             
-            <button onClick={toggleMute} className="hover:text-orange-400">
+            <button onClick={toggleMute} className="hover:text-brand-400">
               {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
             </button>
             
@@ -360,7 +360,7 @@ export default function SecureVideoPlayer({
 
           <div className="flex items-center space-x-2">
             <div className="text-xs text-gray-300">{title}</div>
-            <button onClick={toggleFullscreen} className="hover:text-orange-400">
+            <button onClick={toggleFullscreen} className="hover:text-brand-400">
               <Maximize className="w-5 h-5" />
             </button>
           </div>

@@ -141,13 +141,13 @@ const CommunityDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6">
+      <div className="bg-white rounded-lg shadow-card p-6">
         <div className="animate-pulse space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/3"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="space-y-3">
-                <div className="w-full h-32 bg-gray-200 rounded-xl"></div>
+                <div className="w-full h-32 bg-gray-200 rounded-lg"></div>
                 <div className="h-4 bg-gray-200 rounded w-3/4"></div>
                 <div className="h-3 bg-gray-200 rounded w-1/2"></div>
               </div>
@@ -160,7 +160,7 @@ const CommunityDashboard = () => {
 
   if (!communityData) {
     return (
-      <div className="bg-white rounded-2xl shadow-lg p-6 text-center">
+      <div className="bg-white rounded-lg shadow-card p-6 text-center">
         <div className="text-6xl mb-4">🌍</div>
         <h2 className="text-2xl font-bold text-gray-700 mb-2">ไม่พบข้อมูลชุมชน</h2>
         <p className="text-gray-500">กรุณาลองใหม่อีกครั้ง</p>
@@ -171,9 +171,9 @@ const CommunityDashboard = () => {
   const { public_gardens, community_stats, community_projects, user_info } = communityData
 
   return (
-    <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+    <div className="bg-white rounded-lg shadow-card overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-green-500 to-teal-500 text-white">
+      <div className="p-6 bg-brand-700 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Users className="h-6 w-6" />
@@ -218,7 +218,7 @@ const CommunityDashboard = () => {
               onClick={() => setSelectedTab(tab.id as any)}
               className={`flex-1 py-3 px-4 text-sm font-medium flex items-center justify-center space-x-2 transition-colors ${
                 selectedTab === tab.id
-                  ? 'border-b-2 border-green-500 text-green-600 bg-green-50'
+                  ? 'border-b-2 border-brand-500 text-brand-600 bg-brand-50'
                   : 'text-gray-600 hover:text-gray-800 hover:bg-gray-50'
               }`}
             >
@@ -247,7 +247,7 @@ const CommunityDashboard = () => {
                     <Crown className="h-5 w-5 text-yellow-500" />
                     <span>สวนแนะนำ</span>
                   </h3>
-                  <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-xl p-6">
+                  <div className="bg-sand-100 border border-sand-300 rounded-lg p-6">
                     <div className="flex flex-col md:flex-row gap-4">
                       <div className="flex-1">
                         <h4 className="text-xl font-bold text-gray-900 mb-2">
@@ -263,7 +263,7 @@ const CommunityDashboard = () => {
                           {public_gardens.featured_garden.special_plants?.map((plant, index) => (
                             <span
                               key={index}
-                              className="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs"
+                              className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full text-xs"
                             >
                               {plant}
                             </span>
@@ -275,11 +275,11 @@ const CommunityDashboard = () => {
                             <span>{public_gardens.featured_garden.visitors_today} ครั้งวันนี้</span>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <Heart className="h-4 w-4 text-red-500" />
+                            <Heart className="h-4 w-4 text-error" />
                             <span>{public_gardens.featured_garden.likes} ถูกใจ</span>
                           </div>
                           <div className="flex items-center space-x-1">
-                            <Award className="h-4 w-4 text-yellow-500" />
+                            <Award className="h-4 w-4 text-warning" />
                             <span>{public_gardens.featured_garden.achievements} รางวัล</span>
                           </div>
                         </div>
@@ -288,12 +288,12 @@ const CommunityDashboard = () => {
                         <button
                           onClick={() => handleLikeGarden(public_gardens.featured_garden.id)}
                           disabled={isLiking === public_gardens.featured_garden.id}
-                          className="bg-red-500 hover:bg-red-600 disabled:bg-red-300 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
+                          className="bg-error hover:opacity-90 disabled:opacity-40 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors"
                         >
                           <Heart className="h-4 w-4" />
                           <span>ถูกใจ</span>
                         </button>
-                        <button className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors">
+                        <button className="bg-brand-500 hover:opacity-90 text-white px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-colors">
                           <ExternalLink className="h-4 w-4" />
                           <span>เยี่ยมชม</span>
                         </button>
@@ -306,12 +306,12 @@ const CommunityDashboard = () => {
               {/* Community Projects */}
               <div>
                 <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
-                  <Target className="h-5 w-5 text-blue-500" />
+                  <Target className="h-5 w-5 text-ink-light" />
                   <span>โครงการชุมชนปัจจุบัน</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {community_projects.slice(0, 2).map((project) => (
-                    <div key={project.id} className="border border-gray-200 rounded-xl p-4">
+                    <div key={project.id} className="border border-gray-200 rounded-lg p-4">
                       <h4 className="font-bold mb-2">{project.name}</h4>
                       <p className="text-sm text-gray-600 mb-3">{project.description}</p>
                       <div className="mb-3">
@@ -320,8 +320,8 @@ const CommunityDashboard = () => {
                           <span>{project.progress}/{project.target}</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className="bg-blue-500 h-2 rounded-full transition-all duration-300"
+                          <div
+                            className="bg-brand-500 h-2 rounded-full transition-all duration-300"
                             style={{ width: `${getProjectProgress(project.progress, project.target)}%` }}
                           />
                         </div>
@@ -332,7 +332,7 @@ const CommunityDashboard = () => {
                       </div>
                       <button
                         onClick={() => handleJoinProject(project.id)}
-                        className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
+                        className="w-full bg-brand-500 hover:opacity-90 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors"
                       >
                         เข้าร่วมโครงการ
                       </button>
@@ -354,17 +354,17 @@ const CommunityDashboard = () => {
               {/* Trending Gardens */}
               <div>
                 <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
-                  <TrendingUp className="h-5 w-5 text-orange-500" />
+                  <TrendingUp className="h-5 w-5 text-brand-500" />
                   <span>สวนกำลังฮิต</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {public_gardens.trending_gardens.map((garden) => (
-                    <div key={garden.id} className="border border-gray-200 rounded-xl p-4 hover:shadow-md transition-shadow">
+                    <div key={garden.id} className="border border-gray-200 rounded-lg p-4 transition-shadow">
                       <h4 className="font-bold mb-1">{garden.garden_name}</h4>
                       <p className="text-sm text-gray-600 mb-2">
                         โดย {garden.owner_name} • Level {garden.level}
                       </p>
-                      <p className="text-sm text-orange-600 mb-3 font-medium">
+                      <p className="text-sm text-brand-600 mb-3 font-medium">
                         🔥 {garden.trend_reason}
                       </p>
                       <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
@@ -373,7 +373,7 @@ const CommunityDashboard = () => {
                           <span>{garden.visitors_today}</span>
                         </span>
                         <span className="flex items-center space-x-1">
-                          <Heart className="h-4 w-4 text-red-500" />
+                          <Heart className="h-4 w-4 text-error" />
                           <span>{garden.likes}</span>
                         </span>
                         <span className="bg-gray-100 px-2 py-1 rounded-full text-xs">
@@ -384,11 +384,11 @@ const CommunityDashboard = () => {
                         <button
                           onClick={() => handleLikeGarden(garden.id)}
                           disabled={isLiking === garden.id}
-                          className="flex-1 bg-red-500 hover:bg-red-600 disabled:bg-red-300 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors"
+                          className="flex-1 bg-error hover:opacity-90 disabled:opacity-40 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors"
                         >
                           ถูกใจ
                         </button>
-                        <button className="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors">
+                        <button className="flex-1 bg-brand-500 hover:opacity-90 text-white py-2 px-3 rounded-lg text-sm font-medium transition-colors">
                           เยี่ยมชม
                         </button>
                       </div>
@@ -400,24 +400,24 @@ const CommunityDashboard = () => {
               {/* Newest Gardens */}
               <div>
                 <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
-                  <Sparkles className="h-5 w-5 text-green-500" />
+                  <Sparkles className="h-5 w-5 text-brand-500" />
                   <span>สวนใหม่</span>
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {public_gardens.newest_gardens.map((garden) => (
-                    <div key={garden.id} className="border border-gray-200 rounded-xl p-4">
+                    <div key={garden.id} className="border border-gray-200 rounded-lg p-4">
                       <h4 className="font-bold mb-1">{garden.garden_name}</h4>
                       <p className="text-sm text-gray-600 mb-2">
                         โดย {garden.owner_name} • Level {garden.level}
                       </p>
-                      <p className="text-sm text-green-600 mb-3">
+                      <p className="text-sm text-brand-600 mb-3">
                         🌱 สร้างเมื่อ {garden.created_days_ago} วันที่แล้ว
                       </p>
                       <div className="flex items-center justify-between text-sm text-gray-600 mb-3">
                         <span>{garden.total_plants} ต้น</span>
                         <span>{garden.likes} ถูกใจ</span>
                       </div>
-                      <button className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
+                      <button className="w-full bg-brand-500 hover:opacity-90 text-white py-2 px-4 rounded-lg text-sm font-medium transition-colors">
                         เยี่ยมชมและให้กำลังใจ
                       </button>
                     </div>
@@ -437,7 +437,7 @@ const CommunityDashboard = () => {
             >
               <h3 className="text-lg font-bold mb-4">โครงการชุมชนทั้งหมด</h3>
               {community_projects.map((project) => (
-                <div key={project.id} className="border border-gray-200 rounded-xl p-6">
+                <div key={project.id} className="border border-gray-200 rounded-lg p-6">
                   <div className="flex flex-col md:flex-row gap-4">
                     <div className="flex-1">
                       <h4 className="text-xl font-bold mb-2">{project.name}</h4>
@@ -450,8 +450,8 @@ const CommunityDashboard = () => {
                           <span>{project.progress}/{project.target} ({getProjectProgress(project.progress, project.target).toFixed(1)}%)</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-3">
-                          <div 
-                            className="bg-blue-500 h-3 rounded-full transition-all duration-300"
+                          <div
+                            className="bg-brand-500 h-3 rounded-full transition-all duration-300"
                             style={{ width: `${getProjectProgress(project.progress, project.target)}%` }}
                           />
                         </div>
@@ -471,19 +471,19 @@ const CommunityDashboard = () => {
                       <div className="bg-gray-50 rounded-lg p-3">
                         <h5 className="font-semibold text-sm mb-2">รางวัลที่จะได้รับ:</h5>
                         <div className="flex flex-wrap gap-2 text-sm">
-                          <span className="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full">
+                          <span className="bg-sand-100 text-warning px-2 py-1 rounded-full">
                             {project.rewards.xp} XP
                           </span>
-                          <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                          <span className="bg-sand-100 text-ink-light px-2 py-1 rounded-full">
                             {project.rewards.star_seeds} Star Seeds
                           </span>
                           {project.rewards.exclusive_plant && (
-                            <span className="bg-green-100 text-green-700 px-2 py-1 rounded-full">
+                            <span className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full">
                               {project.rewards.exclusive_plant}
                             </span>
                           )}
                           {project.rewards.special_badge && (
-                            <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded-full">
+                            <span className="bg-brand-100 text-brand-700 px-2 py-1 rounded-full">
                               {project.rewards.special_badge}
                             </span>
                           )}
@@ -494,7 +494,7 @@ const CommunityDashboard = () => {
                     <div className="flex flex-col justify-center">
                       <button
                         onClick={() => handleJoinProject(project.id)}
-                        className="bg-blue-500 hover:bg-blue-600 text-white py-3 px-6 rounded-lg font-medium transition-colors"
+                        className="bg-brand-500 hover:opacity-90 text-white py-3 px-6 rounded-lg font-medium transition-colors"
                       >
                         เข้าร่วมโครงการ
                       </button>
@@ -518,31 +518,31 @@ const CommunityDashboard = () => {
                   {/* Top Gardeners */}
                   <div>
                     <h3 className="text-lg font-bold mb-4 flex items-center space-x-2">
-                      <Trophy className="h-5 w-5 text-yellow-500" />
+                      <Trophy className="h-5 w-5 text-warning" />
                       <span>นักสวนยอดเยี่ยมสัปดาห์นี้</span>
                     </h3>
                     <div className="space-y-3">
                       {leaderboard.weekly_top_gardeners.map((gardener: LeaderboardEntry) => (
                         <div
                           key={gardener.rank}
-                          className={`p-4 rounded-xl border-2 ${
-                            gardener.rank === 1 
-                              ? 'bg-yellow-50 border-yellow-300' 
+                          className={`p-4 rounded-lg border-2 ${
+                            gardener.rank === 1
+                              ? 'bg-sand-100 border-sand-300'
                               : gardener.rank === 2
                                 ? 'bg-gray-50 border-gray-300'
                                 : gardener.rank === 3
-                                  ? 'bg-orange-50 border-orange-300'
+                                  ? 'bg-brand-50 border-brand-300'
                                   : 'bg-white border-gray-200'
                           }`}
                         >
                           <div className="flex items-center space-x-4">
                             <div className={`w-12 h-12 rounded-full flex items-center justify-center text-xl font-bold ${
-                              gardener.rank === 1 
-                                ? 'bg-yellow-500 text-white' 
+                              gardener.rank === 1
+                                ? 'bg-warning text-white'
                                 : gardener.rank === 2
-                                  ? 'bg-gray-400 text-white'
+                                  ? 'bg-sand-400 text-white'
                                   : gardener.rank === 3
-                                    ? 'bg-orange-500 text-white'
+                                    ? 'bg-brand-500 text-white'
                                     : 'bg-gray-200 text-gray-600'
                             }`}>
                               {gardener.rank === 1 ? '👑' : gardener.rank}
@@ -558,14 +558,14 @@ const CommunityDashboard = () => {
                               </p>
                               <div className="flex flex-wrap gap-1 mt-1">
                                 {gardener.activities.slice(0, 2).map((activity, index) => (
-                                  <span key={index} className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
+                                  <span key={index} className="text-xs bg-sand-100 text-ink-light px-2 py-1 rounded-full">
                                     {activity}
                                   </span>
                                 ))}
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-xl font-bold text-green-600">
+                              <div className="text-xl font-bold text-brand-600">
                                 {formatCommunityNumber(gardener.points_this_week)}
                               </div>
                               <div className="text-xs text-gray-500">คะแนน</div>
@@ -581,8 +581,8 @@ const CommunityDashboard = () => {
                     <h3 className="text-lg font-bold mb-4">สวนยอดนิยม</h3>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       {leaderboard.most_visited_gardens.map((garden: any, index: number) => (
-                        <div key={index} className="border border-gray-200 rounded-xl p-4 text-center">
-                          <div className="text-2xl font-bold text-green-600 mb-1">
+                        <div key={index} className="border border-gray-200 rounded-lg p-4 text-center">
+                          <div className="text-2xl font-bold text-brand-600 mb-1">
                             {formatCommunityNumber(garden.visits)}
                           </div>
                           <div className="text-sm text-gray-500 mb-2">ครั้ง</div>
@@ -598,9 +598,9 @@ const CommunityDashboard = () => {
                     <h3 className="text-lg font-bold mb-4">ฮีโร่ชุมชน</h3>
                     <div className="space-y-3">
                       {leaderboard.community_heroes.map((hero: any, index: number) => (
-                        <div key={index} className="bg-purple-50 border border-purple-200 rounded-xl p-4">
+                        <div key={index} className="bg-brand-50 border border-brand-200 rounded-lg p-4">
                           <div className="flex items-center space-x-3">
-                            <div className="w-10 h-10 bg-purple-500 text-white rounded-full flex items-center justify-center">
+                            <div className="w-10 h-10 bg-brand-700 text-white rounded-full flex items-center justify-center">
                               🦸‍♀️
                             </div>
                             <div>
@@ -615,7 +615,7 @@ const CommunityDashboard = () => {
                 </>
               ) : (
                 <div className="text-center py-12">
-                  <div className="animate-spin w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+                  <div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full mx-auto mb-4"></div>
                   <p className="text-gray-600">กำลังโหลดอันดับ...</p>
                 </div>
               )}

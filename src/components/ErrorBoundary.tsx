@@ -62,22 +62,22 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
 
 function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => void }) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-brand-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="max-w-md w-full text-center"
       >
         {/* Error Icon */}
         <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="mb-8"
         >
-          <div className="mx-auto w-24 h-24 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-            <AlertTriangle className="h-12 w-12 text-red-500" />
+          <div className="mx-auto w-24 h-24 bg-error-light dark:bg-red-900/30 rounded-full flex items-center justify-center">
+            <AlertTriangle className="h-12 w-12 text-error" />
           </div>
         </motion.div>
 
@@ -85,7 +85,7 @@ function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => vo
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
+          transition={{ duration: 0.3 }}
           className="mb-8"
         >
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -98,7 +98,7 @@ function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => vo
           {/* Error Details (Development only) */}
           {process.env.NODE_ENV === 'development' && error && (
             <details className="text-left bg-gray-100 dark:bg-gray-800 rounded-lg p-4 mb-4">
-              <summary className="cursor-pointer font-medium text-red-600 dark:text-red-400 mb-2">
+              <summary className="cursor-pointer font-medium text-error dark:text-red-400 mb-2">
                 รายละเอียดข้อผิดพลาด (สำหรับนักพัฒนา)
               </summary>
               <pre className="text-xs text-gray-700 dark:text-gray-300 whitespace-pre-wrap overflow-auto max-h-40">
@@ -112,36 +112,32 @@ function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => vo
 
         {/* Action Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.6 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3 }}
           className="space-y-4"
         >
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <motion.button
+            <button
               onClick={reset}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium flex items-center justify-center space-x-2"
+              className="bg-brand-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors font-medium flex items-center justify-center space-x-2"
             >
               <RotateCcw className="h-4 w-4" />
               <span>ลองใหม่</span>
-            </motion.button>
+            </button>
 
             <Link href="/">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
+              <button
                 className="bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 px-6 py-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium flex items-center justify-center space-x-2"
               >
                 <Home className="h-4 w-4" />
                 <span>กลับหน้าแรก</span>
-              </motion.button>
+              </button>
             </Link>
           </div>
 
           <div className="flex justify-center space-x-6 text-sm">
-            <Link href="/contact" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors flex items-center space-x-1">
+            <Link href="/contact" className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors flex items-center space-x-1">
               <MessageCircle className="h-4 w-4" />
               <span>แจ้งปัญหา</span>
             </Link>
@@ -154,8 +150,6 @@ function DefaultErrorFallback({ error, reset }: { error?: Error; reset: () => vo
         </motion.div>
 
         {/* Decorative Elements */}
-        <div className="absolute top-10 left-10 w-20 h-20 bg-orange-200 dark:bg-orange-800 rounded-full opacity-20 animate-bounce" />
-        <div className="absolute bottom-10 right-10 w-16 h-16 bg-orange-200 dark:bg-orange-900 rounded-full opacity-30 animate-pulse" />
       </motion.div>
     </div>
   );
@@ -172,21 +166,19 @@ export function NetworkErrorFallback({ reset }: { reset: () => void }) {
       <p className="text-gray-600 dark:text-gray-400 mb-6">
         ไม่สามารถเชื่อมต่ออินเทอร์เน็ตได้ กรุณาตรวจสอบการเชื่อมต่อ
       </p>
-      <motion.button
+      <button
         onClick={reset}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className="bg-orange-600 text-white px-6 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium"
+        className="bg-brand-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors font-medium"
       >
         ลองเชื่อมต่อใหม่
-      </motion.button>
+      </button>
     </div>
   );
 }
 
 export function NotFoundFallback() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-orange-50 to-orange-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-brand-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="text-center">
         <div className="text-8xl mb-6">🔍</div>
         <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-4">
@@ -197,22 +189,20 @@ export function NotFoundFallback() {
         </p>
         <div className="space-y-4">
           <Link href="/">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-orange-600 text-white px-8 py-3 rounded-lg hover:bg-orange-700 transition-colors font-medium"
+            <button
+              className="bg-brand-600 text-white px-8 py-3 rounded-lg hover:opacity-90 transition-colors font-medium"
             >
               กลับหน้าแรก
-            </motion.button>
+            </button>
           </Link>
           <div className="flex justify-center space-x-6 text-sm">
-            <Link href="/courses" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors">
+            <Link href="/courses" className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
               โปรแกรมสุขภาพ
             </Link>
-            <Link href="/dashboard" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors">
+            <Link href="/dashboard" className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
               Wellness Garden
             </Link>
-            <Link href="/contact" className="text-orange-600 dark:text-orange-400 hover:text-orange-700 dark:hover:text-orange-300 transition-colors">
+            <Link href="/contact" className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
               ติดต่อเรา
             </Link>
           </div>
