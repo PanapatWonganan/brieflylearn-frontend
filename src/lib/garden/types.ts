@@ -110,7 +110,7 @@ export const PLANT_CATEGORY_COLORS = {
     dark: '#2d5a3d'     // brand-700
   },
   mental: {
-    primary: '#5a6a7a', // brand-600 (replacing indigo)
+    primary: '#5a6a7a', // brand-600
     light: '#a0b0c0',   // brand-300
     dark: '#3d4a5a'     // brand-800
   },

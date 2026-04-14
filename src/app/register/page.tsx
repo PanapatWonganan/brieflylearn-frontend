@@ -15,8 +15,8 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-700 mx-auto"></div>
-        <p className="mt-2 text-gray-600">กำลังโหลดหน้าลงทะเบียน...</p>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-mint-500 mx-auto"></div>
+        <p className="mt-2 text-gray-400">กำลังโหลดหน้าลงทะเบียน...</p>
       </div>
     </div>
   )

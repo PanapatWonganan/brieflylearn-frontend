@@ -40,12 +40,12 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
 
   const getRarityColor = (rarity: string) => {
     const colors: { [key: string]: string } = {
-      common: 'bg-sand-400',
-      rare: 'bg-brand-500',
-      epic: 'bg-brand-700',
+      common: 'bg-gray-800/500',
+      rare: 'bg-mint-500',
+      epic: 'bg-mint-700',
       legendary: 'bg-brand-900'
     }
-    return colors[rarity] || 'bg-sand-400'
+    return colors[rarity] || 'bg-gray-800/500'
   }
 
   const getRarityLabel = (rarity: string) => {
@@ -68,7 +68,7 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
       setCustomName('')
       onClose()
     } catch (error) {
-      console.error('Failed to plant seed:', error)
+      // Silently ignore error
     }
     setIsPlanting(false)
   }
@@ -99,27 +99,27 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.9, opacity: 0 }}
-          className="bg-white rounded-lg p-6 max-w-4xl max-h-[90vh] overflow-auto"
+          className="bg-gray-900 rounded-sm p-6 max-w-4xl max-h-[90vh] overflow-auto"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 flex items-center space-x-2">
+              <h2 className="text-2xl font-bold text-gray-100 flex items-center space-x-2">
                 <Sparkles className="h-6 w-6 text-yellow-500" />
                 <span>คลังโปรเจกต์</span>
               </h2>
-              <p className="text-gray-600 mt-1">เลือกโปรเจกต์ที่คุณต้องการเริ่มต้น</p>
+              <p className="text-gray-400 mt-1">เลือกโปรเจกต์ที่คุณต้องการเริ่มต้น</p>
             </div>
             <div className="flex items-center space-x-4">
-              <div className="bg-sand-100 px-4 py-2 rounded-lg flex items-center space-x-2">
+              <div className="bg-gray-800 px-4 py-2 rounded-sm flex items-center space-x-2">
                 <Star className="h-5 w-5 text-warning" />
                 <span className="font-bold text-ink-dark">{starSeeds}</span>
-                <span className="text-sm text-ink-light">เครดิต</span>
+                <span className="text-sm text-gray-400">เครดิต</span>
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-800 rounded-sm transition-colors"
               >
                 <X className="h-5 w-5" />
               </button>
@@ -137,19 +137,19 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                 return (
                   <motion.div
                     key={plant.id}
-                    className={`relative rounded-lg p-4 border-2 transition-all ${
+                    className={`relative rounded-sm p-4 border-2 transition-all ${
                       isLocked
-                        ? 'bg-gray-100 border-gray-300 opacity-60'
+                        ? 'bg-gray-800 border-gray-600 opacity-60'
                         : canAfford
-                        ? 'bg-white border-gray-200 hover:border-brand-300 cursor-pointer'
-                        : 'bg-gray-50 border-gray-200 opacity-75'
+                        ? 'bg-gray-900 border-gray-700 hover:border-mint-600 cursor-pointer'
+                        : 'bg-gray-800/50 border-gray-700 opacity-75'
                     }`}
                     onClick={() => !isLocked && canAfford && setSelectedPlant(plant)}
                     whileHover={!isLocked && canAfford ? { scale: 1.02 } : {}}
                     whileTap={!isLocked && canAfford ? { scale: 0.98 } : {}}
                   >
                     {/* Rarity Badge */}
-                    <div className={`absolute top-2 right-2 px-2 py-1 rounded-full text-xs font-medium text-white ${getRarityColor(plant.rarity)}`}>
+                    <div className={`absolute top-2 right-2 px-2 py-1 rounded-sm text-xs font-medium text-white ${getRarityColor(plant.rarity)}`}>
                       {getRarityLabel(plant.rarity)}
                     </div>
 
@@ -159,10 +159,10 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                     </div>
 
                     {/* Plant Name */}
-                    <h3 className="font-bold text-gray-900 mb-1">{plant.name}</h3>
+                    <h3 className="font-bold text-gray-100 mb-1">{plant.name}</h3>
                     
                     {/* Category */}
-                    <div className="flex items-center space-x-1 text-sm text-gray-600 mb-2">
+                    <div className="flex items-center space-x-1 text-sm text-gray-400 mb-2">
                       <span>{getCategoryEmoji(plant.category)}</span>
                       <span>{plant.category}</span>
                     </div>
@@ -175,7 +175,7 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                     {/* Rewards */}
                     <div className="flex items-center justify-between text-xs mb-3">
                       <div className="flex items-center space-x-1">
-                        <span className="text-ink-light">⭐</span>
+                        <span className="text-gray-400">⭐</span>
                         <span>{plant.base_xp_reward} XP</span>
                       </div>
                       <div className="flex items-center space-x-1">
@@ -186,15 +186,15 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
 
                     {/* Price / Status */}
                     {isLocked ? (
-                      <div className="bg-gray-200 text-gray-600 py-2 px-3 rounded-lg text-center text-sm font-medium flex items-center justify-center space-x-1">
+                      <div className="bg-gray-700 text-gray-400 py-2 px-3 rounded-sm text-center text-sm font-medium flex items-center justify-center space-x-1">
                         <Lock className="h-4 w-4" />
                         <span>Level {plant.unlock_level}</span>
                       </div>
                     ) : (
-                      <div className={`py-2 px-3 rounded-lg text-center text-sm font-medium ${
+                      <div className={`py-2 px-3 rounded-sm text-center text-sm font-medium ${
                         canAfford
-                          ? 'bg-sand-100 text-ink-light'
-                          : 'bg-error-light text-error'
+                          ? 'bg-gray-800 text-gray-400'
+                          : 'bg-red-500/10 text-red-400'
                       }`}>
                         {canAfford ? `เริ่มโปรเจกต์ ${cost} เครดิต` : `ต้องการ ${cost} เครดิต`}
                       </div>
@@ -209,11 +209,11 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
               <div className="flex items-start space-x-4">
                 <div className="text-6xl">{selectedPlant.icon_path}</div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900">{selectedPlant.name}</h3>
-                  <p className="text-gray-600 mt-1">{selectedPlant.description}</p>
+                  <h3 className="text-xl font-bold text-gray-100">{selectedPlant.name}</h3>
+                  <p className="text-gray-400 mt-1">{selectedPlant.description}</p>
                   
                   <div className="mt-3 flex items-center space-x-4">
-                    <div className={`px-3 py-1 rounded-full text-sm font-medium text-white ${getRarityColor(selectedPlant.rarity)}`}>
+                    <div className={`px-3 py-1 rounded-sm text-sm font-medium text-white ${getRarityColor(selectedPlant.rarity)}`}>
                       {getRarityLabel(selectedPlant.rarity)}
                     </div>
                     <div className="flex items-center space-x-1 text-sm">
@@ -225,8 +225,8 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
               </div>
 
               {/* Growth Stages */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h4 className="font-bold text-gray-900 mb-3 flex items-center space-x-2">
+              <div className="bg-gray-800/50 rounded-sm p-4">
+                <h4 className="font-bold text-gray-100 mb-3 flex items-center space-x-2">
                   <Info className="h-4 w-4" />
                   <span>ระยะการพัฒนา</span>
                 </h4>
@@ -236,7 +236,7 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                       <div className="text-2xl mb-1">
                         {['🌱', '🪴', '🌿', '🌳', '🎓'][index] || '📚'}
                       </div>
-                      <p className="text-xs text-gray-600">ขั้นที่ {index + 1}</p>
+                      <p className="text-xs text-gray-400">ขั้นที่ {index + 1}</p>
                     </div>
                   ))}
                 </div>
@@ -247,7 +247,7 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
 
               {/* Custom Name */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-400 mb-2">
                   ตั้งชื่อโปรเจกต์ (ไม่บังคับ)
                 </label>
                 <input
@@ -255,7 +255,7 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                   value={customName}
                   onChange={(e) => setCustomName(e.target.value)}
                   placeholder={`เช่น "${selectedPlant.name}ของฉัน"`}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                  className="w-full px-4 py-2 border border-gray-600 rounded-sm focus:outline-none"
                   maxLength={50}
                 />
               </div>
@@ -267,16 +267,16 @@ const PlantShopModal: React.FC<PlantShopModalProps> = ({
                     setSelectedPlant(null)
                     setCustomName('')
                   }}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 py-3 px-4 rounded-lg font-medium transition-colors"
+                  className="flex-1 bg-gray-700 hover:bg-gray-300 text-gray-200 py-3 px-4 rounded-sm font-medium transition-colors"
                 >
                   กลับ
                 </button>
                 <button
                   onClick={handlePlant}
                   disabled={isPlanting || !canAffordPlant(selectedPlant)}
-                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2 ${
+                  className={`flex-1 py-3 px-4 rounded-sm font-medium transition-colors flex items-center justify-center space-x-2 ${
                     canAffordPlant(selectedPlant)
-                      ? 'bg-brand-500 hover:opacity-90 text-white'
+                      ? 'bg-mint-500 hover:opacity-90 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >

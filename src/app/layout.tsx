@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Sarabun, Noto_Serif_Thai } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, DM_Mono, IBM_Plex_Sans_Thai, Trirong } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -9,50 +9,75 @@ import { GardenProvider } from "@/contexts/GardenContext";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import NotificationContainer from "@/components/NotificationContainer";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import GoogleAuthWrapper from "@/components/GoogleAuthWrapper";
+import MetaPixel from "@/components/MetaPixel";
 
-const sarabun = Sarabun({
-  subsets: ["thai", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-sans",
+  variable: "--font-display",
 });
 
-const notoSerifThai = Noto_Serif_Thai({
-  subsets: ["thai", "latin"],
-  weight: ["400", "500", "600", "700"],
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500"],
   display: "swap",
-  variable: "--font-serif",
+  variable: "--font-body",
+});
+
+const dmMono = DM_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
+  variable: "--font-mono",
+});
+
+const plexThai = IBM_Plex_Sans_Thai({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500"],
+  display: "swap",
+  variable: "--font-thai",
+});
+
+const trirong = Trirong({
+  subsets: ["thai", "latin"],
+  weight: ["300", "400", "500"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-thai-serif",
 });
 
 export const metadata: Metadata = {
-  title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
-  description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
-  keywords: "AI, เรียน AI, สร้างธุรกิจด้วย AI, AI สำหรับองค์กร, Prompt Engineering, AI Automation, คอร์ส AI ออนไลน์",
-  authors: [{ name: "BrieflyLearn Team" }],
-  creator: "BrieflyLearn",
-  publisher: "BrieflyLearn",
+  title: "Antipararell - AI Lessons Reach 100 Millions Company",
+  description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร ครอบคลุม Prompt Engineering, AI Automation และอีกมากมาย",
+  keywords: "AI, เรียน AI, Antipararell, AI Learning, Prompt Engineering, AI Automation, LMS, คอร์ส AI",
+  authors: [{ name: "Antipararell" }],
+  creator: "Antipararell",
+  publisher: "Antipararell",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://brieflylearn.com"),
+  metadataBase: new URL("https://antipararell.com"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
-    description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
-    url: "https://brieflylearn.com",
-    siteName: "BrieflyLearn",
+    title: "Antipararell - AI Lessons Reach 100 Millions Company",
+    description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
+    url: "https://antipararell.com",
+    siteName: "Antipararell",
     locale: "th_TH",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "BrieflyLearn - เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
-    description: "แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า",
-    creator: "@brieflylearn",
+    title: "Antipararell - AI Lessons Reach 100 Millions Company",
+    description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
+    creator: "@antipararell",
   },
   robots: {
     index: true,
@@ -75,24 +100,27 @@ export default function RootLayout({
   return (
     <html lang="th" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#2d5a3d" />
+        <meta name="theme-color" content="#0E0E0E" />
       </head>
-      <body className={`${sarabun.variable} ${notoSerifThai.variable} antialiased`}>
+      <body className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable} ${plexThai.variable} ${trirong.variable} antialiased`}>
+        <MetaPixel />
         <SmoothScroll />
-        <NotificationProvider>
-          <AuthProvider>
-            <GardenProvider>
-              <ErrorBoundary>
-                <div className="min-h-screen flex flex-col">
-                  <Header />
-                  <main className="flex-1">{children}</main>
-                  <Footer />
-                  <NotificationContainer />
-                </div>
-              </ErrorBoundary>
-            </GardenProvider>
-          </AuthProvider>
-        </NotificationProvider>
+        <GoogleAuthWrapper>
+          <NotificationProvider>
+            <AuthProvider>
+              <GardenProvider>
+                <ErrorBoundary>
+                  <div className="min-h-screen flex flex-col">
+                    <Header />
+                    <main className="flex-1">{children}</main>
+                    <Footer />
+                    <NotificationContainer />
+                  </div>
+                </ErrorBoundary>
+              </GardenProvider>
+            </AuthProvider>
+          </NotificationProvider>
+        </GoogleAuthWrapper>
       </body>
     </html>
   );

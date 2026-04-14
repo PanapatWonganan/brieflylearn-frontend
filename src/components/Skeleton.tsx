@@ -6,9 +6,9 @@ import React from 'react'
 function Bone({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`relative overflow-hidden rounded-lg bg-gray-100 ${className}`}
+      className={`relative overflow-hidden rounded-sm bg-gray-800 ${className}`}
     >
-      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
+      <div className="absolute inset-0 -translate-x-full animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-gray-700/60 to-transparent" />
     </div>
   )
 }
@@ -16,9 +16,9 @@ function Bone({ className = '' }: { className?: string }) {
 // Skeleton for dashboard stat cards
 export function StatCardSkeleton() {
   return (
-    <div className="bg-white border border-gray-100/60 shadow-card rounded-xl p-6">
+    <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6">
       <div className="flex items-center justify-between mb-4">
-        <Bone className="h-10 w-10 rounded-lg" />
+        <Bone className="h-10 w-10 rounded-sm" />
         <Bone className="h-4 w-16" />
       </div>
       <Bone className="h-8 w-24 mb-2" />
@@ -30,13 +30,13 @@ export function StatCardSkeleton() {
 // Skeleton for course cards
 export function CourseCardSkeleton() {
   return (
-    <div className="bg-white border border-gray-100/60 shadow-card rounded-xl overflow-hidden">
+    <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm overflow-hidden">
       <Bone className="h-48 w-full rounded-none" />
       <div className="p-6">
         <Bone className="h-3 w-20 mb-3" />
         <Bone className="h-6 w-full mb-2" />
         <Bone className="h-4 w-3/4 mb-4" />
-        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+        <div className="flex justify-between items-center pt-4 border-t border-gray-700/50">
           <Bone className="h-4 w-16" />
           <Bone className="h-4 w-20" />
         </div>
@@ -50,7 +50,7 @@ export function PageSkeleton({ cards = 3 }: { cards?: number }) {
   return (
     <div className="min-h-screen">
       {/* Hero area */}
-      <div className="border-b border-gray-100 py-20">
+      <div className="border-b border-gray-700/50 py-20">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 text-center">
           <Bone className="h-4 w-24 mx-auto mb-4" />
           <Bone className="h-10 w-72 mx-auto mb-4" />
@@ -73,7 +73,7 @@ export function PageSkeleton({ cards = 3 }: { cards?: number }) {
 export function DashboardSkeleton() {
   return (
     <div className="min-h-screen">
-      <div className="border-b border-gray-100 py-8">
+      <div className="border-b border-gray-700/50 py-8">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <Bone className="h-8 w-48 mb-2" />
           <Bone className="h-4 w-64" />
@@ -85,12 +85,12 @@ export function DashboardSkeleton() {
           <StatCardSkeleton />
           <StatCardSkeleton />
         </div>
-        <div className="bg-white border border-gray-100/60 shadow-card rounded-xl p-8">
+        <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-8">
           <Bone className="h-6 w-40 mb-6" />
           <div className="space-y-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="flex items-center gap-4">
-                <Bone className="h-12 w-12 rounded-lg" />
+                <Bone className="h-12 w-12 rounded-sm" />
                 <div className="flex-1">
                   <Bone className="h-5 w-3/4 mb-2" />
                   <Bone className="h-3 w-1/2" />
@@ -108,40 +108,40 @@ export function DashboardSkeleton() {
 export function GardenSkeleton() {
   return (
     <div className="min-h-screen">
-      <div className="border-b border-gray-100 py-8">
+      <div className="border-b border-gray-700/50 py-8">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="flex items-center gap-4 mb-6">
-            <Bone className="h-14 w-14 rounded-xl" />
+            <Bone className="h-14 w-14 rounded-sm" />
             <div>
               <Bone className="h-7 w-48 mb-2" />
               <Bone className="h-4 w-32" />
             </div>
           </div>
           <div className="flex gap-4">
-            <Bone className="h-10 w-28 rounded-lg" />
-            <Bone className="h-10 w-28 rounded-lg" />
-            <Bone className="h-10 w-28 rounded-lg" />
+            <Bone className="h-10 w-28 rounded-sm" />
+            <Bone className="h-10 w-28 rounded-sm" />
+            <Bone className="h-10 w-28 rounded-sm" />
           </div>
         </div>
       </div>
       <div className="max-w-6xl mx-auto px-5 sm:px-8 py-10">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div className="space-y-6">
-            <div className="bg-white border border-gray-100/60 shadow-card rounded-xl p-6">
+            <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6">
               <Bone className="h-5 w-32 mb-4" />
               <div className="space-y-3">
-                <Bone className="h-10 w-full rounded-lg" />
-                <Bone className="h-10 w-full rounded-lg" />
-                <Bone className="h-10 w-full rounded-lg" />
+                <Bone className="h-10 w-full rounded-sm" />
+                <Bone className="h-10 w-full rounded-sm" />
+                <Bone className="h-10 w-full rounded-sm" />
               </div>
             </div>
           </div>
           <div className="lg:col-span-3">
-            <div className="bg-white border border-gray-100/60 shadow-card rounded-xl p-6">
+            <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6">
               <Bone className="h-6 w-36 mb-6" />
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {Array.from({ length: 6 }).map((_, i) => (
-                  <Bone key={i} className="h-32 w-full rounded-xl" />
+                  <Bone key={i} className="h-32 w-full rounded-sm" />
                 ))}
               </div>
             </div>

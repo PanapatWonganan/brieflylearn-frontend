@@ -45,7 +45,6 @@ export async function fetchCourses(): Promise<ApiResponse<Course[]>> {
       return { error: 'No courses data received' };
     }
   } catch (error) {
-    console.error('Failed to fetch courses:', error);
     return { 
       error: error instanceof Error ? error.message : 'Failed to fetch courses' 
     };
@@ -99,7 +98,6 @@ export async function fetchCourseLessons(courseId: string): Promise<ApiResponse<
     const result = await response.json();
     return { data: result };
   } catch (error) {
-    console.error('Failed to fetch course lessons:', error);
     return { 
       error: error instanceof Error ? error.message : 'Failed to fetch course lessons' 
     };
@@ -152,7 +150,6 @@ export async function fetchLessonDetail(lessonId: string): Promise<ApiResponse<L
     const result = await response.json();
     return { data: result };
   } catch (error) {
-    console.error('Failed to fetch lesson detail:', error);
     return { 
       error: error instanceof Error ? error.message : 'Failed to fetch lesson detail' 
     };
@@ -195,7 +192,6 @@ export async function fetchStreamUrl(lessonId: string): Promise<ApiResponse<Stre
     const result = await response.json();
     return { data: result };
   } catch (error) {
-    console.error('Failed to fetch stream URL:', error);
     return { 
       error: error instanceof Error ? error.message : 'Failed to fetch stream URL' 
     };

@@ -7,16 +7,13 @@ import { dashboardAPI, DashboardData } from '@/lib/api/dashboard'
 import {
   BookOpen,
   Trophy,
-  TrendingUp,
-  User,
-  Target,
-  Users
+  TrendingUp
 } from 'lucide-react'
 import Link from 'next/link'
 import { DashboardSkeleton } from '@/components/Skeleton'
 
 export default function DashboardPage() {
-  const { user, logout, loading, isAuthenticated } = useAuth()
+  const { user, loading, isAuthenticated } = useAuth()
   const router = useRouter()
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null)
   const [dashboardLoading, setDashboardLoading] = useState(true)
@@ -39,7 +36,7 @@ export default function DashboardPage() {
       const data = await dashboardAPI.getDashboardData()
       setDashboardData(data)
     } catch (error) {
-      console.error('Failed to load dashboard data:', error)
+      // Silently ignore error
     } finally {
       setDashboardLoading(false)
     }
@@ -70,56 +67,61 @@ export default function DashboardPage() {
 
         {/* Welcome Section */}
         <div className="mb-12">
-          <h1 className="text-heading text-ink mb-2">
+          <h1 className="text-heading text-gray-200 mb-2">
             สวัสดี{user.fullName ? `, ${user.fullName}` : ''}
           </h1>
-          <p className="text-ink-muted">
+          <p className="text-gray-500">
             {getRoleTitle(user.role)}
           </p>
         </div>
 
         {/* Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
+          <div className="border border-gray-700/40 shadow-card rounded-sm p-6">
             <div className="flex items-center space-x-4">
-              <div className="text-ink">
+              <div className="text-gray-200">
                 <BookOpen className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-ink mb-1">
+                <p className="text-3xl font-semibold text-gray-200 mb-1">
                   {dashboardData?.stats.enrolledCourses || 0}
                 </p>
-                <p className="text-ink-muted text-sm">
+                <p className="text-gray-500 text-sm">
                   {user.role === 'student' ? 'คอร์สที่ลงทะเบียน' : 'คอร์สทั้งหมด'}
                 </p>
+                {dashboardData?.stats.completedLessons !== undefined && dashboardData?.stats.totalLessons !== undefined && (
+                  <p className="text-xs text-gray-400 mt-1">
+                    {dashboardData.stats.completedLessons}/{dashboardData.stats.totalLessons} บทเรียนที่เสร็จ
+                  </p>
+                )}
               </div>
             </div>
           </div>
 
-          <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
+          <div className="border border-gray-700/40 shadow-card rounded-sm p-6">
             <div className="flex items-center space-x-4">
-              <div className="text-ink">
+              <div className="text-gray-200">
                 <TrendingUp className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-ink mb-1">
+                <p className="text-3xl font-semibold text-gray-200 mb-1">
                   {Math.round(dashboardData?.stats.totalProgress || 0)}%
                 </p>
-                <p className="text-ink-muted text-sm">ความก้าวหน้า</p>
+                <p className="text-gray-500 text-sm">ความก้าวหน้า</p>
               </div>
             </div>
           </div>
 
-          <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
+          <div className="border border-gray-700/40 shadow-card rounded-sm p-6">
             <div className="flex items-center space-x-4">
-              <div className="text-ink">
+              <div className="text-gray-200">
                 <Trophy className="w-6 h-6" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-ink mb-1">
+                <p className="text-3xl font-semibold text-gray-200 mb-1">
                   {dashboardData?.stats.certificatesEarned || 0}
                 </p>
-                <p className="text-ink-muted text-sm">ใบประกาศนียบัตร</p>
+                <p className="text-gray-500 text-sm">ใบประกาศนียบัตร</p>
               </div>
             </div>
           </div>
@@ -130,15 +132,15 @@ export default function DashboardPage() {
 
           {/* Left Column - Main Content (2/3) */}
           <div className="lg:col-span-2">
-            <div className="border border-gray-100/60 shadow-card rounded-xl p-8">
-              <h2 className="text-2xl font-semibold text-ink mb-8">คอร์สของคุณ</h2>
+            <div className="border border-gray-700/40 shadow-card rounded-sm p-8">
+              <h2 className="text-2xl font-semibold text-gray-200 mb-8">คอร์สของคุณ</h2>
 
               {/* Empty State */}
               <div className="text-center py-16">
-                <div className="w-16 h-16 bg-sand-50 rounded-xl flex items-center justify-center mx-auto mb-6">
-                  <BookOpen className="w-8 h-8 text-ink-light" />
+                <div className="w-16 h-16 bg-gray-800/50 rounded-sm flex items-center justify-center mx-auto mb-6">
+                  <BookOpen className="w-8 h-8 text-gray-400" />
                 </div>
-                <h3 className="text-xl font-medium text-ink mb-3">
+                <h3 className="text-xl font-medium text-gray-200 mb-3">
                   {user.role === 'student'
                     ? 'คุณยังไม่มีคอร์สที่ลงทะเบียน'
                     : user.role === 'instructor'
@@ -146,7 +148,7 @@ export default function DashboardPage() {
                     : 'จัดการระบบ'
                   }
                 </h3>
-                <p className="text-ink-muted mb-8 max-w-md mx-auto">
+                <p className="text-gray-500 mb-8 max-w-md mx-auto">
                   {user.role === 'student'
                     ? 'เลือกคอร์สที่เหมาะกับคุณและเริ่มต้นการเรียนรู้'
                     : user.role === 'instructor'
@@ -157,7 +159,7 @@ export default function DashboardPage() {
 
                 <Link
                   href="/courses"
-                  className="inline-flex items-center justify-center px-6 py-3 bg-ink text-white rounded-lg font-medium hover:bg-ink/90 transition-colors"
+                  className="inline-flex items-center justify-center px-6 py-3 bg-mint-600 text-white rounded-sm font-medium hover:opacity-90 transition-colors"
                 >
                   {user.role === 'student'
                     ? 'เริ่มเรียนเลย'
@@ -174,27 +176,27 @@ export default function DashboardPage() {
           <div className="space-y-8">
 
             {/* Quick Actions */}
-            <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-ink mb-6">การดำเนินการด่วน</h3>
+            <div className="border border-gray-700/40 shadow-card rounded-sm p-6">
+              <h3 className="text-lg font-semibold text-gray-200 mb-6">การดำเนินการด่วน</h3>
 
               <div className="space-y-3">
                 <Link
                   href="/profile"
-                  className="block text-ink-light hover:text-ink transition-colors"
+                  className="block text-gray-400 hover:text-gray-200 transition-colors"
                 >
                   แก้ไขโปรไฟล์
                 </Link>
 
                 <Link
                   href="/courses"
-                  className="block text-ink-light hover:text-ink transition-colors"
+                  className="block text-gray-400 hover:text-gray-200 transition-colors"
                 >
                   ดูคอร์สทั้งหมด
                 </Link>
 
                 <Link
                   href="/community"
-                  className="block text-ink-light hover:text-ink transition-colors"
+                  className="block text-gray-400 hover:text-gray-200 transition-colors"
                 >
                   เข้าร่วมชุมชน
                 </Link>

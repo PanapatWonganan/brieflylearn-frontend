@@ -1,19 +1,27 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { 
-  ArrowLeft, 
-  Clock, 
-  Eye, 
-  AlertCircle, 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  ArrowLeft,
+  Clock,
+  Eye,
+  AlertCircle,
   CheckCircle,
   Loader2,
-  PlayCircle
+  PlayCircle,
+  Star,
+  Sparkles,
+  Trophy,
+  Award,
 } from 'lucide-react';
 import WorkingSecureVideoPlayer from '@/components/WorkingSecureVideoPlayer';
 import { fetchLessonDetail, fetchStreamUrl, LessonDetail, StreamUrlResponse } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContextNew';
+import { useProgressTracking } from '@/hooks/useProgressTracking';
+import { LessonCompletionResponse } from '@/lib/garden/courseIntegrationApi';
+import CourseCompletionCelebration from '@/components/garden/CourseCompletionCelebration';
 
 // Helper functions for extracting video IDs
 function getYouTubeVideoId(url: string): string | null {
@@ -28,48 +36,11 @@ function getVimeoVideoId(url: string): string | null {
   return match ? match[1] : null;
 }
 
-interface LessonData {
-  id: string;
-  title: string;
-  description: string;
-  duration_minutes: number;
-  order_index: number;
-  is_free: boolean;
-  video_url?: string;
-  course: {
-    id: string;
-    title: string;
-  };
-  video?: {
-    id: string;
-    status: 'pending' | 'processing' | 'ready' | 'failed';
-    duration: string;
-    size: string;
-    ready: boolean;
-    processing_error?: string;
-    stream_available?: boolean;
-  };
-  can_watch: boolean;
-}
-
-interface StreamData {
-  stream_url: string;
-  expires_at: string;
-  video: {
-    id: string;
-    title: string;
-    duration: string;
-  };
-  lesson: {
-    id: string;
-    title: string;
-  };
-}
-
 export default function LessonPage() {
   const params = useParams();
   const router = useRouter();
   const lessonId = params.id as string;
+  const { user, isAuthenticated } = useAuth();
 
   const [lesson, setLesson] = useState<LessonDetail | null>(null);
   const [streamData, setStreamData] = useState<StreamUrlResponse | null>(null);
@@ -77,31 +48,47 @@ export default function LessonPage() {
   const [streamLoading, setStreamLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [watchProgress, setWatchProgress] = useState({ currentTime: 0, duration: 0 });
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+  // Reward/completion state
+  const [lessonCompleted, setLessonCompleted] = useState(false);
+  const [rewardData, setRewardData] = useState<LessonCompletionResponse | null>(null);
+  const [showRewardToast, setShowRewardToast] = useState(false);
+  const [showCourseCompletion, setShowCourseCompletion] = useState(false);
+
+  // Handle rewards earned callback
+  const handleRewardsEarned = useCallback((response: LessonCompletionResponse) => {
+    setRewardData(response);
+    setLessonCompleted(true);
+    setShowRewardToast(true);
+
+    // Auto-hide toast after 6 seconds
+    setTimeout(() => setShowRewardToast(false), 6000);
+
+    // If course completed, show celebration modal after a short delay
+    if (response.data?.course_completed) {
+      setTimeout(() => setShowCourseCompletion(true), 2000);
+    }
+  }, []);
+
+  // Progress tracking - only enabled if user is authenticated
+  const progressTracking = useProgressTracking({
+    lessonId,
+    enabled: isAuthenticated,
+    onRewardsEarned: handleRewardsEarned,
+  });
 
   // Fetch lesson data
   useEffect(() => {
     const loadLesson = async () => {
-      console.log('📚 Loading lesson details for ID:', lessonId);
       const result = await fetchLessonDetail(lessonId);
-      console.log('📚 Lesson detail API response:', result);
-      
+
       if (result.error) {
-        console.error('❌ Error loading lesson:', result.error);
         setError(result.error);
       } else if (result.data) {
-        console.log('✅ Lesson data loaded:', {
-          id: result.data.id,
-          title: result.data.title,
-          canWatch: result.data.can_watch,
-          hasVideo: !!result.data.video,
-          videoStatus: result.data.video?.status,
-          videoReady: result.data.video?.ready,
-          hasVideoUrl: !!result.data.video_url,
-          videoUrl: result.data.video_url
-        });
         setLesson(result.data);
       }
-      
+
       setLoading(false);
     };
 
@@ -112,82 +99,65 @@ export default function LessonPage() {
 
   // Fetch stream URL when lesson is ready
   const getStreamUrl = async () => {
-    console.log('🎬 getStreamUrl called with lesson:', {
-      lessonId,
-      videoReady: lesson?.video?.ready,
-      canWatch: lesson?.can_watch,
-      videoStatus: lesson?.video?.status,
-      hasVideo: !!lesson?.video,
-      hasVideoUrl: !!lesson?.video_url
-    });
 
     if (!lesson?.video?.ready || !lesson.can_watch) {
-      console.error('❌ Cannot get stream URL - requirements not met:', { 
-        videoReady: lesson?.video?.ready, 
-        canWatch: lesson?.can_watch,
-        videoStatus: lesson?.video?.status
-      });
       alert(`Cannot play video: ${!lesson?.video?.ready ? 'Video not ready' : 'No permission to watch'}`);
       return;
     }
 
     setStreamLoading(true);
-    console.log('📡 Fetching stream URL for lesson:', lessonId);
-    
+
     try {
       const result = await fetchStreamUrl(lessonId);
-      console.log('📦 Stream URL API response:', result);
-      
+
       if (result.error) {
-        console.error('❌ Stream URL error:', result.error);
         setError(result.error);
         alert(`Error loading video: ${result.error}`);
       } else if (result.data) {
-        console.log('✅ Stream URL data received:', {
-          streamUrl: result.data.stream_url,
-          expiresAt: result.data.expires_at,
-          videoId: result.data.video?.id,
-          urlLength: result.data.stream_url?.length
-        });
         setStreamData(result.data);
       } else {
-        console.error('❌ No data or error in response');
         alert('Failed to load video: No data received');
       }
     } catch (error) {
-      console.error('❌ Exception while fetching stream URL:', error);
       alert(`Failed to load video: ${error}`);
     }
-    
+
     setStreamLoading(false);
   };
 
   const handleProgress = (currentTime: number, duration: number) => {
     setWatchProgress({ currentTime, duration });
-    
-    // Report progress to backend every 30 seconds
-    if (Math.floor(currentTime) % 30 === 0) {
-      // TODO: Send progress to backend API
-      console.log('Progress:', { currentTime, duration, percentage: (currentTime / duration) * 100 });
+
+    // Update progress tracking with current watch time
+    progressTracking.updateWatchTime(currentTime);
+
+    // Mark as complete if user watched 90% or more
+    const progressPercent = (currentTime / duration) * 100;
+    if (progressPercent >= 90) {
+      progressTracking.markComplete();
     }
   };
 
-  const handleSeek = (seekCount: number) => {
-    // Report excessive seeking
-    console.warn('Excessive seeking detected:', seekCount);
+  const handleVideoPlay = () => {
+    setIsVideoPlaying(true);
+    progressTracking.startTracking();
   };
 
-  const handleSpeedChange = (speedChanges: number) => {
-    // Report excessive speed changes
-    console.warn('Excessive speed changes detected:', speedChanges);
+  const handleVideoPause = () => {
+    setIsVideoPlaying(false);
+    progressTracking.pauseTracking();
   };
+
+  const progressPercent = watchProgress.duration > 0
+    ? Math.round((watchProgress.currentTime / watchProgress.duration) * 100)
+    : 0;
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-brand-600" />
-          <p className="text-gray-600">Loading lesson...</p>
+          <Loader2 className="w-8 h-8 animate-spin mx-auto mb-4 text-mint-400" />
+          <p className="text-gray-400">Loading lesson...</p>
         </div>
       </div>
     );
@@ -195,14 +165,14 @@ export default function LessonPage() {
 
   if (error || !lesson) {
     return (
-      <div className="min-h-screen bg-sand-50 flex items-center justify-center">
-        <div className="bg-white rounded-lg p-8 shadow-card text-center">
-          <AlertCircle className="w-16 h-16 text-error mx-auto mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">เกิดข้อผิดพลาด</h1>
-          <p className="text-gray-600 mb-4">{error}</p>
+      <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+        <div className="bg-gray-800 rounded-sm p-8 shadow-card text-center">
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h1 className="text-2xl font-bold text-gray-100 mb-2">เกิดข้อผิดพลาด</h1>
+          <p className="text-gray-400 mb-4">{error}</p>
           <button
             onClick={() => router.back()}
-            className="bg-brand-600 text-white px-6 py-2 rounded-lg hover:opacity-90"
+            className="bg-mint-600 text-white px-6 py-2 rounded-sm hover:opacity-90"
           >
             กลับหน้าก่อน
           </button>
@@ -213,11 +183,11 @@ export default function LessonPage() {
 
   const canWatchVideo = lesson.can_watch && lesson.video?.ready;
   const isVideoProcessing = lesson.video?.status === 'processing';
-  const isVideoPending = lesson.video?.status === 'pending';  
+  const isVideoPending = lesson.video?.status === 'pending';
   const hasVideoError = lesson.video?.status === 'failed';
 
   return (
-    <div className="min-h-screen bg-sand-50">
+    <div className="min-h-screen bg-gray-900">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <motion.div
@@ -227,13 +197,13 @@ export default function LessonPage() {
         >
           <button
             onClick={() => router.back()}
-            className="flex items-center text-gray-600 hover:opacity-90 mb-4"
+            className="flex items-center text-gray-400 hover:opacity-90 mb-4"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             กลับ
           </button>
-          
-          <div className="bg-white rounded-lg shadow-sm p-4">
+
+          <div className="bg-gray-800 rounded-sm shadow-sm p-4">
             <div className="flex items-center text-sm text-gray-500 mb-2">
               <span>{lesson.course.title}</span>
               <span className="mx-2">•</span>
@@ -241,14 +211,14 @@ export default function LessonPage() {
               {lesson.is_free && (
                 <>
                   <span className="mx-2">•</span>
-                  <span className="bg-brand-50 text-brand-700 px-2 py-1 rounded text-xs">
+                  <span className="bg-mint-900/50 text-mint-300 px-2 py-1 rounded text-xs">
                     ดูฟรี
                   </span>
                 </>
               )}
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2">{lesson.title}</h1>
-            <div className="flex items-center text-gray-600 text-sm">
+            <h1 className="text-2xl font-bold text-gray-100 mb-2">{lesson.title}</h1>
+            <div className="flex items-center text-gray-400 text-sm">
               <Clock className="w-4 h-4 mr-1" />
               <span>{lesson.duration_minutes} นาที</span>
               {lesson.video && (
@@ -267,11 +237,11 @@ export default function LessonPage() {
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="bg-white rounded-lg shadow-card overflow-hidden"
+              className="bg-gray-800 rounded-sm shadow-card overflow-hidden"
             >
               {/* Video Status Messages */}
               {!lesson.video && !lesson.video_url && (
-                <div className="aspect-video bg-gray-100 flex items-center justify-center">
+                <div className="aspect-video bg-gray-800 flex items-center justify-center">
                   <div className="text-center text-gray-500">
                     <PlayCircle className="w-16 h-16 mx-auto mb-4 opacity-50" />
                     <p>ยังไม่มีวิดีโอสำหรับบทเรียนนี้</p>
@@ -280,35 +250,35 @@ export default function LessonPage() {
               )}
 
               {!lesson.video_url && lesson.video && (isVideoProcessing || isVideoPending) && (
-                <div className="aspect-video bg-sand-100 flex items-center justify-center">
+                <div className="aspect-video bg-gray-800 flex items-center justify-center">
                   <div className="text-center">
-                    <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-brand-600" />
-                    <p className="text-ink font-medium">
+                    <Loader2 className="w-12 h-12 animate-spin mx-auto mb-4 text-mint-400" />
+                    <p className="text-gray-200 font-medium">
                       {isVideoPending ? 'กำลังรอการประมวลผลวิดีโอ...' : 'กำลังประมวลผลวิดีโอ...'}
                     </p>
-                    <p className="text-brand-600 text-sm">กรุณารอสักครู่</p>
+                    <p className="text-mint-400 text-sm">กรุณารอสักครู่</p>
                   </div>
                 </div>
               )}
 
               {!lesson.video_url && lesson.video && hasVideoError && (
-                <div className="aspect-video bg-error-light flex items-center justify-center">
+                <div className="aspect-video bg-red-500/10 flex items-center justify-center">
                   <div className="text-center">
-                    <AlertCircle className="w-12 h-12 mx-auto mb-4 text-error" />
-                    <p className="text-error-dark font-medium">เกิดข้อผิดพลาดในการประมวลผลวิดีโอ</p>
+                    <AlertCircle className="w-12 h-12 mx-auto mb-4 text-red-400" />
+                    <p className="text-red-400 font-medium">เกิดข้อผิดพลาดในการประมวลผลวิดีโอ</p>
                     {lesson.video.processing_error && (
-                      <p className="text-error text-sm mt-2">{lesson.video.processing_error}</p>
+                      <p className="text-red-400 text-sm mt-2">{lesson.video.processing_error}</p>
                     )}
                   </div>
                 </div>
               )}
 
               {!lesson.video_url && !lesson.can_watch && lesson.video?.ready && (
-                <div className="aspect-video bg-sand-100 flex items-center justify-center">
+                <div className="aspect-video bg-gray-800 flex items-center justify-center">
                   <div className="text-center">
                     <Eye className="w-12 h-12 mx-auto mb-4 text-warning" />
-                    <p className="text-ink font-medium">ต้องซื้อคอร์สเพื่อดูบทเรียนนี้</p>
-                    <button className="mt-4 bg-brand-600 text-white px-6 py-2 rounded-lg hover:opacity-90">
+                    <p className="text-gray-200 font-medium">ต้องซื้อคอร์สเพื่อดูบทเรียนนี้</p>
+                    <button className="mt-4 bg-mint-600 text-white px-6 py-2 rounded-sm hover:opacity-90">
                       ซื้อคอร์ส
                     </button>
                   </div>
@@ -317,8 +287,8 @@ export default function LessonPage() {
 
               {/* Notice when both YouTube and uploaded video exist */}
               {lesson.video_url && lesson.video?.ready && lesson.can_watch && (
-                <div className="bg-sand-100 border border-sand-300 p-2 mb-2 rounded text-sm text-brand-700">
-                  <p>💡 บทเรียนนี้มีทั้งวิดีโอ YouTube และวิดีโอที่อัปโหลด กำลังแสดงวิดีโอ YouTube</p>
+                <div className="bg-gray-800 border border-gray-600 p-2 mb-2 rounded text-sm text-mint-300">
+                  <p>บทเรียนนี้มีทั้งวิดีโอ YouTube และวิดีโอที่อัปโหลด กำลังแสดงวิดีโอ YouTube</p>
                 </div>
               )}
 
@@ -342,16 +312,16 @@ export default function LessonPage() {
                       allow="autoplay; fullscreen; picture-in-picture"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-sand-100">
+                    <div className="w-full h-full flex items-center justify-center bg-gray-800">
                       <div className="text-center p-8">
-                        <PlayCircle className="w-16 h-16 text-brand-600 mx-auto mb-4" />
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">วิดีโอภายนอก</h3>
-                        <p className="text-gray-600 mb-4">คลิกเพื่อดูวิดีโอในหน้าต่างใหม่</p>
+                        <PlayCircle className="w-16 h-16 text-mint-400 mx-auto mb-4" />
+                        <h3 className="text-lg font-semibold text-gray-100 mb-2">วิดีโอภายนอก</h3>
+                        <p className="text-gray-400 mb-4">คลิกเพื่อดูวิดีโอในหน้าต่างใหม่</p>
                         <a
                           href={lesson.video_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center space-x-2 bg-brand-600 text-white px-6 py-3 rounded-lg hover:opacity-90 transition-colors"
+                          className="inline-flex items-center space-x-2 bg-mint-600 text-white px-6 py-3 rounded-sm hover:opacity-90 transition-colors"
                         >
                           <span>ดูวิดีโอ</span>
                         </a>
@@ -368,17 +338,10 @@ export default function LessonPage() {
                     onClick={(e) => {
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log('🔴 Play button clicked!', {
-                        canWatchVideo,
-                        streamData,
-                        streamLoading,
-                        lessonVideoUrl: lesson.video_url,
-                        videoReady: lesson?.video?.ready
-                      });
                       getStreamUrl();
                     }}
                     disabled={streamLoading}
-                    className="bg-brand-600 text-white px-8 py-4 rounded-lg hover:opacity-90 disabled:opacity-50 flex items-center cursor-pointer"
+                    className="bg-mint-600 text-white px-8 py-4 rounded-sm hover:opacity-90 disabled:opacity-50 flex items-center cursor-pointer"
                     style={{ pointerEvents: streamLoading ? 'none' : 'auto' }}
                   >
                     {streamLoading ? (
@@ -400,19 +363,14 @@ export default function LessonPage() {
               {/* Secure Video Player - Show when stream URL is loaded (only if no YouTube URL) */}
               {!lesson.video_url && streamData && (
                 <>
-                  {console.log('🎥 Rendering WorkingSecureVideoPlayer with streamData:', {
-                    streamUrl: streamData.stream_url,
-                    urlLength: streamData.stream_url?.length,
-                    urlPreview: streamData.stream_url?.substring(0, 100),
-                    expiresAt: streamData.expires_at,
-                    videoId: streamData.video?.id
-                  })}
                   <WorkingSecureVideoPlayer
                     streamUrl={streamData.stream_url || ''}
                     title={lesson.title}
-                    userName="นักเรียน BoostMe" // TODO: Get from auth context
-                    userEmail="student@boostme.com" // TODO: Get from auth context
+                    userName={user?.fullName || 'Guest'}
+                    userEmail={user?.email || 'guest@example.com'}
                     onProgress={handleProgress}
+                    onPlay={handleVideoPlay}
+                    onPause={handleVideoPause}
                   />
                 </>
               )}
@@ -420,56 +378,124 @@ export default function LessonPage() {
           </div>
 
           {/* Lesson Details Sidebar */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 space-y-6">
+            {/* Progress Card */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-lg shadow-card p-6"
+              className="bg-gray-900 rounded-sm shadow-card p-6"
             >
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">รายละเอียดบทเรียน</h3>
-              
+              <h3 className="text-lg font-semibold text-gray-100 mb-4">ความคืบหน้า</h3>
+
+              {/* Progress bar */}
+              {watchProgress.duration > 0 ? (
+                <div className="mb-4">
+                  <div className="flex justify-between text-sm text-gray-400 mb-2">
+                    <span>การดูวิดีโอ</span>
+                    <span>{progressPercent}%</span>
+                  </div>
+                  <div className="w-full bg-gray-700 rounded-full h-2.5">
+                    <div
+                      className="bg-mint-600 h-2.5 rounded-full transition-all duration-300"
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                  </div>
+                  {progressPercent < 90 && progressPercent > 0 && (
+                    <p className="text-xs text-gray-500 mt-2">
+                      ดูถึง 90% เพื่อรับคะแนน
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <p className="text-sm text-gray-500 mb-4">เริ่มดูวิดีโอเพื่อติดตามความคืบหน้า</p>
+              )}
+
+              {/* Completion status */}
+              {lessonCompleted && (
+                <div className="bg-mint-900/50 border border-mint-700 rounded-sm p-3 mb-4">
+                  <div className="flex items-center space-x-2 text-mint-300">
+                    <CheckCircle className="h-5 w-5" />
+                    <span className="font-medium">เรียนจบบทเรียนนี้แล้ว</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Rewards earned */}
+              {rewardData?.data?.garden_progress && (
+                <div className="space-y-3">
+                  <h4 className="text-sm font-semibold text-gray-400 flex items-center">
+                    <Award className="w-4 h-4 mr-1.5 text-mint-400" />
+                    รางวัลที่ได้รับ
+                  </h4>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="bg-gray-800 rounded-sm p-3 text-center">
+                      <Star className="h-5 w-5 text-mint-400 mx-auto mb-1" />
+                      <p className="text-lg font-bold text-mint-400">
+                        {rewardData.data.garden_progress.total_learning_xp}
+                      </p>
+                      <p className="text-xs text-gray-400">Impact Points</p>
+                    </div>
+                    <div className="bg-gray-800 rounded-sm p-3 text-center">
+                      <Sparkles className="h-5 w-5 text-mint-400 mx-auto mb-1" />
+                      <p className="text-lg font-bold text-mint-400">
+                        {rewardData.data.garden_progress.star_seeds}
+                      </p>
+                      <p className="text-xs text-gray-400">AI Credits</p>
+                    </div>
+                  </div>
+
+                  {/* New achievements */}
+                  {rewardData.data.new_achievements && rewardData.data.new_achievements.length > 0 && (
+                    <div className="mt-3 space-y-2">
+                      {rewardData.data.new_achievements.map((achievement) => (
+                        <div key={achievement.id} className="bg-gray-800 border border-mint-700 rounded-sm p-2 flex items-center space-x-2">
+                          <Trophy className="h-4 w-4 text-mint-400 flex-shrink-0" />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-medium text-gray-100 truncate">{achievement.name}</p>
+                            <p className="text-xs text-gray-400">+{achievement.xp_reward} XP</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+
+            {/* Lesson Details Card */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-gray-900 rounded-sm shadow-card p-6"
+            >
+              <h3 className="text-lg font-semibold text-gray-100 mb-4">รายละเอียดบทเรียน</h3>
+
               <div className="space-y-4">
                 <div>
-                  <h4 className="font-medium text-gray-900 mb-2">คำอธิบาย</h4>
-                  <p className="text-gray-600 text-sm leading-relaxed">
+                  <h4 className="font-medium text-gray-100 mb-2">คำอธิบาย</h4>
+                  <p className="text-gray-400 text-sm leading-relaxed">
                     {lesson.description || 'ไม่มีคำอธิบาย'}
                   </p>
                 </div>
 
                 {lesson.video && (
                   <div>
-                    <h4 className="font-medium text-gray-900 mb-2">สถานะวิดีโอ</h4>
+                    <h4 className="font-medium text-gray-100 mb-2">สถานะวิดีโอ</h4>
                     <div className="flex items-center text-sm">
                       {lesson.video.status === 'ready' && (
-                        <><CheckCircle className="w-4 h-4 text-brand-600 mr-2" />
-                        <span className="text-brand-700">พร้อมใช้งาน</span></>
+                        <><CheckCircle className="w-4 h-4 text-mint-400 mr-2" />
+                        <span className="text-mint-300">พร้อมใช้งาน</span></>
                       )}
                       {lesson.video.status === 'processing' && (
-                        <><Loader2 className="w-4 h-4 text-ink-light mr-2 animate-spin" />
-                        <span className="text-brand-700">กำลังประมวลผล</span></>
+                        <><Loader2 className="w-4 h-4 text-gray-400 mr-2 animate-spin" />
+                        <span className="text-mint-300">กำลังประมวลผล</span></>
                       )}
                       {lesson.video.status === 'failed' && (
-                        <><AlertCircle className="w-4 h-4 text-error mr-2" />
-                        <span className="text-error-dark">เกิดข้อผิดพลาด</span></>
+                        <><AlertCircle className="w-4 h-4 text-red-400 mr-2" />
+                        <span className="text-red-400">เกิดข้อผิดพลาด</span></>
                       )}
                     </div>
-                  </div>
-                )}
-
-                {watchProgress.duration > 0 && (
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-2">ความคืบหน้า</h4>
-                    <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
-                        className="bg-brand-600 h-2 rounded-full"
-                        style={{ 
-                          width: `${(watchProgress.currentTime / watchProgress.duration) * 100}%` 
-                        }}
-                      />
-                    </div>
-                    <p className="text-sm text-gray-600 mt-1">
-                      {Math.round((watchProgress.currentTime / watchProgress.duration) * 100)}% เสร็จสิ้น
-                    </p>
                   </div>
                 )}
               </div>
@@ -477,6 +503,75 @@ export default function LessonPage() {
           </div>
         </div>
       </div>
+
+      {/* Reward Toast Notification */}
+      <AnimatePresence>
+        {showRewardToast && rewardData?.data?.garden_progress && (
+          <motion.div
+            initial={{ opacity: 0, y: 80, x: '-50%' }}
+            animate={{ opacity: 1, y: 0, x: '-50%' }}
+            exit={{ opacity: 0, y: 80, x: '-50%' }}
+            className="fixed bottom-8 left-1/2 z-50 bg-gray-900 rounded-sm shadow-card border border-mint-700 p-4 max-w-sm w-full mx-4"
+          >
+            <div className="flex items-center space-x-4">
+              <div className="flex-shrink-0 w-12 h-12 bg-mint-900 rounded-full flex items-center justify-center">
+                <Trophy className="h-6 w-6 text-mint-400" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <p className="font-semibold text-gray-100">เรียนจบบทเรียนแล้ว!</p>
+                <div className="flex items-center space-x-3 mt-1">
+                  <span className="text-sm text-mint-400 font-medium flex items-center">
+                    <Star className="h-3.5 w-3.5 mr-1" />
+                    +{rewardData.data.garden_progress.total_learning_xp} XP
+                  </span>
+                  <span className="text-sm text-mint-400 font-medium flex items-center">
+                    <Sparkles className="h-3.5 w-3.5 mr-1" />
+                    +{rewardData.data.garden_progress.star_seeds} Seeds
+                  </span>
+                </div>
+              </div>
+              <button
+                onClick={() => setShowRewardToast(false)}
+                className="text-gray-400 hover:text-gray-400 flex-shrink-0"
+              >
+                <span className="sr-only">ปิด</span>
+                &times;
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Course Completion Celebration Modal */}
+      {rewardData?.data?.course_completed && lesson && (
+        <CourseCompletionCelebration
+          data={{
+            course: {
+              id: lesson.course.id,
+              title: lesson.course.title,
+              total_lessons: rewardData.data.garden_progress?.completed_lessons ?? 0,
+            },
+            rewards: {
+              xp_earned: rewardData.data.garden_progress?.total_learning_xp ?? 0,
+              star_seeds_earned: rewardData.data.garden_progress?.star_seeds ?? 0,
+              bonus_xp: 0,
+              bonus_star_seeds: 0,
+            },
+            achievements: (rewardData.data.new_achievements ?? []).map((a) => ({
+              id: a.id,
+              name: a.name,
+              description: a.description ?? '',
+              xp_reward: a.xp_reward,
+              star_seeds_reward: a.star_seeds_reward,
+            })),
+          }}
+          isVisible={showCourseCompletion}
+          onClose={() => {
+            setShowCourseCompletion(false);
+            router.push('/garden');
+          }}
+        />
+      )}
     </div>
   );
 }

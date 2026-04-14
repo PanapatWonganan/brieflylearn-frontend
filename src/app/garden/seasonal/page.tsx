@@ -9,9 +9,9 @@ import Link from 'next/link'
 const SeasonalEventsPage = () => {
   const currentSeason = (() => {
     const month = new Date().getMonth() + 1
-    if (month >= 3 && month <= 5) return { name: 'ฤดูร้อน', emoji: '🌞', color: 'bg-brand-500' }
-    if (month >= 6 && month <= 10) return { name: 'ฤดูฝน', emoji: '🌧️', color: 'bg-brand-500' }
-    return { name: 'ฤดูหนาว', emoji: '❄️', color: 'bg-sand-400' }
+    if (month >= 3 && month <= 5) return { name: 'ฤดูร้อน', emoji: '🌞', color: 'bg-mint-500' }
+    if (month >= 6 && month <= 10) return { name: 'ฤดูฝน', emoji: '🌧️', color: 'bg-mint-500' }
+    return { name: 'ฤดูหนาว', emoji: '❄️', color: 'bg-gray-600' }
   })()
 
   const upcomingFestivals = [
@@ -33,21 +33,21 @@ const SeasonalEventsPage = () => {
       <div className="container mx-auto px-5 sm:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
-            href="/garden" 
-            className="inline-flex items-center space-x-2 text-ink-light hover:text-ink mb-4"
+          <Link
+            href="/garden"
+            className="inline-flex items-center space-x-2 text-gray-400 hover:text-gray-200 mb-4"
           >
             <ArrowLeft className="h-4 w-4" />
             <span>กลับสู่แล็บ</span>
           </Link>
-          
+
           <div className="flex items-center space-x-3 mb-6">
-            <div className="p-3 bg-gray-50 rounded-xl">
-              <Calendar className="h-8 w-8 text-ink" />
+            <div className="p-3 bg-gray-800/50 rounded-sm">
+              <Calendar className="h-8 w-8 text-gray-200" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold font-serif text-ink">AI Events</h1>
-              <p className="text-ink-muted">เทศกาล สภาพอากาศ และเหตุการณ์พิเศษ</p>
+              <h1 className="text-3xl font-bold font-serif text-gray-200">AI Events</h1>
+              <p className="text-gray-500">เทศกาล สภาพอากาศ และเหตุการณ์พิเศษ</p>
             </div>
           </div>
 
@@ -56,7 +56,7 @@ const SeasonalEventsPage = () => {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className={`${currentSeason.color} rounded-lg p-6 text-white`}
+              className={`${currentSeason.color} rounded-sm p-6 text-white`}
             >
               <div className="flex items-center space-x-3 mb-2">
                 <span className="text-3xl">{currentSeason.emoji}</span>
@@ -71,7 +71,7 @@ const SeasonalEventsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="bg-brand-500 rounded-lg p-6 text-white"
+              className="bg-mint-500 rounded-sm p-6 text-white"
             >
               <div className="flex items-center space-x-3 mb-2">
                 <CloudRain className="h-8 w-8" />
@@ -87,7 +87,7 @@ const SeasonalEventsPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="bg-brand-600 rounded-lg p-6 text-white"
+              className="bg-mint-600 rounded-sm p-6 text-white"
             >
               <div className="flex items-center space-x-3 mb-2">
                 <Sparkles className="h-8 w-8" />
@@ -101,8 +101,8 @@ const SeasonalEventsPage = () => {
           </div>
 
           {/* Upcoming Festivals */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 mb-8">
-            <h2 className="text-xl font-bold font-serif text-ink mb-4">เทศกาลที่จะมาถึง</h2>
+          <div className="bg-gray-900 rounded-sm border border-gray-700 p-6 mb-8">
+            <h2 className="text-xl font-bold font-serif text-gray-200 mb-4">เทศกาลที่จะมาถึง</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {upcomingFestivals.map((festival, index) => (
                 <motion.div
@@ -110,17 +110,17 @@ const SeasonalEventsPage = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-gray-50 rounded-lg p-4 text-center border border-gray-200"
+                  className="bg-gray-800/50 rounded-sm p-4 text-center border border-gray-700"
                 >
                   <div className="text-2xl mb-2">{festival.emoji}</div>
-                  <h3 className="font-semibold text-ink mb-1">{festival.name}</h3>
-                  <p className="text-sm text-ink-muted mb-2">
+                  <h3 className="font-semibold text-gray-200 mb-1">{festival.name}</h3>
+                  <p className="text-sm text-gray-500 mb-2">
                     {new Date(festival.date).toLocaleDateString('th-TH', {
                       day: 'numeric',
                       month: 'long'
                     })}
                   </p>
-                  <span className="inline-block bg-sand-100 text-brand-700 px-2 py-1 rounded-full text-xs font-medium">
+                  <span className="inline-block bg-mint-500/20 text-mint-400 px-2 py-1 rounded-sm text-xs font-medium">
                     อีก {festival.daysLeft} วัน
                   </span>
                 </motion.div>
@@ -138,13 +138,13 @@ const SeasonalEventsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-xl border border-gray-100 p-6 text-center"
+            className="bg-gray-900 rounded-sm border border-gray-700 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-gray-800/50 rounded-sm flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-xl">🏮</span>
             </div>
-            <h3 className="text-lg font-bold text-ink mb-2">เทศกาลไทย</h3>
-            <p className="text-ink-muted text-sm">
+            <h3 className="text-lg font-bold text-gray-200 mb-2">เทศกาลไทย</h3>
+            <p className="text-gray-500 text-sm">
               เข้าร่วมเทศกาลประจำปีของไทย รับรางวัลพิเศษและพืชหายาก
             </p>
           </motion.div>
@@ -153,13 +153,13 @@ const SeasonalEventsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="bg-white rounded-xl border border-gray-100 p-6 text-center"
+            className="bg-gray-900 rounded-sm border border-gray-700 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <CloudRain className="h-6 w-6 text-ink" />
+            <div className="w-12 h-12 bg-gray-800/50 rounded-sm flex items-center justify-center mx-auto mb-4">
+              <CloudRain className="h-6 w-6 text-gray-200" />
             </div>
-            <h3 className="text-lg font-bold text-ink mb-2">ระบบสภาพอากาศ</h3>
-            <p className="text-ink-muted text-sm">
+            <h3 className="text-lg font-bold text-gray-200 mb-2">ระบบสภาพอากาศ</h3>
+            <p className="text-gray-500 text-sm">
               สภาพอากาศมีผลต่อการขยายผลของพืชและให้โบนัสพิเศษ
             </p>
           </motion.div>
@@ -168,32 +168,32 @@ const SeasonalEventsPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="bg-white rounded-xl border border-gray-100 p-6 text-center"
+            className="bg-gray-900 rounded-sm border border-gray-700 p-6 text-center"
           >
-            <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <div className="w-12 h-12 bg-gray-800/50 rounded-sm flex items-center justify-center mx-auto mb-4">
               <span className="text-white text-xl">🌸</span>
             </div>
-            <h3 className="text-lg font-bold text-ink mb-2">โปรเจกต์พิเศษ</h3>
-            <p className="text-ink-muted text-sm">
+            <h3 className="text-lg font-bold text-gray-200 mb-2">โปรเจกต์พิเศษ</h3>
+            <p className="text-gray-500 text-sm">
               สร้างโปรเจกต์พิเศษที่มีเฉพาะในช่วงเทศกาลหรือฤดูกาลต่างๆ
             </p>
           </motion.div>
         </div>
 
         {/* Weather Tips */}
-        <div className="mt-8 bg-gray-50 rounded-xl p-6 border border-gray-200">
-          <h3 className="text-lg font-bold text-ink mb-3 flex items-center space-x-2">
+        <div className="mt-8 bg-gray-800/50 rounded-sm p-6 border border-gray-700">
+          <h3 className="text-lg font-bold text-gray-200 mb-3 flex items-center space-x-2">
             <Sun className="h-5 w-5" />
             <span>เคล็ดลับพัฒนาโปรเจกต์ตามเงื่อนไข</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-            <div className="bg-white rounded-lg p-4">
-              <h4 className="font-semibold text-ink mb-2">🌞 ฤดูร้อน</h4>
-              <p className="text-ink-light">รดน้ำบ่อยขึ้น เลือกสร้างโปรเจกต์ทนแล้ง ใช้ร่มเงาป้องกันแสงแดดจัด</p>
+            <div className="bg-gray-900 rounded-sm p-4">
+              <h4 className="font-semibold text-gray-200 mb-2">🌞 ฤดูร้อน</h4>
+              <p className="text-gray-400">รดน้ำบ่อยขึ้น เลือกสร้างโปรเจกต์ทนแล้ง ใช้ร่มเงาป้องกันแสงแดดจัด</p>
             </div>
-            <div className="bg-white rounded-lg p-4">
-              <h4 className="font-semibold text-ink mb-2">🌧️ ฤดูฝน</h4>
-              <p className="text-ink-light">ระวังน้ำท่วม สร้างโปรเจกต์ที่ชอบความชื้น ระบายน้ำให้ดี</p>
+            <div className="bg-gray-900 rounded-sm p-4">
+              <h4 className="font-semibold text-gray-200 mb-2">🌧️ ฤดูฝน</h4>
+              <p className="text-gray-400">ระวังน้ำท่วม สร้างโปรเจกต์ที่ชอบความชื้น ระบายน้ำให้ดี</p>
             </div>
           </div>
         </div>

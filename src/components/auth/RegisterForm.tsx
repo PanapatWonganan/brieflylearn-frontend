@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContextNew'
 import { Eye, EyeOff, Lock, Mail, User, Phone, Users } from 'lucide-react'
+import GoogleSignInButton from './GoogleSignInButton'
 
 interface RegisterFormProps {
   onSuccess?: () => void
@@ -83,22 +84,22 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="bg-white rounded-lg shadow-card p-8">
+      <div className="bg-gray-900 rounded-sm shadow-card p-8">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">สมัครสมาชิก</h1>
-          <p className="text-gray-600">เริ่มต้นการเรียนรู้กับเรา</p>
+          <h1 className="text-3xl text-gray-100 mb-2" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}>สมัครสมาชิก</h1>
+          <p className="text-gray-500" style={{ fontWeight: 300 }}>เริ่มต้นการเรียนรู้กับเรา</p>
         </div>
 
         {errors.general && (
-          <div className="mb-6 p-4 bg-error-light border border-error/20 rounded-lg">
-            <p className="text-error-dark text-sm">{errors.general}</p>
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-sm">
+            <p className="text-red-400 text-sm">{errors.general}</p>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Full Name Input */}
           <div>
-            <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="fullName" className="block text-sm font-medium text-gray-400 mb-2">
               ชื่อ-นามสกุล
             </label>
             <div className="relative">
@@ -109,8 +110,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
-                  errors.fullName ? 'border-error/20 bg-error-light' : 'border-gray-300'
+                className={`w-full pl-10 pr-4 py-3 border rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors ${
+                  errors.fullName ? 'border-red-500/20 bg-red-500/10 text-gray-200' : 'border-gray-600 bg-gray-800 text-gray-200'
                 }`}
                 placeholder="กรุณากรอกชื่อ-นามสกุล"
                 required
@@ -118,13 +119,13 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               />
             </div>
             {errors.fullName && (
-              <p className="mt-1 text-sm text-error">{errors.fullName}</p>
+              <p className="mt-1 text-sm text-red-400">{errors.fullName}</p>
             )}
           </div>
 
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
               อีเมล
             </label>
             <div className="relative">
@@ -135,8 +136,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
-                  errors.email ? 'border-error/20 bg-error-light' : 'border-gray-300'
+                className={`w-full pl-10 pr-4 py-3 border rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors ${
+                  errors.email ? 'border-red-500/20 bg-red-500/10 text-gray-200' : 'border-gray-600 bg-gray-800 text-gray-200'
                 }`}
                 placeholder="กรุณากรอกอีเมล"
                 required
@@ -144,13 +145,13 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               />
             </div>
             {errors.email && (
-              <p className="mt-1 text-sm text-error">{errors.email}</p>
+              <p className="mt-1 text-sm text-red-400">{errors.email}</p>
             )}
           </div>
 
           {/* Phone Input */}
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-gray-400 mb-2">
               เบอร์โทรศัพท์ (ไม่จำเป็น)
             </label>
             <div className="relative">
@@ -161,7 +162,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors"
+                className="w-full pl-10 pr-4 py-3 border border-gray-600 bg-gray-800 text-gray-200 rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors"
                 placeholder="กรุณากรอกเบอร์โทรศัพท์"
                 disabled={loading}
               />
@@ -170,7 +171,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
           {/* Role Selection */}
           <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="role" className="block text-sm font-medium text-gray-400 mb-2">
               ประเภทผู้ใช้
             </label>
             <div className="relative">
@@ -180,7 +181,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="role"
                 value={formData.role}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors appearance-none"
+                className="w-full pl-10 pr-4 py-3 border border-gray-600 bg-gray-800 text-gray-200 rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors appearance-none"
                 disabled={loading}
               >
                 <option value="student">ผู้เรียน</option>
@@ -191,7 +192,7 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-2">
               รหัสผ่าน
             </label>
             <div className="relative">
@@ -202,8 +203,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
-                  errors.password ? 'border-error/20 bg-error-light' : 'border-gray-300'
+                className={`w-full pl-10 pr-12 py-3 border rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors ${
+                  errors.password ? 'border-red-500/20 bg-red-500/10 text-gray-200' : 'border-gray-600 bg-gray-800 text-gray-200'
                 }`}
                 placeholder="กรุณากรอกรหัสผ่าน (อย่างน้อย 8 ตัวอักษร)"
                 required
@@ -212,20 +213,20 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
                 disabled={loading}
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
             {errors.password && (
-              <p className="mt-1 text-sm text-error">{errors.password}</p>
+              <p className="mt-1 text-sm text-red-400">{errors.password}</p>
             )}
           </div>
 
           {/* Confirm Password Input */}
           <div>
-            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-400 mb-2">
               ยืนยันรหัสผ่าน
             </label>
             <div className="relative">
@@ -236,8 +237,8 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 transition-colors ${
-                  errors.confirmPassword ? 'border-error/20 bg-error-light' : 'border-gray-300'
+                className={`w-full pl-10 pr-12 py-3 border rounded-sm focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 transition-colors ${
+                  errors.confirmPassword ? 'border-red-500/20 bg-red-500/10 text-gray-200' : 'border-gray-600 bg-gray-800 text-gray-200'
                 }`}
                 placeholder="กรุณายืนยันรหัสผ่าน"
                 required
@@ -246,14 +247,14 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
               <button
                 type="button"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-300"
                 disabled={loading}
               >
                 {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
             {errors.confirmPassword && (
-              <p className="mt-1 text-sm text-error">{errors.confirmPassword}</p>
+              <p className="mt-1 text-sm text-red-400">{errors.confirmPassword}</p>
             )}
           </div>
 
@@ -261,20 +262,33 @@ export default function RegisterForm({ onSuccess, onSwitchToLogin }: RegisterFor
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-brand-600 text-white py-3 px-4 rounded-lg hover:opacity-90 focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
+            className="w-full bg-mint-600 text-white py-3 px-4 rounded-sm hover:opacity-90 focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-medium"
           >
             {loading ? 'กำลังสมัครสมาชิก...' : 'สมัครสมาชิก'}
           </button>
         </form>
 
+        {/* Divider */}
+        <div className="relative my-6">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-700"></div>
+          </div>
+          <div className="relative flex justify-center text-sm">
+            <span className="px-4 bg-gray-900 text-gray-500">หรือ</span>
+          </div>
+        </div>
+
+        {/* Google Sign-In */}
+        <GoogleSignInButton onSuccess={onSuccess} />
+
         {/* Switch to Login */}
         {onSwitchToLogin && (
           <div className="mt-6 text-center">
-            <p className="text-gray-600">
+            <p className="text-gray-400">
               มีบัญชีแล้ว?{' '}
               <button
                 onClick={onSwitchToLogin}
-                className="text-brand-600 hover:opacity-90 font-medium"
+                className="text-mint-400 hover:opacity-90 font-medium"
                 disabled={loading}
               >
                 เข้าสู่ระบบ

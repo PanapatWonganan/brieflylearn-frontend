@@ -9,7 +9,7 @@ const sections = [
     title: 'การยอมรับข้อกำหนด',
     icon: FileText,
     content: [
-      'การใช้บริการแพลตฟอร์ม BrieflyLearn ถือว่าคุณยอมรับข้อกำหนดการใช้งานนี้',
+      'การใช้บริการแพลตฟอร์ม Antipararell ถือว่าคุณยอมรับข้อกำหนดการใช้งานนี้',
       'หากคุณไม่เห็นด้วยกับข้อกำหนดใดๆ กรุณาหยุดการใช้บริการทันที',
       'ข้อกำหนดนี้มีผลบังคับใช้กับผู้ใช้ทุกคนที่เข้าถึงหรือใช้บริการของเรา',
       'คุณต้องมีอายุ 18 ปีขึ้นไป หรือได้รับความยินยอมจากผู้ปกครอง'
@@ -70,7 +70,7 @@ const sections = [
     title: 'ทรัพย์สินทางปัญญา',
     icon: Scale,
     content: [
-      'เนื้อหาทั้งหมดเป็นลิขสิทธิ์ของ BrieflyLearn หรือผู้เชี่ยวชาญของเรา',
+      'เนื้อหาทั้งหมดเป็นลิขสิทธิ์ของ Antipararell หรือผู้เชี่ยวชาญของเรา',
       'คุณได้รับสิทธิ์ใช้งานส่วนตัวที่ไม่สามารถโอนได้',
       'ห้ามนำเนื้อหาไปใช้เชิงพาณิชย์หรือแจกจ่ายต่อ',
       'โลโก้ ชื่อ และเครื่องหมายการค้าเป็นทรัพย์สินของเรา',
@@ -92,40 +92,40 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <div className="bg-white">
+    <div>
       {/* Header */}
       <section className="px-5 sm:px-8 max-w-6xl mx-auto pt-24 pb-16">
         <div className="max-w-3xl">
-          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">ข้อกำหนด</p>
-          <h1 className="text-heading font-serif text-ink mb-4">
+          <p className="text-xs tracking-widest uppercase text-gray-500 mb-3">ข้อกำหนด</p>
+          <h1 className="text-heading font-serif text-gray-200 mb-4">
             ข้อกำหนดการใช้งาน
           </h1>
-          <p className="text-base text-ink-light leading-relaxed mb-2">
-            กฎระเบียบและเงื่อนไขสำหรับการใช้บริการ BrieflyLearn
+          <p className="text-base text-gray-400 leading-relaxed mb-2">
+            กฎระเบียบและเงื่อนไขสำหรับการใช้บริการ Antipararell
           </p>
-          <p className="text-xs text-ink-muted">
+          <p className="text-xs text-gray-500">
             อัปเดตล่าสุด: 15 มกราคม 2024
           </p>
         </div>
       </section>
 
       {/* Introduction */}
-      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-16 border-t border-gray-100">
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-16 border-t border-gray-800/40">
         <div className="max-w-3xl">
-          <h2 className="text-xl font-semibold text-ink mb-4">ข้อกำหนดทั่วไป</h2>
-          <p className="text-sm text-ink-light leading-relaxed mb-4">
-            ยินดีต้อนรับสู่ BrieflyLearn แพลตฟอร์มเรียน AI ออนไลน์
+          <h2 className="text-xl font-semibold text-gray-200 mb-4">ข้อกำหนดทั่วไป</h2>
+          <p className="text-sm text-gray-400 leading-relaxed mb-4">
+            ยินดีต้อนรับสู่ Antipararell แพลตฟอร์มเรียน AI ออนไลน์
             ข้อกำหนดการใช้งานนี้ควบคุมการใช้บริการของคุณ
             กรุณาอ่านอย่างละเอียดก่อนใช้บริการ
           </p>
-          <div className="bg-gray-50 rounded-lg p-4">
+          <div className="bg-gray-800/50 rounded-sm p-4">
             <div className="flex items-start gap-3">
-              <AlertTriangle className="h-4 w-4 text-ink-muted mt-0.5 flex-shrink-0" />
+              <AlertTriangle className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
               <div>
-                <p className="text-sm font-medium text-ink mb-1">
+                <p className="text-sm font-medium text-gray-200 mb-1">
                   ข้อมูลสำคัญ
                 </p>
-                <p className="text-sm text-ink-light">
+                <p className="text-sm text-gray-400">
                   บริการของเราเป็นการให้ข้อมูลและการศึกษาเท่านั้น
                 </p>
               </div>
@@ -138,14 +138,14 @@ export default function TermsPage() {
       {sections.map((section) => (
         <section
           key={section.id}
-          className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-100"
+          className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-800/40"
         >
           <div className="max-w-3xl">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center">
-                <section.icon className="h-5 w-5 text-ink" />
+              <div className="w-10 h-10 bg-gray-800/50 rounded-sm flex items-center justify-center">
+                <section.icon className="h-5 w-5 text-gray-200" />
               </div>
-              <h3 className="text-lg font-semibold text-ink">
+              <h3 className="text-lg font-semibold text-gray-200">
                 {section.title}
               </h3>
             </div>
@@ -153,18 +153,18 @@ export default function TermsPage() {
             <ul className="space-y-3 pl-1">
               {section.content.map((item, idx) => (
                 <li key={idx} className="flex items-start gap-3">
-                  <div className="w-1.5 h-1.5 bg-ink-faint rounded-full mt-2 flex-shrink-0"></div>
-                  <span className="text-sm text-ink-light leading-relaxed">{item}</span>
+                  <div className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
+                  <span className="text-sm text-gray-400 leading-relaxed">{item}</span>
                 </li>
               ))}
             </ul>
 
             {section.id === 'payment' && (
-              <div className="mt-6 p-5 bg-gray-50 rounded-lg">
-                <p className="text-sm font-medium text-ink mb-3">
+              <div className="mt-6 p-5 bg-gray-800/50 rounded-sm">
+                <p className="text-sm font-medium text-gray-200 mb-3">
                   วิธีการชำระเงินที่รองรับ:
                 </p>
-                <div className="grid grid-cols-2 gap-2 text-sm text-ink-light">
+                <div className="grid grid-cols-2 gap-2 text-sm text-gray-400">
                   <p>- บัตรเครดิต/เดบิต</p>
                   <p>- PromptPay</p>
                   <p>- True Wallet</p>
@@ -174,14 +174,14 @@ export default function TermsPage() {
             )}
 
             {section.id === 'limitation' && (
-              <div className="mt-6 p-5 bg-gray-50 rounded-lg">
+              <div className="mt-6 p-5 bg-gray-800/50 rounded-sm">
                 <div className="flex items-start gap-3">
-                  <AlertTriangle className="h-4 w-4 text-ink-muted mt-0.5 flex-shrink-0" />
+                  <AlertTriangle className="h-4 w-4 text-gray-500 mt-0.5 flex-shrink-0" />
                   <div>
-                    <p className="text-sm font-medium text-ink mb-1">
+                    <p className="text-sm font-medium text-gray-200 mb-1">
                       หมายเหตุ
                     </p>
-                    <p className="text-sm text-ink-light">
+                    <p className="text-sm text-gray-400">
                       เนื้อหาทั้งหมดจัดทำเพื่อการเรียนรู้ AI และการนำไปใช้ในธุรกิจ
                       ผลลัพธ์อาจแตกต่างกันไปตามแต่ละบุคคล
                     </p>
@@ -194,26 +194,26 @@ export default function TermsPage() {
       ))}
 
       {/* Dispute Resolution */}
-      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-100">
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-800/40">
         <div className="max-w-3xl">
-          <h3 className="text-lg font-semibold text-ink mb-4">
+          <h3 className="text-lg font-semibold text-gray-200 mb-4">
             การระงับข้อพิพาท
           </h3>
-          <ul className="space-y-3 text-sm text-ink-light">
+          <ul className="space-y-3 text-sm text-gray-400">
             <li className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-ink-faint rounded-full mt-2 flex-shrink-0"></div>
+              <div className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
               ข้อพิพาทใดๆ จะได้รับการแก้ไขผ่านการเจรจาก่อนเป็นอันดับแรก
             </li>
             <li className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-ink-faint rounded-full mt-2 flex-shrink-0"></div>
+              <div className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
               หากไม่สามารถแก้ไขได้ จะใช้การไกล่เกลี่ยโดยหน่วยงานที่เป็นกลาง
             </li>
             <li className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-ink-faint rounded-full mt-2 flex-shrink-0"></div>
+              <div className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
               ข้อกำหนดนี้ใช้กฎหมายไทยเป็นหลักในการตีความ
             </li>
             <li className="flex items-start gap-3">
-              <div className="w-1.5 h-1.5 bg-ink-faint rounded-full mt-2 flex-shrink-0"></div>
+              <div className="w-1.5 h-1.5 bg-gray-600 rounded-full mt-2 flex-shrink-0"></div>
               ศาลไทยมีอำนาจพิจารณาคดีที่เกี่ยวข้องกับข้อกำหนดนี้
             </li>
           </ul>
@@ -221,48 +221,48 @@ export default function TermsPage() {
       </section>
 
       {/* Contact Information */}
-      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-100">
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-12 border-t border-gray-800/40">
         <div className="max-w-3xl">
-          <h3 className="text-lg font-semibold text-ink mb-4">
+          <h3 className="text-lg font-semibold text-gray-200 mb-4">
             ข้อมูลการติดต่อ
           </h3>
-          <p className="text-sm text-ink-light mb-4">
+          <p className="text-sm text-gray-400 mb-4">
             หากมีคำถามเกี่ยวกับข้อกำหนดการใช้งาน สามารถติดต่อเราได้ที่:
           </p>
-          <div className="grid md:grid-cols-2 gap-4 text-sm text-ink-light">
+          <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-400">
             <div className="space-y-1">
-              <p><span className="font-medium text-ink">ชื่อบริษัท:</span> BrieflyLearn</p>
-              <p><span className="font-medium text-ink">ที่อยู่:</span> 123 ถนนสุขภาพดี แขวงสุขใจ</p>
+              <p><span className="font-medium text-gray-200">ชื่อบริษัท:</span> Antipararell</p>
+              <p><span className="font-medium text-gray-200">ที่อยู่:</span> 123 ถนนสุขภาพดี แขวงสุขใจ</p>
               <p>เขตใจดี กรุงเทพฯ 10110</p>
             </div>
             <div className="space-y-1">
-              <p><span className="font-medium text-ink">อีเมล:</span> legal@brieflylearn.com</p>
-              <p><span className="font-medium text-ink">โทรศัพท์:</span> 02-123-4567</p>
-              <p><span className="font-medium text-ink">เวลาทำการ:</span> จ-ศ 9:00-18:00 น.</p>
+              <p><span className="font-medium text-gray-200">อีเมล:</span> legal@antipararell.com</p>
+              <p><span className="font-medium text-gray-200">โทรศัพท์:</span> 02-123-4567</p>
+              <p><span className="font-medium text-gray-200">เวลาทำการ:</span> จ-ศ 9:00-18:00 น.</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Action Buttons */}
-      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-24 border-t border-gray-100">
+      <section className="px-5 sm:px-8 max-w-6xl mx-auto py-24 border-t border-gray-800/40">
         <div className="text-center max-w-2xl mx-auto">
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/privacy"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-ink text-white text-sm font-medium rounded-lg hover:bg-ink-light transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-mint-600 text-white text-sm font-medium rounded-sm hover:bg-mint-700 transition-colors"
             >
               อ่านนโยบายความเป็นส่วนตัว
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm text-ink-light font-medium border border-gray-200 rounded-lg hover:border-gray-400 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm text-gray-400 font-medium border border-gray-700 rounded-sm hover:border-gray-600 transition-colors"
             >
               ติดต่อสอบถาม
             </Link>
           </div>
-          <p className="text-xs text-ink-muted mt-6">
+          <p className="text-xs text-gray-500 mt-6">
             การใช้บริการแสดงว่าคุณยอมรับข้อกำหนดการใช้งานนี้
           </p>
         </div>

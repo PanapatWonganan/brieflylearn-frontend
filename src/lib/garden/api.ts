@@ -20,13 +20,10 @@ export const getAuthToken = (): string | null => {
   for (const key of possibleKeys) {
     const token = localStorage.getItem(key)
     if (token) {
-      console.log('✅ Found token in localStorage:', { key, tokenLength: token.length, prefix: token.substring(0, 20) })
       return token
     }
   }
 
-  console.warn('⚠️ No auth token found in localStorage. Keys checked:', possibleKeys)
-  console.log('📋 All localStorage keys:', Object.keys(localStorage))
   return null
 }
 
@@ -36,13 +33,6 @@ class GardenAPI {
     
     // Get auth token using utility function
     const token = getAuthToken()
-    console.log('🔑 Garden API call:', {
-      endpoint,
-      url,
-      hasToken: !!token,
-      tokenLength: token?.length,
-      tokenPrefix: token?.substring(0, 20) + '...'
-    })
 
     const response = await fetch(url, {
       headers: {
@@ -55,14 +45,6 @@ class GardenAPI {
 
     if (!response.ok) {
       const errorData = await response.json().catch(() => ({}))
-      console.error('❌ Garden API error:', {
-        endpoint,
-        url,
-        status: response.status,
-        statusText: response.statusText,
-        error: errorData,
-        hasToken: !!token
-      })
       const err = new Error(errorData.message || `HTTP error! status: ${response.status}`)
       ;(err as any).status = response.status
       ;(err as any).data = errorData
@@ -70,10 +52,8 @@ class GardenAPI {
     }
 
     const data = await response.json()
-    console.log('✅ Garden API response:', { endpoint, success: data.success })
 
     if (!data.success) {
-      console.error('❌ Garden API failed:', data.message)
       throw new Error(data.message || 'API request failed')
     }
 
@@ -86,7 +66,7 @@ class GardenAPI {
   }
 
   async waterGarden(): Promise<{
-    garden: any
+    garden: { star_seeds: number; xp: number; level: number; needs_watering: boolean }
     plants_watered: number
     rewards: { xp: number; star_seeds: number }
   }> {

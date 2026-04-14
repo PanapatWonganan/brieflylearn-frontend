@@ -10,17 +10,17 @@ function AuthContent() {
   const searchParams = useSearchParams()
   const initialMode = searchParams.get('mode') === 'register' ? 'register' : 'login'
   const [mode, setMode] = useState<'login' | 'register'>(initialMode)
-  const { isAuthenticated, loading } = useAuth()
+  const { user, isAuthenticated, loading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
     if (!loading && isAuthenticated) {
-      router.push('/dashboard')
+      router.push(user?.onboardingCompleted ? '/dashboard' : '/onboarding')
     }
-  }, [isAuthenticated, loading, router])
+  }, [isAuthenticated, loading, router, user])
 
   const handleAuthSuccess = () => {
-    router.push('/dashboard')
+    // Redirect will be handled by useEffect above once user state updates
   }
 
   if (loading) {

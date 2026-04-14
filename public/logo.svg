@@ -1,35 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 48" fill="none">
-  <!-- BrieflyLearn Logo — Icon + Wordmark -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 40" fill="none">
+  <!-- Antipararell Logo — DNA Mark + Wordmark (dark background variant) -->
 
-  <!-- Logomark: Abstract sphere with neural paths -->
-  <g transform="translate(4, 4)">
-    <!-- Outer circle (sphere reference) -->
-    <circle cx="20" cy="20" r="18" stroke="#1a1a1a" stroke-width="1.8" fill="none"/>
-
-    <!-- Inner orbital ring (like the 3D orbit ring) -->
-    <ellipse cx="20" cy="20" rx="12" ry="18" transform="rotate(30, 20, 20)" stroke="#1a1a1a" stroke-width="1" fill="none" opacity="0.3"/>
-
-    <!-- Neural connection paths -->
-    <path d="M12 12 L20 8 L28 14" stroke="#3a6348" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M20 8 L20 20 L28 26" stroke="#3a6348" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M12 28 L20 20" stroke="#3a6348" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-
-    <!-- Neural nodes -->
-    <circle cx="20" cy="8" r="2.2" fill="#1a1a1a"/>
-    <circle cx="12" cy="12" r="1.8" fill="#3a6348"/>
-    <circle cx="28" cy="14" r="1.8" fill="#3a6348"/>
-    <circle cx="20" cy="20" r="2.5" fill="#1a1a1a"/>
-    <circle cx="12" cy="28" r="1.8" fill="#3a6348"/>
-    <circle cx="28" cy="26" r="1.8" fill="#3a6348"/>
-
-    <!-- Subtle particle dots -->
-    <circle cx="8" cy="20" r="0.8" fill="#1a1a1a" opacity="0.3"/>
-    <circle cx="32" cy="20" r="0.8" fill="#1a1a1a" opacity="0.3"/>
-    <circle cx="20" cy="34" r="0.8" fill="#1a1a1a" opacity="0.3"/>
+  <!-- DNA Three-Ring Symbol -->
+  <g transform="translate(24, 20)">
+    <ellipse cx="-14" cy="0" rx="12" ry="12" fill="none" stroke="#00FFBA" stroke-width="1.2"/>
+    <ellipse cx="0" cy="0" rx="12" ry="12" fill="none" stroke="#00FFBA" stroke-width="1.2"/>
+    <ellipse cx="14" cy="0" rx="12" ry="12" fill="none" stroke="#00FFBA" stroke-width="1.2"/>
+    <!-- DNA strand lines -->
+    <line x1="-6" y1="-8" x2="6" y2="-8" stroke="#00FFBA" stroke-width="0.6" opacity="0.6"/>
+    <line x1="-6" y1="-4" x2="6" y2="-4" stroke="#00FFBA" stroke-width="0.6" opacity="0.6"/>
+    <line x1="-6" y1="0" x2="6" y2="0" stroke="#00FFBA" stroke-width="0.6" opacity="0.6"/>
+    <line x1="-6" y1="4" x2="6" y2="4" stroke="#00FFBA" stroke-width="0.6" opacity="0.6"/>
+    <line x1="-6" y1="8" x2="6" y2="8" stroke="#00FFBA" stroke-width="0.6" opacity="0.6"/>
   </g>
 
   <!-- Wordmark -->
-  <text x="54" y="32" font-family="'Georgia', 'Noto Serif Thai', serif" font-size="22" font-weight="600" letter-spacing="-0.5" fill="#1a1a1a">
-    <tspan>Briefly</tspan><tspan fill="#3a6348">Learn</tspan>
+  <text x="54" y="27" font-family="'Cormorant Garamond', Georgia, serif" font-size="22" font-weight="300" letter-spacing="-0.5" fill="#00FFBA">
+    antipararell
   </text>
 </svg>

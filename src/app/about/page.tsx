@@ -44,7 +44,7 @@ export default function About() {
   const milestones = [
     {
       year: "2024",
-      title: "ก่อตั้ง BrieflyLearn",
+      title: "ก่อตั้ง Antipararell",
       description: "เริ่มต้นด้วยวิสัยทัศน์ช่วยคนไทยนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร"
     },
     {
@@ -95,10 +95,10 @@ export default function About() {
     <div className="min-h-screen">
 
       {/* Hero Section */}
-      <section className="py-24 bg-white border-b border-gray-100">
+      <section className="py-24 bg-gray-900 border-b border-gray-700/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-wider text-ink-muted mb-6 font-medium">
+            <p className="text-xs uppercase tracking-wider text-gray-500 mb-6 font-medium">
               เกี่ยวกับเรา
             </p>
 
@@ -106,7 +106,7 @@ export default function About() {
               แพลตฟอร์มเรียน AI เพื่อสร้างธุรกิจและบริหารองค์กร
             </h1>
 
-            <p className="text-xl text-ink-light leading-relaxed">
+            <p className="text-xl text-gray-400 leading-relaxed">
               เราคือแพลตฟอร์มเรียน AI ออนไลน์ที่ช่วยให้คนไทยมากกว่า 3,200 คน
               นำ AI ไปใช้จริง ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า
             </p>
@@ -115,17 +115,17 @@ export default function About() {
       </section>
 
       {/* Mission & Vision */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gray-800/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
 
             <div className="space-y-12">
               <div>
                 <div className="flex items-center space-x-3 mb-4">
-                  <Target className="h-6 w-6 text-brand-600" />
-                  <h2 className="text-2xl font-bold font-serif text-ink">พันธกิจของเรา</h2>
+                  <Target className="h-6 w-6 text-mint-400" />
+                  <h2 className="text-2xl font-bold font-serif text-gray-200">พันธกิจของเรา</h2>
                 </div>
-                <p className="text-ink-light text-lg leading-relaxed">
+                <p className="text-gray-400 text-lg leading-relaxed">
                   ช่วยให้คนไทยทุกคนสามารถเรียนรู้และนำ AI ไปใช้จริงได้ ไม่ว่าจะเป็นการสร้างธุรกิจส่วนตัว
                   หรือบริหารองค์กรให้ก้าวหน้า ด้วยหลักสูตรที่เน้นลงมือทำจริงจากผู้เชี่ยวชาญ
                 </p>
@@ -133,20 +133,20 @@ export default function About() {
 
               <div>
                 <div className="flex items-center space-x-3 mb-4">
-                  <BookOpen className="h-6 w-6 text-brand-600" />
-                  <h2 className="text-2xl font-bold font-serif text-ink">วิสัยทัศน์</h2>
+                  <BookOpen className="h-6 w-6 text-mint-400" />
+                  <h2 className="text-2xl font-bold font-serif text-gray-200">วิสัยทัศน์</h2>
                 </div>
-                <p className="text-ink-light text-lg leading-relaxed">
+                <p className="text-gray-400 text-lg leading-relaxed">
                   เป็นแพลตฟอร์มเรียน AI อันดับ 1 ของประเทศไทย ที่ช่วยให้ทุกคนนำ AI ไปใช้สร้างธุรกิจ
                   และบริหารองค์กรได้จริง ด้วยเนื้อหาที่อัปเดตตาม AI ล่าสุดเสมอ
                 </p>
               </div>
             </div>
 
-            <div className="bg-white rounded-lg p-8 border border-gray-100/60 shadow-card">
-              <h3 className="text-2xl font-bold text-ink mb-6">ทำไมถึงเลือก BrieflyLearn?</h3>
+            <div className="bg-gray-900 rounded-sm p-8 border border-gray-700/50 shadow-card">
+              <h3 className="text-2xl font-bold text-gray-200 mb-6">ทำไมถึงเลือก Antipararell?</h3>
 
-              <div className="space-y-6 text-ink-light leading-relaxed">
+              <div className="space-y-6 text-gray-400 leading-relaxed">
                 <p>
                   เราเห็นว่า AI กำลังเปลี่ยนโลกธุรกิจ แต่คนส่วนใหญ่ยังไม่รู้จะเริ่มต้นอย่างไร
                 </p>
@@ -154,12 +154,12 @@ export default function About() {
                   คอร์ส AI ที่มีอยู่มักเน้นทฤษฎีเทคนิค ขาดการเชื่อมโยงกับการใช้งานจริงในธุรกิจและองค์กร
                 </p>
                 <p>
-                  เราจึงสร้าง BrieflyLearn เพื่อให้ทุกคนเรียนรู้ AI แล้วนำไปใช้ได้จริง
+                  เราจึงสร้าง Antipararell เพื่อให้ทุกคนเรียนรู้ AI แล้วนำไปใช้ได้จริง
                   ไม่ว่าจะสร้างธุรกิจส่วนตัวหรือบริหารทีมในองค์กร
                 </p>
 
-                <p className="text-ink font-medium pt-4">
-                  - ทีมก่อตั้ง BrieflyLearn
+                <p className="text-gray-200 font-medium pt-4">
+                  - ทีมก่อตั้ง Antipararell
                 </p>
               </div>
             </div>
@@ -168,13 +168,13 @@ export default function About() {
       </section>
 
       {/* Values Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-900">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="mb-16 max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-200 mb-4">
               ค่านิยมของเรา
             </h2>
-            <p className="text-xl text-ink-light">
+            <p className="text-xl text-gray-400">
               หลักการที่เราใช้ในการสร้างสรรค์หลักสูตรและให้บริการ
             </p>
           </div>
@@ -185,18 +185,18 @@ export default function About() {
               return (
                 <div
                   key={index}
-                  className="bg-white rounded-lg p-8 border border-gray-100/60 shadow-card"
+                  className="bg-gray-900 rounded-sm p-8 border border-gray-700/50 shadow-card"
                 >
                   <div className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
-                      <Icon className="h-6 w-6 text-brand-600" />
+                      <Icon className="h-6 w-6 text-mint-400" />
                     </div>
                     <div className="space-y-3">
                       <div>
-                        <h3 className="text-xl font-bold text-ink">{value.title}</h3>
-                        <p className="text-ink-light font-medium">{value.subtitle}</p>
+                        <h3 className="text-xl font-bold text-gray-200">{value.title}</h3>
+                        <p className="text-gray-400 font-medium">{value.subtitle}</p>
                       </div>
-                      <p className="text-ink-light leading-relaxed">{value.description}</p>
+                      <p className="text-gray-400 leading-relaxed">{value.description}</p>
                     </div>
                   </div>
                 </div>
@@ -207,25 +207,25 @@ export default function About() {
       </section>
 
       {/* Timeline/Milestones */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gray-800/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="mb-16 max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-200 mb-4">
               เส้นทางความสำเร็จ
             </h2>
-            <p className="text-xl text-ink-light">
-              การเติบโตและพัฒนาของ BrieflyLearn
+            <p className="text-xl text-gray-400">
+              การเติบโตและพัฒนาของ Antipararell
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {milestones.map((milestone, index) => (
               <div key={index} className="space-y-4">
-                <div className="text-4xl font-bold text-brand-600">
+                <div className="text-4xl font-bold text-mint-400">
                   {milestone.year}
                 </div>
-                <h3 className="text-lg font-semibold text-ink">{milestone.title}</h3>
-                <p className="text-ink-light text-sm leading-relaxed">{milestone.description}</p>
+                <h3 className="text-lg font-semibold text-gray-200">{milestone.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{milestone.description}</p>
               </div>
             ))}
           </div>
@@ -233,13 +233,13 @@ export default function About() {
       </section>
 
       {/* Team Section */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-gray-900">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="mb-16 max-w-2xl">
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-200 mb-4">
               ทีมผู้เชี่ยวชาญด้าน AI
             </h2>
-            <p className="text-xl text-ink-light">
+            <p className="text-xl text-gray-400">
               ผู้สอนที่มีประสบการณ์ตรงในการนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร
             </p>
           </div>
@@ -248,17 +248,17 @@ export default function About() {
             {teamMembers.map((member, index) => (
               <div
                 key={index}
-                className="bg-white rounded-lg p-6 border border-gray-100/60 shadow-card"
+                className="bg-gray-900 rounded-sm p-6 border border-gray-700/50 shadow-card"
               >
                 <div className="flex justify-center mb-4">
-                  <div className="w-16 h-16 rounded-full bg-gray-50 flex items-center justify-center">
-                    <User className="h-8 w-8 text-ink-muted" />
+                  <div className="w-16 h-16 rounded-full bg-gray-800/50 flex items-center justify-center">
+                    <User className="h-8 w-8 text-gray-500" />
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-ink mb-1 text-center">{member.name}</h3>
-                <p className="text-ink-light text-sm mb-2 text-center">{member.role}</p>
-                <p className="text-ink text-sm font-medium mb-3 text-center">{member.specialty}</p>
-                <p className="text-ink-muted text-xs leading-relaxed text-center">{member.description}</p>
+                <h3 className="text-lg font-semibold text-gray-200 mb-1 text-center">{member.name}</h3>
+                <p className="text-gray-400 text-sm mb-2 text-center">{member.role}</p>
+                <p className="text-gray-200 text-sm font-medium mb-3 text-center">{member.specialty}</p>
+                <p className="text-gray-500 text-xs leading-relaxed text-center">{member.description}</p>
               </div>
             ))}
           </div>
@@ -266,13 +266,13 @@ export default function About() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-white border-t border-gray-100">
+      <section className="py-24 bg-gray-900 border-t border-gray-700/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="mb-12 text-center">
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-ink mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif text-gray-200 mb-4">
               ผลงานที่เราภูมิใจ
             </h2>
-            <p className="text-xl text-ink-light">
+            <p className="text-xl text-gray-400">
               ความสำเร็จของผู้เรียนคือความสำเร็จของเรา
             </p>
           </div>
@@ -287,9 +287,9 @@ export default function About() {
               const Icon = stat.icon;
               return (
                 <div key={index} className="text-center space-y-3">
-                  <Icon className="h-8 w-8 text-brand-600 mx-auto" />
-                  <div className="text-3xl font-bold text-ink">{stat.number}</div>
-                  <div className="text-ink-light text-sm">{stat.label}</div>
+                  <Icon className="h-8 w-8 text-mint-400 mx-auto" />
+                  <div className="text-3xl font-bold text-gray-200">{stat.number}</div>
+                  <div className="text-gray-400 text-sm">{stat.label}</div>
                 </div>
               );
             })}
@@ -298,27 +298,27 @@ export default function About() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-24 bg-gray-50">
+      <section className="py-24 bg-gray-800/50">
         <div className="max-w-3xl mx-auto px-5 sm:px-8 text-center">
           <div className="flex justify-center mb-6">
-            <div className="w-16 h-16 rounded-full bg-white border border-gray-100 flex items-center justify-center">
-              <GraduationCap className="h-8 w-8 text-brand-600" />
+            <div className="w-16 h-16 rounded-full bg-gray-900 border border-gray-700/50 flex items-center justify-center">
+              <GraduationCap className="h-8 w-8 text-mint-400" />
             </div>
           </div>
 
-          <h2 className="text-3xl font-bold font-serif text-ink mb-4">
+          <h2 className="text-3xl font-bold font-serif text-gray-200 mb-4">
             พร้อมเริ่มต้นเส้นทางสู่ความสำเร็จแล้วหรือยัง?
           </h2>
 
-          <p className="text-xl text-ink-light mb-8">
-            เข้าร่วมกับผู้เรียนกว่า 3,200 คนที่กำลังเรียนรู้ AI เพื่อสร้างอนาคตกับ BrieflyLearn
+          <p className="text-xl text-gray-400 mb-8">
+            เข้าร่วมกับผู้เรียนกว่า 3,200 คนที่กำลังเรียนรู้ AI เพื่อสร้างอนาคตกับ Antipararell
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-ink text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-ink/90 transition-colors">
+            <button className="bg-mint-600 text-white px-8 py-4 rounded-sm font-semibold text-lg hover:bg-mint-500 transition-colors">
               เริ่มเรียนเลย
             </button>
-            <button className="border-2 border-ink text-ink px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-50 transition-colors">
+            <button className="border-2 border-gray-700 text-gray-200 px-8 py-4 rounded-sm font-semibold text-lg hover:bg-gray-800/50 transition-colors">
               ดูคอร์สทั้งหมด
             </button>
           </div>

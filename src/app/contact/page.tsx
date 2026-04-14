@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
   Mail,
   Phone,
@@ -12,10 +13,14 @@ import {
   Users,
   BookOpen,
   Award,
-  Target
+  Target,
+  Loader2
 } from 'lucide-react';
+import { submitContactForm } from '@/lib/api/contact';
+import { useNotificationHelpers } from '@/contexts/NotificationContext';
 
 export default function Contact() {
+  const notification = useNotificationHelpers();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -26,12 +31,53 @@ export default function Contact() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+
+    setIsSubmitting(true);
+
+    try {
+      const result = await submitContactForm({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+        category: formData.category
+      });
+
+      if (result.success) {
+        setIsSubmitted(true);
+        notification.success('ส่งข้อความสำเร็จ', 'เราจะติดต่อกลับภายใน 24 ชั่วโมง');
+
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          category: '',
+          message: ''
+        });
+
+        // Hide success message after 3 seconds
+        setTimeout(() => setIsSubmitted(false), 3000);
+      } else {
+        notification.error(
+          'เกิดข้อผิดพลาด',
+          result.message || 'ไม่สามารถส่งข้อความได้ กรุณาลองใหม่อีกครั้ง'
+        );
+      }
+    } catch (error) {
+      notification.error(
+        'เกิดข้อผิดพลาด',
+        'ไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ได้ กรุณาลองใหม่อีกครั้ง'
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -45,9 +91,9 @@ export default function Contact() {
     {
       icon: Mail,
       title: "อีเมล",
-      value: "hello@brieflylearn.com",
+      value: "hello@antipararell.com",
       description: "ตอบกลับภายใน 24 ชั่วโมง",
-      action: "mailto:hello@brieflylearn.com"
+      action: "mailto:hello@antipararell.com"
     },
     {
       icon: Phone,
@@ -130,26 +176,26 @@ export default function Contact() {
     <div className="min-h-screen">
 
       {/* Hero Section */}
-      <section className="bg-white border-b border-gray-100 py-20">
+      <section className="border-b border-gray-800/40 py-20">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center">
-            <div className="flex items-center justify-center space-x-2 text-ink-muted mb-4">
+            <div className="flex items-center justify-center space-x-2 text-gray-500 mb-4">
               <MessageCircle className="h-6 w-6" />
               <span className="text-sm uppercase tracking-wider font-medium">ติดต่อเรา</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl font-bold font-serif text-ink mb-4">
+            <h1 className="text-4xl sm:text-5xl font-bold font-serif text-gray-200 mb-4">
               ให้เราช่วยคุณ
               <br />
               เรียนรู้ AI ให้ได้ผลจริง
             </h1>
 
-            <p className="text-lg text-ink-light max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
               ทีมผู้เชี่ยวชาญ AI พร้อมให้คำปรึกษาและแนะนำเส้นทางการเรียน AI
               ไม่ว่าจะเป็นการเลือกคอร์ส การวาง AI Roadmap หรือแนวทางนำ AI ไปใช้จริง
             </p>
 
-            <div className="flex items-center justify-center space-x-8 mt-8 text-ink-muted text-sm">
+            <div className="flex items-center justify-center space-x-8 mt-8 text-gray-500 text-sm">
               <div className="flex items-center space-x-2">
                 <Clock className="h-4 w-4" />
                 <span>ตอบภายใน 24 ชม.</span>
@@ -168,13 +214,13 @@ export default function Contact() {
       </section>
 
       {/* Contact Methods */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-800/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-serif text-ink mb-3">
+            <h2 className="text-3xl font-bold font-serif text-gray-200 mb-3">
               วิธีติดต่อเรา
             </h2>
-            <p className="text-lg text-ink-light">
+            <p className="text-lg text-gray-400">
               เลือกช่องทางที่สะดวกสำหรับคุณ
             </p>
           </div>
@@ -186,14 +232,14 @@ export default function Contact() {
                 <a
                   key={index}
                   href={info.action}
-                  className="bg-white border border-gray-100 p-6 hover:border-brand-500 transition-colors text-center group"
+                  className="bg-gray-900 border border-gray-700/50 p-6 hover:border-mint-500 transition-colors text-center group"
                 >
                   <div className="mb-4">
-                    <Icon className="h-8 w-8 text-ink mx-auto" />
+                    <Icon className="h-8 w-8 text-gray-200 mx-auto" />
                   </div>
-                  <h3 className="text-lg font-semibold text-ink mb-2">{info.title}</h3>
-                  <p className="text-brand-600 font-medium mb-2">{info.value}</p>
-                  <p className="text-ink-muted text-sm">{info.description}</p>
+                  <h3 className="text-lg font-semibold text-gray-200 mb-2">{info.title}</h3>
+                  <p className="text-mint-400 font-medium mb-2">{info.value}</p>
+                  <p className="text-gray-500 text-sm">{info.description}</p>
                 </a>
               );
             })}
@@ -202,22 +248,22 @@ export default function Contact() {
       </section>
 
       {/* Contact Form & Support */}
-      <section className="py-20 bg-white">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
             {/* Contact Form */}
-            <div className="bg-white border border-gray-100 p-8">
+            <div className="bg-gray-900 border border-gray-700/50 p-8">
               <div className="text-center mb-8">
-                <Mail className="h-8 w-8 text-ink mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-ink mb-2">ส่งข้อความถึงเรา</h3>
-                <p className="text-ink-light">เราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
+                <Mail className="h-8 w-8 text-gray-200 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold text-gray-200 mb-2">ส่งข้อความถึงเรา</h3>
+                <p className="text-gray-400">เราจะติดต่อกลับภายใน 24 ชั่วโมง</p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-ink mb-2">
+                    <label className="block text-sm font-medium text-gray-200 mb-2">
                       ชื่อ-นามสกุล *
                     </label>
                     <input
@@ -226,12 +272,13 @@ export default function Contact() {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
+                      className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors"
                       placeholder="กรุณากรอกชื่อ-นามสกุล"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-ink mb-2">
+                    <label className="block text-sm font-medium text-gray-200 mb-2">
                       เบอร์โทรศัพท์
                     </label>
                     <input
@@ -239,14 +286,15 @@ export default function Contact() {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
+                      className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors"
                       placeholder="08X-XXX-XXXX"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
                     อีเมล *
                   </label>
                   <input
@@ -255,13 +303,14 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors"
                     placeholder="your.email@example.com"
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
                     ประเภทการติดต่อ *
                   </label>
                   <select
@@ -269,7 +318,8 @@ export default function Contact() {
                     required
                     value={formData.category}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors"
+                    disabled={isSubmitting}
                   >
                     <option value="">เลือกประเภท</option>
                     <option value="course">สอบถามเกี่ยวกับคอร์ส AI</option>
@@ -282,7 +332,7 @@ export default function Contact() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
                     หัวข้อ *
                   </label>
                   <input
@@ -291,13 +341,14 @@ export default function Contact() {
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors"
                     placeholder="หัวข้อที่ต้องการปรึกษา"
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-ink mb-2">
+                  <label className="block text-sm font-medium text-gray-200 mb-2">
                     รายละเอียด *
                   </label>
                   <textarea
@@ -306,21 +357,29 @@ export default function Contact() {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="w-full px-4 py-3 border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 transition-colors resize-none"
+                    className="w-full px-4 py-3 bg-gray-900/50 border border-gray-700 text-gray-200 placeholder-gray-600 focus:border-mint-500 focus:ring-2 focus:ring-mint-500/20 transition-colors resize-none"
                     placeholder="กรุณาอธิบายรายละเอียดที่ต้องการปรึกษา..."
+                    disabled={isSubmitting}
                   />
                 </div>
 
                 <button
                   type="submit"
-                  disabled={isSubmitted}
+                  disabled={isSubmitted || isSubmitting}
                   className={`w-full py-4 font-semibold text-lg transition-all duration-300 flex items-center justify-center space-x-2 ${
                     isSubmitted
-                      ? 'bg-brand-500 text-white'
-                      : 'bg-ink text-white hover:bg-brand-600'
+                      ? 'bg-mint-500 text-white'
+                      : isSubmitting
+                      ? 'bg-gray-700 text-white cursor-not-allowed'
+                      : 'bg-mint-600 text-white hover:bg-mint-700'
                   }`}
                 >
-                  {isSubmitted ? (
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="h-5 w-5 animate-spin" />
+                      <span>กำลังส่ง...</span>
+                    </>
+                  ) : isSubmitted ? (
                     <>
                       <CheckCircle className="h-5 w-5" />
                       <span>ส่งข้อความเรียบร้อย!</span>
@@ -338,10 +397,10 @@ export default function Contact() {
             {/* Support Categories */}
             <div className="space-y-6">
               <div className="text-center">
-                <h3 className="text-2xl font-bold text-ink mb-4">
+                <h3 className="text-2xl font-bold text-gray-200 mb-4">
                   บริการให้คำปรึกษาเฉพาะทาง
                 </h3>
-                <p className="text-ink-light">
+                <p className="text-gray-400">
                   ทีมผู้เชี่ยวชาญพร้อมให้คำปรึกษาในแต่ละสาขา
                 </p>
               </div>
@@ -352,18 +411,18 @@ export default function Contact() {
                   return (
                     <div
                       key={index}
-                      className="bg-white border border-gray-100 p-6 hover:border-brand-500 transition-colors"
+                      className="bg-gray-900 border border-gray-700/50 p-6 hover:border-mint-500 transition-colors"
                     >
                       <div className="flex items-start space-x-4">
                         <div className="flex-shrink-0">
-                          <Icon className="h-6 w-6 text-ink" />
+                          <Icon className="h-6 w-6 text-gray-200" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-lg font-semibold text-ink mb-2">
+                          <h4 className="text-lg font-semibold text-gray-200 mb-2">
                             {category.title}
                           </h4>
-                          <p className="text-ink-light mb-3">{category.description}</p>
-                          <div className="flex items-center space-x-2 text-sm text-ink-muted">
+                          <p className="text-gray-400 mb-3">{category.description}</p>
+                          <div className="flex items-center space-x-2 text-sm text-gray-500">
                             <Clock className="h-4 w-4" />
                             <span>{category.available}</span>
                           </div>
@@ -379,13 +438,13 @@ export default function Contact() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-800/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold font-serif text-ink mb-3">
+            <h2 className="text-3xl font-bold font-serif text-gray-200 mb-3">
               คำถามที่พบบ่อย
             </h2>
-            <p className="text-lg text-ink-light">
+            <p className="text-lg text-gray-400">
               ตอบข้อสงสัยที่ผู้เรียนถามบ่อยที่สุด
             </p>
           </div>
@@ -394,22 +453,22 @@ export default function Contact() {
             {faqTopics.map((topic, index) => (
               <div
                 key={index}
-                className="bg-white border border-gray-100 p-6"
+                className="bg-gray-900 border border-gray-700/50 p-6"
               >
-                <h3 className="text-lg font-semibold text-ink mb-4 text-center">
+                <h3 className="text-lg font-semibold text-gray-200 mb-4 text-center">
                   {topic.category}
                 </h3>
                 <ul className="space-y-3">
                   {topic.questions.map((question, qIndex) => (
                     <li key={qIndex} className="flex items-start space-x-2">
                       <div className="flex-shrink-0 mt-1">
-                        <div className="w-1.5 h-1.5 bg-brand-500 rounded-full" />
+                        <div className="w-1.5 h-1.5 bg-mint-500 rounded-full" />
                       </div>
-                      <span className="text-ink-light text-sm leading-relaxed">{question}</span>
+                      <span className="text-gray-400 text-sm leading-relaxed">{question}</span>
                     </li>
                   ))}
                 </ul>
-                <button className="w-full mt-4 text-brand-600 hover:text-brand-700 text-sm font-medium">
+                <button className="w-full mt-4 text-mint-400 hover:text-mint-300 text-sm font-medium">
                   ดูคำถามทั้งหมด →
                 </button>
               </div>
@@ -419,15 +478,15 @@ export default function Contact() {
       </section>
 
       {/* Business Hours */}
-      <section className="py-20 bg-white">
+      <section className="py-20">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="border border-gray-100 p-8">
+          <div className="border border-gray-700/50 p-8">
             <div className="text-center mb-8">
-              <Clock className="h-8 w-8 text-ink mx-auto mb-4" />
-              <h3 className="text-2xl font-bold text-ink mb-2">
+              <Clock className="h-8 w-8 text-gray-200 mx-auto mb-4" />
+              <h3 className="text-2xl font-bold text-gray-200 mb-2">
                 เวลาให้บริการ
               </h3>
-              <p className="text-ink-light">
+              <p className="text-gray-400">
                 เวลาที่ทีมงานพร้อมให้คำปรึกษา
               </p>
             </div>
@@ -439,12 +498,12 @@ export default function Contact() {
                 { service: 'คำปรึกษาผู้เชี่ยวชาญ', time: 'จันทร์-เสาร์ 8:00-20:00', status: 'นัดหมายล่วงหน้า' },
                 { service: 'สนับสนุนเทคนิค', time: 'ทุกวัน 24 ชั่วโมง', status: 'เปิดตลอดเวลา' }
               ].map((item, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 border border-gray-100">
+                <div key={index} className="flex items-center justify-between p-4 bg-gray-800/50 border border-gray-700/50">
                   <div>
-                    <div className="font-medium text-ink">{item.service}</div>
-                    <div className="text-sm text-ink-light">{item.time}</div>
+                    <div className="font-medium text-gray-200">{item.service}</div>
+                    <div className="text-sm text-gray-400">{item.time}</div>
                   </div>
-                  <div className="text-xs text-ink-muted">
+                  <div className="text-xs text-gray-500">
                     {item.status}
                   </div>
                 </div>
@@ -455,34 +514,34 @@ export default function Contact() {
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gray-800/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="border border-gray-100 bg-white p-12 text-center">
-            <Award className="h-10 w-10 text-ink mx-auto mb-6" />
+          <div className="border border-gray-700/50 bg-gray-900 p-12 text-center">
+            <Award className="h-10 w-10 text-gray-200 mx-auto mb-6" />
 
-            <h2 className="text-3xl font-bold font-serif text-ink mb-4">
+            <h2 className="text-3xl font-bold font-serif text-gray-200 mb-4">
               รับประกันผลลัพธ์
             </h2>
 
-            <p className="text-lg text-ink-light mb-8 max-w-2xl mx-auto">
+            <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
               เราเชื่อมั่นในคุณภาพการสอน AI ของเรา หากไม่พอใจภายใน 30 วัน คืนเงิน 100%
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a
+              <Link
                 href="/courses"
-                className="bg-ink text-white px-8 py-4 font-semibold text-lg hover:bg-brand-600 transition-colors duration-300 flex items-center justify-center space-x-2"
+                className="bg-mint-600 text-white px-8 py-4 font-semibold text-lg hover:bg-mint-700 transition-colors duration-300 flex items-center justify-center space-x-2"
               >
                 <BookOpen className="h-5 w-5" />
                 <span>เริ่มเรียนเลยวันนี้</span>
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/about"
-                className="border-2 border-ink text-ink px-8 py-4 font-semibold text-lg hover:bg-ink hover:text-white transition-colors duration-300 flex items-center justify-center space-x-2"
+                className="border-2 border-gray-700 text-gray-200 px-8 py-4 font-semibold text-lg hover:bg-gray-800 hover:border-gray-600 transition-colors duration-300 flex items-center justify-center space-x-2"
               >
                 <Users className="h-5 w-5" />
                 <span>ดูเพิ่มเติม</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>

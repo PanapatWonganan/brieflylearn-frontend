@@ -3,9 +3,30 @@
 import { useEffect, useState } from 'react'
 import { getAuthToken } from '@/lib/garden/api'
 
+interface TokenInfo {
+  hasToken: boolean;
+  token: string | null;
+  tokenLength?: number;
+  allLocalStorageKeys: string[];
+  allTokens: Record<string, string | null>;
+}
+
+interface ApiTestResult {
+  url?: string;
+  sentToken?: string | null;
+  tokenDecoded?: string | null;
+  headers?: Record<string, string>;
+  status?: number;
+  statusText?: string;
+  ok?: boolean;
+  data?: unknown;
+  error?: string;
+  errorObject?: unknown;
+}
+
 export default function DebugPage() {
-  const [tokenInfo, setTokenInfo] = useState<any>(null)
-  const [apiTest, setApiTest] = useState<any>(null)
+  const [tokenInfo, setTokenInfo] = useState<TokenInfo | null>(null)
+  const [apiTest, setApiTest] = useState<ApiTestResult | null>(null)
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
@@ -33,14 +54,12 @@ export default function DebugPage() {
       const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1'
       const url = `${apiUrl}/garden/my-garden`
 
-      console.log('Testing API:', { url, token })
 
       const headers = {
         'Content-Type': 'application/json',
         ...(token && { 'Authorization': `Bearer ${token}` }),
       }
 
-      console.log('Request headers:', headers)
 
       const response = await fetch(url, {
         headers: headers,
@@ -48,11 +67,11 @@ export default function DebugPage() {
 
       const data = await response.json()
 
-      let tokenDecoded = null
+      let tokenDecoded: string | null = null
       try {
         tokenDecoded = token ? atob(token) : null
-      } catch (e: any) {
-        tokenDecoded = 'ERROR: ' + e.message
+      } catch (e) {
+        tokenDecoded = 'ERROR: ' + (e instanceof Error ? e.message : String(e))
       }
 
       setApiTest({
@@ -65,9 +84,9 @@ export default function DebugPage() {
         ok: response.ok,
         data: data,
       })
-    } catch (error: any) {
+    } catch (error) {
       setApiTest({
-        error: error.message,
+        error: error instanceof Error ? error.message : String(error),
         errorObject: error,
       })
     } finally {
@@ -76,26 +95,26 @@ export default function DebugPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
+    <div className="min-h-screen bg-gray-800/50 p-8">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">🔍 Debug Page</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-200">🔍 Debug Page</h1>
 
         {/* Token Info */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">🔑 Token Information</h2>
+        <div className="bg-gray-900 rounded-sm shadow p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-200">🔑 Token Information</h2>
           {tokenInfo ? (
-            <pre className="bg-gray-100 p-4 rounded overflow-auto text-sm">
+            <pre className="bg-gray-800 p-4 rounded overflow-auto text-sm text-gray-300">
               {JSON.stringify(tokenInfo, null, 2)}
             </pre>
           ) : (
-            <p>Loading...</p>
+            <p className="text-gray-400">Loading...</p>
           )}
         </div>
 
         {/* Environment Variables */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">⚙️ Environment Variables</h2>
-          <pre className="bg-gray-100 p-4 rounded overflow-auto text-sm">
+        <div className="bg-gray-900 rounded-sm shadow p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-200">⚙️ Environment Variables</h2>
+          <pre className="bg-gray-800 p-4 rounded overflow-auto text-sm text-gray-300">
             {JSON.stringify(
               {
                 NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
@@ -109,26 +128,26 @@ export default function DebugPage() {
         </div>
 
         {/* API Test */}
-        <div className="bg-white rounded-lg shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">🧪 API Test</h2>
+        <div className="bg-gray-900 rounded-sm shadow p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-200">🧪 API Test</h2>
           <button
             onClick={testAPI}
             disabled={loading}
-            className="bg-brand-600 text-white px-6 py-2 rounded hover:opacity-90 disabled:bg-gray-400 mb-4"
+            className="bg-mint-600 text-white px-6 py-2 rounded hover:opacity-90 disabled:bg-gray-700 mb-4"
           >
             {loading ? 'Testing...' : 'Test Garden API'}
           </button>
 
           {apiTest && (
-            <pre className="bg-gray-100 p-4 rounded overflow-auto text-sm">
+            <pre className="bg-gray-800 p-4 rounded overflow-auto text-sm text-gray-300">
               {JSON.stringify(apiTest, null, 2)}
             </pre>
           )}
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h2 className="text-xl font-semibold mb-4">⚡ Quick Actions</h2>
+        <div className="bg-gray-900 rounded-sm shadow p-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-200">⚡ Quick Actions</h2>
           <div className="space-y-2">
             <button
               onClick={() => {
@@ -138,7 +157,7 @@ export default function DebugPage() {
                 alert('✅ Token set! Refresh the page.')
                 window.location.reload()
               }}
-              className="bg-brand-600 text-white px-4 py-2 rounded hover:opacity-90 w-full"
+              className="bg-mint-600 text-white px-4 py-2 rounded hover:opacity-90 w-full"
             >
               🔧 Fix Token Manually (Set Correct Token)
             </button>
@@ -147,7 +166,7 @@ export default function DebugPage() {
                 localStorage.clear()
                 window.location.reload()
               }}
-              className="bg-error text-white px-4 py-2 rounded hover:opacity-90 w-full"
+              className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-2 rounded hover:opacity-90 w-full"
             >
               Clear All localStorage & Reload
             </button>
@@ -155,7 +174,7 @@ export default function DebugPage() {
               onClick={() => {
                 window.location.href = '/dashboard'
               }}
-              className="bg-brand-500 text-white px-4 py-2 rounded hover:opacity-90 w-full"
+              className="bg-mint-500 text-white px-4 py-2 rounded hover:opacity-90 w-full"
             >
               Go to Dashboard
             </button>

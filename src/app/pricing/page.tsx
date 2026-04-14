@@ -86,16 +86,16 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="border-b border-gray-100">
+      <div className="border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20">
           <div className="text-center">
-            <p className="text-xs uppercase tracking-wider text-ink-muted mb-4">
+            <p className="text-xs uppercase tracking-wider text-gray-500 mb-4">
               แผนสมาชิก
             </p>
-            <h1 className="text-heading text-4xl sm:text-5xl font-bold font-serif text-ink mb-4">
+            <h1 className="text-heading text-4xl sm:text-5xl font-bold font-serif text-gray-200 mb-4">
               เลือกแผนที่เหมาะกับคุณ
             </h1>
-            <p className="text-lg text-ink-light max-w-2xl mx-auto">
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
               เริ่มต้นเรียนรู้ AI เพื่อสร้างธุรกิจหรือบริหารองค์กร ด้วยแผนที่ออกแบบมาเพื่อคุณ
             </p>
           </div>
@@ -108,15 +108,15 @@ export default function PricingPage() {
           {plans.map((plan) => (
             <div
               key={plan.id}
-              className={`border rounded-xl p-8 shadow-card hover:shadow-lifted transition-all ${
+              className={`border rounded-sm p-8 shadow-card hover:shadow-lifted transition-all ${
                 plan.popular
-                  ? 'border-brand-500'
-                  : 'border-gray-100/60'
+                  ? 'border-mint-500'
+                  : 'border-gray-700/40'
               }`}
             >
               {plan.popular && (
                 <div className="mb-6">
-                  <span className="inline-block text-xs uppercase tracking-wider text-brand-600 font-medium">
+                  <span className="inline-block text-xs uppercase tracking-wider text-mint-400 font-medium">
                     ยอดนิยม
                   </span>
                 </div>
@@ -124,19 +124,19 @@ export default function PricingPage() {
 
               {/* Plan Header */}
               <div className="mb-8">
-                <h3 className="text-2xl font-bold text-ink mb-2">
+                <h3 className="text-2xl font-bold text-gray-200 mb-2">
                   {plan.name}
                 </h3>
 
-                <p className="text-sm text-ink-light mb-6">
+                <p className="text-sm text-gray-400 mb-6">
                   {plan.description}
                 </p>
 
                 <div className="flex items-baseline space-x-1">
-                  <span className="text-4xl font-bold text-ink">
+                  <span className="text-4xl font-bold text-gray-200">
                     ฿{plan.price.toLocaleString()}
                   </span>
-                  <span className="text-ink-light">
+                  <span className="text-gray-400">
                     /{plan.period}
                   </span>
                 </div>
@@ -146,18 +146,18 @@ export default function PricingPage() {
               <div className="space-y-3 mb-8">
                 {plan.features.map((feature, idx) => (
                   <div key={idx} className="flex items-start space-x-3">
-                    <Check className="h-5 w-5 text-ink flex-shrink-0 mt-0.5" />
-                    <span className="text-sm text-ink-light">{feature}</span>
+                    <Check className="h-5 w-5 text-gray-200 flex-shrink-0 mt-0.5" />
+                    <span className="text-sm text-gray-400">{feature}</span>
                   </div>
                 ))}
               </div>
 
               {/* CTA Button */}
               <button
-                className={`w-full py-3 rounded-lg font-medium transition-colors ${
+                className={`w-full py-3 rounded-sm font-medium transition-colors ${
                   plan.popular
-                    ? 'bg-ink text-white hover:bg-ink/90'
-                    : 'border border-gray-200 text-ink hover:bg-sand-50'
+                    ? 'bg-mint-600 text-white hover:bg-mint-500'
+                    : 'border border-gray-700 text-gray-200 hover:bg-gray-800/50'
                 }`}
               >
                 เริ่มต้นใช้งาน
@@ -167,18 +167,18 @@ export default function PricingPage() {
         </div>
 
         {/* FAQ Section */}
-        <div className="border border-gray-100/60 shadow-card rounded-xl p-8 sm:p-12 mb-12">
-          <h3 className="text-2xl font-bold font-serif text-ink text-center mb-12">
+        <div className="border border-gray-700/40 shadow-card rounded-sm p-8 sm:p-12 mb-12">
+          <h3 className="text-2xl font-bold font-serif text-gray-200 text-center mb-12">
             คำถามที่พบบ่อย
           </h3>
 
           <div className="grid md:grid-cols-2 gap-x-12 gap-y-8">
             {faqs.map((faq, idx) => (
               <div key={idx}>
-                <h4 className="font-semibold text-ink mb-2">
+                <h4 className="font-semibold text-gray-200 mb-2">
                   {faq.question}
                 </h4>
-                <p className="text-sm text-ink-light leading-relaxed">
+                <p className="text-sm text-gray-400 leading-relaxed">
                   {faq.answer}
                 </p>
               </div>
@@ -187,16 +187,16 @@ export default function PricingPage() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="border border-gray-100/60 shadow-card rounded-xl p-8 sm:p-12 text-center">
-          <h3 className="text-2xl font-bold font-serif text-ink mb-4">
+        <div className="border border-gray-700/40 shadow-card rounded-sm p-8 sm:p-12 text-center">
+          <h3 className="text-2xl font-bold font-serif text-gray-200 mb-4">
             ต้องการคำปรึกษาเพิ่มเติม?
           </h3>
-          <p className="text-ink-light mb-6 max-w-2xl mx-auto">
+          <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
             ทีมงานของเราพร้อมให้คำแนะนำแผนที่เหมาะสมกับคุณ
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-ink text-white px-6 py-3 rounded-lg font-medium hover:bg-ink/90 transition-colors"
+            className="inline-block bg-mint-600 text-white px-6 py-3 rounded-sm font-medium hover:bg-mint-500 transition-colors"
           >
             ติดต่อเรา
           </Link>

@@ -10,23 +10,23 @@ const GardenThemesPage = () => {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="bg-white border-b border-gray-100">
+      <div className="border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-6">
           <div className="flex items-center space-x-4">
-            <Link 
+            <Link
               href="/garden"
-              className="flex items-center space-x-2 text-ink-light hover:text-ink transition-colors"
+              className="flex items-center space-x-2 text-gray-400 hover:text-gray-200 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>กลับสู่แล็บ</span>
             </Link>
-            <div className="h-5 border-l border-gray-300" />
+            <div className="h-5 border-l border-gray-700" />
             <div>
-              <h1 className="text-3xl font-bold font-serif text-ink flex items-center space-x-2">
+              <h1 className="text-3xl font-bold font-serif text-gray-200 flex items-center space-x-2">
                 <Palette className="h-8 w-8 text-purple-500" />
                 <span>ปรับแต่งธีมแล็บ</span>
               </h1>
-              <p className="text-ink-muted mt-1">เลือกธีมที่ใช่สำหรับแล็บของคุณ</p>
+              <p className="text-gray-500 mt-1">เลือกธีมที่ใช่สำหรับแล็บของคุณ</p>
             </div>
           </div>
         </div>
@@ -47,16 +47,16 @@ const GardenThemesPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mt-8 bg-gray-50 border border-gray-200 rounded-xl p-6"
+          className="mt-8 bg-gray-800/50 border border-gray-700 rounded-sm p-6"
         >
-          <h3 className="text-lg font-bold text-ink mb-3 flex items-center space-x-2">
+          <h3 className="text-lg font-bold text-gray-200 mb-3 flex items-center space-x-2">
             <Palette className="h-5 w-5" />
             <span>การทำงานของระบบธีม</span>
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
             <div>
-              <h4 className="font-semibold text-ink mb-2">🎨 ธีมที่มีให้เลือก</h4>
-              <ul className="space-y-1 text-ink-light">
+              <h4 className="font-semibold text-gray-200 mb-2">🎨 ธีมที่มีให้เลือก</h4>
+              <ul className="space-y-1 text-gray-400">
                 <li>• <strong>แล็บโมเดิร์น</strong> - ธีมฟรีเริ่มต้น</li>
                 <li>• <strong>แล็บมินิมัล</strong> - ปลดล็อคที่เลเวล 5</li>
                 <li>• <strong>แล็บคลาสสิก</strong> - ปลดล็อคที่เลเวล 10</li>
@@ -66,8 +66,8 @@ const GardenThemesPage = () => {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-ink mb-2">✨ คุณสมบัติ</h4>
-              <ul className="space-y-1 text-ink-light">
+              <h4 className="font-semibold text-gray-200 mb-2">✨ คุณสมบัติ</h4>
+              <ul className="space-y-1 text-gray-400">
                 <li>• เปลี่ยนสีพื้นหลังและสีเน้น</li>
                 <li>• เอฟเฟกต์พิเศษตามธีม</li>
                 <li>• รางวัล Impact Points เมื่อเปลี่ยนธีม</li>
@@ -77,10 +77,10 @@ const GardenThemesPage = () => {
               </ul>
             </div>
           </div>
-          
-          <div className="mt-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
-            <p className="text-sm text-ink-light">
-              <strong>💡 เคล็ดลับ:</strong> คุณสามารถดูตัวอย่างธีมได้โดยกดปุ่ม "ดูตัวอย่าง" 
+
+          <div className="mt-4 p-4 bg-gray-900/50 border border-gray-700 rounded-sm">
+            <p className="text-sm text-gray-400">
+              <strong>💡 เคล็ดลับ:</strong> คุณสามารถดูตัวอย่างธีมได้โดยกดปุ่ม "ดูตัวอย่าง"
               ธีมจะถูกเปลี่ยนชั่วคราวเพื่อให้คุณเห็นการเปลี่ยนแปลง
             </p>
           </div>

@@ -1,52 +1,87 @@
 @import "tailwindcss";
 
-/* ── Tailwind v4 theme configuration ── */
+/* ── Tailwind v4 theme — Antipararell Brand System ── */
 @theme {
-  /* Brand (deep green — Aesop-inspired) */
-  --color-brand-50: #f3f7f4;
-  --color-brand-100: #e0ebe3;
-  --color-brand-200: #c2d7c8;
-  --color-brand-300: #96b8a0;
-  --color-brand-400: #6b9478;
-  --color-brand-500: #4a7a5a;
-  --color-brand-600: #3a6348;
-  --color-brand-700: #2d5a3d;
-  --color-brand-800: #264a33;
-  --color-brand-900: #1e3d2a;
+  /* Font families — Antipararell brand + Thai fallback */
+  --font-sans: var(--font-body, "DM Sans"), var(--font-thai, "IBM Plex Sans Thai"), sans-serif;
+  --font-serif: var(--font-display, "Cormorant Garamond"), var(--font-thai-serif, "Trirong"), Georgia, serif;
+  --font-mono: var(--font-mono, "DM Mono"), monospace;
 
-  /* Sand (warm neutral) */
-  --color-sand-50: #fdfcfa;
-  --color-sand-100: #f7f4ef;
-  --color-sand-200: #ede8df;
-  --color-sand-300: #ddd5c7;
-  --color-sand-400: #c4b8a5;
-  --color-sand-500: #a99c88;
+  /* Text sizes with Antipararell typography specs */
+  --text-xs: 0.8125rem; --text-xs--line-height: 1.5384;
+  --text-sm: 0.875rem; --text-sm--line-height: 1.5715;
+  --text-base: 0.9375rem; --text-base--line-height: 1.7; --text-base--letter-spacing: 0;
+  --text-lg: 1.125rem; --text-lg--line-height: 1.5; --text-lg--letter-spacing: 0;
+  --text-xl: 1.25rem; --text-xl--line-height: 1.5; --text-xl--letter-spacing: 0;
+  --text-2xl: 1.5rem; --text-2xl--line-height: 1.415; --text-2xl--letter-spacing: -0.01em;
+  --text-3xl: 1.75rem; --text-3xl--line-height: 1.3571; --text-3xl--letter-spacing: -0.01em;
+  --text-4xl: 2.5rem; --text-4xl--line-height: 1.1; --text-4xl--letter-spacing: -0.02em;
+  --text-5xl: 3.5rem; --text-5xl--line-height: 1; --text-5xl--letter-spacing: -0.02em;
+  --text-6xl: 4rem; --text-6xl--line-height: 1; --text-6xl--letter-spacing: -0.02em;
+  --text-7xl: 4.5rem; --text-7xl--line-height: 1; --text-7xl--letter-spacing: -0.02em;
 
-  /* Ink (text hierarchy) */
-  --color-ink: #1a1a1a;
-  --color-ink-light: #4a4a4a;
-  --color-ink-muted: #8a8a8a;
-  --color-ink-faint: #c5c5c5;
-
-  /* Semantic — single warm tone for error/danger, brand for success */
-  --color-error: #9b4d4d;
-  --color-error-light: #f0e6e6;
-  --color-error-dark: #7a3535;
-  --color-warning: #8b7355;
-  --color-warning-light: #f5f0e8;
-
-  /* Font families */
-  --font-sans: var(--font-sans, "Sarabun", sans-serif);
-  --font-serif: var(--font-serif, "Noto Serif Thai", serif);
-
-  /* Custom font sizes */
-  --font-size-display: clamp(2.5rem, 6vw, 5rem);
-  --font-size-heading: clamp(1.75rem, 3.5vw, 3rem);
+  /* Responsive typography */
+  --font-size-display: clamp(3.75rem, 10vw, 7.5rem);
+  --font-size-heading: clamp(2rem, 5vw, 3.25rem);
   --font-size-subheading: clamp(1.125rem, 2vw, 1.5rem);
 
-  /* Minimal shadow system — 2 levels only */
-  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  /* ── Antipararell Mint palette ── */
+  --color-mint-50: #e6fff7;
+  --color-mint-100: #b3ffea;
+  --color-mint-200: #80ffdd;
+  --color-mint-300: #4dffd0;
+  --color-mint-400: #00FFBA;
+  --color-mint-500: #00C98F;
+  --color-mint-600: #00A574;
+  --color-mint-700: #007A5A;
+  --color-mint-800: #005540;
+  --color-mint-900: #003326;
+
+  /* ── Shadow system — Antipararell dark ── */
+  --shadow-subtle: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 0 1px rgba(0, 255, 186, 0.05), 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-hover: 0 0 20px rgba(0, 255, 186, 0.12), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-elevated: 0 0 30px rgba(0, 255, 186, 0.15), 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  /* Mint glow for interactive states */
+  --shadow-glow-mint: 0 0 20px rgba(0, 255, 186, 0.2), 0 0 40px rgba(0, 255, 186, 0.08);
+  --shadow-glow-mint-strong: 0 0 30px rgba(0, 255, 186, 0.3), 0 0 60px rgba(0, 255, 186, 0.12);
+
+  /* Animations */
+  --animate-gradient: gradient 6s linear infinite;
+
+  @keyframes gradient {
+    to { background-position: 200% center; }
+  }
+
+  /* ── Backward-compatible color aliases ── */
+
+  /* Brand → mapped to mint */
+  --color-brand-50: #e6fff7;
+  --color-brand-100: #b3ffea;
+  --color-brand-200: #80ffdd;
+  --color-brand-300: #4dffd0;
+  --color-brand-400: #00FFBA;
+  --color-brand-500: #00C98F;
+  --color-brand-600: #00A574;
+  --color-brand-700: #007A5A;
+  --color-brand-800: #005540;
+  --color-brand-900: #003326;
+
+  /* Surface → Antipararell dark neutrals */
+  --color-surface-50: #F2F2F0;
+  --color-surface-100: #1E1E1E;
+  --color-surface-200: #1A1A1A;
+  --color-surface-300: #141414;
+  --color-surface-400: #0E0E0E;
+  --color-surface-500: #0A0A0A;
+
+  /* Semantic */
+  --color-error: #ef4444;
+  --color-error-light: #1f1515;
+  --color-error-dark: #dc2626;
+  --color-warning: #f59e0b;
+  --color-warning-light: #1f1a0f;
 
   /* Breakpoints */
   --breakpoint-xs: 475px;
@@ -59,29 +94,20 @@
   }
 
   body {
-    background-color: #fafaf8;
-  }
-
-  /* Subtle noise grain texture overlay (lightweight base64 PNG) */
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwBAMAAAClLOS0AAAAElBMVEUAAAAAAAAAAAAAAAAAAAAAAADgKxmiAAAABnRSTlMEBQYHCAl1bDqOAAAARklEQVQ4y2MYBaNg2AImKMEMJVigBAuUYIYSLECCGUqwAAkWKMECJJihBAuQYIESLFCCBUgwQwkWIMEMJViABDOU2D8AAK6nCLEbHagUAAAAAElFTkSuQmCC");
-    background-repeat: repeat;
-    will-change: auto;
+    background-color: #0E0E0E; /* Carbon Black */
+    color: #F2F2F0; /* Off-White */
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.7;
   }
 
   ::selection {
-    background-color: #4a7a5a;
+    background-color: rgba(0, 255, 186, 0.25);
     color: white;
   }
 
   ::-webkit-scrollbar {
-    width: 6px;
+    width: 5px;
   }
 
   ::-webkit-scrollbar-track {
@@ -89,121 +115,182 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #d4d4d8;
+    background: #2A2A2A;
     border-radius: 3px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #a1a1aa;
+    background: #3A3A3A;
   }
 }
 
-/* ── Custom utility classes for typography ── */
+/* ── Typography utilities ── */
 @utility text-display {
-  font-family: var(--font-serif), serif;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: 1.05;
+  font-family: var(--font-serif);
+  font-size: clamp(3.75rem, 10vw, 7.5rem);
+  line-height: 0.95;
   letter-spacing: -0.02em;
-  font-weight: 600;
+  font-weight: 300;
 }
 
 @utility text-heading {
-  font-family: var(--font-serif), serif;
-  font-size: clamp(1.75rem, 3.5vw, 3rem);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-  font-weight: 600;
-}
-
-@utility text-subheading {
-  font-size: clamp(1.125rem, 2vw, 1.5rem);
-  line-height: 1.4;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.1;
   letter-spacing: -0.01em;
   font-weight: 400;
 }
 
-/* ── Minimal shadow utilities ── */
-@utility shadow-subtle {
-  box-shadow: var(--shadow-subtle);
+@utility text-subheading {
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.8;
+  letter-spacing: 0;
+  font-weight: 300;
 }
 
-@utility shadow-card {
-  box-shadow: var(--shadow-card);
+/* ── Shadow utilities ── */
+@utility shadow-subtle { box-shadow: var(--shadow-subtle); }
+@utility shadow-card { box-shadow: var(--shadow-card); }
+@utility shadow-hover { box-shadow: var(--shadow-hover); }
+@utility shadow-elevated { box-shadow: var(--shadow-elevated); }
+@utility shadow-glow-mint { box-shadow: var(--shadow-glow-mint); }
+@utility shadow-glow-mint-strong { box-shadow: var(--shadow-glow-mint-strong); }
+
+/* ── Buttons ── */
+.btn,
+.btn-sm {
+  @apply inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all;
 }
 
-/* ── Minimal interactions (Direction A: Warm Minimalism) ── */
+.btn {
+  @apply px-4 py-[11px];
+}
 
-/* Subtle transitions only — no transforms, no lifts */
+.btn-sm {
+  @apply px-3 py-[7px];
+}
+
+/* ── Form inputs — Antipararell dark style ── */
+.form-input,
+.form-textarea,
+.form-multiselect,
+.form-select,
+.form-checkbox,
+.form-radio {
+  @apply border focus:ring-0 focus:ring-offset-0;
+  border-color: rgba(0, 255, 180, 0.12);
+  background: #1A1A1A;
+}
+
+.form-input:focus,
+.form-textarea:focus,
+.form-select:focus {
+  border-color: rgba(0, 255, 186, 0.3);
+}
+
+.form-input,
+.form-textarea,
+.form-multiselect,
+.form-select {
+  @apply rounded-sm px-4 py-2.5 text-sm;
+  color: #F2F2F0;
+}
+
+.form-input,
+.form-textarea {
+  @apply placeholder-gray-600;
+}
+
+.form-checkbox,
+.form-radio {
+  color: #00FFBA;
+}
+
+/* ── Interactions ── */
 @layer base {
   button:not(:disabled),
   a[role="button"] {
-    transition: opacity 0.2s ease, background-color 0.2s ease;
+    transition: opacity 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease, transform 0.3s ease;
   }
 
   button:not(:disabled):active,
   a[role="button"]:active {
-    opacity: 0.85;
-  }
-}
-
-/* Card hover — opacity only, no lift */
-@utility card-interactive {
-  transition: opacity 0.2s ease;
-  &:hover {
     opacity: 0.9;
+    transform: scale(0.98);
   }
 }
 
-/* Link underline — always visible, subtle */
-@utility link-reveal {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  text-decoration-color: var(--color-ink-faint);
-  transition: text-decoration-color 0.2s ease;
+/* Card hover — subtle lift + glow */
+@utility card-interactive {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease;
   &:hover {
-    text-decoration-color: var(--color-ink);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
   }
 }
 
-/* Button system — 3 variants */
+/* ── Button system — Antipararell style ── */
 @utility btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: var(--color-brand-700);
-  color: white;
+  background: #00FFBA;
+  color: #0E0E0E;
+  font-family: var(--font-mono);
   font-weight: 500;
-  border-radius: 0.5rem;
-  transition: opacity 0.2s ease;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
   &:hover {
-    opacity: 0.9;
+    background: #00C98F;
+    box-shadow: var(--shadow-glow-mint);
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(0);
   }
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 }
 
 @utility btn-secondary {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
-  background-color: transparent;
-  color: var(--color-ink);
-  font-weight: 500;
-  border: 1px solid var(--color-ink-faint);
-  border-radius: 0.5rem;
-  transition: border-color 0.2s ease;
+  background: #1A1A1A;
+  color: #F2F2F0;
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  border: 0.5px solid rgba(0, 255, 180, 0.12);
+  transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
   &:hover {
-    border-color: var(--color-ink);
+    border-color: rgba(0, 255, 186, 0.3);
+    box-shadow: 0 0 16px rgba(0, 255, 186, 0.08);
+    transform: translateY(-1px);
+  }
+  &:active {
+    transform: translateY(0);
   }
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
   }
 }
 
@@ -213,15 +300,15 @@
   gap: 0.5rem;
   padding: 0.5rem 0;
   background-color: transparent;
-  color: var(--color-ink-light);
-  font-weight: 400;
+  color: #888885;
+  font-weight: 300;
   text-decoration: underline;
   text-underline-offset: 3px;
-  text-decoration-color: var(--color-ink-faint);
+  text-decoration-color: rgba(0, 255, 180, 0.12);
   transition: color 0.2s ease, text-decoration-color 0.2s ease;
   &:hover {
-    color: var(--color-ink);
-    text-decoration-color: var(--color-ink);
+    color: #00FFBA;
+    text-decoration-color: #00FFBA;
   }
 }
 
@@ -248,4 +335,10 @@ html.lenis body {
 
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
+}
+
+/* ── Loading shimmer ── */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }

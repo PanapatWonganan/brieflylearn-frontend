@@ -81,7 +81,7 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
 
           {/* Main Modal */}
           <motion.div
-            className="relative bg-white rounded-lg shadow-card max-w-md w-full mx-4 overflow-hidden"
+            className="relative bg-gray-900 rounded-sm shadow-card max-w-md w-full mx-4 overflow-hidden"
             initial={{ scale: 0.5, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.5, opacity: 0, y: 50 }}
@@ -90,13 +90,13 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
             {/* Close Button */}
             <button
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors"
+              className="absolute top-4 right-4 z-10 w-8 h-8 bg-gray-800 hover:bg-gray-700 rounded-full flex items-center justify-center transition-colors"
             >
-              <X className="h-4 w-4 text-gray-600" />
+              <X className="h-4 w-4 text-gray-400" />
             </button>
 
             {/* Header */}
-            <div className="bg-brand-600 text-white p-6 text-center">
+            <div className="bg-mint-600 text-white p-6 text-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: currentStep >= 0 ? 1 : 0 }}
@@ -115,7 +115,7 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               </motion.h2>
 
               <motion.p
-                className="text-brand-100"
+                className="text-mint-200"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: currentStep >= 0 ? 1 : 0, y: currentStep >= 0 ? 0 : 20 }}
                 transition={{ delay: 0.6 }}
@@ -132,12 +132,12 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                 animate={{ opacity: currentStep >= 0 ? 1 : 0, y: currentStep >= 0 ? 0 : 30 }}
                 transition={{ delay: 0.8 }}
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-2">
+                <h3 className="text-xl font-bold text-gray-100 mb-2">
                   {data.course.title}
                 </h3>
-                <div className="flex justify-center items-center space-x-4 text-sm text-gray-600">
+                <div className="flex justify-center items-center space-x-4 text-sm text-gray-400">
                   <div className="flex items-center space-x-1">
-                    <CheckCircle className="h-4 w-4 text-brand-600" />
+                    <CheckCircle className="h-4 w-4 text-mint-400" />
                     <span>{data.course.total_lessons} บทเรียน</span>
                   </div>
                 </div>
@@ -150,29 +150,29 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                 animate={{ opacity: currentStep >= 1 ? 1 : 0, y: currentStep >= 1 ? 0 : 30 }}
                 transition={{ delay: 0.3 }}
               >
-                <h4 className="text-lg font-semibold text-center text-gray-800 flex items-center justify-center space-x-2">
-                  <Gift className="h-5 w-5 text-brand-500" />
+                <h4 className="text-lg font-semibold text-center text-gray-200 flex items-center justify-center space-x-2">
+                  <Gift className="h-5 w-5 text-mint-400" />
                   <span>รางวัลที่ได้รับ</span>
                 </h4>
 
                 <div className="grid grid-cols-2 gap-4">
                   {/* XP Reward */}
-                  <div className="bg-sand-100 rounded-lg p-4 text-center">
-                    <Star className="h-6 w-6 text-brand-600 mx-auto mb-2" />
-                    <p className="text-2xl font-bold text-brand-600">+{totalXP}</p>
-                    <p className="text-xs text-gray-600">XP</p>
+                  <div className="bg-gray-800 rounded-sm p-4 text-center">
+                    <Star className="h-6 w-6 text-mint-400 mx-auto mb-2" />
+                    <p className="text-2xl font-bold text-mint-400">+{totalXP}</p>
+                    <p className="text-xs text-gray-400">XP</p>
                     {data.rewards.bonus_xp > 0 && (
-                      <p className="text-xs text-brand-600 mt-1">
+                      <p className="text-xs text-mint-400 mt-1">
                         (โบนัส +{data.rewards.bonus_xp})
                       </p>
                     )}
                   </div>
 
                   {/* Star Seeds Reward */}
-                  <div className="bg-sand-200 rounded-lg p-4 text-center">
+                  <div className="bg-gray-700 rounded-sm p-4 text-center">
                     <Sparkles className="h-6 w-6 text-sand-300 mx-auto mb-2" />
                     <p className="text-2xl font-bold text-sand-300">+{totalStarSeeds}</p>
-                    <p className="text-xs text-gray-600">⭐ Seeds</p>
+                    <p className="text-xs text-gray-400">⭐ Seeds</p>
                     {data.rewards.bonus_star_seeds > 0 && (
                       <p className="text-xs text-sand-300 mt-1">
                         (โบนัส +{data.rewards.bonus_star_seeds})
@@ -185,14 +185,14 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               {/* Level Up */}
               {data.new_level && (
                 <motion.div
-                  className="bg-brand-50 rounded-lg p-4 text-center"
+                  className="bg-mint-900/50 rounded-sm p-4 text-center"
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: currentStep >= 2 ? 1 : 0, scale: currentStep >= 2 ? 1 : 0.8 }}
                   transition={{ delay: 0.3 }}
                 >
                   <div className="text-4xl mb-2">🎊</div>
-                  <p className="text-lg font-bold text-brand-600">Level Up!</p>
-                  <p className="text-sm text-gray-600">ขึ้นเป็นระดับ {data.new_level} แล้ว</p>
+                  <p className="text-lg font-bold text-mint-400">Level Up!</p>
+                  <p className="text-sm text-gray-400">ขึ้นเป็นระดับ {data.new_level} แล้ว</p>
                 </motion.div>
               )}
 
@@ -204,8 +204,8 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                   animate={{ opacity: currentStep >= 3 ? 1 : 0, y: currentStep >= 3 ? 0 : 30 }}
                   transition={{ delay: 0.3 }}
                 >
-                  <h4 className="text-lg font-semibold text-center text-gray-800 flex items-center justify-center space-x-2">
-                    <Award className="h-5 w-5 text-brand-700" />
+                  <h4 className="text-lg font-semibold text-center text-gray-200 flex items-center justify-center space-x-2">
+                    <Award className="h-5 w-5 text-mint-300" />
                     <span>รางวัลใหม่ที่ปลดล็อค</span>
                   </h4>
 
@@ -213,27 +213,27 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
                     {data.achievements.map((achievement, index) => (
                       <motion.div
                         key={achievement.id}
-                        className="bg-sand-100 border border-brand-200 rounded-lg p-3 flex items-center space-x-3"
+                        className="bg-gray-800 border border-mint-700 rounded-sm p-3 flex items-center space-x-3"
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.5 + index * 0.1 }}
                       >
-                        <div className="w-10 h-10 bg-sand-300 rounded-full flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gray-600 rounded-full flex items-center justify-center">
                           <Trophy className="h-5 w-5 text-white" />
                         </div>
                         <div className="flex-1">
-                          <p className="font-semibold text-gray-900 text-sm">
+                          <p className="font-semibold text-gray-100 text-sm">
                             {achievement.name}
                           </p>
-                          <p className="text-xs text-gray-600">
+                          <p className="text-xs text-gray-400">
                             {achievement.description}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="text-xs text-brand-600 font-medium">
+                          <p className="text-xs text-mint-400 font-medium">
                             +{achievement.xp_reward} XP
                           </p>
-                          <p className="text-xs text-brand-600">
+                          <p className="text-xs text-mint-400">
                             +{achievement.star_seeds_reward} ⭐
                           </p>
                         </div>
@@ -246,7 +246,7 @@ const CourseCompletionCelebration: React.FC<CourseCompletionCelebrationProps> = 
               {/* Continue Button */}
               <motion.button
                 onClick={onClose}
-                className="w-full bg-brand-600 hover:bg-brand-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-300 shadow-card"
+                className="w-full bg-mint-600 hover:bg-mint-700 text-white font-semibold py-3 px-6 rounded-sm transition-all duration-300 shadow-card"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: currentStep >= 3 ? 1 : 0, y: currentStep >= 3 ? 0 : 20 }}
                 transition={{ delay: 1 }}

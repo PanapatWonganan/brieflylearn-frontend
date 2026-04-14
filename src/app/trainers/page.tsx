@@ -21,7 +21,7 @@ const instructors = [
       'Google Cloud Professional Machine Learning Engineer',
       'ที่ปรึกษา AI Transformation, SCB, AIS, PTT'
     ],
-    email: 'nattapon@brieflylearn.com'
+    email: 'nattapon@antipararell.com'
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const instructors = [
       'Certified Prompt Engineer, DeepLearning.AI',
       'วิทยากร AI Literacy, DEPA Thailand'
     ],
-    email: 'chanika@brieflylearn.com'
+    email: 'chanika@antipararell.com'
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const instructors = [
       'รองศาสตราจารย์ คณะวิศวกรรมศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย',
       'ที่ปรึกษา Digital Transformation, ธนาคารแห่งประเทศไทย'
     ],
-    email: 'worapoj@brieflylearn.com'
+    email: 'worapoj@antipararell.com'
   },
   {
     id: 4,
@@ -78,7 +78,7 @@ const instructors = [
       'OpenAI API Developer',
       'ผู้เขียนคอลัมน์ "AI for Business" Forbes Thailand'
     ],
-    email: 'thanawat@brieflylearn.com'
+    email: 'thanawat@antipararell.com'
   }
 ]
 
@@ -86,16 +86,16 @@ export default function InstructorsPage() {
   return (
     <div className="min-h-screen">
       {/* Header */}
-      <div className="border-b border-gray-100">
+      <div className="border-b border-gray-700/50">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-20">
           <div className="max-w-3xl">
-            <p className="text-xs uppercase tracking-wider text-ink-muted mb-4">
+            <p className="text-xs uppercase tracking-wider text-gray-500 mb-4">
               ทีมผู้สอน
             </p>
-            <h1 className="text-heading font-serif text-ink mb-4">
+            <h1 className="text-heading font-serif text-gray-200 mb-4">
               ทีมผู้เชี่ยวชาญด้าน AI
             </h1>
-            <p className="text-lg text-ink-light">
+            <p className="text-lg text-gray-400">
               ผู้เชี่ยวชาญที่มีประสบการณ์ตรงในการนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร พร้อมถ่ายทอดให้คุณทำได้จริง
             </p>
           </div>
@@ -108,21 +108,21 @@ export default function InstructorsPage() {
           {instructors.map((instructor) => (
             <div
               key={instructor.id}
-              className="border border-gray-100 rounded-xl p-8"
+              className="border border-gray-700/50 rounded-sm p-8"
             >
               {/* Avatar */}
               <div className="flex items-start space-x-4 mb-6">
-                <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <User className="h-8 w-8 text-ink-muted" />
+                <div className="w-16 h-16 bg-gray-800 rounded-full flex items-center justify-center flex-shrink-0">
+                  <User className="h-8 w-8 text-gray-500" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-xl font-semibold text-ink mb-1">
+                  <h3 className="text-xl font-semibold text-gray-200 mb-1">
                     {instructor.name}
                   </h3>
-                  <p className="text-brand-600 font-medium mb-2">
+                  <p className="text-mint-400 font-medium mb-2">
                     {instructor.title}
                   </p>
-                  <div className="flex items-center text-sm text-ink-muted">
+                  <div className="flex items-center text-sm text-gray-500">
                     <BookOpen className="h-4 w-4 mr-1" />
                     <span>ประสบการณ์ {instructor.experience}</span>
                   </div>
@@ -131,21 +131,21 @@ export default function InstructorsPage() {
 
               {/* Bio */}
               <div className="mb-6">
-                <p className="text-ink-light text-sm leading-relaxed">
+                <p className="text-gray-400 text-sm leading-relaxed">
                   {instructor.bio}
                 </p>
               </div>
 
               {/* Specialties */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-ink mb-3">
+                <h4 className="text-sm font-semibold text-gray-200 mb-3">
                   ความเชี่ยวชาญ
                 </h4>
                 <div className="space-y-2">
                   {instructor.specialties.map((specialty, idx) => (
                     <div key={idx} className="flex items-start">
-                      <CheckCircle className="h-4 w-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-ink-light">{specialty}</span>
+                      <CheckCircle className="h-4 w-4 text-mint-400 mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-400">{specialty}</span>
                     </div>
                   ))}
                 </div>
@@ -153,28 +153,28 @@ export default function InstructorsPage() {
 
               {/* Certifications */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-ink mb-3">
+                <h4 className="text-sm font-semibold text-gray-200 mb-3">
                   คุณวุฒิและใบรับรอง
                 </h4>
                 <div className="space-y-2">
                   {instructor.certifications.map((cert, idx) => (
                     <div key={idx} className="flex items-start">
-                      <Award className="h-4 w-4 text-brand-500 mr-2 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-ink-light">{cert}</span>
+                      <Award className="h-4 w-4 text-mint-400 mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-400">{cert}</span>
                     </div>
                   ))}
                 </div>
               </div>
 
               {/* Contact */}
-              <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
-                <div className="flex items-center text-sm text-ink-muted">
+              <div className="pt-4 border-t border-gray-700/50 flex items-center justify-between">
+                <div className="flex items-center text-sm text-gray-500">
                   <Mail className="h-4 w-4 mr-2" />
                   <span>{instructor.email}</span>
                 </div>
                 <Link
                   href={`/instructors/${instructor.id}`}
-                  className="text-sm text-brand-600 hover:text-brand-700 font-medium"
+                  className="text-sm text-mint-400 hover:text-mint-300 font-medium"
                 >
                   ดูโปรไฟล์
                 </Link>
@@ -184,25 +184,25 @@ export default function InstructorsPage() {
         </div>
 
         {/* Join Our Team */}
-        <div className="border border-gray-100 rounded-xl p-8 mb-16">
+        <div className="border border-gray-700/50 rounded-sm p-8 mb-16">
           <div className="max-w-2xl mx-auto text-center">
-            <h3 className="text-2xl font-semibold font-serif text-ink mb-4">
+            <h3 className="text-2xl font-semibold font-serif text-gray-200 mb-4">
               ร่วมเป็นอาจารย์กับเรา
             </h3>
-            <p className="text-ink-light mb-8">
+            <p className="text-gray-400 mb-8">
               หากคุณเป็นผู้เชี่ยวชาญด้าน AI, Data Science หรือ Digital Transformation
-              มีประสบการณ์การสอนหรือนำ AI ไปใช้จริงในธุรกิจและองค์กร เรายินดีต้อนรับคุณเข้าสู่ทีมผู้สอนของ BrieflyLearn
+              มีประสบการณ์การสอนหรือนำ AI ไปใช้จริงในธุรกิจและองค์กร เรายินดีต้อนรับคุณเข้าสู่ทีมผู้สอนของ Antipararell
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-block bg-brand-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-brand-700 transition-colors"
+                className="inline-block bg-mint-600 text-white px-6 py-3 rounded-sm font-medium hover:bg-mint-500 transition-colors"
               >
                 ติดต่อสมัครงาน
               </Link>
               <Link
                 href="/about"
-                className="inline-block border border-gray-200 text-ink px-6 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+                className="inline-block border border-gray-700 text-gray-200 px-6 py-3 rounded-sm font-medium hover:bg-gray-800/50 transition-colors"
               >
                 เรียนรู้เพิ่มเติม
               </Link>
@@ -212,7 +212,7 @@ export default function InstructorsPage() {
 
         {/* Why Choose Our Instructors */}
         <div>
-          <h3 className="text-2xl font-semibold text-center text-ink mb-12">
+          <h3 className="text-2xl font-semibold text-center text-gray-200 mb-12">
             ทำไมต้องเลือกผู้สอนของเรา
           </h3>
 
@@ -237,13 +237,13 @@ export default function InstructorsPage() {
               <div key={index} className="text-center">
                 <div className="flex justify-center mb-4">
                   <div className="w-12 h-12 flex items-center justify-center">
-                    <item.icon className="h-8 w-8 text-brand-500" />
+                    <item.icon className="h-8 w-8 text-mint-400" />
                   </div>
                 </div>
-                <h4 className="text-lg font-semibold text-ink mb-2">
+                <h4 className="text-lg font-semibold text-gray-200 mb-2">
                   {item.title}
                 </h4>
-                <p className="text-ink-light text-sm">
+                <p className="text-gray-400 text-sm">
                   {item.description}
                 </p>
               </div>

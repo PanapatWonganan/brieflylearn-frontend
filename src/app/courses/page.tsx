@@ -116,11 +116,11 @@ export default function CoursesPage() {
     return (
       <div className="min-h-screen py-8 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto px-5">
-          <h2 className="text-2xl font-bold text-ink mb-4">เกิดข้อผิดพลาด</h2>
-          <p className="text-ink-light mb-6">{error}</p>
+          <h2 className="text-2xl font-bold text-gray-200 mb-4">เกิดข้อผิดพลาด</h2>
+          <p className="text-gray-400 mb-6">{error}</p>
           <button
             onClick={loadCourses}
-            className="bg-ink text-white px-6 py-3 rounded-lg hover:bg-ink/90 transition-colors"
+            className="bg-mint-600 text-white px-6 py-3 rounded-sm hover:bg-mint-600/90 transition-colors"
           >
             ลองใหม่อีกครั้ง
           </button>
@@ -134,13 +134,13 @@ export default function CoursesPage() {
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         {/* Header */}
         <div className="mb-16">
-          <p className="text-xs tracking-widest uppercase text-ink-muted mb-3">
+          <p className="text-xs tracking-widest uppercase text-gray-500 mb-3">
             คอร์สเรียน
           </p>
           <h1 className="text-heading mb-4">
             คอร์ส AI ครบทุกเส้นทาง
           </h1>
-          <p className="text-lg text-ink-light max-w-3xl">
+          <p className="text-lg text-gray-400 max-w-3xl">
             เลือกคอร์ส AI ที่เหมาะกับเป้าหมายของคุณ ทั้งสร้างธุรกิจด้วย AI และบริหารองค์กรอย่างชาญฉลาด
           </p>
         </div>
@@ -150,10 +150,10 @@ export default function CoursesPage() {
 
         {/* Results Count */}
         <div className="mb-12">
-          <p className="text-ink-light">
+          <p className="text-gray-400">
             แสดงผล {filteredCourses.length} จาก {courses.length} คอร์ส
             {searchQuery && (
-              <span className="text-brand-600 font-medium">
+              <span className="text-mint-400 font-medium">
                 {" "}
                 สำหรับ &quot;{searchQuery}&quot;
               </span>
@@ -171,10 +171,10 @@ export default function CoursesPage() {
         {/* No Results */}
         {filteredCourses.length === 0 && (
           <div className="text-center py-16">
-            <h3 className="text-xl font-semibold text-ink mb-2">
+            <h3 className="text-xl font-semibold text-gray-200 mb-2">
               ไม่พบคอร์สที่ตรงกับการค้นหา
             </h3>
-            <p className="text-ink-light mb-6">
+            <p className="text-gray-400 mb-6">
               ลองปรับเปลี่ยนคำค้นหาหรือตัวกรองเพื่อหาคอร์สที่เหมาะสำหรับคุณ
             </p>
             <button
@@ -183,7 +183,7 @@ export default function CoursesPage() {
                 setFilters({ category: "", level: "", priceRange: "", duration: "" });
                 setFilteredCourses(courses);
               }}
-              className="bg-ink text-white px-6 py-3 rounded-lg hover:bg-ink/90 transition-colors"
+              className="bg-mint-600 text-white px-6 py-3 rounded-sm hover:bg-mint-600/90 transition-colors"
             >
               ล้างตัวกรองทั้งหมด
             </button>
@@ -193,7 +193,7 @@ export default function CoursesPage() {
         {/* Load More Button */}
         {filteredCourses.length > 0 && filteredCourses.length >= 9 && (
           <div className="text-center mt-12">
-            <button className="border border-gray-200 text-ink px-8 py-3 rounded-lg hover:border-gray-300 transition-colors font-medium">
+            <button className="border border-gray-700 text-gray-200 px-8 py-3 rounded-sm hover:border-gray-600 transition-colors font-medium">
               โหลดคอร์สเพิ่มเติม
             </button>
           </div>

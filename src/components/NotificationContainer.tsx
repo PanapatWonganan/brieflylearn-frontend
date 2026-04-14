@@ -10,13 +10,13 @@ const NotificationContainer = () => {
   const getIcon = (type: string) => {
     switch (type) {
       case 'success':
-        return <CheckCircle className="h-6 w-6 text-brand-600" />;
+        return <CheckCircle className="h-6 w-6 text-mint-400" />;
       case 'error':
-        return <AlertCircle className="h-6 w-6 text-error" />;
+        return <AlertCircle className="h-6 w-6 text-red-400" />;
       case 'warning':
-        return <AlertTriangle className="h-6 w-6 text-warning" />;
+        return <AlertTriangle className="h-6 w-6 text-yellow-400" />;
       case 'info':
-        return <Info className="h-6 w-6 text-ink-light" />;
+        return <Info className="h-6 w-6 text-gray-400" />;
       default:
         return <Info className="h-6 w-6 text-gray-400" />;
     }
@@ -25,30 +25,30 @@ const NotificationContainer = () => {
   const getBackgroundColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'bg-brand-50 border-brand-200';
+        return 'bg-mint-500/10 border-mint-500/20';
       case 'error':
-        return 'bg-error-light border-error/20';
+        return 'bg-red-500/10 border-red-500/20';
       case 'warning':
-        return 'bg-sand-100 border-sand-300';
+        return 'bg-yellow-500/10 border-yellow-500/20';
       case 'info':
-        return 'bg-sand-100 border-sand-300';
+        return 'bg-gray-800/50 border-gray-700';
       default:
-        return 'bg-gray-50 border-gray-200';
+        return 'bg-gray-800/50 border-gray-700';
     }
   };
 
   const getTextColor = (type: string) => {
     switch (type) {
       case 'success':
-        return 'text-brand-700';
+        return 'text-mint-400';
       case 'error':
-        return 'text-error-dark';
+        return 'text-red-400';
       case 'warning':
-        return 'text-ink-light';
+        return 'text-gray-400';
       case 'info':
-        return 'text-ink-light';
+        return 'text-gray-400';
       default:
-        return 'text-gray-800';
+        return 'text-gray-200';
     }
   };
 
@@ -64,7 +64,7 @@ const NotificationContainer = () => {
           className={`
             ${getBackgroundColor(notification.type)}
             ${getTextColor(notification.type)}
-            relative rounded-lg border p-4 shadow-card
+            relative rounded-sm border p-4 shadow-card
             transform transition-all duration-300 ease-in-out
             animate-in slide-in-from-right-full
           `}
@@ -91,14 +91,14 @@ const NotificationContainer = () => {
                     onClick={notification.action.onClick}
                     className={`
                       inline-flex items-center rounded-md px-2.5 py-1.5 text-xs font-medium
-                      transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300
+                      transition-colors focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400
                       ${notification.type === 'success'
-                        ? 'bg-brand-50 text-brand-700 hover:opacity-90'
+                        ? 'bg-mint-500/10 text-mint-400 hover:opacity-90'
                         : notification.type === 'error'
-                        ? 'bg-error-light text-error-dark hover:opacity-90'
+                        ? 'bg-red-500/10 text-red-400 hover:opacity-90'
                         : notification.type === 'warning'
-                        ? 'bg-sand-100 text-ink-light hover:opacity-90'
-                        : 'bg-sand-100 text-ink-light hover:opacity-90'
+                        ? 'bg-yellow-500/10 text-gray-400 hover:opacity-90'
+                        : 'bg-gray-800/50 text-gray-400 hover:opacity-90'
                       }
                     `}
                   >
@@ -107,19 +107,19 @@ const NotificationContainer = () => {
                 </div>
               )}
             </div>
-            
+
             <div className="ml-4 flex flex-shrink-0">
               <button
                 className={`
                   inline-flex rounded-md p-1.5 transition-colors
-                  focus:outline-none focus-visible:ring-1 focus-visible:ring-brand-300
+                  focus:outline-none focus-visible:ring-1 focus-visible:ring-mint-400
                   ${notification.type === 'success'
-                    ? 'text-brand-600 hover:bg-brand-50'
+                    ? 'text-mint-400 hover:bg-mint-500/10'
                     : notification.type === 'error'
-                    ? 'text-error hover:bg-error-light'
+                    ? 'text-red-400 hover:bg-red-500/10'
                     : notification.type === 'warning'
-                    ? 'text-warning hover:bg-sand-100'
-                    : 'text-ink-light hover:bg-sand-100'
+                    ? 'text-yellow-400 hover:bg-yellow-500/10'
+                    : 'text-gray-400 hover:bg-gray-800/50'
                   }
                 `}
                 onClick={() => removeNotification(notification.id)}

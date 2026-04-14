@@ -3,13 +3,15 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { gardenAPI } from '@/lib/garden/api'
 import { useAuth } from '@/contexts/AuthContextNew'
-import { 
-  GardenData, 
-  PlantType, 
-  Achievement, 
+import {
+  GardenData,
+  PlantType,
+  Achievement,
   DailyChallenge,
-  UserPlant 
+  UserPlant
 } from '@/lib/garden/types'
+import { RenderingMode } from '@/lib/garden/spriteConfig'
+import { useRenderingMode } from '@/hooks/useRenderingMode'
 
 interface GardenContextType {
   // Garden State
@@ -27,16 +29,34 @@ interface GardenContextType {
   // Actions
   refreshGarden: () => Promise<void>
   clearGardenData: () => void
-  plantSeed: (plantTypeId: string, options?: { custom_name?: string; position?: { x: number; y: number } }) => Promise<void>
-  waterPlant: (userPlantId: string) => Promise<void>
-  harvestPlant: (userPlantId: string) => Promise<void>
-  waterGarden: () => Promise<void>
-  updateChallengeProgress: (challengeId: string, increment?: number) => Promise<void>
+  plantSeed: (plantTypeId: string, options?: { custom_name?: string; position?: { x: number; y: number } }) => Promise<any>
+  waterPlant: (userPlantId: string) => Promise<{
+    plant: UserPlant
+    grew_up: boolean
+    rewards: { xp: number; star_seeds: number }
+  }>
+  harvestPlant: (userPlantId: string) => Promise<{
+    plant: { id: string; name: string; harvested_at: string }
+    rewards: { xp: number; star_seeds: number; message: string }
+  }>
+  waterGarden: () => Promise<{
+    plants_watered: number
+    rewards: { xp: number; star_seeds: number }
+  }>
+  updateChallengeProgress: (challengeId: string, increment?: number) => Promise<any>
   
   // Utilities
   getPlantById: (id: string) => UserPlant | undefined
   getPlantTypeById: (id: string) => PlantType | undefined
   canAffordPlant: (plantType: PlantType) => boolean
+
+  // Rendering Mode (emoji vs sprite)
+  renderingMode: RenderingMode
+  spriteThemeId: string
+  isSprite: boolean
+  setRenderingMode: (mode: RenderingMode) => void
+  setSpriteThemeId: (themeId: string) => void
+  toggleRenderingMode: () => void
 }
 
 const GardenContext = createContext<GardenContextType | undefined>(undefined)
@@ -56,16 +76,20 @@ interface GardenProviderProps {
 export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
   // Handle SSR by checking if we're on client side
   const [isClient, setIsClient] = useState(false)
-  
-  // Always call useAuth (React hooks must be called unconditionally)
-  let auth = { user: null, isAuthenticated: false }
-  try {
-    auth = useAuth()
-  } catch (error) {
-    // AuthProvider not available during SSR
-  }
-  
-  const { user, isAuthenticated } = auth
+
+  // Rendering mode (emoji vs sprite)
+  const {
+    renderingMode,
+    spriteThemeId,
+    isSprite,
+    setRenderingMode,
+    setSpriteThemeId,
+    toggleRenderingMode,
+  } = useRenderingMode()
+
+  // Call useAuth unconditionally at the top level (Rules of Hooks)
+  // AuthProvider is always available in the provider hierarchy (see layout.tsx)
+  const { user, isAuthenticated } = useAuth()
   
   useEffect(() => {
     setIsClient(true)
@@ -92,11 +116,9 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
 
   // Initialize garden data
   const initializeGarden = async () => {
-    console.log('🌱 initializeGarden called:', { isClient, isAuthenticated, user: user?.email })
     
     // Don't load garden data if user is not authenticated or not on client
     if (!isClient || !isAuthenticated || !user) {
-      console.log('🚫 Not loading garden:', { isClient, isAuthenticated, hasUser: !!user })
       clearGardenData()
       return
     }
@@ -106,12 +128,9 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       // Load garden data first (most important)
       try {
-        console.log('🌱 Calling gardenAPI.getMyGarden()')
         const gardenData = await gardenAPI.getMyGarden()
-        console.log('✅ Garden data loaded:', gardenData)
         setGardenData(gardenData)
       } catch (error: any) {
-        console.error('❌ Failed to load garden data:', error)
         // If auth failed, clear data
         if (error?.message?.includes('401') || error?.message?.includes('Authentication') || error?.status === 401 || error?.response?.status === 401) {
           clearGardenData()
@@ -153,26 +172,23 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       if (plantTypesResult.status === 'fulfilled') {
         setPlantTypes(plantTypesResult.value)
       } else {
-        console.error('Failed to load plant types:', plantTypesResult.reason)
         setPlantTypes([]) // Empty array as fallback
       }
 
       if (achievementsResult.status === 'fulfilled') {
         setAchievements(achievementsResult.value.achievements)
       } else {
-        console.error('Failed to load achievements:', achievementsResult.reason)
         setAchievements({}) // Empty object as fallback
       }
 
       if (challengesResult.status === 'fulfilled') {
         setTodayChallenges(challengesResult.value.challenges)
       } else {
-        console.error('Failed to load challenges:', challengesResult.reason)
         setTodayChallenges([]) // Empty array as fallback
       }
 
     } catch (error) {
-      console.error('Failed to initialize garden:', error)
+      // Error already handled in Promise.allSettled results
     } finally {
       setIsLoading(false)
     }
@@ -184,7 +200,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       const data = await gardenAPI.getMyGarden()
       setGardenData(data)
     } catch (error) {
-      console.error('Failed to refresh garden:', error)
       throw error
     }
   }
@@ -214,7 +229,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       return result
     } catch (error) {
-      console.error('Failed to plant seed:', error)
       throw error
     } finally {
       setIsPlanting(false)
@@ -240,7 +254,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       return result
     } catch (error) {
-      console.error('Failed to water plant:', error)
       throw error
     } finally {
       setIsWatering(false)
@@ -258,7 +271,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       return result
     } catch (error) {
-      console.error('Failed to harvest plant:', error)
       throw error
     } finally {
       setIsHarvesting(false)
@@ -276,7 +288,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       return result
     } catch (error) {
-      console.error('Failed to water garden:', error)
       throw error
     } finally {
       setIsWatering(false)
@@ -303,7 +314,6 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
       
       return result
     } catch (error) {
-      console.error('Failed to update challenge progress:', error)
       throw error
     }
   }
@@ -371,7 +381,15 @@ export const GardenProvider: React.FC<GardenProviderProps> = ({ children }) => {
     // Utilities
     getPlantById,
     getPlantTypeById,
-    canAffordPlant
+    canAffordPlant,
+
+    // Rendering Mode
+    renderingMode,
+    spriteThemeId,
+    isSprite,
+    setRenderingMode,
+    setSpriteThemeId,
+    toggleRenderingMode,
   }
 
   return (

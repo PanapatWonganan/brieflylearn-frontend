@@ -2,7 +2,10 @@ import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import { executeQuery, executeQuerySingle } from './db'
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-super-secret-jwt-key'
+const JWT_SECRET = process.env.JWT_SECRET || (process.env.NODE_ENV === 'production' ? '' : 'development-secret-key')
+if (!JWT_SECRET || (process.env.NODE_ENV === 'production' && JWT_SECRET === 'development-secret-key')) {
+  console.warn('JWT_SECRET environment variable is not set properly')
+}
 const JWT_EXPIRES_IN = '7d' // Token expires in 7 days
 
 export interface User {

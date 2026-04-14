@@ -114,7 +114,7 @@ export const XPGainAnimation: React.FC<XPGainAnimationProps> = ({
       onAnimationComplete={onComplete}
       className="absolute right-0 pointer-events-none"
     >
-      <div className="flex items-center space-x-1 bg-brand-500 text-white px-2 py-1 rounded-full text-sm font-bold shadow-card">
+      <div className="flex items-center space-x-1 bg-brand-500 text-white px-2 py-1 rounded-sm text-sm font-bold shadow-card">
         <Sparkles className="w-3 h-3" />
         <span>+{formatXP(xpGained)} XP</span>
       </div>
@@ -136,7 +136,7 @@ export const LevelUpAnimation: React.FC<{ newLevel: number; onComplete?: () => v
       onAnimationComplete={onComplete}
       className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none"
     >
-      <div className="bg-brand-700 text-white px-8 py-6 rounded-lg shadow-card text-center">
+      <div className="bg-brand-700 text-white px-8 py-6 rounded-sm shadow-card text-center">
         <Crown className="w-12 h-12 mx-auto mb-2" />
         <h2 className="text-2xl font-bold mb-1">เลื่อนระดับความรู้แล้ว!</h2>
         <p className="text-lg">Level {newLevel}</p>

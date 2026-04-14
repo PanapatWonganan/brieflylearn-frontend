@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8002/api/v1'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1'
 
 export interface LessonCompletionRequest {
   watch_time?: number
@@ -37,6 +37,16 @@ export interface LessonCompletionResponse {
       }>
     }
     rewards_info: string
+    new_achievements: Array<{
+      id: string
+      name: string
+      description: string
+      badge_icon: string
+      rarity: string
+      xp_reward: number
+      star_seeds_reward: number
+      earned_at: string
+    }>
   }
 }
 
@@ -91,17 +101,24 @@ class CourseIntegrationAPI {
     this.baseUrl = `${API_BASE_URL}/course-integration`
   }
 
+  private getAuthToken(): string | null {
+    if (typeof window === 'undefined') return null
+    return localStorage.getItem('auth_token') || localStorage.getItem('boostme_token')
+  }
+
   /**
    * Complete a lesson and award garden rewards
    */
   async completeLessonWithRewards(
-    lessonId: string, 
+    lessonId: string,
     data: LessonCompletionRequest = {}
   ): Promise<LessonCompletionResponse> {
+    const token = this.getAuthToken()
     const response = await fetch(`${this.baseUrl}/lessons/${lessonId}/complete`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` }),
       },
       body: JSON.stringify(data),
     })

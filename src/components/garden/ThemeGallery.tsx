@@ -28,6 +28,8 @@ import {
   applyThemeToPage
 } from '@/lib/garden/themeApi'
 import { useNotification } from '@/contexts/NotificationContext'
+import { useGarden } from '@/contexts/GardenContext'
+import RenderingModeToggle from './RenderingModeToggle'
 
 const ThemeGallery = () => {
   const [themes, setThemes] = useState<GardenTheme[]>([])
@@ -39,6 +41,7 @@ const ThemeGallery = () => {
   const [previewTheme, setPreviewTheme] = useState<GardenTheme | null>(null)
 
   const { addNotification } = useNotification()
+  const { refreshGarden } = useGarden()
 
   const categories = [
     { id: 'all', name: 'ทั้งหมด', emoji: '🎨' },
@@ -62,12 +65,12 @@ const ThemeGallery = () => {
       setUserInfo(data.user_info)
       setStats(data.stats)
     } catch (error: any) {
-      console.error('Failed to load themes:', error)
       addNotification({
         type: 'error',
+        title: 'ไม่สามารถโหลดธีมได้',
         message: 'ไม่สามารถโหลดธีมได้: ' + error.message
       })
-    } finally {
+    } finally{
       setIsLoading(false)
     }
   }
@@ -79,6 +82,7 @@ const ThemeGallery = () => {
     if (theme.is_active) {
       addNotification({
         type: 'info',
+        title: 'ธีมกำลังใช้งาน',
         message: 'ธีมนี้กำลังใช้งานอยู่แล้ว'
       })
       return
@@ -87,6 +91,7 @@ const ThemeGallery = () => {
     if (!theme.is_unlocked) {
       addNotification({
         type: 'warning',
+        title: 'ธีมยังไม่สามารถใช้งานได้',
         message: getUnlockStatusText(theme)
       })
       return
@@ -105,14 +110,17 @@ const ThemeGallery = () => {
 
       // Apply theme to current page for immediate visual feedback
       applyThemeToPage(theme)
-      
+
+      // Refresh garden context (XP/star_seeds may have changed)
+      await refreshGarden()
+
       // Refresh themes data
       loadThemes()
       
     } catch (error: any) {
-      console.error('Failed to apply theme:', error)
       addNotification({
         type: 'error',
+        title: 'ไม่สามารถเปลี่ยนธีมได้',
         message: error.message || 'ไม่สามารถเปลี่ยนธีมได้'
       })
     } finally {
@@ -127,6 +135,7 @@ const ThemeGallery = () => {
     
     addNotification({
       type: 'info',
+      title: 'ดูตัวอย่างธีม',
       message: `ดูตัวอย่างธีม ${theme.name}`,
       duration: 3000
     })
@@ -149,15 +158,15 @@ const ThemeGallery = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow-card p-6">
+      <div className="bg-gray-900 rounded-sm shadow-card p-6">
         <div className="space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-gray-800 rounded w-1/3"></div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {[1, 2, 3, 4, 5, 6].map(i => (
               <div key={i} className="space-y-3">
-                <div className="w-full h-32 bg-gray-200 rounded-lg"></div>
-                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                <div className="w-full h-32 bg-gray-800 rounded-sm"></div>
+                <div className="h-4 bg-gray-800 rounded w-3/4"></div>
+                <div className="h-3 bg-gray-800 rounded w-1/2"></div>
               </div>
             ))}
           </div>
@@ -167,9 +176,9 @@ const ThemeGallery = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-card overflow-hidden">
+    <div className="bg-gray-900 rounded-sm shadow-card overflow-hidden">
       {/* Header */}
-      <div className="p-6 bg-brand-600 text-white">
+      <div className="p-6 bg-mint-600 text-white">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold flex items-center space-x-2">
             <Palette className="h-6 w-6" />
@@ -177,11 +186,19 @@ const ThemeGallery = () => {
           </h2>
           <button
             onClick={loadThemes}
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
+            className="p-2 bg-white/20 hover:bg-white/30 rounded-sm transition-colors"
             title="รีเฟรช"
           >
             <RefreshCw className="h-4 w-4" />
           </button>
+        </div>
+
+        {/* Rendering Mode Toggle */}
+        <div className="mb-4 flex items-center justify-between">
+          <div className="text-sm text-white/80">
+            สไตล์การแสดงผลพืช
+          </div>
+          <RenderingModeToggle compact />
         </div>
 
         {/* User Info */}
@@ -210,7 +227,7 @@ const ThemeGallery = () => {
           <motion.div
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-4 bg-sand-200 border border-sand-300 rounded-lg p-3 flex items-center justify-between"
+            className="mt-4 bg-gray-700 border border-gray-600 rounded-sm p-3 flex items-center justify-between"
           >
             <div className="flex items-center space-x-2">
               <Eye className="h-4 w-4" />
@@ -227,10 +244,10 @@ const ThemeGallery = () => {
       </div>
 
       {/* Category Filter */}
-      <div className="p-6 border-b border-gray-200">
+      <div className="p-6 border-b border-gray-700">
         <div className="flex items-center space-x-2 mb-3">
-          <Filter className="h-4 w-4 text-gray-600" />
-          <span className="text-sm font-medium text-gray-700">หมวดหมู่</span>
+          <Filter className="h-4 w-4 text-gray-400" />
+          <span className="text-sm font-medium text-gray-300">หมวดหมู่</span>
         </div>
         <div className="flex flex-wrap gap-2">
           {categories.map((category) => {
@@ -243,10 +260,10 @@ const ThemeGallery = () => {
               <motion.button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                className={`flex items-center space-x-2 px-3 py-2 rounded-sm text-sm font-medium transition-all ${
                   isSelected
-                    ? 'bg-brand-100 text-brand-700 border-2 border-brand-200'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200 border-2 border-transparent'
+                    ? 'bg-mint-900 text-mint-300 border-2 border-mint-700'
+                    : 'bg-gray-800 text-gray-400 hover:bg-gray-700 border-2 border-transparent'
                 }`}
               >
                 <span>{category.emoji}</span>
@@ -271,12 +288,12 @@ const ThemeGallery = () => {
             {filteredThemes.map((theme) => (
               <motion.div
                 key={theme.id}
-                className={`relative overflow-hidden rounded-lg shadow-card transition-all duration-300 border-2 ${
+                className={`relative overflow-hidden rounded-sm shadow-card transition-all duration-300 border-2 ${
                   theme.is_active
-                    ? 'border-brand-200 bg-brand-50'
+                    ? 'border-mint-700 bg-mint-900'
                     : theme.is_unlocked
-                      ? 'border-gray-200 bg-white hover:border-brand-200'
-                      : 'border-gray-200 bg-gray-50'
+                      ? 'border-gray-700 bg-gray-900 hover:border-mint-700'
+                      : 'border-gray-700 bg-gray-800/50'
                 }`}
                 style={generateThemePreview(theme)}
                 initial={{ opacity: 0, y: 20 }}
@@ -317,12 +334,12 @@ const ThemeGallery = () => {
                   {/* Status Badges */}
                   <div className="absolute top-2 left-2 flex space-x-1">
                     {theme.is_premium && (
-                      <span className="bg-sand-300 text-white text-xs px-2 py-1 rounded-full font-medium">
+                      <span className="bg-gray-600 text-white text-xs px-2 py-1 rounded-sm font-medium">
                         PREMIUM
                       </span>
                     )}
                     {theme.is_seasonal && (
-                      <span className="bg-brand-600 text-white text-xs px-2 py-1 rounded-full font-medium">
+                      <span className="bg-mint-600 text-white text-xs px-2 py-1 rounded-sm font-medium">
                         SEASONAL
                       </span>
                     )}
@@ -330,10 +347,10 @@ const ThemeGallery = () => {
 
                   {/* Price Badge */}
                   <div className="absolute top-2 right-2">
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${
+                    <span className={`text-xs px-2 py-1 rounded-sm font-medium ${
                       theme.price === 0
-                        ? 'bg-brand-600 text-white'
-                        : 'bg-white text-gray-800'
+                        ? 'bg-mint-600 text-white'
+                        : 'bg-gray-900 text-gray-200'
                     }`}>
                       {formatThemePrice(theme.price)}
                     </span>
@@ -350,15 +367,15 @@ const ThemeGallery = () => {
                 {/* Theme Info */}
                 <div className="p-4">
                   <div className="flex items-center justify-between mb-2">
-                    <h3 className={`font-bold ${theme.is_unlocked ? 'text-gray-900' : 'text-gray-500'}`}>
+                    <h3 className={`font-bold ${theme.is_unlocked ? 'text-gray-100' : 'text-gray-500'}`}>
                       {getThemeCategoryEmoji(theme.category)} {theme.name}
                     </h3>
                     {theme.is_active && (
-                      <Check className="h-5 w-5 text-brand-600" />
+                      <Check className="h-5 w-5 text-mint-400" />
                     )}
                   </div>
 
-                  <p className={`text-sm mb-3 ${theme.is_unlocked ? 'text-gray-600' : 'text-gray-400'}`}>
+                  <p className={`text-sm mb-3 ${theme.is_unlocked ? 'text-gray-400' : 'text-gray-500'}`}>
                     {theme.description}
                   </p>
 
@@ -366,7 +383,7 @@ const ThemeGallery = () => {
                   {theme.features && theme.features.length > 0 && (
                     <div className="mb-3">
                       <div className="text-xs text-gray-500 mb-1">คุณสมบัติ:</div>
-                      <div className="text-xs text-gray-600 space-y-0.5">
+                      <div className="text-xs text-gray-400 space-y-0.5">
                         {theme.features.slice(0, 2).map((feature, index) => (
                           <div key={index} className="flex items-center space-x-1">
                             <Sparkles className="h-2 w-2" />
@@ -374,7 +391,7 @@ const ThemeGallery = () => {
                           </div>
                         ))}
                         {theme.features.length > 2 && (
-                          <div className="text-gray-400">
+                          <div className="text-gray-500">
                             +{theme.features.length - 2} อื่นๆ
                           </div>
                         )}
@@ -397,22 +414,22 @@ const ThemeGallery = () => {
                     {theme.is_unlocked && !theme.is_active && (
                       <button
                         onClick={() => handlePreviewTheme(theme)}
-                        className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-medium transition-colors flex items-center justify-center space-x-1"
+                        className="flex-1 bg-gray-800 hover:bg-gray-700 text-gray-300 py-2 px-3 rounded-sm text-sm font-medium transition-colors flex items-center justify-center space-x-1"
                       >
                         <Eye className="h-3 w-3" />
                         <span>ดูตัวอย่าง</span>
                       </button>
                     )}
-                    
+
                     <button
                       onClick={() => handleApplyTheme(theme.id)}
                       disabled={isApplyingTheme === theme.id || !theme.is_unlocked}
-                      className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center space-x-1 ${
+                      className={`flex-1 py-2 px-3 rounded-sm text-sm font-medium transition-all flex items-center justify-center space-x-1 ${
                         theme.is_active
-                          ? 'bg-brand-100 text-brand-700 cursor-default'
+                          ? 'bg-mint-900 text-mint-300 cursor-default'
                           : theme.is_unlocked
-                            ? 'bg-brand-600 hover:bg-brand-700 text-white'
-                            : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                            ? 'bg-mint-600 hover:bg-mint-700 text-white'
+                            : 'bg-gray-700 text-gray-500 cursor-not-allowed'
                       }`}
                     >
                       {isApplyingTheme === theme.id ? (
@@ -452,7 +469,7 @@ const ThemeGallery = () => {
         {filteredThemes.length === 0 && (
           <div className="text-center py-12">
             <Palette className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-700 mb-2">ไม่มีธีมในหมวดหมู่นี้</h3>
+            <h3 className="text-lg font-semibold text-gray-300 mb-2">ไม่มีธีมในหมวดหมู่นี้</h3>
             <p className="text-gray-500">ลองเลือกหมวดหมู่อื่นดูสิ</p>
           </div>
         )}

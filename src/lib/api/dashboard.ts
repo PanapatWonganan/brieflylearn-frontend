@@ -26,11 +26,11 @@ interface DashboardData {
 }
 
 export class DashboardAPI {
-  private baseURL = 'http://localhost:8001/api/v1'
+  private baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1'
 
   private async fetchWithAuth(endpoint: string, options: RequestInit = {}) {
-    const token = localStorage.getItem('boostme_token')
-    
+    const token = localStorage.getItem('auth_token') || localStorage.getItem('boostme_token')
+
     const response = await fetch(`${this.baseURL}${endpoint}`, {
       ...options,
       headers: {
@@ -92,7 +92,6 @@ export class DashboardAPI {
         recommendations: []
       }
     } catch (error) {
-      console.error('Failed to fetch dashboard data:', error)
       
       // Return fallback data
       return {
@@ -118,7 +117,6 @@ export class DashboardAPI {
       const response = await this.fetchWithAuth('/courses/stats')
       return response
     } catch (error) {
-      console.error('Failed to fetch course stats:', error)
       return { total: 0, enrolled: 0, completed: 0 }
     }
   }
@@ -128,7 +126,6 @@ export class DashboardAPI {
       const response = await this.fetchWithAuth('/activities/recent')
       return response.activities || []
     } catch (error) {
-      console.error('Failed to fetch recent activities:', error)
       return []
     }
   }

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState, useCallback } from 'react';
+import React, { createContext, useContext, useState, useCallback, useRef, useEffect } from 'react';
 
 export interface Notification {
   id: string;
@@ -30,9 +30,20 @@ const NotificationContext = createContext<NotificationContextType | undefined>(u
 
 export function NotificationProvider({ children }: { children: React.ReactNode }) {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const timeoutRefs = useRef<Map<string, NodeJS.Timeout>>(new Map());
+
+  const removeNotification = useCallback((id: string) => {
+    // Clear timeout if exists
+    const timeoutId = timeoutRefs.current.get(id);
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutRefs.current.delete(id);
+    }
+    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
+  }, []);
 
   const addNotification = useCallback((notification: Omit<Notification, 'id'>) => {
-    const id = Math.random().toString(36).substr(2, 9);
+    const id = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
     const newNotification: Notification = {
       id,
       duration: 5000, // Default 5 seconds
@@ -45,19 +56,19 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
 
     // Auto remove after duration
     if (newNotification.duration && newNotification.duration > 0) {
-      setTimeout(() => {
+      const timeoutId = setTimeout(() => {
         removeNotification(id);
       }, newNotification.duration);
+      timeoutRefs.current.set(id, timeoutId);
     }
 
     return id;
-  }, []);
-
-  const removeNotification = useCallback((id: string) => {
-    setNotifications((prev) => prev.filter((notification) => notification.id !== id));
-  }, []);
+  }, [removeNotification]);
 
   const clearAllNotifications = useCallback(() => {
+    // Clear all timeouts
+    timeoutRefs.current.forEach((timeoutId) => clearTimeout(timeoutId));
+    timeoutRefs.current.clear();
     setNotifications([]);
   }, []);
 
@@ -76,6 +87,14 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
   }, []);
 
   const unreadCount = notifications.filter(n => !n.read).length;
+
+  // Cleanup all timeouts on unmount
+  useEffect(() => {
+    return () => {
+      timeoutRefs.current.forEach((timeoutId) => clearTimeout(timeoutId));
+      timeoutRefs.current.clear();
+    };
+  }, []);
 
   const contextValue: NotificationContextType = {
     notifications,

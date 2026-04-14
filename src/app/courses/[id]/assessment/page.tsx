@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  AlertTriangle,
   CheckCircle,
   ArrowLeft,
   ArrowRight,
@@ -205,92 +204,92 @@ export default function AIReadinessAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-brand-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <User className="h-8 w-8 text-brand-600" />
+              <div className="bg-mint-900/50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <User className="h-8 w-8 text-mint-400" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">ข้อมูลทั่วไป</h2>
-              <p className="text-gray-600">เพื่อให้เราแนะนำเส้นทางการเรียน AI ที่เหมาะกับคุณ</p>
+              <h2 className="text-2xl font-bold text-gray-100 mb-2">ข้อมูลทั่วไป</h2>
+              <p className="text-gray-400">เพื่อให้เราแนะนำเส้นทางการเรียน AI ที่เหมาะกับคุณ</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 บทบาทของคุณ *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {['เจ้าของธุรกิจ / ผู้ประกอบการ', 'ผู้บริหาร / Manager', 'พนักงานบริษัท', 'ฟรีแลนซ์ / ครีเอเตอร์'].map((role) => (
-                  <label key={role} className="flex items-center p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={role} className="flex items-center p-4 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/20 transition-colors">
                     <input
                       type="radio"
                       name="role"
                       value={role}
                       checked={assessmentData.personalInfo.role === role}
                       onChange={(e) => handleInputChange('personalInfo', 'role', e.target.value)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-600"
                     />
-                    <span className="ml-3 text-gray-700">{role}</span>
+                    <span className="ml-3 text-gray-400">{role}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 อุตสาหกรรม / สายงาน *
               </label>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                 {['การตลาด / โฆษณา', 'เทคโนโลยี / IT', 'การเงิน / บัญชี', 'ค้าปลีก / E-Commerce', 'การศึกษา', 'อื่นๆ'].map((industry) => (
-                  <label key={industry} className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={industry} className="flex items-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="industry"
                       value={industry}
                       checked={assessmentData.personalInfo.industry === industry}
                       onChange={(e) => handleInputChange('personalInfo', 'industry', e.target.value)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-400"
                     />
-                    <span className="ml-2 text-sm text-gray-700">{industry}</span>
+                    <span className="ml-2 text-sm text-gray-400">{industry}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 ประสบการณ์ทำงาน *
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {['0-2 ปี', '3-5 ปี', '6-10 ปี', '10+ ปี'].map((exp) => (
-                  <label key={exp} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={exp} className="flex items-center justify-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="experience"
                       value={exp}
                       checked={assessmentData.personalInfo.experience === exp}
                       onChange={(e) => handleInputChange('personalInfo', 'experience', e.target.value)}
-                      className="h-4 w-4 text-brand-600 mr-2"
+                      className="h-4 w-4 text-mint-400 mr-2"
                     />
-                    <span className="text-gray-700">{exp}</span>
+                    <span className="text-gray-400">{exp}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 ขนาดองค์กร
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {['1 คน (Solo)', '2-10 คน', '11-50 คน', '50+ คน'].map((size) => (
-                  <label key={size} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={size} className="flex items-center justify-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="companySize"
                       value={size}
                       checked={assessmentData.personalInfo.companySize === size}
                       onChange={(e) => handleInputChange('personalInfo', 'companySize', e.target.value)}
-                      className="h-4 w-4 text-brand-600 mr-2"
+                      className="h-4 w-4 text-mint-400 mr-2"
                     />
-                    <span className="text-sm text-gray-700">{size}</span>
+                    <span className="text-sm text-gray-400">{size}</span>
                   </label>
                 ))}
               </div>
@@ -308,38 +307,38 @@ export default function AIReadinessAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-sand-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <FileText className="h-8 w-8 text-brand-600" />
+              <div className="bg-gray-800 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <FileText className="h-8 w-8 text-mint-400" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">ประสบการณ์ด้าน AI</h2>
-              <p className="text-gray-600">ช่วยให้เราเข้าใจระดับความรู้ AI ของคุณ</p>
+              <h2 className="text-2xl font-bold text-gray-100 mb-2">ประสบการณ์ด้าน AI</h2>
+              <p className="text-gray-400">ช่วยให้เราเข้าใจระดับความรู้ AI ของคุณ</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 เครื่องมือ AI ที่คุณเคยใช้ *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {aiTools.map((tool) => (
-                  <label key={tool} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                  <label key={tool} className={`flex items-center p-3 border rounded-sm cursor-pointer transition-colors ${
                     assessmentData.aiExperience.currentTools.includes(tool)
-                      ? 'border-brand-600 bg-brand-50'
-                      : 'border-gray-200 hover:bg-gray-50'
+                      ? 'border-mint-600 bg-mint-900/50'
+                      : 'border-gray-700 hover:bg-gray-800/50'
                   }`}>
                     <input
                       type="checkbox"
                       checked={assessmentData.aiExperience.currentTools.includes(tool)}
                       onChange={() => handleArrayToggle('aiExperience', 'currentTools', tool)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-400"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{tool}</span>
+                    <span className="ml-3 text-sm text-gray-400">{tool}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 ความถี่ในการใช้ AI *
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -349,46 +348,46 @@ export default function AIReadinessAssessment() {
                   { value: 'weekly', label: 'ทุกสัปดาห์' },
                   { value: 'daily', label: 'ทุกวัน' }
                 ].map((freq) => (
-                  <label key={freq.value} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={freq.value} className="flex items-center justify-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="usageFrequency"
                       value={freq.value}
                       checked={assessmentData.aiExperience.usageFrequency === freq.value}
                       onChange={(e) => handleInputChange('aiExperience', 'usageFrequency', e.target.value)}
-                      className="h-4 w-4 text-brand-600 mr-2"
+                      className="h-4 w-4 text-mint-400 mr-2"
                     />
-                    <span className="text-sm text-gray-700">{freq.label}</span>
+                    <span className="text-sm text-gray-400">{freq.label}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 ปัญหาที่เจอในการใช้ AI
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {challenges.map((challenge) => (
-                  <label key={challenge} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                  <label key={challenge} className={`flex items-center p-3 border rounded-sm cursor-pointer transition-colors ${
                     assessmentData.aiExperience.challenges.includes(challenge)
-                      ? 'border-brand-600 bg-brand-50'
-                      : 'border-gray-200 hover:bg-gray-50'
+                      ? 'border-mint-600 bg-mint-900/50'
+                      : 'border-gray-700 hover:bg-gray-800/50'
                   }`}>
                     <input
                       type="checkbox"
                       checked={assessmentData.aiExperience.challenges.includes(challenge)}
                       onChange={() => handleArrayToggle('aiExperience', 'challenges', challenge)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-400"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{challenge}</span>
+                    <span className="ml-3 text-sm text-gray-400">{challenge}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 การเรียนรู้ AI ที่ผ่านมา
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -398,16 +397,16 @@ export default function AIReadinessAssessment() {
                   { value: 'workshop', label: 'เคยเข้า Workshop / สัมมนา' },
                   { value: 'certified', label: 'เรียนคอร์สออนไลน์ / มี Certificate' }
                 ].map((training) => (
-                  <label key={training.value} className="flex items-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={training.value} className="flex items-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="previousTraining"
                       value={training.value}
                       checked={assessmentData.aiExperience.previousTraining === training.value}
                       onChange={(e) => handleInputChange('aiExperience', 'previousTraining', e.target.value)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-400"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{training.label}</span>
+                    <span className="ml-3 text-sm text-gray-400">{training.label}</span>
                   </label>
                 ))}
               </div>
@@ -425,59 +424,59 @@ export default function AIReadinessAssessment() {
             className="space-y-6"
           >
             <div className="text-center mb-8">
-              <div className="bg-brand-50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                <Activity className="h-8 w-8 text-brand-600" />
+              <div className="bg-mint-900/50 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                <Activity className="h-8 w-8 text-mint-400" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">เป้าหมายการเรียนรู้</h2>
-              <p className="text-gray-600">บอกเราว่าคุณอยากทำอะไรกับ AI</p>
+              <h2 className="text-2xl font-bold text-gray-100 mb-2">เป้าหมายการเรียนรู้</h2>
+              <p className="text-gray-400">บอกเราว่าคุณอยากทำอะไรกับ AI</p>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 สิ่งที่คุณอยากทำได้ด้วย AI *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {objectives.map((objective) => (
-                  <label key={objective} className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
+                  <label key={objective} className={`flex items-center p-3 border rounded-sm cursor-pointer transition-colors ${
                     assessmentData.goals.objectives.includes(objective)
-                      ? 'border-brand-600 bg-brand-50'
-                      : 'border-gray-200 hover:bg-gray-50'
+                      ? 'border-mint-600 bg-mint-900/50'
+                      : 'border-gray-700 hover:bg-gray-800/50'
                   }`}>
                     <input
                       type="checkbox"
                       checked={assessmentData.goals.objectives.includes(objective)}
                       onChange={() => handleArrayToggle('goals', 'objectives', objective)}
-                      className="h-4 w-4 text-brand-600"
+                      className="h-4 w-4 text-mint-400"
                     />
-                    <span className="ml-3 text-sm text-gray-700">{objective}</span>
+                    <span className="ml-3 text-sm text-gray-400">{objective}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 ระยะเวลาที่คุณตั้งเป้าจะนำ AI ไปใช้จริง
               </label>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                 {['ภายใน 1 เดือน', '1-3 เดือน', '3-6 เดือน', '6+ เดือน'].map((timeline) => (
-                  <label key={timeline} className="flex items-center justify-center p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={timeline} className="flex items-center justify-center p-3 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="timeline"
                       value={timeline}
                       checked={assessmentData.goals.timeline === timeline}
                       onChange={(e) => handleInputChange('goals', 'timeline', e.target.value)}
-                      className="h-4 w-4 text-brand-600 mr-2"
+                      className="h-4 w-4 text-mint-400 mr-2"
                     />
-                    <span className="text-sm text-gray-700">{timeline}</span>
+                    <span className="text-sm text-gray-400">{timeline}</span>
                   </label>
                 ))}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
+              <label className="block text-sm font-medium text-gray-400 mb-3">
                 เวลาที่คุณสามารถจัดสรรให้กับการเรียน *
               </label>
               <div className="space-y-3">
@@ -487,18 +486,18 @@ export default function AIReadinessAssessment() {
                   { value: 'dedicated', label: '3-5 ชั่วโมง/สัปดาห์', desc: 'เรียนจริงจัง ทำโปรเจกต์จริง' },
                   { value: 'intensive', label: '5+ ชั่วโมง/สัปดาห์', desc: 'เร่งเรียนเต็มที่ ต้องการผลลัพธ์เร็ว' }
                 ].map((level) => (
-                  <label key={level.value} className="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-brand-50 transition-colors">
+                  <label key={level.value} className="flex items-start p-4 border border-gray-700 rounded-sm cursor-pointer hover:bg-mint-900/50 transition-colors">
                     <input
                       type="radio"
                       name="commitment"
                       value={level.value}
                       checked={assessmentData.goals.commitment === level.value}
                       onChange={(e) => handleInputChange('goals', 'commitment', e.target.value)}
-                      className="h-4 w-4 text-brand-600 mt-1"
+                      className="h-4 w-4 text-mint-400 mt-1"
                     />
                     <div className="ml-3">
-                      <div className="font-medium text-gray-900">{level.label}</div>
-                      <div className="text-sm text-gray-600">{level.desc}</div>
+                      <div className="font-medium text-gray-100">{level.label}</div>
+                      <div className="text-sm text-gray-400">{level.desc}</div>
                     </div>
                   </label>
                 ))}
@@ -519,52 +518,52 @@ export default function AIReadinessAssessment() {
           >
             <div className="text-center mb-8">
               <div className={`rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 ${
-                readinessLevel === 'advanced' ? 'bg-brand-50' : readinessLevel === 'intermediate' ? 'bg-sand-100' : 'bg-brand-50'
+                readinessLevel === 'advanced' ? 'bg-mint-900/50' : readinessLevel === 'intermediate' ? 'bg-gray-800' : 'bg-mint-900/50'
               }`}>
                 <Shield className={`h-8 w-8 ${
-                  readinessLevel === 'advanced' ? 'text-brand-600' : readinessLevel === 'intermediate' ? 'text-brand-600' : 'text-brand-600'
+                  readinessLevel === 'advanced' ? 'text-mint-400' : readinessLevel === 'intermediate' ? 'text-mint-400' : 'text-mint-400'
                 }`} />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">ผลประเมิน AI Readiness</h2>
-              <p className="text-gray-600">ระดับความพร้อมด้าน AI ของคุณ</p>
+              <h2 className="text-2xl font-bold text-gray-100 mb-2">ผลประเมิน AI Readiness</h2>
+              <p className="text-gray-400">ระดับความพร้อมด้าน AI ของคุณ</p>
             </div>
 
             {/* Readiness Assessment Result */}
-            <div className={`p-6 rounded-lg border-2 ${
-              readinessLevel === 'advanced' ? 'bg-brand-50 border-brand-200' :
-              readinessLevel === 'intermediate' ? 'bg-sand-100 border-sand-300' :
-              'bg-brand-50 border-brand-200'
+            <div className={`p-6 rounded-sm border-2 ${
+              readinessLevel === 'advanced' ? 'bg-mint-900/50 border-mint-700' :
+              readinessLevel === 'intermediate' ? 'bg-gray-800 border-gray-600' :
+              'bg-mint-900/50 border-mint-700'
             }`}>
               <div className="flex items-center space-x-3 mb-4">
                 <Shield className={`h-6 w-6 ${
-                  readinessLevel === 'advanced' ? 'text-brand-600' : readinessLevel === 'intermediate' ? 'text-brand-600' : 'text-brand-600'
+                  readinessLevel === 'advanced' ? 'text-mint-400' : readinessLevel === 'intermediate' ? 'text-mint-400' : 'text-mint-400'
                 }`} />
                 <h3 className={`text-lg font-semibold ${
-                  readinessLevel === 'advanced' ? 'text-brand-700' : readinessLevel === 'intermediate' ? 'text-brand-700' : 'text-brand-700'
+                  readinessLevel === 'advanced' ? 'text-mint-300' : readinessLevel === 'intermediate' ? 'text-mint-300' : 'text-mint-300'
                 }`}>
                   ระดับ: {readinessLevel === 'advanced' ? 'ขั้นสูง (Advanced)' : readinessLevel === 'intermediate' ? 'ระดับกลาง (Intermediate)' : 'เริ่มต้น (Beginner)'}
                 </h3>
               </div>
 
               {readinessLevel === 'beginner' && (
-                <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 mb-4">
-                  <p className="text-brand-700">
+                <div className="bg-mint-900/50 border border-mint-700 rounded-sm p-4 mb-4">
+                  <p className="text-mint-300">
                     คอร์สนี้เหมาะกับคุณมาก! เราจะพาคุณเริ่มต้นจากพื้นฐาน AI ทีละขั้นตอน พร้อมตัวอย่างจริงที่นำไปใช้ได้ทันที
                   </p>
                 </div>
               )}
 
               {readinessLevel === 'intermediate' && (
-                <div className="bg-sand-100 border border-sand-300 rounded-lg p-4 mb-4">
-                  <p className="text-brand-700">
+                <div className="bg-gray-800 border border-gray-600 rounded-sm p-4 mb-4">
+                  <p className="text-mint-300">
                     คุณมีพื้นฐาน AI ที่ดี! คอร์สนี้จะช่วยยกระดับทักษะของคุณ และเรียนรู้เทคนิคขั้นสูงเพื่อนำ AI ไปใช้ได้อย่างมีประสิทธิภาพมากขึ้น
                   </p>
                 </div>
               )}
 
               {readinessLevel === 'advanced' && (
-                <div className="bg-brand-50 border border-brand-200 rounded-lg p-4 mb-4">
-                  <p className="text-brand-700">
+                <div className="bg-mint-900/50 border border-mint-700 rounded-sm p-4 mb-4">
+                  <p className="text-mint-300">
                     คุณมีประสบการณ์ AI มาก! คอร์สนี้จะช่วยเติมเต็มในส่วนที่ยังขาด พร้อม Framework และ Case Study ที่นำไปประยุกต์ใช้ในระดับองค์กร
                   </p>
                 </div>
@@ -574,42 +573,42 @@ export default function AIReadinessAssessment() {
             {/* Contact & Consent Form */}
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-400 mb-2">
                   อีเมลติดต่อ *
                 </label>
                 <input
                   type="email"
                   value={assessmentData.consent.contactEmail}
                   onChange={(e) => handleInputChange('consent', 'contactEmail', e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-sm border border-gray-700 focus:outline-none"
                   placeholder="your@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-400 mb-2">
                   เบอร์โทรศัพท์
                 </label>
                 <input
                   type="tel"
                   value={assessmentData.consent.contactPhone}
                   onChange={(e) => handleInputChange('consent', 'contactPhone', e.target.value)}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none"
+                  className="w-full px-4 py-3 rounded-sm border border-gray-700 focus:outline-none"
                   placeholder="08X-XXX-XXXX"
                 />
               </div>
 
-              <label className="flex items-start p-4 border border-gray-200 rounded-lg cursor-pointer">
+              <label className="flex items-start p-4 border border-gray-700 rounded-sm cursor-pointer">
                 <input
                   type="checkbox"
                   checked={assessmentData.consent.understoodTerms}
                   onChange={(e) => handleInputChange('consent', 'understoodTerms', e.target.checked)}
-                  className="h-4 w-4 text-brand-600 mt-1"
+                  className="h-4 w-4 text-mint-400 mt-1"
                 />
-                <div className="ml-3 text-sm text-gray-700">
+                <div className="ml-3 text-sm text-gray-400">
                   <span className="font-medium">ฉันรับทราบและยินยอม *</span>
-                  <ul className="mt-2 space-y-1 text-xs text-gray-600">
-                    <li>- ฉันยินยอมให้ BrieflyLearn ใช้ข้อมูลนี้เพื่อปรับปรุงเนื้อหาให้เหมาะกับฉัน</li>
+                  <ul className="mt-2 space-y-1 text-xs text-gray-400">
+                    <li>- ฉันยินยอมให้ Antipararell ใช้ข้อมูลนี้เพื่อปรับปรุงเนื้อหาให้เหมาะกับฉัน</li>
                     <li>- ฉันเข้าใจว่าผลลัพธ์จากการเรียนอาจแตกต่างกันตามบุคคล</li>
                     <li>- ข้อมูลที่ให้มาเป็นความจริงและถูกต้อง</li>
                     <li>- ฉันยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</li>
@@ -626,23 +625,23 @@ export default function AIReadinessAssessment() {
   };
 
   return (
-    <div className="min-h-screen bg-sand-50">
+    <div className="min-h-screen bg-gray-900">
 
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-sand-300">
+      <div className="bg-gray-800 shadow-sm border-b border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <Link
               href={`/courses/${courseId}`}
-              className="flex items-center space-x-2 text-gray-600 hover:text-gray-900 transition-colors"
+              className="flex items-center space-x-2 text-gray-400 hover:text-gray-100 transition-colors"
             >
               <ArrowLeft className="h-5 w-5" />
               <span>กลับไปหน้าคอร์ส</span>
             </Link>
 
             <div className="text-center">
-              <h1 className="text-xl font-bold text-gray-900">แบบประเมิน AI Readiness</h1>
-              <p className="text-sm text-gray-600">ขั้นตอนที่ {currentStep} จาก {totalSteps}</p>
+              <h1 className="text-xl font-bold text-gray-100">แบบประเมิน AI Readiness</h1>
+              <p className="text-sm text-gray-400">ขั้นตอนที่ {currentStep} จาก {totalSteps}</p>
             </div>
 
             <div className="w-24" />
@@ -651,15 +650,15 @@ export default function AIReadinessAssessment() {
       </div>
 
       {/* Progress Bar */}
-      <div className="bg-white border-b border-sand-300">
+      <div className="bg-gray-800 border-b border-gray-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex space-x-1 py-4">
             {Array.from({ length: totalSteps }, (_, index) => (
               <div
                 key={index}
                 className={`flex-1 h-2 rounded-full transition-colors duration-300 ${
-                  index < currentStep ? 'bg-brand-500' :
-                  index === currentStep - 1 ? 'bg-brand-300' : 'bg-gray-200'
+                  index < currentStep ? 'bg-mint-500' :
+                  index === currentStep - 1 ? 'bg-mint-300' : 'bg-gray-700'
                 }`}
               />
             ))}
@@ -669,20 +668,20 @@ export default function AIReadinessAssessment() {
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-white rounded-lg shadow-sm border border-sand-300 p-8">
+        <div className="bg-gray-800 rounded-sm shadow-sm border border-gray-700 p-8">
           <AnimatePresence mode="wait">
             {renderStepContent()}
           </AnimatePresence>
 
           {/* Navigation Buttons */}
-          <div className="flex justify-between mt-8 pt-6 border-t border-gray-200">
+          <div className="flex justify-between mt-8 pt-6 border-t border-gray-700">
             <button
               onClick={prevStep}
               disabled={currentStep === 1}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+              className={`flex items-center space-x-2 px-6 py-3 rounded-sm font-medium transition-colors ${
                 currentStep === 1
                   ? 'text-gray-400 cursor-not-allowed'
-                  : 'text-gray-700 border border-gray-300 hover:bg-gray-50'
+                  : 'text-gray-400 border border-gray-600 hover:bg-gray-800/50'
               }`}
             >
               <ArrowLeft className="h-4 w-4" />
@@ -693,10 +692,10 @@ export default function AIReadinessAssessment() {
               <button
                 onClick={nextStep}
                 disabled={!validateCurrentStep()}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-colors ${
+                className={`flex items-center space-x-2 px-6 py-3 rounded-sm font-medium transition-colors ${
                   validateCurrentStep()
-                    ? 'bg-brand-600 text-white hover:opacity-90'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-mint-600 text-white hover:opacity-90'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 <span>ถัดไป</span>
@@ -706,10 +705,10 @@ export default function AIReadinessAssessment() {
               <button
                 onClick={handleSubmit}
                 disabled={!validateCurrentStep()}
-                className={`flex items-center space-x-2 px-8 py-3 rounded-lg font-semibold transition-colors ${
+                className={`flex items-center space-x-2 px-8 py-3 rounded-sm font-semibold transition-colors ${
                   validateCurrentStep()
-                    ? 'bg-brand-600 text-white hover:opacity-90'
-                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    ? 'bg-mint-600 text-white hover:opacity-90'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
                 }`}
               >
                 <CheckCircle className="h-5 w-5" />

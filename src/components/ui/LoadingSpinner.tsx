@@ -18,7 +18,7 @@ const sizeClasses = {
 };
 
 const colorClasses = {
-  pink: 'text-brand-600',
+  pink: 'text-mint-600',
   white: 'text-white',
   gray: 'text-gray-500'
 };
@@ -80,7 +80,7 @@ export function LoadingDots({
           className={cn(
             dotSize[size],
             'rounded-full animate-pulse',
-            color === 'pink' && 'bg-brand-600',
+            color === 'pink' && 'bg-mint-600',
             color === 'white' && 'bg-white',
             color === 'gray' && 'bg-gray-500'
           )}
@@ -103,7 +103,7 @@ export function LoadingPulse({
       className={cn(
         sizeClasses[size],
         'rounded-full animate-pulse',
-        color === 'pink' && 'bg-brand-600',
+        color === 'pink' && 'bg-mint-600',
         color === 'white' && 'bg-white',
         color === 'gray' && 'bg-gray-500',
         className

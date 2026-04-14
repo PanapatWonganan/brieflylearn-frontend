@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
     
     // Validate input
     const validatedData = registerSchema.parse(body)
-    const { email, password, fullName, phone, role } = validatedData
+    const { email, password, fullName, role } = validatedData
     
     // Create user
     const user = await createUser({
@@ -50,7 +50,6 @@ export async function POST(request: NextRequest) {
     return response
     
   } catch (error) {
-    console.error('Register error:', error)
     
     if (error instanceof Error) {
       if (error.name === 'ZodError') {

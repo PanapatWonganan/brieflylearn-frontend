@@ -26,9 +26,7 @@ export async function getDbConnection(): Promise<mysql.Connection> {
         timezone: '+07:00', // Bangkok timezone
         dateStrings: true,
       })
-      console.log('✅ Connected to MySQL database')
     } catch (error) {
-      console.error('❌ Failed to connect to database:', error)
       throw error
     }
   }
@@ -39,7 +37,6 @@ export async function closeDbConnection(): Promise<void> {
   if (connection) {
     await connection.end()
     connection = null
-    console.log('🔌 Database connection closed')
   }
 }
 
@@ -52,9 +49,6 @@ export async function executeQuery<T = any>(
     const [rows] = await db.execute(query, params)
     return rows as T[]
   } catch (error) {
-    console.error('❌ Query execution failed:', error)
-    console.error('Query:', query)
-    console.error('Params:', params)
     throw error
   }
 }

@@ -1,22 +1,28 @@
 import type { NextConfig } from "next";
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const nextConfig: NextConfig = {
   // Standard Next.js config for Vercel deployment
   reactStrictMode: true,
   images: {
-    domains: ['your-domain.com'], // Add your image domains here if needed
+    domains: ['images.unsplash.com'],
   },
-  // Ignore ESLint and TypeScript errors during build for faster deployment
+  // Enable ESLint and TypeScript checks during build
+  // ESLint warnings won't fail the build, but errors will
   eslint: {
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
+  // TypeScript errors will fail the build
   typescript: {
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  // Remove static export configs that cause issues with Vercel
-  // distDir: 'out',
-  // trailingSlash: true,
-  // swcMinify: true, // Removed - not needed in Next.js 15+
+  turbopack: {
+    root: __dirname,
+  },
 };
 
 export default nextConfig;

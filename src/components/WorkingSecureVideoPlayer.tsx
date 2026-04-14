@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from 'react';
-import { Play, Pause, Volume2, VolumeX } from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize, Minimize } from 'lucide-react';
 import Hls from 'hls.js';
 
 interface WorkingSecureVideoPlayerProps {
@@ -10,14 +10,18 @@ interface WorkingSecureVideoPlayerProps {
   userName?: string;
   userEmail?: string;
   onProgress?: (currentTime: number, duration: number) => void;
+  onPlay?: () => void;
+  onPause?: () => void;
 }
 
-export default function WorkingSecureVideoPlayer({ 
-  streamUrl, 
-  title, 
+export default function WorkingSecureVideoPlayer({
+  streamUrl,
+  title,
   userName = 'Guest',
   userEmail = 'guest@example.com',
-  onProgress 
+  onProgress,
+  onPlay,
+  onPause
 }: WorkingSecureVideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,47 +31,31 @@ export default function WorkingSecureVideoPlayer({
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-
-  console.log('🔐 WorkingSecureVideoPlayer: Rendering with URL:', streamUrl);
-  console.log('🔐 WorkingSecureVideoPlayer: URL details:', {
-    url: streamUrl,
-    urlType: typeof streamUrl,
-    urlLength: streamUrl?.length,
-    urlStartsWith: streamUrl?.substring(0, 100),
-    isValidHttpUrl: streamUrl?.startsWith('http'),
-    includesMP4: streamUrl?.includes('.mp4'),
-    includesM3U8: streamUrl?.includes('.m3u8')
-  });
-  console.log('🔐 WorkingSecureVideoPlayer: State:', { isPlaying, isMuted, currentTime, duration });
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
-    console.log('🔐 WorkingSecureVideoPlayer: useEffect triggered');
     
     if (videoRef.current) {
       const video = videoRef.current;
       
       // ป้องกัน video reset โดยตรวจสอบ source ก่อน
       if (!streamUrl || streamUrl.length === 0) {
-        console.error('🔐 WorkingSecureVideoPlayer: ❌ Invalid or empty stream URL');
         return;
       }
 
       // Check if URL is valid
       if (!streamUrl.startsWith('http://') && !streamUrl.startsWith('https://')) {
-        console.error('🔐 WorkingSecureVideoPlayer: ❌ Invalid URL format:', streamUrl);
         return;
       }
 
       // Clean up existing HLS instance
       if (hlsRef.current) {
-        console.log('🔐 WorkingSecureVideoPlayer: Cleaning up existing HLS instance');
         hlsRef.current.destroy();
         hlsRef.current = null;
       }
 
       // Check if it's an HLS stream (.m3u8)
       if (streamUrl.includes('.m3u8') || streamUrl.includes('/playlist/')) {
-        console.log('🔐 WorkingSecureVideoPlayer: Detected HLS stream, using HLS.js');
         
         if (Hls.isSupported()) {
           const hls = new Hls({
@@ -79,19 +67,15 @@ export default function WorkingSecureVideoPlayer({
           hlsRef.current = hls;
           
           hls.on(Hls.Events.ERROR, (event, data) => {
-            console.error('🔐 HLS Error:', event, data);
             if (data.fatal) {
               switch (data.type) {
                 case Hls.ErrorTypes.NETWORK_ERROR:
-                  console.error('🔐 Fatal network error encountered, trying to recover');
                   hls.startLoad();
                   break;
                 case Hls.ErrorTypes.MEDIA_ERROR:
-                  console.error('🔐 Fatal media error encountered, trying to recover');
                   hls.recoverMediaError();
                   break;
                 default:
-                  console.error('🔐 Fatal error, cannot recover');
                   hls.destroy();
                   break;
               }
@@ -99,34 +83,22 @@ export default function WorkingSecureVideoPlayer({
           });
           
           hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            console.log('🔐 HLS manifest loaded, ready to play');
           });
           
           hls.loadSource(streamUrl);
           hls.attachMedia(video);
         } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
           // For Safari native HLS support
-          console.log('🔐 WorkingSecureVideoPlayer: Using native HLS support (Safari)');
           video.src = streamUrl;
           video.load();
         } else {
-          console.error('🔐 WorkingSecureVideoPlayer: HLS is not supported in this browser');
           alert('Your browser does not support HLS video streaming');
           return;
         }
       } else {
         // Regular video file (MP4, etc.)
-        console.log('🔐 WorkingSecureVideoPlayer: Setting regular video source (non-HLS)');
-        
+
         if (video.src !== streamUrl) {
-          console.log('🔐 WorkingSecureVideoPlayer: Stream URL details:', {
-            url: streamUrl,
-            urlLength: streamUrl?.length,
-            urlStartsWith: streamUrl?.substring(0, 50),
-            isValidUrl: streamUrl?.startsWith('http'),
-            includesToken: streamUrl?.includes('token='),
-            includesExpires: streamUrl?.includes('expires=')
-          });
           
           // Clear existing source first
           video.src = '';
@@ -139,25 +111,17 @@ export default function WorkingSecureVideoPlayer({
           // Force load the video
           video.load();
         } else {
-          console.log('🔐 WorkingSecureVideoPlayer: Video source unchanged, skipping reset');
           return;
         }
       }
       
-      console.log('🔐 WorkingSecureVideoPlayer: Video element found, setting up security');
 
     // Security settings
-    video.controlsList = 'nodownload noremoteplayback';
+    video.setAttribute('controlslist', 'nodownload noremoteplayback');
     video.disablePictureInPicture = true;
     video.setAttribute('disablePictureInPicture', 'true');
     
       video.addEventListener('loadeddata', () => {
-        console.log('🔐 WorkingSecureVideoPlayer: ✅ Secure video loaded!', {
-          duration: video.duration,
-          readyState: video.readyState,
-          videoWidth: video.videoWidth,
-          videoHeight: video.videoHeight
-        });
         if (isFinite(video.duration)) {
           setDuration(video.duration);
         }
@@ -173,8 +137,14 @@ export default function WorkingSecureVideoPlayer({
         }
       });
 
-      video.addEventListener('play', () => setIsPlaying(true));
-      video.addEventListener('pause', () => setIsPlaying(false));
+      video.addEventListener('play', () => {
+        setIsPlaying(true);
+        if (onPlay) onPlay();
+      });
+      video.addEventListener('pause', () => {
+        setIsPlaying(false);
+        if (onPause) onPause();
+      });
       
       video.addEventListener('error', (e) => {
         const videoElement = e.target as HTMLVideoElement;
@@ -187,22 +157,6 @@ export default function WorkingSecureVideoPlayer({
         
         const errorCode = videoElement.error?.code || 0;
         const errorMsg = errorMessages[errorCode] || 'Unknown error';
-        
-        console.error('🔐 WorkingSecureVideoPlayer: ❌ Video Error:', errorMsg);
-        console.error('🔐 WorkingSecureVideoPlayer: Video Error Details:', {
-          error: videoElement.error,
-          errorCode: errorCode,
-          errorMessage: videoElement.error?.message,
-          errorDescription: errorMsg,
-          src: videoElement.src,
-          currentSrc: videoElement.currentSrc,
-          networkState: videoElement.networkState,
-          readyState: videoElement.readyState,
-          streamUrlProvided: streamUrl,
-          isHLSStream: streamUrl?.includes('.m3u8'),
-          urlContainsToken: streamUrl?.includes('token='),
-          event: e
-        });
         
         // Improved user-friendly error based on error type
         let userMessage = 'เกิดข้อผิดพลาดในการเล่นวิดีโอ';
@@ -221,13 +175,11 @@ export default function WorkingSecureVideoPlayer({
         alert(userMessage);
       });
     } else {
-      console.error('🔐 WorkingSecureVideoPlayer: ❌ Video element is null');
     }
     
     // Cleanup on unmount
     return () => {
       if (hlsRef.current) {
-        console.log('🔐 WorkingSecureVideoPlayer: Cleaning up HLS on unmount');
         hlsRef.current.destroy();
         hlsRef.current = null;
       }
@@ -278,22 +230,17 @@ export default function WorkingSecureVideoPlayer({
   const togglePlay = async () => {
     const video = videoRef.current;
     if (!video) {
-      console.error('🔐 WorkingSecureVideoPlayer: No video element for play/pause');
       return;
     }
 
-    console.log('🔐 WorkingSecureVideoPlayer: Toggle play clicked', { isPlaying, videoSrc: video.src, videoReadyState: video.readyState });
 
     try {
       if (isPlaying) {
-        console.log('🔐 WorkingSecureVideoPlayer: Pausing video');
         video.pause();
       } else {
-        console.log('🔐 WorkingSecureVideoPlayer: Attempting to play video');
         
         // Ensure video is loaded before trying to play
         if (video.readyState < 3) { // HAVE_FUTURE_DATA
-          console.log('🔐 WorkingSecureVideoPlayer: Video not ready, loading first...');
           await new Promise((resolve, reject) => {
             const handleCanPlay = () => {
               video.removeEventListener('canplay', handleCanPlay);
@@ -312,22 +259,16 @@ export default function WorkingSecureVideoPlayer({
         }
 
         // Try to play unmuted first
-        console.log('🔐 WorkingSecureVideoPlayer: Playing unmuted');
         video.muted = false;
         await video.play();
-        console.log('🔐 WorkingSecureVideoPlayer: ✅ Video playing successfully unmuted');
       }
     } catch (error) {
-      console.error('🔐 WorkingSecureVideoPlayer: Error playing unmuted:', error);
       // Try playing muted if unmuted fails (browser autoplay policy)
       try {
-        console.log('🔐 WorkingSecureVideoPlayer: Trying muted playback...');
         video.muted = true;
         await video.play();
-        console.log('🔐 WorkingSecureVideoPlayer: ✅ Video playing muted due to autoplay policy');
         setIsMuted(true);
       } catch (mutedError) {
-        console.error('🔐 WorkingSecureVideoPlayer: ❌ Failed to play even when muted:', mutedError);
         // Last resort: show user that manual interaction might be needed
         alert('กรุณาคลิกที่วิดีโออีกครั้งเพื่อเริ่มเล่น (Browser autoplay policy)');
       }
@@ -347,6 +288,43 @@ export default function WorkingSecureVideoPlayer({
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const toggleFullscreen = async () => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    try {
+      if (!document.fullscreenElement) {
+        await container.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch {
+      // Fallback: some browsers may not support fullscreen
+    }
+  };
+
+  // Listen for fullscreen changes (e.g. user presses Escape)
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  }, []);
+
+  const handleSeek = (e: React.MouseEvent<HTMLDivElement>) => {
+    const video = videoRef.current;
+    if (!video || !isFinite(duration) || duration === 0) return;
+
+    const bar = e.currentTarget;
+    const rect = bar.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const percent = Math.max(0, Math.min(1, clickX / rect.width));
+    video.currentTime = percent * duration;
   };
 
   return (
@@ -380,13 +358,11 @@ export default function WorkingSecureVideoPlayer({
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
-              console.log('🔴 WorkingSecureVideoPlayer: Play button clicked!', e);
               togglePlay();
             }}
-            onMouseEnter={() => console.log('🔴 WorkingSecureVideoPlayer: Mouse entered play button')}
           >
             <div 
-              className="bg-brand-600 bg-opacity-80 rounded-full p-8 hover:bg-opacity-90 transition-all hover:scale-110 shadow-lg"
+              className="bg-mint-600 bg-opacity-80 rounded-full p-8 hover:bg-opacity-90 transition-all hover:scale-110 shadow-lg"
               style={{ zIndex: 51 }}
             >
               <Play className="w-20 h-20 text-white fill-white" />
@@ -397,7 +373,7 @@ export default function WorkingSecureVideoPlayer({
         {/* Click to Play Instructions */}
         {!isPlaying && (
           <div 
-            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-white text-center bg-black bg-opacity-60 px-4 py-2 rounded-lg pointer-events-none"
+            className="absolute bottom-20 left-1/2 transform -translate-x-1/2 text-white text-center bg-black bg-opacity-60 px-4 py-2 rounded-sm pointer-events-none"
             style={{ zIndex: 45 }}
           >
             <p className="text-sm">🔴 คลิกเพื่อเริ่มเล่นวิดีโอ</p>
@@ -420,32 +396,44 @@ export default function WorkingSecureVideoPlayer({
 
         {/* Custom Controls */}
         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity">
-          {/* Progress Bar */}
-          <div className="w-full h-2 bg-gray-600 rounded-full mb-4">
-            <div 
-              className="h-full bg-brand-500 rounded-full"
+          {/* Progress Bar — clickable to seek */}
+          <div
+            className="w-full h-2 bg-gray-600 rounded-full mb-4 cursor-pointer group/bar"
+            onClick={handleSeek}
+          >
+            <div
+              className="h-full bg-mint-500 rounded-full relative"
               style={{ width: `${duration > 0 ? (currentTime / duration) * 100 : 0}%` }}
-            />
+            >
+              {/* Seek handle */}
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-3.5 h-3.5 bg-gray-900 rounded-full shadow opacity-0 group-hover/bar:opacity-100 transition-opacity" />
+            </div>
           </div>
 
           {/* Control Buttons */}
           <div className="flex items-center justify-between text-white">
             <div className="flex items-center space-x-4">
-              <button onClick={togglePlay} className="hover:text-brand-400">
+              <button onClick={togglePlay} className="hover:text-mint-400">
                 {isPlaying ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6" />}
               </button>
-              
-              <button onClick={toggleMute} className="hover:text-brand-400">
+
+              <button onClick={toggleMute} className="hover:text-mint-400">
                 {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
               </button>
-              
+
               <div className="text-sm">
                 {formatTime(currentTime)} / {formatTime(duration)}
               </div>
             </div>
 
-            <div className="text-xs text-gray-300">
-              🔒 {title}
+            <div className="flex items-center space-x-3">
+              <div className="text-xs text-gray-300">
+                🔒 {title}
+              </div>
+
+              <button onClick={toggleFullscreen} className="hover:text-mint-400">
+                {isFullscreen ? <Minimize className="w-5 h-5" /> : <Maximize className="w-5 h-5" />}
+              </button>
             </div>
           </div>
         </div>

@@ -27,7 +27,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setTheme(initialTheme);
       setMounted(true);
     } catch (error) {
-      console.warn('Error loading theme:', error);
+      // Silently ignore error
       setTheme('light');
       setMounted(true);
     }
@@ -50,7 +50,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           metaThemeColor.setAttribute('content', theme === 'dark' ? '#1f2937' : '#ec4899');
         }
       } catch (error) {
-        console.warn('Error applying theme:', error);
+      // Silently ignore error
       }
     }
   }, [theme, mounted]);
@@ -70,7 +70,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // Prevent flash of unstyled content during hydration
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-white">
+      <div className="min-h-screen bg-gray-950">
         {children}
       </div>
     );
@@ -90,10 +90,8 @@ export function useTheme() {
     return {
       theme: 'light' as Theme,
       toggleTheme: () => {
-        console.warn('useTheme called outside of ThemeProvider');
       },
       setTheme: () => {
-        console.warn('useTheme called outside of ThemeProvider');
       },
       mounted: false,
     };

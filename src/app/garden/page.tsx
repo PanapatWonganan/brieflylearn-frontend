@@ -31,6 +31,7 @@ import LearningProgressWidget from '@/components/garden/LearningProgressWidget'
 import { UserPlant, PlantType } from '@/lib/garden/types'
 import { formatXP, formatThaiDateTime } from '@/lib/garden/api'
 import { GardenSkeleton } from '@/components/Skeleton'
+import RenderingModeToggle from '@/components/garden/RenderingModeToggle'
 
 const GardenDashboard = () => {
   const { isAuthenticated, loading: authLoading } = useAuth()
@@ -74,19 +75,23 @@ const GardenDashboard = () => {
       const result = await waterPlant(plantId)
       addNotification({
         type: 'success',
-        message: `พัฒนาต่อสำเร็จ! ได้รับ ${result.rewards.xp} Impact Points และ ${result.rewards.star_seeds} AI Credits`
+        title: 'พัฒนาต่อสำเร็จ!',
+        message: `ได้รับ ${result.rewards.xp} Impact Points และ ${result.rewards.star_seeds} AI Credits`
       })
       if (result.grew_up) {
         addNotification({
           type: 'info',
+          title: 'โปรเจกต์พัฒนาขึ้น',
           message: 'โปรเจกต์ของคุณพัฒนาขึ้นแล้ว!'
         })
       }
       setShowXPGain(result.rewards.xp)
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถพัฒนาต่อได้ กรุณาลองใหม่อีกครั้ง'
       addNotification({
         type: 'error',
-        message: error?.message || 'ไม่สามารถพัฒนาต่อได้ กรุณาลองใหม่อีกครั้ง'
+        title: 'ไม่สามารถพัฒนาต่อได้',
+        message: errorMessage
       })
     }
   }
@@ -96,14 +101,17 @@ const GardenDashboard = () => {
       const result = await harvestPlant(plantId)
       addNotification({
         type: 'success',
+        title: 'เปิดตัวโปรเจกต์สำเร็จ!',
         message: result.rewards.message
       })
       setShowXPGain(result.rewards.xp)
       setSelectedPlant(null)
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถเปิดตัวโปรเจกต์ได้ กรุณาลองใหม่อีกครั้ง'
       addNotification({
         type: 'error',
-        message: error?.message || 'ไม่สามารถเปิดตัวโปรเจกต์ได้ กรุณาลองใหม่อีกครั้ง'
+        title: 'ไม่สามารถเปิดตัวโปรเจกต์ได้',
+        message: errorMessage
       })
     }
   }
@@ -113,23 +121,26 @@ const GardenDashboard = () => {
       const result = await waterGarden()
       addNotification({
         type: 'success',
-        message: `พัฒนาทั้งหมดสำเร็จ! พัฒนา ${result.plants_watered} โปรเจกต์ ได้รับ ${result.rewards.xp} Impact Points`
+        title: 'พัฒนาทั้งหมดสำเร็จ!',
+        message: `พัฒนา ${result.plants_watered} โปรเจกต์ ได้รับ ${result.rewards.xp} Impact Points`
       })
       setShowXPGain(result.rewards.xp)
-    } catch (error: any) {
-      const msg = error?.message || ''
-      const nextWaterAt = error?.data?.next_water_at
+    } catch (error) {
+      const msg = error instanceof Error ? error.message : ''
+      const nextWaterAt = (error as { data?: { next_water_at?: string } })?.data?.next_water_at
       const isWateringCooldown = msg.includes('does not need watering')
 
       if (isWateringCooldown) {
         const timeStr = nextWaterAt ? ` (พร้อมพัฒนาอีกครั้ง: ${new Date(nextWaterAt).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })})` : ''
         addNotification({
           type: 'warning',
+          title: 'โปรเจกต์ยังไม่พร้อม',
           message: `โปรเจกต์ยังไม่พร้อมพัฒนาต่อ${timeStr}`
         })
       } else {
         addNotification({
           type: 'error',
+          title: 'ไม่สามารถพัฒนาได้',
           message: msg || 'ไม่สามารถพัฒนาทั้งหมดได้ กรุณาลองใหม่อีกครั้ง'
         })
       }
@@ -141,14 +152,17 @@ const GardenDashboard = () => {
       const result = await plantSeed(plantTypeId, { custom_name: customName })
       addNotification({
         type: 'success',
+        title: 'เริ่มโปรเจกต์สำเร็จ!',
         message: `เริ่มโปรเจกต์${result.plant.name}สำเร็จ! ได้รับ 10 Impact Points`
       })
       setShowPlantShop(false)
       setShowXPGain(10)
-    } catch (error: any) {
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'ไม่สามารถเริ่มโปรเจกต์ได้ กรุณาตรวจสอบ AI Credits'
       addNotification({
         type: 'error',
-        message: error?.message || 'ไม่สามารถเริ่มโปรเจกต์ได้ กรุณาตรวจสอบ AI Credits'
+        title: 'ไม่สามารถเริ่มโปรเจกต์ได้',
+        message: errorMessage
       })
     }
   }
@@ -164,6 +178,7 @@ const GardenDashboard = () => {
       if (result.challenge.is_completed) {
         addNotification({
           type: 'success',
+          title: 'ทำภารกิจสำเร็จ!',
           message: result.rewards?.message || 'ทำภารกิจสำเร็จ!'
         })
         if (result.rewards?.xp) {
@@ -173,6 +188,7 @@ const GardenDashboard = () => {
     } catch (error) {
       addNotification({
         type: 'error',
+        title: 'ไม่สามารถอัปเดตภารกิจได้',
         message: 'ไม่สามารถอัปเดตภารกิจได้'
       })
     }
@@ -191,8 +207,8 @@ const GardenDashboard = () => {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-xl font-semibold text-ink mb-2">ไม่พบข้อมูลห้องปฏิบัติการ AI</h2>
-          <p className="text-sm text-ink-muted">กรุณาลองใหม่อีกครั้ง</p>
+          <h2 className="text-xl font-semibold text-gray-200 mb-2">ไม่พบข้อมูลห้องปฏิบัติการ AI</h2>
+          <p className="text-sm text-gray-500">กรุณาลองใหม่อีกครั้ง</p>
         </div>
       </div>
     )
@@ -200,32 +216,32 @@ const GardenDashboard = () => {
 
   const { garden, plants, recent_activities, stats } = gardenData
   const plantsNeedingWater = plants.filter(plant => plant.needs_watering)
-  const plantsReadyToHarvest = plants.filter(plant => plant.can_harvest)
   const completedChallenges = todayChallenges.filter(c => c.is_completed).length
 
   return (
-    <div className="bg-white">
+    <div className="bg-gray-950">
       {/* Header */}
-      <div className="border-b border-gray-100">
+      <div className="border-b border-gray-800/40">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <p className="text-xs tracking-widest uppercase text-ink-muted mb-2">ห้องปฏิบัติการ AI</p>
-              <h1 className="text-heading text-ink">
+              <p className="text-xs tracking-widest uppercase text-gray-500 mb-2">ห้องปฏิบัติการ AI</p>
+              <h1 className="text-heading text-gray-200">
                 แล็บของคุณ
               </h1>
-              <p className="text-sm text-ink-light mt-1">พัฒนาทักษะ AI และธุรกิจไปด้วยกัน</p>
+              <p className="text-sm text-gray-400 mt-1">พัฒนาทักษะ AI และธุรกิจไปด้วยกัน</p>
             </div>
 
             {/* Garden Stats */}
-            <div className="flex flex-wrap gap-3">
-              <div className="border border-gray-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-                <span className="text-ink">🔷</span>
-                <span className="text-sm font-semibold text-ink">{garden.star_seeds} AI Credits</span>
+            <div className="flex flex-wrap items-center gap-3">
+              <RenderingModeToggle compact />
+              <div className="border border-gray-700 rounded-sm px-4 py-2.5 flex items-center gap-2">
+                <span className="text-gray-200">🔷</span>
+                <span className="text-sm font-semibold text-gray-200">{garden.star_seeds} AI Credits</span>
               </div>
-              <div className="border border-gray-100 rounded-lg px-4 py-2.5 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-ink" />
-                <span className="text-sm font-semibold text-ink">{formatXP(garden?.xp ?? 0)} Impact Points</span>
+              <div className="border border-gray-700 rounded-sm px-4 py-2.5 flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-gray-200" />
+                <span className="text-sm font-semibold text-gray-200">{formatXP(garden?.xp ?? 0)} Impact Points</span>
               </div>
             </div>
           </div>
@@ -247,8 +263,8 @@ const GardenDashboard = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Left Sidebar - Quick Actions */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="border border-gray-100/60 shadow-card rounded-xl p-6 space-y-3">
-              <h3 className="text-sm font-semibold text-ink flex items-center gap-2 mb-4">
+            <div className="border border-gray-700/50 shadow-card rounded-sm p-6 space-y-3 bg-gray-900">
+              <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2 mb-4">
                 <Sparkles className="w-4 h-4" />
                 <span>Quick Actions</span>
               </h3>
@@ -257,7 +273,7 @@ const GardenDashboard = () => {
               <button
                 onClick={handleWaterGarden}
                 disabled={isWatering || !garden.needs_watering}
-                className="w-full bg-ink hover:bg-ink-light disabled:opacity-40 text-white py-2.5 px-4 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors"
+                className="w-full bg-mint-500 hover:opacity-90 disabled:opacity-40 text-white py-2.5 px-4 rounded-sm text-sm font-medium flex items-center justify-center gap-2 transition-colors"
               >
                 <Droplets className="w-4 h-4" />
                 <span>
@@ -275,14 +291,14 @@ const GardenDashboard = () => {
               {/* Plant New Seed */}
               <button
                 onClick={() => setShowPlantShop(true)}
-                className="w-full border border-gray-200 hover:border-gray-400 text-ink py-2.5 px-4 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-colors"
+                className="w-full border border-gray-700 hover:border-gray-600 text-gray-200 py-2.5 px-4 rounded-sm text-sm font-medium flex items-center justify-center gap-2 transition-colors"
               >
                 <Plus className="w-4 h-4" />
                 <span>เริ่มโปรเจกต์ใหม่</span>
               </button>
 
               {/* Navigation links */}
-              <div className="pt-3 border-t border-gray-100 space-y-1">
+              <div className="pt-3 border-t border-gray-700 space-y-1">
                 {[
                   { href: '/garden/demo-lesson', icon: BookOpen, label: 'ทดสอบ Demo' },
                   { href: '/garden/friends', icon: Users, label: 'เครือข่าย AI' },
@@ -294,7 +310,7 @@ const GardenDashboard = () => {
                   <a
                     key={item.href}
                     href={item.href}
-                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-ink-light hover:bg-gray-50 hover:text-ink transition-colors"
+                    className="w-full flex items-center gap-2.5 px-3 py-2 rounded-sm text-sm text-gray-400 hover:bg-gray-800/50 hover:text-gray-200 transition-colors"
                   >
                     <item.icon className="w-4 h-4" />
                     <span>{item.label}</span>
@@ -304,32 +320,32 @@ const GardenDashboard = () => {
               </div>
 
               {/* Project Summary */}
-              <div className="pt-3 border-t border-gray-100">
-                <h4 className="text-xs font-semibold text-ink-muted uppercase tracking-wider mb-3">สรุปโปรเจกต์</h4>
+              <div className="pt-3 border-t border-gray-700">
+                <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">สรุปโปรเจกต์</h4>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-ink-muted">โปรเจกต์ทั้งหมด:</span>
-                    <span className="font-medium text-ink">{stats.total_plants}</span>
+                    <span className="text-gray-500">โปรเจกต์ทั้งหมด:</span>
+                    <span className="font-medium text-gray-200">{stats.total_plants}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-ink-muted">กำลังพัฒนา:</span>
-                    <span className="font-medium text-ink">{stats.growing_plants}</span>
+                    <span className="text-gray-500">กำลังพัฒนา:</span>
+                    <span className="font-medium text-gray-200">{stats.growing_plants}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-ink-muted">เปิดตัวแล้ว:</span>
-                    <span className="font-medium text-ink">{stats.mature_plants}</span>
+                    <span className="text-gray-500">เปิดตัวแล้ว:</span>
+                    <span className="font-medium text-gray-200">{stats.mature_plants}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-ink-muted">ต้องพัฒนาต่อ:</span>
-                    <span className="font-medium text-ink">{stats.plants_need_water}</span>
+                    <span className="text-gray-500">ต้องพัฒนาต่อ:</span>
+                    <span className="font-medium text-gray-200">{stats.plants_need_water}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* Today's Challenges */}
-            <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
-              <h3 className="text-sm font-semibold text-ink flex items-center gap-2 mb-4">
+            <div className="border border-gray-700/50 shadow-card rounded-sm p-6 bg-gray-900">
+              <h3 className="text-sm font-semibold text-gray-200 flex items-center gap-2 mb-4">
                 <Target className="w-4 h-4" />
                 <span>AI Challenge วันนี้</span>
               </h3>
@@ -338,31 +354,31 @@ const GardenDashboard = () => {
                 {todayChallenges.slice(0, 3).map((challenge) => (
                   <div
                     key={challenge.id}
-                    className={`p-3 rounded-lg border transition-colors cursor-pointer ${
+                    className={`p-3 rounded-sm border transition-colors cursor-pointer ${
                       challenge.is_completed
-                        ? 'bg-gray-50 border-gray-200'
-                        : 'border-gray-100 hover:border-gray-300'
+                        ? 'bg-gray-800/50 border-gray-700'
+                        : 'border-gray-700/50 hover:border-gray-600'
                     }`}
                     onClick={() => !challenge.is_completed && handleUpdateChallenge(challenge.id)}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex-1">
-                        <h4 className="text-sm font-medium text-ink">{challenge.name}</h4>
-                        <p className="text-xs text-ink-muted mt-1">{challenge.description}</p>
+                        <h4 className="text-sm font-medium text-gray-200">{challenge.name}</h4>
+                        <p className="text-xs text-gray-500 mt-1">{challenge.description}</p>
                         <div className="flex items-center gap-2 mt-2">
-                          <div className="flex-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                          <div className="flex-1 h-1 bg-gray-800 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-brand-500 transition-all duration-300"
+                              className="h-full bg-mint-500 transition-all duration-300"
                               style={{ width: `${(challenge.progress / challenge.target) * 100}%` }}
                             />
                           </div>
-                          <span className="text-xs text-ink-muted">
+                          <span className="text-xs text-gray-500">
                             {challenge.progress}/{challenge.target}
                           </span>
                         </div>
                       </div>
                       {challenge.is_completed && (
-                        <div className="ml-2 text-brand-500">
+                        <div className="ml-2 text-mint-500">
                           <Award className="w-4 h-4" />
                         </div>
                       )}
@@ -370,7 +386,7 @@ const GardenDashboard = () => {
                   </div>
                 ))}
 
-                <div className="text-center text-xs text-ink-muted mt-3">
+                <div className="text-center text-xs text-gray-500 mt-3">
                   สำเร็จแล้ว {completedChallenges}/{todayChallenges.length} ภารกิจ
                 </div>
               </div>
@@ -382,10 +398,10 @@ const GardenDashboard = () => {
 
           {/* Main Garden Area */}
           <div className="lg:col-span-3">
-            <div className="border border-gray-100/60 shadow-card rounded-xl p-6">
+            <div className="border border-gray-700/50 shadow-card rounded-sm p-6 bg-gray-900">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-semibold text-ink">โปรเจกต์ของคุณ</h2>
-                <div className="flex items-center gap-2 text-xs text-ink-muted">
+                <h2 className="text-xl font-semibold text-gray-200">โปรเจกต์ของคุณ</h2>
+                <div className="flex items-center gap-2 text-xs text-gray-500">
                   <Calendar className="w-3.5 h-3.5" />
                   <span>อัปเดตล่าสุด: {formatThaiDateTime(new Date().toISOString())}</span>
                 </div>
@@ -405,21 +421,21 @@ const GardenDashboard = () => {
 
               {/* Recent Activities */}
               {recent_activities.length > 0 && (
-                <div className="mt-8 pt-6 border-t border-gray-100">
-                  <h3 className="text-sm font-semibold text-ink mb-4">กิจกรรมล่าสุด</h3>
+                <div className="mt-8 pt-6 border-t border-gray-700">
+                  <h3 className="text-sm font-semibold text-gray-200 mb-4">กิจกรรมล่าสุด</h3>
                   <div className="space-y-2">
                     {recent_activities.slice(0, 5).map((activity) => (
                       <div
                         key={activity.id}
-                        className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                        className="flex items-center gap-3 p-3 bg-gray-800/50 rounded-sm"
                       >
                         <div className="text-lg">{activity.icon}</div>
                         <div className="flex-1">
-                          <p className="text-sm text-ink">{activity.description}</p>
-                          <p className="text-xs text-ink-muted">{activity.time_ago}</p>
+                          <p className="text-sm text-gray-200">{activity.description}</p>
+                          <p className="text-xs text-gray-500">{activity.time_ago}</p>
                         </div>
                         {activity.xp_earned > 0 && (
-                          <div className="text-xs text-brand-600 font-medium">
+                          <div className="text-xs text-mint-400 font-medium">
                             +{activity.xp_earned} XP
                           </div>
                         )}
@@ -436,7 +452,7 @@ const GardenDashboard = () => {
       {/* Modals */}
       <PlantCareModal
         plant={selectedPlant}
-        plantType={selectedPlantType}
+        plantType={selectedPlantType || undefined}
         isOpen={!!selectedPlant}
         onClose={() => setSelectedPlant(null)}
         onWater={handleWaterPlant}

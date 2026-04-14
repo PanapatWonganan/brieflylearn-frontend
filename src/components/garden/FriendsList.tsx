@@ -55,9 +55,9 @@ const FriendsList = () => {
       setFriends(friendsData.friends)
       setPendingRequests(requestsData.pending_requests)
     } catch (error) {
-      console.error('Failed to load friends data:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: 'ไม่สามารถโหลดข้อมูลเพื่อนได้'
       })
     } finally {
@@ -69,6 +69,7 @@ const FriendsList = () => {
     if (!searchQuery.trim() || searchQuery.trim().length < 2) {
       addNotification({
         type: 'warning',
+        title: 'คำเตือน',
         message: 'กรุณากรอกคำค้นหาอย่างน้อย 2 ตัวอักษร'
       })
       return
@@ -80,9 +81,9 @@ const FriendsList = () => {
       setSearchResults(results.users)
       setActiveTab('search')
     } catch (error) {
-      console.error('Search failed:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: 'ไม่สามารถค้นหาผู้ใช้ได้'
       })
     } finally {
@@ -96,6 +97,7 @@ const FriendsList = () => {
     if (!emailToSend) {
       addNotification({
         type: 'warning',
+        title: 'คำเตือน',
         message: 'กรุณากรอกอีเมลของเพื่อน'
       })
       return
@@ -107,6 +109,7 @@ const FriendsList = () => {
       
       addNotification({
         type: 'success',
+        title: 'สำเร็จ',
         message: `ส่งคำขอเป็นเพื่อนให้ ${result.friend_name} เรียบร้อยแล้ว`
       })
       
@@ -118,9 +121,9 @@ const FriendsList = () => {
       }
       
     } catch (error: any) {
-      console.error('Failed to send friend request:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: error.message || 'ไม่สามารถส่งคำขอเป็นเพื่อนได้'
       })
     } finally {
@@ -134,6 +137,7 @@ const FriendsList = () => {
       
       addNotification({
         type: 'success',
+        title: 'สำเร็จ',
         message: `ยอมรับคำขอจาก ${result.friend_name} เรียบร้อยแล้ว`
       })
       
@@ -141,9 +145,9 @@ const FriendsList = () => {
       loadFriendsData()
       
     } catch (error: any) {
-      console.error('Failed to accept request:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: error.message || 'ไม่สามารถยอมรับคำขอได้'
       })
     }
@@ -152,19 +156,20 @@ const FriendsList = () => {
   const handleRejectRequest = async (requestId: string) => {
     try {
       await friendAPI.rejectFriendRequest(requestId)
-      
+
       addNotification({
         type: 'info',
+        title: 'แจ้งเตือน',
         message: 'ปฏิเสธคำขอเป็นเพื่อนเรียบร้อยแล้ว'
       })
-      
+
       // Refresh data
       loadFriendsData()
-      
+
     } catch (error: any) {
-      console.error('Failed to reject request:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: error.message || 'ไม่สามารถปฏิเสธคำขอได้'
       })
     }
@@ -177,9 +182,10 @@ const FriendsList = () => {
 
     try {
       await friendAPI.removeFriend(friendId)
-      
+
       addNotification({
         type: 'info',
+        title: 'แจ้งเตือน',
         message: `ลบ ${friendName} ออกจากรายชื่อเพื่อนเรียบร้อยแล้ว`
       })
       
@@ -187,9 +193,9 @@ const FriendsList = () => {
       loadFriendsData()
       
     } catch (error: any) {
-      console.error('Failed to remove friend:', error)
       addNotification({
         type: 'error',
+        title: 'เกิดข้อผิดพลาด',
         message: error.message || 'ไม่สามารถลบเพื่อนได้'
       })
     }
@@ -197,16 +203,16 @@ const FriendsList = () => {
 
   if (isLoading) {
     return (
-      <div className="bg-white rounded-lg shadow-card p-6">
+      <div className="bg-gray-900 rounded-sm shadow-card p-6">
         <div className="space-y-4">
-          <div className="h-6 bg-gray-200 rounded w-1/3"></div>
+          <div className="h-6 bg-gray-800 rounded w-1/3"></div>
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
               <div key={i} className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-gray-200 rounded-full"></div>
+                <div className="w-12 h-12 bg-gray-800 rounded-full"></div>
                 <div className="flex-1 space-y-2">
-                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
-                  <div className="h-3 bg-gray-200 rounded w-1/3"></div>
+                  <div className="h-4 bg-gray-800 rounded w-1/2"></div>
+                  <div className="h-3 bg-gray-800 rounded w-1/3"></div>
                 </div>
               </div>
             ))}
@@ -217,9 +223,9 @@ const FriendsList = () => {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-card overflow-hidden">
+    <div className="bg-gray-900 rounded-sm shadow-card overflow-hidden">
       {/* Header with Tabs */}
-      <div className="p-6 bg-brand-600 text-white">
+      <div className="p-6 bg-mint-600 text-white">
         <h2 className="text-xl font-bold mb-4 flex items-center space-x-2">
           <Users className="h-6 w-6" />
           <span>เพื่อนในสวน</span>
@@ -228,20 +234,20 @@ const FriendsList = () => {
         <div className="flex space-x-2">
           <button
             onClick={() => setActiveTab('friends')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            className={`px-4 py-2 rounded-sm font-medium transition-all ${
               activeTab === 'friends'
-                ? 'bg-white text-brand-600'
-                : 'bg-brand-700 text-white hover:bg-brand-500'
+                ? 'bg-gray-800 text-mint-400'
+                : 'bg-mint-700 text-white hover:bg-mint-500'
             }`}
           >
             เพื่อน ({friends.length})
           </button>
           <button
             onClick={() => setActiveTab('requests')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all relative ${
+            className={`px-4 py-2 rounded-sm font-medium transition-all relative ${
               activeTab === 'requests'
-                ? 'bg-white text-brand-600'
-                : 'bg-brand-700 text-white hover:bg-brand-500'
+                ? 'bg-gray-800 text-mint-400'
+                : 'bg-mint-700 text-white hover:bg-mint-500'
             }`}
           >
             คำขอ ({pendingRequests.length})
@@ -253,10 +259,10 @@ const FriendsList = () => {
           </button>
           <button
             onClick={() => setActiveTab('search')}
-            className={`px-4 py-2 rounded-lg font-medium transition-all ${
+            className={`px-4 py-2 rounded-sm font-medium transition-all ${
               activeTab === 'search'
-                ? 'bg-white text-brand-600'
-                : 'bg-brand-700 text-white hover:bg-brand-500'
+                ? 'bg-gray-800 text-mint-400'
+                : 'bg-mint-700 text-white hover:bg-mint-500'
             }`}
           >
             ค้นหา
@@ -282,7 +288,7 @@ const FriendsList = () => {
                   <p className="text-gray-500 mb-4">คุณยังไม่มีเพื่อนในสวน</p>
                   <button
                     onClick={() => setActiveTab('search')}
-                    className="bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    className="bg-mint-600 hover:bg-mint-700 text-white px-4 py-2 rounded-sm transition-colors"
                   >
                     เริ่มหาเพื่อน
                   </button>
@@ -291,23 +297,23 @@ const FriendsList = () => {
                 friends.map((friend) => (
                   <motion.div
                     key={friend.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between p-4 bg-gray-800/50 rounded-sm hover:bg-gray-800 transition-colors"
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-brand-600 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-mint-600 rounded-full flex items-center justify-center text-white font-bold">
                         {friend.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{friend.name}</h4>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <h4 className="font-semibold text-gray-100">{friend.name}</h4>
+                        <div className="flex items-center space-x-4 text-sm text-gray-400">
                           {friend.garden && (
                             <>
                               <div className="flex items-center space-x-1">
-                                <Crown className="h-3 w-3 text-sand-300" />
+                                <Crown className="h-3 w-3 text-gray-500" />
                                 <span>Level {friend.garden.level}</span>
                               </div>
                               <div className="flex items-center space-x-1">
-                                <Star className="h-3 w-3 text-brand-600" />
+                                <Star className="h-3 w-3 text-mint-400" />
                                 <span>{friend.garden.total_plants} พืช</span>
                               </div>
                             </>
@@ -328,17 +334,18 @@ const FriendsList = () => {
                           // TODO: Implement visit garden
                           addNotification({
                             type: 'info',
+                            title: 'แจ้งเตือน',
                             message: 'ฟีเจอร์เยี่ยมชมสวนจะมาเร็วๆ นี้!'
                           })
                         }}
-                        className="p-2 text-text-ink-light hover:bg-sand-100 rounded-lg transition-colors"
+                        className="p-2 text-gray-400 hover:bg-gray-700 rounded-sm transition-colors"
                         title="เยี่ยมชมสวน"
                       >
                         <Eye className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleRemoveFriend(friend.id, friend.name)}
-                        className="p-2 text-error hover:bg-error-light rounded-lg transition-colors"
+                        className="p-2 text-error hover:bg-error-light rounded-sm transition-colors"
                         title="ลบเพื่อน"
                       >
                         <UserMinus className="h-4 w-4" />
@@ -360,8 +367,8 @@ const FriendsList = () => {
               className="space-y-4"
             >
               {/* Add Friend Form */}
-              <div className="bg-brand-50 rounded-lg p-4">
-                <h3 className="font-semibold text-brand-700 mb-3 flex items-center space-x-2">
+              <div className="bg-mint-900 rounded-sm p-4">
+                <h3 className="font-semibold text-mint-300 mb-3 flex items-center space-x-2">
                   <UserPlus className="h-5 w-5" />
                   <span>เพิ่มเพื่อนใหม่</span>
                 </h3>
@@ -371,13 +378,13 @@ const FriendsList = () => {
                     value={newFriendEmail}
                     onChange={(e) => setNewFriendEmail(e.target.value)}
                     placeholder="อีเมลของเพื่อน"
-                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                    className="flex-1 px-3 py-2 border border-gray-600 rounded-sm focus:outline-none"
                     onKeyPress={(e) => e.key === 'Enter' && handleSendFriendRequest()}
                   />
                   <button
                     onClick={() => handleSendFriendRequest()}
                     disabled={isSendingRequest}
-                    className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                    className="bg-mint-600 hover:bg-mint-700 disabled:opacity-40 text-white px-4 py-2 rounded-sm transition-colors flex items-center space-x-2"
                   >
                     {isSendingRequest ? (
                       <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -399,17 +406,17 @@ const FriendsList = () => {
                 pendingRequests.map((request) => (
                   <motion.div
                     key={request.id}
-                    className="flex items-center justify-between p-4 bg-sand-100 rounded-lg"
+                    className="flex items-center justify-between p-4 bg-gray-800 rounded-sm"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                   >
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-brand-600 rounded-full flex items-center justify-center text-white font-bold">
+                      <div className="w-12 h-12 bg-mint-600 rounded-full flex items-center justify-center text-white font-bold">
                         {request.user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{request.user.name}</h4>
-                        <p className="text-sm text-gray-600">{request.user.email}</p>
+                        <h4 className="font-semibold text-gray-100">{request.user.name}</h4>
+                        <p className="text-sm text-gray-400">{request.user.email}</p>
                         <p className="text-xs text-gray-500">
                           ส่งคำขอเมื่อ {formatFriendLastActive(request.requested_at)}
                         </p>
@@ -419,14 +426,14 @@ const FriendsList = () => {
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => handleAcceptRequest(request.id)}
-                        className="p-2 text-brand-600 hover:bg-brand-100 rounded-lg transition-colors"
+                        className="p-2 text-mint-400 hover:bg-mint-900 rounded-sm transition-colors"
                         title="ยอมรับ"
                       >
                         <Check className="h-5 w-5" />
                       </button>
                       <button
                         onClick={() => handleRejectRequest(request.id)}
-                        className="p-2 text-error hover:bg-error-light rounded-lg transition-colors"
+                        className="p-2 text-error hover:bg-error-light rounded-sm transition-colors"
                         title="ปฏิเสธ"
                       >
                         <X className="h-5 w-5" />
@@ -454,13 +461,13 @@ const FriendsList = () => {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="ค้นหาด้วยชื่อหรืออีเมล"
-                  className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none"
+                  className="flex-1 px-3 py-2 border border-gray-600 rounded-sm focus:outline-none"
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                 />
                 <button
                   onClick={handleSearch}
                   disabled={isSearching}
-                  className="bg-brand-600 hover:bg-brand-700 disabled:opacity-40 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                  className="bg-mint-600 hover:bg-mint-700 disabled:opacity-40 text-white px-4 py-2 rounded-sm transition-colors flex items-center space-x-2"
                 >
                   {isSearching ? (
                     <div className="animate-spin w-4 h-4 border-2 border-white border-t-transparent rounded-full" />
@@ -481,7 +488,7 @@ const FriendsList = () => {
                 searchResults.map((user) => (
                   <motion.div
                     key={user.id}
-                    className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                    className="flex items-center justify-between p-4 bg-gray-800/50 rounded-sm hover:bg-gray-800 transition-colors"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                   >
@@ -490,24 +497,24 @@ const FriendsList = () => {
                         {user.name.charAt(0).toUpperCase()}
                       </div>
                       <div>
-                        <h4 className="font-semibold text-gray-900">{user.name}</h4>
-                        <p className="text-sm text-gray-600">{user.email}</p>
+                        <h4 className="font-semibold text-gray-100">{user.name}</h4>
+                        <p className="text-sm text-gray-400">{user.email}</p>
                         <div className="flex items-center space-x-2 text-xs text-gray-500">
-                          <Crown className="h-3 w-3 text-sand-300" />
+                          <Crown className="h-3 w-3 text-gray-500" />
                           <span>Level {user.garden_level}</span>
                         </div>
                       </div>
                     </div>
 
                     <div className="flex items-center space-x-2">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getFriendshipStatusColor(user.friendship_status)}`}>
+                      <span className={`px-3 py-1 rounded-sm text-xs font-medium ${getFriendshipStatusColor(user.friendship_status)}`}>
                         {getFriendshipStatusText(user.friendship_status)}
                       </span>
                       {user.friendship_status === 'none' && (
                         <button
                           onClick={() => handleSendFriendRequest(user.email)}
                           disabled={isSendingRequest}
-                          className="p-2 text-brand-600 hover:bg-brand-100 rounded-lg transition-colors"
+                          className="p-2 text-mint-400 hover:bg-mint-900 rounded-sm transition-colors"
                           title="เพิ่มเพื่อน"
                         >
                           <UserPlus className="h-4 w-4" />

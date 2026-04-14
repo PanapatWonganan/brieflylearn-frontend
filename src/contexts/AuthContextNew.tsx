@@ -1,7 +1,8 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react'
-import { loginUser, registerUser, getUserProfile, logoutUser, User as ApiUser } from '@/lib/api/auth'
+import { loginUser, registerUser, getUserProfile, logoutUser, googleLogin as googleLoginApi } from '@/lib/api/auth'
+import { trackRegistration as trackPixelRegistration } from '@/lib/meta-pixel'
 
 interface User {
   id: string
@@ -10,6 +11,7 @@ interface User {
   role: string
   phone?: string
   avatarUrl?: string
+  onboardingCompleted: boolean
 }
 
 interface AuthContextType {
@@ -17,6 +19,8 @@ interface AuthContextType {
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>
   logout: () => Promise<void>
+  loginWithGoogle: (idToken: string) => Promise<{ success: boolean; error?: string }>
+  setOnboardingCompleted: () => void
   loading: boolean
   isAuthenticated: boolean
 }
@@ -69,12 +73,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
           role: response.user.role,
           phone: response.user.phone,
           avatarUrl: response.user.avatar_url,
+          onboardingCompleted: response.user.onboarding_completed ?? false,
         })
       } else {
         localStorage.removeItem('auth_token')
       }
     } catch (error) {
-      console.error('Auth check error:', error)
+      console.error('Failed to check auth status:', error)
       localStorage.removeItem('auth_token')
     } finally {
       setLoading(false)
@@ -85,24 +90,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
     try {
       const response = await loginUser(email, password)
 
-      console.log('🔐 Login response:', {
-        success: response.success,
-        hasUser: !!response.user,
-        hasToken: !!response.token,
-        tokenLength: response.token?.length,
-        userId: response.user?.id,
-      })
-
       if (response.success && response.user && response.token) {
-        console.log('✅ Saving token to localStorage:', response.token.substring(0, 20) + '...')
         localStorage.setItem('auth_token', response.token)
-
-        // Verify token was saved
-        const savedToken = localStorage.getItem('auth_token')
-        console.log('✅ Token saved verification:', {
-          saved: !!savedToken,
-          matches: savedToken === response.token,
-        })
 
         setUser({
           id: response.user.id,
@@ -111,14 +100,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
           role: response.user.role,
           phone: response.user.phone,
           avatarUrl: response.user.avatar_url,
+          onboardingCompleted: response.user.onboarding_completed ?? false,
         })
         return { success: true }
       } else {
-        console.error('❌ Login failed:', response.message)
         return { success: false, error: response.message || 'Login failed' }
       }
     } catch (error) {
-      console.error('❌ Login error:', error)
+      console.error('Login error:', error)
       return { success: false, error: 'Network error' }
     }
   }
@@ -145,7 +134,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
           role: response.user.role,
           phone: response.user.phone,
           avatarUrl: response.user.avatar_url,
+          onboardingCompleted: response.user.onboarding_completed ?? false,
         })
+
+        // Track registration with Meta Pixel
+        trackPixelRegistration('email')
+
         return { success: true }
       } else {
         return { success: false, error: response.message || 'Registration failed' }
@@ -170,11 +164,48 @@ export function AuthProvider({ children }: AuthProviderProps) {
     }
   }
 
+  const setOnboardingCompleted = () => {
+    if (user) {
+      setUser({ ...user, onboardingCompleted: true })
+    }
+  }
+
+  const loginWithGoogle = async (idToken: string) => {
+    try {
+      const response = await googleLoginApi(idToken)
+
+      if (response.success && response.user && response.token) {
+        localStorage.setItem('auth_token', response.token)
+        setUser({
+          id: response.user.id,
+          email: response.user.email,
+          fullName: response.user.full_name,
+          role: response.user.role,
+          phone: response.user.phone,
+          avatarUrl: response.user.avatar_url,
+          onboardingCompleted: response.user.onboarding_completed ?? false,
+        })
+
+        // Track Google sign-in with Meta Pixel
+        trackPixelRegistration('google')
+
+        return { success: true }
+      } else {
+        return { success: false, error: response.message || 'Google login failed' }
+      }
+    } catch (error) {
+      console.error('Google login error:', error)
+      return { success: false, error: 'Network error' }
+    }
+  }
+
   const value: AuthContextType = {
     user,
     login,
     register,
     logout,
+    loginWithGoogle,
+    setOnboardingCompleted,
     loading,
     isAuthenticated: !!user,
   }

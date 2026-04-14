@@ -86,7 +86,6 @@ export default function SecureVideoPlayer({
     const handlePlay = () => setIsPlaying(true);
     const handlePause = () => setIsPlaying(false);
     const handleError = () => {
-      console.error('Video error:', video.error);
       const errorMsg = video.error ? 
         `Video error (${video.error.code}): ${video.error.message}` :
         'Failed to load video. Please try again.';
@@ -222,7 +221,6 @@ export default function SecureVideoPlayer({
 
     // Check if video duration is valid
     if (!isFinite(video.duration) || video.duration <= 0) {
-      console.warn('Cannot seek: invalid video duration', video.duration);
       return;
     }
 
@@ -267,7 +265,7 @@ export default function SecureVideoPlayer({
 
   if (error) {
     return (
-      <div className="bg-gray-900 rounded-lg p-8 text-center text-white">
+      <div className="bg-gray-900 rounded-sm p-8 text-center text-white">
         <div className="text-red-400 mb-4">⚠️ Video Error</div>
         <p>{error}</p>
         <button 
@@ -284,7 +282,7 @@ export default function SecureVideoPlayer({
   return (
     <div 
       ref={containerRef}
-      className="relative bg-black rounded-lg overflow-hidden group"
+      className="relative bg-black rounded-sm overflow-hidden group"
       style={{ aspectRatio: '16/9' }}
     >
       {/* Video Element */}
