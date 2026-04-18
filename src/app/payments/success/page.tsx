@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getPaymentStatus, type PaymentStatusResponse } from '@/lib/api/payments';
 
-export default function PaymentSuccessPage() {
+function PaymentSuccessInner() {
   const params = useSearchParams();
   const orderNo = params?.get('order_no') ?? '';
 
@@ -92,5 +92,23 @@ export default function PaymentSuccessPage() {
         )}
       </div>
     </div>
+  );
+}
+
+function PaymentSuccessFallback() {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-sand-50 px-6">
+      <div className="max-w-md w-full bg-white rounded-sm shadow-card p-8 text-center">
+        <p className="text-sm text-ink-muted">กำลังตรวจสอบการชำระเงิน...</p>
+      </div>
+    </div>
+  );
+}
+
+export default function PaymentSuccessPage() {
+  return (
+    <Suspense fallback={<PaymentSuccessFallback />}>
+      <PaymentSuccessInner />
+    </Suspense>
   );
 }
