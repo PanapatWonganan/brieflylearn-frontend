@@ -157,8 +157,8 @@ export default function CoursePage() {
   };
 
   const handleStartCourse = () => {
-    // Navigate to health assessment
-    window.location.href = `/courses/${courseId}/assessment`;
+    // Go to the Pay Solutions checkout flow
+    window.location.href = `/courses/${courseId}/checkout`;
   };
 
   return (
