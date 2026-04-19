@@ -5,9 +5,48 @@ import { ArrowRight, BookOpen, Brain, Target, Users, Shield } from 'lucide-react
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Hls from 'hls.js';
 import { fetchCourses, Course } from '@/lib/api';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── HLS Video Player (for .m3u8 streams) ── */
+const HlsVideo = ({ src, className = '' }: { src: string; className?: string }) => {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+
+    if (Hls.isSupported()) {
+      const hls = new Hls({ autoStartLoad: true });
+      hls.loadSource(src);
+      hls.attachMedia(video);
+      hls.on(Hls.Events.MANIFEST_PARSED, () => {
+        video.play().catch(() => {});
+      });
+      return () => hls.destroy();
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      // Safari native HLS
+      video.src = src;
+      video.addEventListener('loadedmetadata', () => {
+        video.play().catch(() => {});
+      });
+    }
+  }, [src]);
+
+  return (
+    <video
+      ref={ref}
+      className={className}
+      muted
+      autoPlay
+      playsInline
+      loop
+      preload="auto"
+    />
+  );
+};
 
 /* ── Hero background video with fade loop ── */
 const HeroVideo = () => {
@@ -267,6 +306,46 @@ export default function Home() {
             <span className="block">สร้าง <em className="italic text-white/60">ความเชี่ยวชาญ</em> ให้</span>
             <span className="block"><em className="italic text-white/60">ผู้คนที่พร้อมเปลี่ยนโลกด้วย AI</em></span>
           </h2>
+        </div>
+      </section>
+
+      {/* ═══════ FEATURED VIDEO — Asme style ═══════ */}
+      <section className="animate-section pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div
+            className="relative rounded-3xl overflow-hidden aspect-video"
+          >
+            {/* Video background (HLS) */}
+            <HlsVideo
+              src="https://stream.mux.com/01yW6GoUz01OTXk5w1Rt1MHkJWlCGIwj46SUONJZ4DJUE.m3u8"
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            {/* Gradient overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+            {/* Bottom overlay content */}
+            <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+              <div className="liquid-glass rounded-2xl p-6 md:p-8 max-w-md">
+                <div
+                  className="text-white/50 text-xs tracking-widest uppercase mb-3"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
+                >
+                  Our Approach
+                </div>
+                <p className="text-white text-sm md:text-base leading-relaxed" style={{ fontWeight: 300 }}>
+                  เราเชื่อว่าการเรียนรู้ AI ที่ดีที่สุดคือการลงมือทำจริง ทุกบทเรียนออกแบบมาเพื่อให้คุณนำไปใช้ได้ทันที
+                  ไม่ใช่แค่ทฤษฎี แต่คือทักษะที่เปลี่ยนอนาคต
+                </p>
+              </div>
+              <Link
+                href="/courses"
+                className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium self-start md:self-end transition-transform hover:scale-105 active:scale-95 inline-flex items-center gap-2"
+              >
+                Explore more
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
