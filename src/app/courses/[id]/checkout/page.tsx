@@ -41,6 +41,22 @@ export default function CheckoutPage() {
       }
 
       if (res.url && res.fields) {
+        // Safety net: stash order_no + course_id in localStorage so that if
+        // Paysolutions redirects straight to /payments/failed without any
+        // query params, the fallback in that page can still look up the
+        // real status via the backend inquiry API.
+        try {
+          localStorage.setItem(
+            'pending_checkout',
+            JSON.stringify({
+              order_no: res.order_no ?? res.fields.refno ?? '',
+              course_id: courseId,
+              ts: Date.now(),
+            })
+          );
+        } catch {
+          // storage disabled — fallback will still work via query string.
+        }
         setFormAction(res.url);
         setFormFields(res.fields);
         setStatus('redirecting');

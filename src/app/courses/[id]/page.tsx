@@ -11,6 +11,7 @@ import {
   Play,
   Target,
   BookOpen,
+  CreditCard,
   MessageCircle,
   Lock,
   Gift,
@@ -106,8 +107,12 @@ export default function CoursePage() {
   }
 
   const { course, lessons } = courseData;
+  const userHasPaidAccess = courseData.user_has_paid_access === true;
   const freeLessons = lessons.filter(lesson => lesson.is_free);
   const paidLessons = lessons.filter(lesson => !lesson.is_free);
+  // First lesson the learner can actually open once they've purchased.
+  const firstPlayableLesson =
+    [...lessons].sort((a, b) => a.order_index - b.order_index)[0];
 
   // Default prerequisite information for AI courses
   const defaultSafetyInfo = {
@@ -157,7 +162,12 @@ export default function CoursePage() {
   };
 
   const handleStartCourse = () => {
-    // Go to the Pay Solutions checkout flow
+    // Purchased users go straight to their first lesson;
+    // everyone else goes through the Pay Solutions checkout flow.
+    if (userHasPaidAccess && firstPlayableLesson) {
+      window.location.href = `/lessons/${firstPlayableLesson.id}`;
+      return;
+    }
     window.location.href = `/courses/${courseId}/checkout`;
   };
 
@@ -238,21 +248,65 @@ export default function CoursePage() {
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-2xl font-bold text-gray-200">฿1,000</div>
-                    <div className="text-gray-500 line-through text-sm">฿1,400</div>
-                  </div>
-                  <div className="bg-mint-900/50 text-mint-300 px-3 py-1 rounded-full text-sm font-medium">
-                    ประหยัด 29%
-                  </div>
+                  {userHasPaidAccess ? (
+                    <div>
+                      <div className="text-2xl font-bold text-mint-300">คุณซื้อคอร์สนี้แล้ว</div>
+                      <div className="text-gray-500 text-sm">เข้าเรียนได้ทุกบทเรียน</div>
+                    </div>
+                  ) : (
+                    (() => {
+                      const price = Number(
+                        (course as unknown as { price?: number | string })?.price ?? 0
+                      );
+                      const original = Number(
+                        (course as unknown as { original_price?: number | string })?.original_price ?? 0
+                      );
+                      const hasDiscount = original > 0 && original > price;
+                      const savePct = hasDiscount
+                        ? Math.round(((original - price) / original) * 100)
+                        : 0;
+                      return (
+                        <>
+                          <div>
+                            <div className="text-2xl font-bold text-gray-200">
+                              ฿{price.toLocaleString()}
+                            </div>
+                            {hasDiscount && (
+                              <div className="text-gray-500 line-through text-sm">
+                                ฿{original.toLocaleString()}
+                              </div>
+                            )}
+                          </div>
+                          {hasDiscount && (
+                            <div className="bg-mint-900/50 text-mint-300 px-3 py-1 rounded-full text-sm font-medium">
+                              ประหยัด {savePct}%
+                            </div>
+                          )}
+                        </>
+                      );
+                    })()
+                  )}
                 </div>
 
                 <button
                   onClick={handleStartCourse}
                   className="w-full bg-mint-600 text-white py-3 rounded-sm font-semibold hover:opacity-90 transition-colors flex items-center justify-center space-x-2"
                 >
-                  <Target className="h-5 w-5" />
-                  <span>ทำแบบประเมินและเริ่มเรียน</span>
+                  {userHasPaidAccess ? (
+                    <>
+                      <Play className="h-5 w-5" />
+                      <span>เข้าเรียนต่อ</span>
+                    </>
+                  ) : (
+                    <>
+                      <CreditCard className="h-5 w-5" />
+                      <span>
+                        ชำระเงิน ฿{Number(
+                          (course as unknown as { price?: number | string })?.price ?? 0
+                        ).toLocaleString()}
+                      </span>
+                    </>
+                  )}
                 </button>
 
                 <button
@@ -374,38 +428,69 @@ export default function CoursePage() {
                 {paidLessons.length > 0 && (
                   <div>
                     <div className="flex items-center space-x-2 mb-4">
-                      <Lock className="w-5 h-5 text-mint-400" />
+                      {userHasPaidAccess ? (
+                        <Play className="w-5 h-5 text-mint-400" />
+                      ) : (
+                        <Lock className="w-5 h-5 text-mint-400" />
+                      )}
                       <h4 className="text-lg font-semibold text-gray-200">บทเรียนแบบเต็ม</h4>
                       <span className="bg-mint-900/50 text-mint-300 px-2 py-1 rounded-full text-xs border border-gray-700/50">
-                        ต้องซื้อคอร์ส
+                        {userHasPaidAccess ? 'ปลดล็อคแล้ว' : 'ต้องซื้อคอร์ส'}
                       </span>
                     </div>
 
                     <div className="space-y-3">
                       {paidLessons.map((lesson) => (
-                        <div
-                          key={lesson.id}
-                          className="border border-gray-700/50 rounded-sm p-4 bg-gray-800/50"
-                        >
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-4">
-                              <div className="w-10 h-10 bg-gray-700 rounded-sm flex items-center justify-center">
-                                <Lock className="w-5 h-5 text-gray-400" />
+                        userHasPaidAccess ? (
+                          <Link
+                            key={lesson.id}
+                            href={`/lessons/${lesson.id}`}
+                            className="block border border-gray-700/50 rounded-sm p-4 hover:border-mint-700 transition-colors group"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-10 h-10 bg-mint-900/50 rounded-sm flex items-center justify-center">
+                                  <Play className="w-5 h-5 text-mint-400" />
+                                </div>
+                                <div>
+                                  <h5 className="font-semibold text-gray-200 group-hover:text-mint-400 transition-colors">
+                                    {lesson.order_index}. {lesson.title}
+                                  </h5>
+                                  <p className="text-sm text-gray-400">
+                                    {lesson.description || 'บทเรียนขั้นสูง'} • {lesson.duration_minutes} นาที
+                                  </p>
+                                </div>
                               </div>
-                              <div>
-                                <h5 className="font-semibold text-gray-500">
-                                  {lesson.order_index}. {lesson.title}
-                                </h5>
-                                <p className="text-sm text-gray-400">
-                                  {lesson.description || 'บทเรียนขั้นสูง'} • {lesson.duration_minutes} นาที
-                                </p>
-                              </div>
+                              <span className="bg-mint-600 text-white px-4 py-2 rounded-sm text-sm group-hover:opacity-90 transition-colors">
+                                เริ่มเรียน
+                              </span>
                             </div>
-                            <div className="text-gray-500 text-sm">
-                              ล็อค
+                          </Link>
+                        ) : (
+                          <div
+                            key={lesson.id}
+                            className="border border-gray-700/50 rounded-sm p-4 bg-gray-800/50"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-10 h-10 bg-gray-700 rounded-sm flex items-center justify-center">
+                                  <Lock className="w-5 h-5 text-gray-400" />
+                                </div>
+                                <div>
+                                  <h5 className="font-semibold text-gray-500">
+                                    {lesson.order_index}. {lesson.title}
+                                  </h5>
+                                  <p className="text-sm text-gray-400">
+                                    {lesson.description || 'บทเรียนขั้นสูง'} • {lesson.duration_minutes} นาที
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="text-gray-500 text-sm">
+                                ล็อค
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        )
                       ))}
                     </div>
                   </div>
@@ -575,7 +660,11 @@ export default function CoursePage() {
                   }}
                   className="flex-1 bg-mint-600 text-white py-3 rounded-sm font-medium hover:opacity-90 transition-colors"
                 >
-                  เข้าใจแล้ว เริ่มเรียนเลย
+                  {userHasPaidAccess
+                    ? 'เข้าใจแล้ว เริ่มเรียนเลย'
+                    : `ดำเนินการชำระเงิน ฿${Number(
+                        (course as unknown as { price?: number | string })?.price ?? 0
+                      ).toLocaleString()}`}
                 </button>
               </div>
             </div>

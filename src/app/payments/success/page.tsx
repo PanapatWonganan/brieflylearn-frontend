@@ -5,12 +5,48 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getPaymentStatus, type PaymentStatusResponse } from '@/lib/api/payments';
 
+type StashedCheckout = {
+  order_no?: string;
+  course_id?: string;
+  ts?: number;
+};
+
+function readStashedCheckout(): StashedCheckout | null {
+  try {
+    const raw = localStorage.getItem('pending_checkout');
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as StashedCheckout;
+    if (parsed.ts && Date.now() - parsed.ts > 60 * 60 * 1000) {
+      localStorage.removeItem('pending_checkout');
+      return null;
+    }
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
 function PaymentSuccessInner() {
   const params = useSearchParams();
-  const orderNo = params?.get('order_no') ?? '';
+  const queryOrderNo = params?.get('order_no') ?? '';
 
+  const [orderNo, setOrderNo] = useState<string>(queryOrderNo);
   const [data, setData] = useState<PaymentStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
+
+  // Fallback to stashed checkout if the hosted page dropped the refno.
+  useEffect(() => {
+    if (queryOrderNo) {
+      setOrderNo(queryOrderNo);
+      return;
+    }
+    const stash = readStashedCheckout();
+    if (stash?.order_no) {
+      setOrderNo(stash.order_no);
+    } else {
+      setLoading(false);
+    }
+  }, [queryOrderNo]);
 
   useEffect(() => {
     if (!orderNo) {
@@ -24,7 +60,16 @@ function PaymentSuccessInner() {
       setData(res);
 
       const status = res.enrollment?.payment_status;
-      if (status === 'completed' || attempt >= 6) {
+      if (status === 'completed') {
+        try {
+          localStorage.removeItem('pending_checkout');
+        } catch {
+          // ignore
+        }
+        setLoading(false);
+        return;
+      }
+      if (attempt >= 6) {
         setLoading(false);
         return;
       }

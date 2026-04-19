@@ -58,6 +58,8 @@ export interface Lesson {
   duration_minutes: number;
   order_index: number;
   is_free: boolean;
+  /** Backend-computed: true when caller cannot watch (not free + not paid). */
+  locked?: boolean;
   video_url: string | null;
   video: {
     id: string;
@@ -78,15 +80,24 @@ export interface CourseWithLessons {
   };
   lessons: Lesson[];
   total_lessons: number;
+  /** True when the authenticated caller has a completed enrollment for this course. */
+  user_has_paid_access?: boolean;
 }
 
 export async function fetchCourseLessons(courseId: string): Promise<ApiResponse<CourseWithLessons>> {
   try {
+    // Send auth if we have it, so backend can compute `user_has_paid_access`.
+    // Endpoint is public (guest preview still works), token is purely informational.
+    const token = typeof window !== 'undefined'
+      ? (localStorage.getItem('auth_token') || localStorage.getItem('boostme_token'))
+      : null;
+
     const response = await fetch(`${API_BASE_URL}/courses/${courseId}/lessons`, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
+        ...(token && { 'Authorization': `Bearer ${token}` }),
       },
       cache: 'no-store',
     });
