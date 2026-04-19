@@ -36,27 +36,13 @@ export function generateEventId(): string {
 }
 
 /**
- * Initialize Meta Pixel (called once on app load)
+ * Initialize Meta Pixel — called by the inline snippet in MetaPixel.tsx.
+ * This function is kept as a fallback but the standard approach is the
+ * inline snippet which creates the fbq stub before loading fbevents.js.
  */
 export function initPixel(): void {
   if (typeof window === 'undefined' || !PIXEL_ID) return
-
-  // fbq snippet (standard Meta initialization)
-  if (!window.fbq) {
-    const n: unknown = (window.fbq = function (...args: unknown[]) {
-      if ((n as { callMethod?: (...a: unknown[]) => void }).callMethod) {
-        (n as { callMethod: (...a: unknown[]) => void }).callMethod(...args)
-      } else {
-        (n as { queue: unknown[] }).queue.push(args)
-      }
-    })
-    const nObj = n as { push: typeof Array.prototype.push; loaded: boolean; version: string; queue: unknown[] }
-    if (!window._fbq) window._fbq = n as typeof window._fbq
-    nObj.push = nObj.push
-    nObj.loaded = true
-    nObj.version = '2.0'
-    nObj.queue = []
-  }
+  if (typeof window.fbq !== 'function') return
 
   window.fbq('init', PIXEL_ID)
   window.fbq('track', 'PageView')
