@@ -63,30 +63,6 @@ const HeroVideo = () => {
   );
 };
 
-/* ── Fallback course data when API is unavailable ── */
-const FALLBACK_COURSES = [
-  {
-    id: 'ai-entrepreneur',
-    title: 'AI สำหรับผู้ประกอบการ',
-    description: 'เรียนรู้การนำ AI มาใช้สร้างธุรกิจใหม่ ตั้งแต่ไอเดียจนถึงการเปิดตัวผลิตภัณฑ์ ด้วยเครื่องมือ AI ล่าสุด',
-    level: 'beginner',
-    lessons_count: 12,
-  },
-  {
-    id: 'ai-leader',
-    title: 'AI สำหรับผู้บริหาร',
-    description: 'วางกลยุทธ์ AI สำหรับองค์กร ตั้งแต่การประเมินความพร้อมจนถึงการ implement AI อย่างมีประสิทธิภาพ',
-    level: 'intermediate',
-    lessons_count: 15,
-  },
-  {
-    id: 'prompt-engineering',
-    title: 'Prompt Engineering Masterclass',
-    description: 'เทคนิคการเขียน Prompt ระดับสูง สำหรับ ChatGPT, Claude, Midjourney เพื่อผลลัพธ์ที่ดีที่สุด',
-    level: 'intermediate',
-    lessons_count: 10,
-  },
-];
 
 /* ── Testimonials data ── */
 const TESTIMONIALS = [
@@ -132,20 +108,16 @@ const STATS = [
 
 export default function Home() {
   const heroRef = useRef<HTMLElement>(null);
-  const [courses, setCourses] = useState<(Course | typeof FALLBACK_COURSES[0])[]>(FALLBACK_COURSES);
+  const [courses, setCourses] = useState<Course[]>([]);
 
-  /* ── Fetch real courses from API ── */
+  /* ── Fetch courses from API ── */
   useEffect(() => {
     fetchCourses().then((res) => {
       if (res.data) {
         const list = Array.isArray(res.data) ? res.data : [];
-        if (list.length >= 3) {
-          setCourses(list.slice(0, 3));
-        }
+        setCourses(list);
       }
-    }).catch(() => {
-      // Keep fallback data
-    });
+    }).catch(() => {});
   }, []);
 
   /* ── GSAP Animations ── */
@@ -299,6 +271,7 @@ export default function Home() {
       </section>
 
       {/* ═══════ FEATURED COURSES — Liquid glass cards ═══════ */}
+      {courses.length > 0 && (
       <section className="pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden">
         <div className="max-w-6xl mx-auto">
           <div className="animate-section flex items-end justify-between mb-12 md:mb-16">
@@ -369,6 +342,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ═══════ PHILOSOPHY — Big heading + 2-col ═══════ */}
       <section className="animate-section py-28 md:py-40 px-6 overflow-hidden">
