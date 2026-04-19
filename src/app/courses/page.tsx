@@ -100,9 +100,9 @@ export default function CoursesPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen py-8">
+      <div className="min-h-screen pt-24 sm:pt-28 pb-8">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             {Array.from({ length: 6 }).map((_, i) => (
               <CourseCardSkeleton key={i} />
             ))}
@@ -130,17 +130,17 @@ export default function CoursesPage() {
   }
 
   return (
-    <div className="min-h-screen py-16">
+    <div className="min-h-screen pt-24 sm:pt-28 pb-12 sm:pb-16">
       <div className="max-w-6xl mx-auto px-5 sm:px-8">
         {/* Header */}
-        <div className="mb-16">
+        <div className="mb-8 sm:mb-16">
           <p className="text-xs tracking-widest uppercase text-gray-500 mb-3">
             คอร์สเรียน
           </p>
           <h1 className="text-heading mb-4">
             คอร์ส AI ครบทุกเส้นทาง
           </h1>
-          <p className="text-lg text-gray-400 max-w-3xl">
+          <p className="text-base sm:text-lg text-gray-400 max-w-3xl">
             เลือกคอร์ส AI ที่เหมาะกับเป้าหมายของคุณ ทั้งสร้างธุรกิจด้วย AI และบริหารองค์กรอย่างชาญฉลาด
           </p>
         </div>
@@ -149,7 +149,7 @@ export default function CoursesPage() {
         <SearchFilter onSearch={handleSearch} onFilter={handleFilter} />
 
         {/* Results Count */}
-        <div className="mb-12">
+        <div className="mb-6 sm:mb-12">
           <p className="text-gray-400">
             แสดงผล {filteredCourses.length} จาก {courses.length} คอร์ส
             {searchQuery && (
@@ -162,7 +162,7 @@ export default function CoursesPage() {
         </div>
 
         {/* Course Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredCourses.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}

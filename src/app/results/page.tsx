@@ -126,7 +126,7 @@ export default function ResultsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="border-b border-gray-800/40 py-20">
+      <div className="border-b border-gray-800/40 pt-24 sm:pt-28 pb-8 sm:pb-12">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center">
             <div className="text-xs uppercase tracking-wider text-gray-500 mb-4">
@@ -142,28 +142,28 @@ export default function ResultsPage() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-16">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 sm:py-16">
         {/* Summary Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6 text-center">
-            <BarChart3 className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">{totalExams}</div>
-            <div className="text-sm text-gray-500">แบบประเมินทั้งหมด</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-16">
+          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-4 sm:p-6 text-center">
+            <BarChart3 className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">{totalExams}</div>
+            <div className="text-xs sm:text-sm text-gray-500">แบบประเมินทั้งหมด</div>
           </div>
-          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6 text-center">
-            <Trophy className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">{passedExams}</div>
-            <div className="text-sm text-gray-500">ผ่านการประเมิน</div>
+          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-4 sm:p-6 text-center">
+            <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">{passedExams}</div>
+            <div className="text-xs sm:text-sm text-gray-500">ผ่านการประเมิน</div>
           </div>
-          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6 text-center">
-            <Target className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">{averageScore.toFixed(1)}%</div>
-            <div className="text-sm text-gray-500">คะแนนเฉลี่ย</div>
+          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-4 sm:p-6 text-center">
+            <Target className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">{averageScore.toFixed(1)}%</div>
+            <div className="text-xs sm:text-sm text-gray-500">คะแนนเฉลี่ย</div>
           </div>
-          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-6 text-center">
-            <Award className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">{bestScore}%</div>
-            <div className="text-sm text-gray-500">คะแนนสูงสุด</div>
+          <div className="bg-gray-900 border border-gray-700/50 shadow-card rounded-sm p-4 sm:p-6 text-center">
+            <Award className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">{bestScore}%</div>
+            <div className="text-xs sm:text-sm text-gray-500">คะแนนสูงสุด</div>
           </div>
         </div>
 
@@ -174,7 +174,7 @@ export default function ResultsPage() {
               <TrendingUp className="h-5 w-5" />
               <span>แนวโน้มคะแนนการประเมิน</span>
             </h2>
-            <div className="h-64 bg-gray-800/50 rounded-sm flex items-center justify-center">
+            <div className="h-48 sm:h-64 bg-gray-800/50 rounded-sm flex items-center justify-center">
               <div className="text-center">
                 <BarChart3 className="h-16 w-16 text-gray-300 mx-auto mb-4" />
                 <p className="text-gray-500">กราฟแสดงแนวโน้มการพัฒนาทักษะ AI</p>
@@ -205,7 +205,7 @@ export default function ResultsPage() {
 
         {/* Filter Tabs */}
         {totalExams > 0 && (
-          <div className="flex space-x-1 mb-6">
+          <div className="flex flex-wrap gap-1 sm:gap-2 mb-6">
             <button
               onClick={() => setSelectedTab('all')}
               className={`px-4 py-2 rounded-sm font-medium transition-colors ${
@@ -245,80 +245,76 @@ export default function ResultsPage() {
             {filteredResults.map((result) => (
               <div
                 key={result.id}
-                className={`bg-gray-900 rounded-sm p-6 shadow-card transition-all ${getScoreBackground(result.score)}`}
+                className={`bg-gray-900 rounded-sm p-4 sm:p-6 shadow-card transition-all ${getScoreBackground(result.score)}`}
               >
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    {/* Header */}
-                    <div className="flex items-center space-x-3 mb-3">
-                      <h3 className="text-lg font-semibold text-gray-200">
-                        {result.examTitle}
-                      </h3>
-                      <span className={`px-3 py-1 rounded-sm text-sm font-medium ${
-                        result.status === 'ผ่าน'
-                          ? 'bg-mint-500/10 text-mint-400'
-                          : 'bg-red-500/10 text-red-400'
-                      }`}>
-                        {result.status}
+                <div>
+                  {/* Header */}
+                  <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-3">
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-200">
+                      {result.examTitle}
+                    </h3>
+                    <span className={`px-2.5 py-0.5 rounded-sm text-xs sm:text-sm font-medium ${
+                      result.status === 'ผ่าน'
+                        ? 'bg-mint-500/10 text-mint-400'
+                        : 'bg-red-500/10 text-red-400'
+                    }`}>
+                      {result.status}
+                    </span>
+                  </div>
+
+                  <div className="text-xs sm:text-sm text-gray-500 mb-4">
+                    หมวดหมู่: {result.category} • ระดับ: {result.difficulty}
+                  </div>
+
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-4">
+                    <div className="flex items-center space-x-2">
+                      <Target className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        คะแนน: <span className={`font-bold ${getScoreColor(result.score)}`}>
+                          {result.score}%
+                        </span>
                       </span>
                     </div>
-
-                    <div className="text-sm text-gray-500 mb-4">
-                      หมวดหมู่: {result.category} • ระดับ: {result.difficulty}
+                    <div className="flex items-center space-x-2">
+                      <Medal className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        อันดับ: {result.percentile}%
+                      </span>
                     </div>
-
-                    {/* Stats Grid */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-                      <div className="flex items-center space-x-2">
-                        <Target className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">
-                          คะแนน: <span className={`font-bold ${getScoreColor(result.score)}`}>
-                            {result.score}%
-                          </span>
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Medal className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">
-                          อันดับ: {result.percentile}%
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Clock className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">
-                          {formatDuration(result.duration)}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm text-gray-500">
-                          {formatDate(result.completedAt)}
-                        </span>
-                      </div>
+                    <div className="flex items-center space-x-2">
+                      <Clock className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        {formatDuration(result.duration)}
+                      </span>
                     </div>
-
-                    {/* Progress Bar */}
-                    <div className="mb-3">
-                      <div className="flex items-center justify-between text-sm text-gray-500 mb-1">
-                        <span>ตอบถูก {result.correctAnswers} จาก {result.totalQuestions} ข้อ</span>
-                        <span>{result.score}%</span>
-                      </div>
-                      <div className="w-full bg-gray-700 rounded-full h-2">
-                        <div
-                          className="h-2 rounded-full bg-mint-600"
-                          style={{ width: `${result.score}%` }}
-                        />
-                      </div>
+                    <div className="flex items-center space-x-2">
+                      <Calendar className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                      <span className="text-xs sm:text-sm text-gray-500">
+                        {formatDate(result.completedAt)}
+                      </span>
                     </div>
                   </div>
 
-                  {/* Action Button */}
-                  <div className="ml-6">
-                    <button className="flex items-center space-x-2 px-4 py-2 bg-mint-500 hover:bg-[length:100%_150%] text-white rounded-sm transition-colors">
-                      <span>ดูรายละเอียด</span>
-                      <ChevronRight className="h-4 w-4" />
-                    </button>
+                  {/* Progress Bar */}
+                  <div className="mb-4">
+                    <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-1">
+                      <span>ตอบถูก {result.correctAnswers} จาก {result.totalQuestions} ข้อ</span>
+                      <span>{result.score}%</span>
+                    </div>
+                    <div className="w-full bg-gray-700 rounded-full h-2">
+                      <div
+                        className="h-2 rounded-full bg-mint-600"
+                        style={{ width: `${result.score}%` }}
+                      />
+                    </div>
                   </div>
+
+                  {/* Action Button — full width on mobile */}
+                  <button className="w-full sm:w-auto flex items-center justify-center sm:justify-start space-x-2 px-4 py-2.5 sm:py-2 bg-mint-500 hover:opacity-90 text-white rounded-sm transition-colors text-sm">
+                    <span>ดูรายละเอียด</span>
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
                 </div>
               </div>
             ))}

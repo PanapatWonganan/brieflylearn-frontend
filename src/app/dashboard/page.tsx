@@ -63,10 +63,10 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-24 sm:pt-28 pb-12">
 
         {/* Welcome Section */}
-        <div className="mb-12">
+        <div className="mb-8 sm:mb-12">
           <h1 className="text-heading text-gray-200 mb-2">
             สวัสดี{user.fullName ? `, ${user.fullName}` : ''}
           </h1>
@@ -76,7 +76,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Stats Row */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
           <div className="border border-gray-700/40 shadow-card rounded-sm p-6">
             <div className="flex items-center space-x-4">
               <div className="text-gray-200">
@@ -128,12 +128,12 @@ export default function DashboardPage() {
         </div>
 
         {/* Main Content - Two Columns */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
 
           {/* Left Column - Main Content (2/3) */}
           <div className="lg:col-span-2">
-            <div className="border border-gray-700/40 shadow-card rounded-sm p-8">
-              <h2 className="text-2xl font-semibold text-gray-200 mb-8">คอร์สของคุณ</h2>
+            <div className="border border-gray-700/40 shadow-card rounded-sm p-5 sm:p-8">
+              <h2 className="text-xl sm:text-2xl font-semibold text-gray-200 mb-6 sm:mb-8">คอร์สของคุณ</h2>
 
               {/* Empty State */}
               <div className="text-center py-16">
@@ -173,7 +173,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Right Column - Quick Actions (1/3) */}
-          <div className="space-y-8">
+          <div className="space-y-6 sm:space-y-8">
 
             {/* Quick Actions */}
             <div className="border border-gray-700/40 shadow-card rounded-sm p-6">

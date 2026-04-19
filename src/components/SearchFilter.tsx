@@ -86,7 +86,7 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
   const hasActiveFilters = Object.values(filters).some(filter => filter !== "");
 
   return (
-    <div className="bg-gray-900 border border-gray-700/50 rounded-sm p-6 mb-8">
+    <div className="bg-gray-900 border border-gray-700/50 rounded-sm p-4 sm:p-6 mb-6 sm:mb-8">
       {/* Search Bar */}
       <div className="relative mb-4">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-500" />
@@ -127,7 +127,7 @@ export function SearchFilter({ onSearch, onFilter }: SearchFilterProps) {
 
       {/* Filters */}
       {showFilters && (
-        <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-gray-700/50"
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 pt-4 sm:pt-6 border-t border-gray-700/50"
           style={{
             opacity: showFilters ? 1 : 0,
             maxHeight: showFilters ? '500px' : '0',

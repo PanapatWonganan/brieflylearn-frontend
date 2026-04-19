@@ -112,7 +112,7 @@ export default function ExamsPage() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="border-b border-gray-800/40 py-16">
+      <div className="border-b border-gray-800/40 pt-24 sm:pt-28 pb-8 sm:pb-16">
         <div className="max-w-6xl mx-auto px-5 sm:px-8">
           <div className="text-center">
             <div className="text-xs uppercase tracking-wider text-gray-500 mb-3">
@@ -143,43 +143,43 @@ export default function ExamsPage() {
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 py-8 sm:py-12">
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
-          <div className="bg-gray-900 rounded-sm p-6 border border-gray-700/50 text-center">
-            <Target className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">{exams.length}+</div>
-            <div className="text-gray-500">แบบประเมิน</div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-8 sm:mb-12">
+          <div className="bg-gray-900 rounded-sm p-4 sm:p-6 border border-gray-700/50 text-center">
+            <Target className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">{exams.length}+</div>
+            <div className="text-xs sm:text-sm text-gray-500">แบบประเมิน</div>
           </div>
-          <div className="bg-gray-900 rounded-sm p-6 border border-gray-700/50 text-center">
-            <Users className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">
+          <div className="bg-gray-900 rounded-sm p-4 sm:p-6 border border-gray-700/50 text-center">
+            <Users className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">
               {exams.reduce((sum, exam) => sum + exam.participants, 0).toLocaleString()}+
             </div>
-            <div className="text-gray-500">ผู้ทำแบบประเมิน</div>
+            <div className="text-xs sm:text-sm text-gray-500">ผู้ทำแบบประเมิน</div>
           </div>
-          <div className="bg-gray-900 rounded-sm p-6 border border-gray-700/50 text-center">
-            <Trophy className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">87%</div>
-            <div className="text-gray-500">อัตราพัฒนาขึ้น</div>
+          <div className="bg-gray-900 rounded-sm p-4 sm:p-6 border border-gray-700/50 text-center">
+            <Trophy className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">87%</div>
+            <div className="text-xs sm:text-sm text-gray-500">อัตราพัฒนาขึ้น</div>
           </div>
-          <div className="bg-gray-900 rounded-sm p-6 border border-gray-700/50 text-center">
-            <FileText className="h-8 w-8 text-gray-200 mx-auto mb-2" />
-            <div className="text-2xl font-bold text-gray-200">
+          <div className="bg-gray-900 rounded-sm p-4 sm:p-6 border border-gray-700/50 text-center">
+            <FileText className="h-6 w-6 sm:h-8 sm:w-8 text-gray-200 mx-auto mb-2" />
+            <div className="text-xl sm:text-2xl font-bold text-gray-200">
               {exams.reduce((sum, exam) => sum + exam.questions, 0)}+
             </div>
-            <div className="text-gray-500">คำถามประเมิน</div>
+            <div className="text-xs sm:text-sm text-gray-500">คำถามประเมิน</div>
           </div>
         </div>
 
         {/* Category Filter */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-2 rounded-sm font-medium transition-colors ${
+                className={`px-3 sm:px-4 py-2 rounded-sm text-sm font-medium transition-colors ${
                   selectedCategory === category
                     ? 'bg-mint-600 text-white'
                     : 'bg-gray-900 text-gray-200 hover:bg-gray-800/50 border border-gray-700'
@@ -212,7 +212,7 @@ export default function ExamsPage() {
 
         {/* Exam Grid */}
         {!error && (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
             {filteredExams.map((exam) => (
               <div key={exam.id} className="bg-gray-900 rounded-sm border border-gray-700/50 hover:border-gray-600 transition-colors">
                 <div className="p-6">
