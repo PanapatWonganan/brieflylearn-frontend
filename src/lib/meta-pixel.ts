@@ -202,3 +202,44 @@ export function trackExamComplete(examId: string, examTitle: string, score: numb
     passed,
   })
 }
+
+/**
+ * Track when user initiates checkout (enters payment page)
+ */
+export function trackInitiateCheckout(courseId: string, price: number = 0): void {
+  trackEvent('InitiateCheckout', {
+    content_type: 'product',
+    content_ids: [courseId],
+    value: price,
+    currency: 'THB',
+    num_items: 1,
+  })
+}
+
+/**
+ * Track successful payment (Purchase event)
+ * Returns eventId for CAPI deduplication
+ */
+export function trackPurchase(courseId: string, courseTitle: string, price: number = 0): string {
+  const eventId = generateEventId()
+  trackEvent('Purchase', {
+    content_type: 'product',
+    content_ids: [courseId],
+    content_name: courseTitle,
+    value: price,
+    currency: 'THB',
+    num_items: 1,
+  }, eventId)
+  return eventId
+}
+
+/**
+ * Track onboarding completion (Lead event)
+ */
+export function trackLead(goals: string[], interests: string[], experienceLevel: string): void {
+  trackEvent('Lead', {
+    content_name: 'onboarding_complete',
+    content_category: experienceLevel,
+    num_items: goals.length + interests.length,
+  })
+}

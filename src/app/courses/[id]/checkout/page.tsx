@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { startPaysolutionsCheckout } from '@/lib/api/payments';
+import { trackInitiateCheckout } from '@/lib/meta-pixel';
 
 export default function CheckoutPage() {
   const params = useParams();
@@ -57,6 +58,8 @@ export default function CheckoutPage() {
         } catch {
           // storage disabled — fallback will still work via query string.
         }
+        // Meta Pixel: track InitiateCheckout before redirecting to payment gateway
+        trackInitiateCheckout(courseId, Number(res.fields?.total ?? 0));
         setFormAction(res.url);
         setFormFields(res.fields);
         setStatus('redirecting');

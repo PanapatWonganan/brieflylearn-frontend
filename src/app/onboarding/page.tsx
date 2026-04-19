@@ -7,6 +7,7 @@ import { submitOnboarding, RecommendedCourse } from '@/lib/api/auth'
 import { ArrowRight, ArrowLeft, Check, BookOpen, Briefcase, Building2, Sparkles, Brain, Zap, Target, BarChart3, Layers } from 'lucide-react'
 import Link from 'next/link'
 import gsap from 'gsap'
+import { trackLead } from '@/lib/meta-pixel'
 
 type Step = 'welcome' | 'goals' | 'interests' | 'experience' | 'courses'
 
@@ -97,6 +98,8 @@ export default function OnboardingPage() {
       setRecommendedCourses(result.data.recommended_courses)
       completedDuringSession.current = true
       setOnboardingCompleted()
+      // Meta Pixel: track Lead when onboarding completes
+      trackLead(selectedGoals, selectedInterests, experienceLevel)
       setStep('courses')
     } else {
       setError(result.message || 'เกิดข้อผิดพลาด กรุณาลองใหม่')

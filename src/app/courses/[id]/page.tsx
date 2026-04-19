@@ -22,6 +22,7 @@ import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { fetchCourseLessons, CourseWithLessons } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContextNew';
+import { trackViewCourse, trackCourseEnrollment } from '@/lib/meta-pixel';
 
 export default function CoursePage() {
   const params = useParams();
@@ -64,6 +65,10 @@ export default function CoursePage() {
       setError(result.error);
     } else if (result.data) {
       setCourseData(result.data);
+      // Meta Pixel: track ViewContent when course loads
+      if (result.data.course) {
+        trackViewCourse(courseId, result.data.course.title);
+      }
     }
 
     setLoading(false);
@@ -177,6 +182,8 @@ export default function CoursePage() {
       window.location.href = `/lessons/${firstPlayableLesson.id}`;
       return;
     }
+    // Meta Pixel: track AddToCart when user intends to purchase
+    trackCourseEnrollment(courseId, course.title, Number(course.price ?? 0));
     window.location.href = `/courses/${courseId}/checkout`;
   };
 

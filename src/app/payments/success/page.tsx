@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { getPaymentStatus, type PaymentStatusResponse } from '@/lib/api/payments';
+import { trackPurchase } from '@/lib/meta-pixel';
 
 type StashedCheckout = {
   order_no?: string;
@@ -61,6 +62,11 @@ function PaymentSuccessInner() {
 
       const status = res.enrollment?.payment_status;
       if (status === 'completed') {
+        // Meta Pixel: track Purchase on successful payment
+        const course = res.enrollment?.course;
+        if (course?.id && course?.title) {
+          trackPurchase(course.id, course.title, Number(res.enrollment?.amount_paid ?? 0));
+        }
         try {
           localStorage.removeItem('pending_checkout');
         } catch {
@@ -94,7 +100,7 @@ function PaymentSuccessInner() {
         </div>
         <h1 className="text-heading font-semibold text-ink mb-2">ชำระเงินสำเร็จ</h1>
         <p className="text-sm text-ink-muted mb-6">
-          ขอบคุณที่ร่วมเรียนกับ BrieflyLearn! คุณสามารถเริ่มเรียนได้ทันที
+          ขอบคุณที่ร่วมเรียนกับ Antiparallel! คุณสามารถเริ่มเรียนได้ทันที
         </p>
 
         <div className="text-left bg-sand-50 rounded-sm p-4 mb-6 text-sm">
