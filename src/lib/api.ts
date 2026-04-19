@@ -77,6 +77,10 @@ export interface CourseWithLessons {
     id: string;
     title: string;
     description: string;
+    price?: number | string;
+    original_price?: number | string | null;
+    level?: string;
+    duration_minutes?: number;
   };
   lessons: Lesson[];
   total_lessons: number;

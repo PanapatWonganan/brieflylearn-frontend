@@ -21,11 +21,13 @@ import {
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import { fetchCourseLessons, CourseWithLessons } from '@/lib/api';
+import { useAuth } from '@/contexts/AuthContextNew';
 
 export default function CoursePage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.id as string;
+  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const [courseData, setCourseData] = useState<CourseWithLessons | null>(null);
   const [loading, setLoading] = useState(true);
@@ -162,8 +164,15 @@ export default function CoursePage() {
   };
 
   const handleStartCourse = () => {
-    // Purchased users go straight to their first lesson;
-    // everyone else goes through the Pay Solutions checkout flow.
+    // Tri-state routing:
+    //  1. Guest -> login (return to this course afterwards)
+    //  2. Authed & purchased -> straight into first lesson
+    //  3. Authed & not purchased -> Paysolutions checkout
+    if (!isAuthenticated) {
+      const returnTo = encodeURIComponent(`/courses/${courseId}`);
+      window.location.href = `/login?redirect=${returnTo}`;
+      return;
+    }
     if (userHasPaidAccess && firstPlayableLesson) {
       window.location.href = `/lessons/${firstPlayableLesson.id}`;
       return;
@@ -290,12 +299,18 @@ export default function CoursePage() {
 
                 <button
                   onClick={handleStartCourse}
-                  className="w-full bg-mint-600 text-white py-3 rounded-sm font-semibold hover:opacity-90 transition-colors flex items-center justify-center space-x-2"
+                  disabled={authLoading}
+                  className="w-full bg-mint-600 text-white py-3 rounded-sm font-semibold hover:opacity-90 transition-colors flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {userHasPaidAccess ? (
                     <>
                       <Play className="h-5 w-5" />
                       <span>เข้าเรียนต่อ</span>
+                    </>
+                  ) : !isAuthenticated ? (
+                    <>
+                      <User className="h-5 w-5" />
+                      <span>เข้าสู่ระบบเพื่อซื้อคอร์ส</span>
                     </>
                   ) : (
                     <>
@@ -662,6 +677,8 @@ export default function CoursePage() {
                 >
                   {userHasPaidAccess
                     ? 'เข้าใจแล้ว เริ่มเรียนเลย'
+                    : !isAuthenticated
+                    ? 'เข้าสู่ระบบเพื่อซื้อคอร์ส'
                     : `ดำเนินการชำระเงิน ฿${Number(
                         (course as unknown as { price?: number | string })?.price ?? 0
                       ).toLocaleString()}`}
