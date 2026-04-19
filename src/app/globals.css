@@ -312,6 +312,39 @@
   }
 }
 
+/* ── Liquid glass — Asme-inspired frosted surface ── */
+.liquid-glass {
+  background: rgba(0, 255, 186, 0.015);
+  background-blend-mode: luminosity;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: none;
+  box-shadow: inset 0 1px 1px rgba(0, 255, 186, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.liquid-glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 255, 186, 0.45) 0%,
+    rgba(0, 255, 186, 0.15) 20%,
+    rgba(0, 255, 186, 0) 40%,
+    rgba(0, 255, 186, 0) 60%,
+    rgba(0, 255, 186, 0.15) 80%,
+    rgba(0, 255, 186, 0.45) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
 /* GSAP text reveal helper */
 .word {
   display: inline-block;

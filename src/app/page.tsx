@@ -1,13 +1,67 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { ArrowRight, BookOpen, Brain, Target, Users, Shield, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, Target, Users, Shield } from 'lucide-react';
 import Link from 'next/link';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { fetchCourses, Course } from '@/lib/api';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ── Hero background video with fade loop ── */
+const HeroVideo = () => {
+  const ref = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = ref.current;
+    if (!v) return;
+    let raf: number;
+    const animateOpacity = (from: number, to: number, dur = 500) => {
+      cancelAnimationFrame(raf);
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / dur);
+        v.style.opacity = String(from + (to - from) * t);
+        if (t < 1) raf = requestAnimationFrame(tick);
+      };
+      raf = requestAnimationFrame(tick);
+    };
+    const onCanPlay = () => { v.play().catch(() => {}); animateOpacity(0, 1); };
+    const onTimeUpdate = () => {
+      if (v.duration && v.duration - v.currentTime <= 0.55) {
+        const cur = parseFloat(v.style.opacity || '1');
+        if (cur > 0.95) animateOpacity(cur, 0);
+      }
+    };
+    const onEnded = () => {
+      v.style.opacity = '0';
+      setTimeout(() => { v.currentTime = 0; v.play().catch(() => {}); animateOpacity(0, 1); }, 100);
+    };
+    v.addEventListener('canplay', onCanPlay);
+    v.addEventListener('timeupdate', onTimeUpdate);
+    v.addEventListener('ended', onEnded);
+    return () => {
+      cancelAnimationFrame(raf);
+      v.removeEventListener('canplay', onCanPlay);
+      v.removeEventListener('timeupdate', onTimeUpdate);
+      v.removeEventListener('ended', onEnded);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={ref}
+      className="absolute inset-0 w-full h-full object-cover object-bottom"
+      style={{ opacity: 0 }}
+      muted
+      autoPlay
+      playsInline
+      preload="auto"
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260418_080021_d598092b-c4c2-4e53-8e46-94cf9064cd50.mp4"
+    />
+  );
+};
 
 /* ── Fallback course data when API is unavailable ── */
 const FALLBACK_COURSES = [
@@ -109,11 +163,10 @@ export default function Home() {
         ease: 'power4.out',
       });
 
-      /* Hero tagline line */
-      gsap.to('.hero-rule', { scaleX: 1, duration: 1.4, delay: 0.6, ease: 'power3.inOut' });
+      /* Hero elements reveal */
+      gsap.to('.hero-cta', { opacity: 1, y: 0, duration: 1, delay: 0.8, ease: 'power3.out' });
       gsap.to('.hero-sub', { opacity: 1, y: 0, duration: 1, delay: 1.0, ease: 'power3.out' });
-      gsap.to('.hero-cta', { opacity: 1, y: 0, duration: 0.8, delay: 1.3, ease: 'power2.out' });
-      gsap.to('.hero-stats', { opacity: 1, y: 0, duration: 0.8, delay: 1.5, ease: 'power2.out' });
+      gsap.to('.hero-stats', { opacity: 1, y: 0, duration: 0.8, delay: 1.3, ease: 'power2.out' });
 
       /* Scroll-triggered sections */
       gsap.utils.toArray<HTMLElement>('.animate-section').forEach((section) => {
@@ -139,10 +192,17 @@ export default function Home() {
   return (
     <div className="relative overflow-hidden">
 
-      {/* ═══════ HERO ═══════ */}
-      <section ref={heroRef} className="relative px-4 sm:px-6 max-w-6xl mx-auto pt-20 md:pt-32 pb-16 md:pb-24">
-        <div className="flex flex-col items-center text-center">
+      {/* ═══════ HERO — Full-screen with video background ═══════ */}
+      <section ref={heroRef} className="min-h-screen overflow-hidden relative flex flex-col" style={{ background: '#0E0E0E' }}>
+        {/* Background video */}
+        <div className="absolute inset-0 w-full h-full">
+          <HeroVideo />
+          {/* Vignette overlays for text readability */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/70 pointer-events-none" />
+        </div>
 
+        {/* Hero content — centered */}
+        <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-6 py-12 text-center" style={{ paddingTop: '100px' }}>
           {/* Mono label */}
           <div
             className="hero-word mb-6"
@@ -151,248 +211,322 @@ export default function Home() {
             AI Learning Platform
           </div>
 
-          {/* Main headline — word-by-word reveal */}
-          <h1 className="max-w-4xl" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1 }}>
-            {/* Line 1 */}
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gray-100">
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">เรียนรู้</span></span>{' '}
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block text-mint-400">AI</span></span>
-            </span>
-            {/* Line 2 */}
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gray-100 mt-2">
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">สร้าง</span></span>{' '}
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block text-mint-400">ธุรกิจ</span></span>
-            </span>
-            {/* Line 3 */}
-            <span className="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl text-gray-100 mt-2">
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">บริหาร</span></span>{' '}
-              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">องค์กร</span></span>
+          {/* Main headline */}
+          <h1 style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.03em', lineHeight: 1 }}>
+            <span className="block text-6xl sm:text-7xl md:text-8xl lg:text-9xl text-white tracking-tight whitespace-nowrap">
+              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">100M</span></span>{' '}
+              <span className="inline-block overflow-hidden"><span className="hero-word inline-block italic" style={{ color: '#00FFBA' }}>Minds</span></span>
+              <span className="inline-block overflow-hidden"><span className="hero-word inline-block">.</span></span>
             </span>
           </h1>
 
-          {/* Horizontal rule — reveals from center */}
-          <div
-            className="hero-rule mt-10 mb-10 w-full max-w-md"
-            style={{ height: '0.5px', background: 'rgba(0,255,186,0.3)', transform: 'scaleX(0)', transformOrigin: 'center' }}
-          />
+          {/* Email input pill — liquid glass */}
+          <div className="hero-cta max-w-xl w-full mt-10 opacity-0 translate-y-4">
+            <div className="liquid-glass rounded-full pl-6 pr-2 py-2 flex items-center gap-3">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 bg-transparent outline-none text-white placeholder:text-white/40 text-sm py-2"
+              />
+              <Link
+                href="/courses"
+                className="rounded-full p-3 transition-colors hover:opacity-90 flex-shrink-0"
+                style={{ background: '#00FFBA', color: '#0E0E0E' }}
+                aria-label="Submit"
+              >
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </div>
 
           {/* Subtitle */}
-          <p className="hero-sub max-w-lg text-base text-gray-400 leading-relaxed opacity-0 translate-y-4" style={{ fontWeight: 300 }}>
+          <p className="hero-sub text-white/80 text-sm leading-relaxed px-4 mt-6 max-w-xl opacity-0 translate-y-4" style={{ fontWeight: 300 }}>
             แพลตฟอร์มเรียน AI ออนไลน์สำหรับคนที่อยากนำ AI ไปใช้จริง
             <br className="hidden sm:block" />
             ทั้งสร้างธุรกิจส่วนตัวและบริหารองค์กรให้ก้าวหน้า
           </p>
 
           {/* CTA buttons */}
-          <div className="hero-cta mt-10 flex flex-col sm:flex-row gap-4 opacity-0 translate-y-4">
-            <Link href="/courses" className="btn-primary group">
+          <div className="hero-stats mt-8 flex flex-col sm:flex-row gap-4 opacity-0 translate-y-4">
+            <Link
+              href="/courses"
+              className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors"
+            >
               เริ่มเรียน AI
-              <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
             </Link>
-            <Link href="/exams" className="btn-secondary">
+            <Link
+              href="/exams"
+              className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors"
+            >
               ประเมินความพร้อมด้าน AI
             </Link>
           </div>
+        </div>
 
-          {/* Stats bar */}
-          <div className="hero-stats mt-14 grid grid-cols-4 gap-6 sm:gap-10 opacity-0 translate-y-4">
+        {/* Stats bar — bottom of hero */}
+        <div className="relative z-10 pb-16 px-6">
+          <div className="hero-stats max-w-3xl mx-auto grid grid-cols-4 gap-6 sm:gap-10 opacity-0 translate-y-4">
             {STATS.map((stat, i) => (
               <div key={i} className="text-center">
-                <div className="text-xl md:text-2xl text-gray-100" style={{ fontWeight: 400 }}>{stat.value}</div>
-                <div className="mt-0.5" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: '#888885' }}>{stat.label}</div>
+                <div className="text-xl md:text-2xl text-white" style={{ fontWeight: 400 }}>{stat.value}</div>
+                <div className="mt-0.5" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em', textTransform: 'uppercase' as const, color: 'rgba(255,255,255,0.5)' }}>{stat.label}</div>
               </div>
             ))}
           </div>
-
         </div>
       </section>
 
-      {/* ═══════ TRUSTED BY / LOGOS BAR ═══════ */}
-      <section className="px-4 sm:px-6 max-w-6xl mx-auto pb-12 md:pb-20">
-        <div className="animate-section flex flex-col items-center gap-6">
-          <p style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#888885' }}>เครื่องมือ AI ที่สอนในคอร์ส</p>
-          <div className="flex items-center gap-8 md:gap-12 flex-wrap justify-center opacity-50">
-            {['ChatGPT', 'Claude', 'Midjourney', 'Gemini', 'Cursor'].map((tool) => (
-              <span key={tool} className="text-sm md:text-base text-gray-400" style={{ fontWeight: 400, letterSpacing: '0.05em' }}>{tool}</span>
-            ))}
+      {/* ═══════ ABOUT — Big serif statement ═══════ */}
+      <section
+        className="animate-section pt-32 md:pt-44 pb-10 md:pb-14 px-6 overflow-hidden relative"
+        style={{ background: 'radial-gradient(ellipse at top, rgba(0,255,186,0.04) 0%, transparent 70%), #0E0E0E' }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div
+            className="text-white/40 text-sm tracking-widest uppercase mb-8"
+            style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em' }}
+          >
+            About Us
           </div>
+          <h2
+            className="text-4xl md:text-6xl lg:text-7xl text-white leading-[1.1] tracking-tight"
+            style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+          >
+            <span className="block">สร้าง <em className="italic text-white/60">ความเชี่ยวชาญ</em> ให้</span>
+            <span className="block"><em className="italic text-white/60">ผู้คนที่พร้อมเปลี่ยนโลกด้วย AI</em></span>
+          </h2>
         </div>
       </section>
 
-      {/* ═══════ FEATURED COURSES ═══════ */}
-      <section className="relative px-4 sm:px-6 max-w-6xl mx-auto py-12 md:py-20">
-        {/* Section divider */}
-        <div style={{ height: '0.5px', background: 'rgba(0,255,180,0.12)' }} />
-
-        <div className="pt-12 md:pt-20">
-          {/* Section header — Brandbook style */}
-          <div className="animate-section mx-auto max-w-3xl pb-12 text-center md:pb-16">
-            <div className="pb-3" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#00FFBA' }}>
+      {/* ═══════ FEATURED COURSES — Liquid glass cards ═══════ */}
+      <section className="pt-6 md:pt-10 pb-20 md:pb-32 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="animate-section flex items-end justify-between mb-12 md:mb-16">
+            <h2
+              className="text-3xl md:text-5xl text-white tracking-tight"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+            >
               คอร์สแนะนำ
-            </div>
-            <h2 className="pb-4 text-3xl md:text-4xl text-gray-100" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.01em' }}>
-              เส้นทางที่ได้รับความนิยม
             </h2>
-            <p className="text-base text-gray-400" style={{ fontWeight: 300 }}>
-              เลือกคอร์สที่เหมาะกับเป้าหมายของคุณ ไม่ว่าจะสร้างธุรกิจหรือบริหารองค์กร
-            </p>
+            <div
+              className="text-white/40 text-sm hidden md:block tracking-widest uppercase"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em' }}
+            >
+              Featured Courses
+            </div>
           </div>
 
-          {/* Course cards — Brandbook solid style */}
-          <div className="mx-auto grid max-w-sm items-start gap-[0.5px] lg:max-w-none lg:grid-cols-3" style={{ background: 'rgba(0,255,180,0.12)' }}>
-            {courses.map((course) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            {courses.map((course, i) => (
               <Link
                 key={course.id}
                 href={`/courses/${course.id}`}
-                className="course-card group/card relative h-full overflow-hidden transition-all duration-300 hover:shadow-hover"
-                style={{ background: '#1A1A1A', borderRadius: '0' }}
+                className="course-card liquid-glass rounded-3xl overflow-hidden group transition-transform duration-300 hover:scale-[1.02]"
               >
-                {/* Card image area — solid background */}
-                <div className="relative h-44 overflow-hidden" style={{ background: '#141414' }}>
-                  <div className="absolute inset-0 flex items-center justify-center">
+                {/* Card image area */}
+                <div className="aspect-video relative overflow-hidden">
+                  <div className="absolute inset-0 flex items-center justify-center transition-transform duration-700 group-hover:scale-105" style={{ background: 'rgba(0,255,186,0.03)' }}>
                     <BookOpen className="h-12 w-12 text-mint-400/20" />
                   </div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none" />
                 </div>
 
                 {/* Card content */}
-                <div className="p-6">
-                  <div className="mb-3">
+                <div className="p-6 md:p-8">
+                  <div className="flex items-start justify-between mb-4">
                     <span
-                      className="inline-block px-2.5 py-0.5 text-mint-400"
-                      style={{
-                        fontFamily: 'var(--font-mono)',
-                        fontSize: '9px',
-                        letterSpacing: '0.15em',
-                        textTransform: 'uppercase' as const,
-                        background: 'rgba(0,255,186,0.06)',
-                        border: '0.5px solid rgba(0,255,186,0.2)',
-                        borderRadius: '1px',
-                      }}
+                      className="text-white/40 text-xs tracking-widest uppercase"
+                      style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
                     >
                       {course.level === 'beginner' ? 'เริ่มต้น' : course.level === 'intermediate' ? 'ปานกลาง' : 'ขั้นสูง'}
                     </span>
+                    <div className="liquid-glass rounded-full p-2 text-white">
+                      <ArrowRight className="h-4 w-4" />
+                    </div>
                   </div>
-
-                  <h3 className="text-lg text-gray-100 group-hover/card:text-white transition-colors duration-300" style={{ fontWeight: 400 }}>
+                  <h3
+                    className="text-white text-xl md:text-2xl mb-3 tracking-tight group-hover:text-white/90 transition-colors"
+                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+                  >
                     {course.title}
                   </h3>
-
-                  <p className="mt-2 text-sm text-gray-400 leading-relaxed line-clamp-2" style={{ fontWeight: 300 }}>
+                  <p className="text-white/50 text-sm leading-relaxed line-clamp-2" style={{ fontWeight: 300 }}>
                     {course.description}
                   </p>
-
-                  <div className="mt-4 pt-4 flex items-center justify-between text-xs" style={{ borderTop: '0.5px solid rgba(0,255,180,0.12)' }}>
-                    <span className="text-gray-500" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em' }}>
-                      {course.lessons_count > 0 ? `${course.lessons_count} LESSONS` : 'COMING SOON'}
-                    </span>
-                    <span className="flex items-center gap-1 text-mint-400 opacity-0 group-hover/card:opacity-100 transition-opacity" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.1em' }}>
-                      START <ArrowRight className="h-3 w-3" />
-                    </span>
-                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
           <div className="text-center mt-10">
-            <Link href="/courses" className="btn-ghost">
+            <Link
+              href="/courses"
+              className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors inline-flex items-center gap-2"
+            >
               ดูคอร์สทั้งหมด
-              <ArrowRight className="h-3.5 w-3.5" />
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ═══════ FEATURES ═══════ */}
-      <section className="relative px-4 sm:px-6 max-w-6xl mx-auto py-12 md:py-20">
-        {/* Section divider */}
-        <div style={{ height: '0.5px', background: 'rgba(0,255,180,0.12)' }} />
+      {/* ═══════ PHILOSOPHY — Big heading + 2-col ═══════ */}
+      <section className="animate-section py-28 md:py-40 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <h2
+            className="text-5xl md:text-7xl lg:text-8xl text-white tracking-tight mb-16 md:mb-24"
+            style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+          >
+            <span>Intelligence <em className="italic text-white/40">x</em> Mastery</span>
+          </h2>
 
-        <div className="pt-12 md:pt-20">
-          {/* Section header */}
-          <div className="animate-section mx-auto max-w-3xl pb-4 text-center md:pb-12">
-            <div className="pb-3" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#00FFBA' }}>
-              ทำไมต้อง Antipararell
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-start">
+            {/* Left — featured card */}
+            <div className="liquid-glass rounded-3xl p-6 md:p-8">
+              <div
+                className="text-white/50 text-xs tracking-widest uppercase mb-3"
+                style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
+              >
+                Our Approach
+              </div>
+              <p className="text-white text-sm md:text-base leading-relaxed" style={{ fontWeight: 300 }}>
+                เราเชื่อว่าทุกคนสามารถ master AI ได้ ไม่ว่าจะเป็นผู้ประกอบการ ผู้บริหาร หรือคนทำงาน
+                ระบบการเรียนรู้ของเราออกแบบมาเพื่อเปลี่ยนความอยากรู้ให้เป็นความเชี่ยวชาญ
+              </p>
             </div>
-            <h2 className="pb-4 text-3xl md:text-4xl text-gray-100" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.01em' }}>
-              เรียน AI ที่นำไปใช้สร้างผลลัพธ์ได้จริง
+
+            {/* Right — 2 blocks with divider */}
+            <div className="flex flex-col">
+              <div className="pb-10">
+                <div
+                  className="text-white/40 text-xs tracking-widest uppercase mb-4"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
+                >
+                  Precision
+                </div>
+                <p className="text-white/70 text-base md:text-lg leading-relaxed" style={{ fontWeight: 300 }}>
+                  เนื้อหาทุกบทเรียนผ่านการออกแบบอย่างพิถีพิถัน ไม่มีสิ่งที่ไม่จำเป็น
+                  เรียนรู้เฉพาะสิ่งที่นำไปใช้สร้างผลลัพธ์ได้จริง
+                </p>
+              </div>
+              <div className="w-full h-px bg-white/10" />
+              <div className="pt-10">
+                <div
+                  className="text-white/40 text-xs tracking-widest uppercase mb-4"
+                  style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
+                >
+                  Scale
+                </div>
+                <p className="text-white/70 text-base md:text-lg leading-relaxed" style={{ fontWeight: 300 }}>
+                  สร้างมาเพื่อรองรับ 100 ล้านผู้เรียน ไม่ใช่แค่ 100 คน
+                  โครงสร้างพื้นฐานระดับ enterprise พร้อมประสบการณ์ที่เข้าถึงได้ทุกคน
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════ FEATURES — Service cards ═══════ */}
+      <section
+        className="py-28 md:py-40 px-6 overflow-hidden"
+        style={{ background: 'radial-gradient(ellipse at center, rgba(255,255,255,0.02) 0%, transparent 60%), #0E0E0E' }}
+      >
+        <div className="max-w-6xl mx-auto">
+          <div className="animate-section flex items-end justify-between mb-12 md:mb-16">
+            <h2
+              className="text-3xl md:text-5xl text-white tracking-tight"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+            >
+              ทำไมต้อง Antiparallel
             </h2>
-            <p className="text-base text-gray-400" style={{ fontWeight: 300 }}>
-              ไม่ใช่แค่รู้ทฤษฎี แต่ต้องลงมือทำจริงและเห็นผลลัพธ์
-            </p>
+            <div
+              className="text-white/40 text-sm hidden md:block tracking-widest uppercase"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em' }}
+            >
+              Why Us
+            </div>
           </div>
 
-          {/* Feature grid */}
-          <div className="mx-auto grid max-w-sm gap-12 sm:max-w-none sm:grid-cols-2 md:gap-x-14 md:gap-y-16 lg:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             {[
-              { icon: <Target className="h-5 w-5" />, title: '2 เส้นทาง AI', desc: 'เลือก Entrepreneur สร้างธุรกิจ หรือ Leader บริหารองค์กรด้วย AI' },
-              { icon: <Zap className="h-5 w-5" />, title: 'อัปเดต AI ล่าสุด', desc: 'เนื้อหาอัปเดตตาม AI Tools ใหม่ ทั้ง ChatGPT, Claude, Midjourney' },
-              { icon: <BookOpen className="h-5 w-5" />, title: 'ลงมือทำจริง', desc: 'Workshop และ Project ให้นำ AI ไปใช้ได้ทันที ไม่ใช่แค่นั่งดูวิดีโอ' },
-              { icon: <Shield className="h-5 w-5" />, title: 'รับประกันความพอใจ', desc: 'ไม่พอใจ คืนเงิน 100% ภายใน 30 วัน ไม่มีเงื่อนไข' },
-              { icon: <Brain className="h-5 w-5" />, title: 'สอนโดยผู้เชี่ยวชาญ', desc: 'จากผู้เชี่ยวชาญที่นำ AI ไปใช้จริงในธุรกิจและองค์กร' },
-              { icon: <Users className="h-5 w-5" />, title: 'ชุมชนผู้เรียน', desc: 'เรียนรู้ร่วมกับชุมชนผู้สนใจ AI และแลกเปลี่ยนประสบการณ์' },
+              { tag: 'Intelligence', icon: <Brain className="h-5 w-5" />, title: 'AI-Native Learning', desc: 'ระบบเรียนรู้ที่ปรับตัวตามผู้เรียน ใช้ AI ออกแบบเส้นทางที่เหมาะสมที่สุดสำหรับแต่ละคน' },
+              { tag: 'Precision', icon: <Target className="h-5 w-5" />, title: 'เนื้อหาที่ใช้ได้จริง', desc: 'ไม่มีทฤษฎีที่ไม่จำเป็น Workshop และ Project ให้นำ AI ไปใช้ได้ทันที' },
+              { tag: 'Scale', icon: <Users className="h-5 w-5" />, title: 'Built for 100M', desc: 'โครงสร้างพื้นฐานระดับ enterprise รองรับผู้เรียนจำนวนมหาศาล เข้าถึงได้จากทุกที่' },
+              { tag: 'Humanity', icon: <Shield className="h-5 w-5" />, title: 'เทคโนโลยีเพื่อคน', desc: 'รับประกันความพอใจ 100% เพราะเราเชื่อว่าทุกคนสมควรได้เรียนรู้ AI อย่างมีคุณภาพ' },
             ].map((feature, i) => (
-              <article key={i} className="feature-item">
-                <div
-                  className="mb-3 flex h-10 w-10 items-center justify-center text-mint-400"
-                  style={{ background: '#1A1A1A', border: '0.5px solid rgba(0,255,180,0.12)', borderRadius: '2px' }}
-                >
-                  {feature.icon}
+              <div key={i} className="feature-item liquid-glass rounded-3xl overflow-hidden group">
+                <div className="p-6 md:p-8">
+                  <div className="flex items-start justify-between mb-6">
+                    <span
+                      className="text-white/40 text-xs tracking-widest uppercase"
+                      style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.15em' }}
+                    >
+                      {feature.tag}
+                    </span>
+                    <div className="liquid-glass rounded-full p-2.5 text-mint-400">
+                      {feature.icon}
+                    </div>
+                  </div>
+                  <h3
+                    className="text-white text-xl md:text-2xl mb-3 tracking-tight"
+                    style={{ fontFamily: 'var(--font-serif)', fontWeight: 400 }}
+                  >
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/50 text-sm leading-relaxed" style={{ fontWeight: 300 }}>
+                    {feature.desc}
+                  </p>
                 </div>
-                <h3 className="mb-1 text-base text-gray-100" style={{ fontWeight: 400 }}>
-                  {feature.title}
-                </h3>
-                <p className="text-sm text-gray-400 leading-relaxed" style={{ fontWeight: 300 }}>
-                  {feature.desc}
-                </p>
-              </article>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ═══════ TESTIMONIALS ═══════ */}
-      <section className="relative px-4 sm:px-6 max-w-6xl mx-auto py-12 md:py-20">
-        {/* Section divider */}
-        <div style={{ height: '0.5px', background: 'rgba(0,255,180,0.12)' }} />
-
-        <div className="pt-12 md:pt-20">
-          {/* Section header */}
-          <div className="animate-section mx-auto max-w-3xl pb-12 text-center md:pb-16">
-            <div className="pb-3" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase' as const, color: '#00FFBA' }}>
+      {/* ═══════ TESTIMONIALS — Glass cards ═══════ */}
+      <section className="py-28 md:py-40 px-6 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <div className="animate-section flex items-end justify-between mb-12 md:mb-16">
+            <h2
+              className="text-3xl md:text-5xl text-white tracking-tight"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+            >
               เสียงจากผู้เรียน
-            </div>
-            <h2 className="pb-4 text-3xl md:text-4xl text-gray-100" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.01em' }}>
-              ผู้เรียนของเราพูดว่าอะไร
             </h2>
-            <p className="text-base text-gray-400" style={{ fontWeight: 300 }}>
-              ดูผลลัพธ์จริงจากผู้ที่เรียนจบและนำ AI ไปใช้งานได้แล้ว
-            </p>
+            <div
+              className="text-white/40 text-sm hidden md:block tracking-widest uppercase"
+              style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.2em' }}
+            >
+              Testimonials
+            </div>
           </div>
 
-          {/* Testimonials grid — Brandbook card style */}
-          <div className="mx-auto grid max-w-sm items-start gap-[0.5px] sm:max-w-none sm:grid-cols-2 lg:grid-cols-3" style={{ background: 'rgba(0,255,180,0.12)' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {TESTIMONIALS.map((testimonial, i) => (
               <article
                 key={i}
-                className="testimonial-card p-6"
-                style={{ background: '#141414' }}
+                className="testimonial-card liquid-glass rounded-3xl p-6 md:p-8"
               >
-                <div className="flex flex-col gap-4">
-                  <p className="text-sm text-gray-400 leading-relaxed" style={{ fontWeight: 300 }}>
+                <div className="flex flex-col gap-6">
+                  <p className="text-white/70 text-sm leading-relaxed flex-1" style={{ fontWeight: 300 }}>
                     &ldquo;{testimonial.content}&rdquo;
                   </p>
                   <div className="flex items-center gap-3">
                     <div
-                      className="flex h-9 w-9 shrink-0 items-center justify-center text-mint-400 text-sm"
-                      style={{ background: 'rgba(0,255,186,0.06)', border: '1px solid rgba(0,255,186,0.2)', borderRadius: '50%', fontWeight: 500 }}
+                      className="flex h-10 w-10 shrink-0 items-center justify-center text-mint-400 text-sm liquid-glass rounded-full"
+                      style={{ fontWeight: 500 }}
                     >
                       {testimonial.name.charAt(0)}
                     </div>
-                    <div className="text-sm">
-                      <span className="text-gray-200" style={{ fontWeight: 400 }}>{testimonial.name}</span>
-                      <span className="text-gray-700"> &mdash; </span>
-                      <span className="text-gray-500" style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.05em' }}>{testimonial.role}</span>
+                    <div>
+                      <div className="text-white text-sm" style={{ fontWeight: 400 }}>{testimonial.name}</div>
+                      <div
+                        className="text-white/40"
+                        style={{ fontFamily: 'var(--font-mono)', fontSize: '10px', letterSpacing: '0.05em' }}
+                      >
+                        {testimonial.role}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -402,25 +536,32 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════ CTA ═══════ */}
-      <section className="relative overflow-hidden px-4 sm:px-6 max-w-6xl mx-auto py-12 md:py-20">
-        {/* Section divider */}
-        <div style={{ height: '0.5px', background: 'rgba(0,255,180,0.12)' }} />
-
-        <div className="py-12 md:py-20 mt-12 md:mt-20" style={{ background: '#141414', border: '0.5px solid rgba(0,255,180,0.12)', borderRadius: '2px' }}>
-          <div className="animate-section mx-auto max-w-3xl text-center px-6">
-            <h2 className="pb-8 text-3xl md:text-4xl text-gray-100" style={{ fontFamily: 'var(--font-serif)', fontWeight: 300, letterSpacing: '-0.01em' }}>
-              พร้อมเริ่มเรียน AI แล้วหรือยัง?
+      {/* ═══════ CTA — Final glass card ═══════ */}
+      <section className="pb-20 md:pb-32 px-6 overflow-hidden">
+        <div className="max-w-4xl mx-auto">
+          <div className="animate-section liquid-glass rounded-3xl p-10 md:p-16 text-center">
+            <h2
+              className="text-3xl md:text-5xl text-white tracking-tight mb-6"
+              style={{ fontFamily: 'var(--font-serif)', fontWeight: 300 }}
+            >
+              พร้อมเริ่มเรียน <em className="italic text-white/60">AI</em> แล้วหรือยัง?
             </h2>
-            <p className="text-base text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto" style={{ fontWeight: 300 }}>
+            <p className="text-white/60 text-base leading-relaxed mb-10 max-w-xl mx-auto" style={{ fontWeight: 300 }}>
               เริ่มต้นเส้นทาง AI วันนี้ เรียนรู้จากผู้เชี่ยวชาญ ลงมือทำจริง และนำไปใช้ได้ทันที
             </p>
-            <div className="mx-auto max-w-xs sm:flex sm:max-w-none sm:justify-center gap-4">
-              <Link href="/courses" className="btn-primary group mb-4 w-full sm:mb-0 sm:w-auto">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/courses"
+                className="rounded-full px-8 py-3 text-sm font-medium transition-colors hover:opacity-90 inline-flex items-center justify-center gap-2"
+                style={{ background: '#00FFBA', color: '#0E0E0E' }}
+              >
                 เริ่มเรียน AI เลย
-                <ArrowRight className="h-4 w-4 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/exams" className="btn-secondary w-full sm:w-auto">
+              <Link
+                href="/exams"
+                className="liquid-glass rounded-full px-8 py-3 text-white text-sm font-medium hover:bg-white/5 transition-colors inline-flex items-center justify-center"
+              >
                 ประเมินความพร้อมด้าน AI
               </Link>
             </div>
