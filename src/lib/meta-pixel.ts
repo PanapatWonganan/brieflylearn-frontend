@@ -229,3 +229,92 @@ export function trackLead(goals: string[], interests: string[], experienceLevel:
     num_items: goals.length + interests.length,
   })
 }
+
+// ============================================================
+// Sale page & upsell funnel events
+// ============================================================
+
+/**
+ * Track when user views a sale page (ViewContent with sale_page source)
+ */
+export function trackSalePageView(courseId: string, courseTitle: string, price: number, slug: string): void {
+  trackEvent('ViewContent', {
+    content_type: 'product',
+    content_ids: [courseId],
+    content_name: courseTitle,
+    content_category: 'sale_page',
+    value: price,
+    currency: 'THB',
+    custom_data: { slug },
+  })
+}
+
+/**
+ * Track when user clicks CTA on sale page (AddToCart)
+ * Returns eventId for CAPI deduplication
+ */
+export function trackSalePageCTA(courseId: string, courseTitle: string, price: number): string {
+  const eventId = generateEventId()
+  trackEvent('AddToCart', {
+    content_type: 'product',
+    content_ids: [courseId],
+    content_name: courseTitle,
+    value: price,
+    currency: 'THB',
+  }, eventId)
+  return eventId
+}
+
+/**
+ * Track when user adds an order bump to their purchase
+ */
+export function trackOrderBumpAdd(bumpId: string, bumpTitle: string, price: number, courseId: string): void {
+  trackCustomEvent('OrderBumpAdd', {
+    bump_id: bumpId,
+    bump_title: bumpTitle,
+    value: price,
+    currency: 'THB',
+    course_id: courseId,
+  })
+}
+
+/**
+ * Track when user views the upsell page after purchase
+ */
+export function trackUpsellView(courseId: string, upsellCourseId: string, upsellTitle: string, price: number): void {
+  trackCustomEvent('UpsellView', {
+    course_id: courseId,
+    upsell_course_id: upsellCourseId,
+    upsell_title: upsellTitle,
+    value: price,
+    currency: 'THB',
+  })
+}
+
+/**
+ * Track when user accepts the upsell offer (Purchase event)
+ * Returns eventId for CAPI deduplication
+ */
+export function trackUpsellAccept(upsellCourseId: string, upsellTitle: string, price: number): string {
+  const eventId = generateEventId()
+  trackEvent('Purchase', {
+    content_type: 'product',
+    content_ids: [upsellCourseId],
+    content_name: upsellTitle,
+    value: price,
+    currency: 'THB',
+    num_items: 1,
+    custom_data: { source: 'upsell' },
+  }, eventId)
+  return eventId
+}
+
+/**
+ * Track when user declines the upsell offer
+ */
+export function trackUpsellDecline(courseId: string, upsellCourseId: string): void {
+  trackCustomEvent('UpsellDecline', {
+    course_id: courseId,
+    upsell_course_id: upsellCourseId,
+  })
+}
