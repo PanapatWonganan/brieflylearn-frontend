@@ -8,6 +8,7 @@ import { useNotificationHelpers, useNotification } from "@/contexts/Notification
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuClosing, setIsMenuClosing] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { user, logout, loading, isAuthenticated } = useAuth();
@@ -17,18 +18,42 @@ export function Header() {
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 10);
-      // Close mobile menu on scroll
-      if (isMenuOpen) setIsMenuOpen(false);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Close drawer with exit animation
+  const closeMenu = () => {
+    if (!isMenuOpen || isMenuClosing) return;
+    setIsMenuClosing(true);
+    window.setTimeout(() => {
+      setIsMenuOpen(false);
+      setIsMenuClosing(false);
+    }, 240);
+  };
+
+  // Lock body scroll + listen to ESC while drawer is open
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeMenu();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", onKey);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMenuOpen]);
 
   const handleLogout = async () => {
     try {
       await logout();
       success("ออกจากระบบแล้ว", "ขอบคุณที่ใช้บริการ Antiparallel");
-      setIsMenuOpen(false);
+      closeMenu();
     } catch {
       error("เกิดข้อผิดพลาด", "ไม่สามารถออกจากระบบได้");
     }
@@ -229,11 +254,20 @@ export function Header() {
 
           {/* Mobile menu button — larger touch target */}
           <button
-            className="md:hidden p-2.5 text-white/80"
-            onClick={() => { setIsMenuOpen(!isMenuOpen); setIsNotificationOpen(false); }}
-            style={{ minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+            className="flex md:hidden p-2.5 text-white/80 items-center justify-center"
+            onClick={() => {
+              if (isMenuOpen) {
+                closeMenu();
+              } else {
+                setIsMenuOpen(true);
+                setIsNotificationOpen(false);
+              }
+            }}
+            aria-label={isMenuOpen ? "ปิดเมนู" : "เปิดเมนู"}
+            aria-expanded={isMenuOpen}
+            style={{ minWidth: '44px', minHeight: '44px' }}
           >
-            {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+            <Menu className="h-5 w-5" />
           </button>
         </div>
       </nav>
@@ -243,67 +277,115 @@ export function Header() {
         <div className="fixed inset-0 z-20" onClick={() => setIsNotificationOpen(false)} />
       )}
 
-      {/* Mobile nav — full-width dropdown */}
+      {/* Mobile side drawer */}
       {isMenuOpen && (
-        <div className="md:hidden mx-3 sm:mx-auto sm:max-w-5xl mt-2 liquid-glass rounded-2xl px-2 py-3">
-          <nav className="flex flex-col">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-base text-white/80 hover:text-white py-3 px-4 rounded-xl hover:bg-white/5 transition-colors"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
+        <div className="md:hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="เมนูหลัก">
+          {/* Backdrop */}
+          <div
+            className={`absolute inset-0 ${isMenuClosing ? 'backdrop-exit' : 'backdrop-enter'}`}
+            style={{ background: 'rgba(0, 0, 0, 0.6)', backdropFilter: 'blur(6px)', WebkitBackdropFilter: 'blur(6px)' }}
+            onClick={closeMenu}
+          />
 
-            {/* Auth actions in mobile menu — always visible */}
-            <div className="mt-1 pt-3 mx-3 space-y-1" style={{ borderTop: '1px solid rgba(0,255,186,0.1)' }}>
+          {/* Drawer panel */}
+          <aside
+            className={`absolute top-0 right-0 bottom-0 w-[85%] max-w-[360px] flex flex-col ${isMenuClosing ? 'drawer-exit' : 'drawer-enter'}`}
+            style={{
+              background: '#0E0E0E',
+              borderLeft: '1px solid rgba(0, 255, 186, 0.15)',
+              boxShadow: '-16px 0 48px rgba(0, 0, 0, 0.5)',
+            }}
+          >
+            {/* Drawer header */}
+            <div
+              className="flex items-center justify-between px-5 py-4"
+              style={{ borderBottom: '1px solid rgba(0, 255, 186, 0.08)' }}
+            >
+              <Link href="/" onClick={closeMenu} className="flex items-center gap-2">
+                <svg viewBox="0 0 40 24" width="28" height="17" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                  <ellipse cx="10" cy="12" rx="8" ry="8" fill="none" stroke="#00FFBA" strokeWidth="1" />
+                  <ellipse cx="20" cy="12" rx="8" ry="8" fill="none" stroke="#00FFBA" strokeWidth="1" />
+                  <ellipse cx="30" cy="12" rx="8" ry="8" fill="none" stroke="#00FFBA" strokeWidth="1" />
+                  <line x1="12" y1="7" x2="28" y2="7" stroke="#00FFBA" strokeWidth="0.5" opacity="0.5" />
+                  <line x1="12" y1="10" x2="28" y2="10" stroke="#00FFBA" strokeWidth="0.5" opacity="0.5" />
+                  <line x1="12" y1="14" x2="28" y2="14" stroke="#00FFBA" strokeWidth="0.5" opacity="0.5" />
+                  <line x1="12" y1="17" x2="28" y2="17" stroke="#00FFBA" strokeWidth="0.5" opacity="0.5" />
+                </svg>
+                <span className="text-white font-semibold text-base tracking-tight" style={{ fontFamily: 'var(--font-serif)' }}>
+                  Antiparallel
+                </span>
+              </Link>
+              <button
+                onClick={closeMenu}
+                aria-label="ปิดเมนู"
+                className="p-2.5 text-white/70 hover:text-white transition-colors"
+                style={{ minWidth: '44px', minHeight: '44px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Nav items */}
+            <nav className="flex-1 overflow-y-auto px-3 py-4">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={closeMenu}
+                  className="block text-base text-white/85 hover:text-white py-4 px-4 rounded-sm hover:bg-white/5 transition-colors"
+                  style={{ fontFamily: 'var(--font-thai-sans)' }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Auth section */}
+            <div
+              className="px-5 py-5"
+              style={{ borderTop: '1px solid rgba(0, 255, 186, 0.08)' }}
+            >
               {loading ? (
-                <div className="py-3 px-1">
-                  <div className="w-6 h-6 bg-white/10 rounded-full animate-pulse" />
+                <div className="flex items-center gap-3">
+                  <div className="w-9 h-9 bg-white/5 rounded-full animate-pulse" />
+                  <div className="h-3 w-32 bg-white/5 rounded-sm animate-pulse" />
                 </div>
               ) : isAuthenticated && user ? (
-                <>
+                <div className="space-y-1">
                   <Link
                     href="/dashboard"
-                    className="flex items-center gap-3 text-base text-white/80 py-3 px-1 rounded-xl"
-                    onClick={() => setIsMenuOpen(false)}
+                    onClick={closeMenu}
+                    className="flex items-center gap-3 py-3 text-white/90 hover:text-white"
                   >
-                    <div className="w-8 h-8 bg-white/10 rounded-full flex items-center justify-center">
+                    <div className="w-9 h-9 bg-white/5 rounded-full flex items-center justify-center overflow-hidden">
                       {user.avatarUrl ? (
-                        <img
-                          src={user.avatarUrl}
-                          alt={user.fullName || ""}
-                          className="w-8 h-8 rounded-full object-cover"
-                        />
+                        <img src={user.avatarUrl} alt={user.fullName || ""} className="w-9 h-9 rounded-full object-cover" />
                       ) : (
-                        <User className="h-4 w-4 text-white/50" />
+                        <User className="h-4 w-4 text-white/60" />
                       )}
                     </div>
-                    <span>{user.fullName || user.email}</span>
+                    <span className="text-sm truncate">{user.fullName || user.email}</span>
                   </Link>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center gap-3 text-base text-white/40 hover:text-white/70 py-3 px-1 w-full rounded-xl"
+                    className="flex items-center gap-3 py-3 w-full text-white/50 hover:text-white/80 transition-colors"
                   >
                     <LogOut className="h-4 w-4" />
-                    <span>ออกจากระบบ</span>
+                    <span className="text-sm">ออกจากระบบ</span>
                   </button>
-                </>
+                </div>
               ) : (
                 <Link
                   href="/login"
-                  className="flex items-center justify-center gap-2 text-base text-white font-medium py-3 px-4 rounded-full mt-2 transition-colors"
+                  onClick={closeMenu}
+                  className="flex items-center justify-center gap-2 text-base font-medium py-3.5 px-4 rounded-full w-full"
                   style={{ background: '#00FFBA', color: '#0E0E0E' }}
-                  onClick={() => setIsMenuOpen(false)}
                 >
                   เข้าสู่ระบบ
                 </Link>
               )}
             </div>
-          </nav>
+          </aside>
         </div>
       )}
     </header>
