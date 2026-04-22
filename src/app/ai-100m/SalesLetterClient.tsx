@@ -1,10 +1,7 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { startPaysolutionsCheckout } from '@/lib/api/payments';
-import { trackInitiateCheckout } from '@/lib/meta-pixel';
-import { useAuth } from '@/contexts/AuthContextNew';
 
 // ────────────────────────────────────────────────────────────
 //  Editable constants — change VIDEO_URL to your YouTube/Vimeo
@@ -12,143 +9,42 @@ import { useAuth } from '@/contexts/AuthContextNew';
 // ────────────────────────────────────────────────────────────
 const VIDEO_URL = ''; // e.g. 'https://www.youtube.com/embed/VIDEO_ID'
 const PRODUCT_NAME = 'AI ฿100M Blueprint';
+const BASE_PRICE = 19900;
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1';
-// Optional: hardcode after seeding to skip the title-lookup round-trip.
-const COURSE_ID_FROM_ENV = process.env.NEXT_PUBLIC_AI100M_COURSE_ID || '';
+const PREFILL_KEY = 'ai100m_checkout_prefill';
 
 type BumpKey = 'press' | 'dwy';
 
-interface BumpConfig {
-  key: BumpKey;
-  price: number;
-  label: string;
-}
-
-const BUMPS: BumpConfig[] = [
-  { key: 'press', price: 1990, label: 'The PRESS Method™ Playbook' },
-  { key: 'dwy', price: 4900, label: 'Done-With-You (Group Coaching 6 ครั้ง)' },
-];
-
-const BASE_PRICE = 19900;
-
-async function lookupCourseIdByTitle(title: string): Promise<string | null> {
-  try {
-    const res = await fetch(`${API_BASE_URL}/courses`, {
-      headers: { Accept: 'application/json' },
-      cache: 'no-store',
-    });
-    if (!res.ok) return null;
-    const data = await res.json();
-    const list = Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : [];
-    const match = list.find(
-      (c: { id: string; title: string }) =>
-        c?.title?.trim() === title || c?.title?.includes('AI ฿100M Blueprint')
-    );
-    return match?.id ?? null;
-  } catch {
-    return null;
-  }
-}
-
 export default function SalesLetterClient() {
   const router = useRouter();
-  const { isAuthenticated, loading: authLoading } = useAuth();
 
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
   const [bumps, setBumps] = useState<Record<BumpKey, boolean>>({ press: true, dwy: false });
-  const [submitting, setSubmitting] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Hidden form used to POST the Paysolutions hosted-page fields
-  const formRef = useRef<HTMLFormElement | null>(null);
-  const [formAction, setFormAction] = useState<string | null>(null);
-  const [formFields, setFormFields] = useState<Record<string, string>>({});
 
   // Calculate order total (base + enabled bumps)
-  const bumpTotal = BUMPS.reduce((sum, b) => (bumps[b.key] ? sum + b.price : sum), 0);
+  const bumpPrices = { press: 1990, dwy: 4900 };
+  const bumpTotal =
+    (bumps.press ? bumpPrices.press : 0) + (bumps.dwy ? bumpPrices.dwy : 0);
   const grandTotal = BASE_PRICE + bumpTotal;
 
-  useEffect(() => {
-    if (formAction && formRef.current) {
-      formRef.current.submit();
-    }
-  }, [formAction]);
-
-  async function handleSubmit(e: React.FormEvent) {
+  function handleGoToCheckout(e: React.FormEvent) {
     e.preventDefault();
-    setError(null);
-
-    if (!form.name.trim() || !form.email.trim()) {
-      setError('กรุณากรอกชื่อและอีเมล');
-      return;
-    }
-
-    // Guard: guest users go to login first
-    if (!authLoading && !isAuthenticated) {
-      router.push(`/login?redirect=${encodeURIComponent('/ai-100m')}`);
-      return;
-    }
-
-    setSubmitting(true);
+    // Persist whatever the visitor typed so the checkout page can pre-fill.
+    // No validation here — the checkout page is the enforcement point.
     try {
-      let courseId = COURSE_ID_FROM_ENV;
-      if (!courseId) {
-        const found = await lookupCourseIdByTitle(PRODUCT_NAME);
-        if (!found) {
-          setError(
-            'ขออภัย — ยังไม่พบคอร์สในระบบ กรุณาติดต่อทีมงาน (ต้องรัน AI100MBlueprintSeeder ก่อน)'
-          );
-          setSubmitting(false);
-          return;
-        }
-        courseId = found;
-      }
-
-      const res = await startPaysolutionsCheckout(courseId);
-
-      if (!res.success) {
-        setError(res.message || 'ไม่สามารถเริ่มการชำระเงินได้');
-        setSubmitting(false);
-        return;
-      }
-
-      if (res.already_paid) {
-        router.replace(`/courses/${courseId}`);
-        return;
-      }
-
-      if (res.free && res.redirect_url) {
-        router.replace(res.redirect_url);
-        return;
-      }
-
-      if (res.url && res.fields) {
-        try {
-          localStorage.setItem(
-            'pending_checkout',
-            JSON.stringify({
-              order_no: res.order_no ?? res.fields.refno ?? '',
-              course_id: courseId,
-              ts: Date.now(),
-            })
-          );
-        } catch {
-          // storage disabled — fallback works via query string
-        }
-        trackInitiateCheckout(courseId, Number(res.fields.total ?? BASE_PRICE));
-        setFormAction(res.url);
-        setFormFields(res.fields);
-        // submitting stays true — page is about to redirect
-        return;
-      }
-
-      setError('ไม่ได้รับข้อมูลช่องทางชำระเงิน');
-      setSubmitting(false);
+      localStorage.setItem(
+        PREFILL_KEY,
+        JSON.stringify({
+          name: form.name,
+          email: form.email,
+          phone: form.phone,
+          bumps,
+        })
+      );
     } catch {
-      setError('เกิดข้อผิดพลาด — กรุณาลองใหม่');
-      setSubmitting(false);
+      // storage disabled — checkout will start fresh, that's fine
     }
+    router.push('/ai-100m/checkout');
   }
 
   return (
@@ -296,8 +192,8 @@ export default function SalesLetterClient() {
         ผู้ก่อตั้ง · AI-100M BLUEPRINT
       </div>
 
-      {/* ORDER FORM */}
-      <form className="order" onSubmit={handleSubmit} noValidate>
+      {/* ORDER FORM — submit navigates to /ai-100m/checkout */}
+      <form className="order" onSubmit={handleGoToCheckout} noValidate>
         <div className="step-head">
           <div className="num">1</div>
           <div>ข้อมูลติดต่อ · Contact</div>
@@ -311,7 +207,7 @@ export default function SalesLetterClient() {
               placeholder="สมชาย ใจดี"
               value={form.name}
               onChange={(e) => setForm({ ...form, name: e.target.value })}
-              required
+              autoComplete="name"
             />
           </div>
           <div className="field">
@@ -322,7 +218,7 @@ export default function SalesLetterClient() {
               placeholder="founder@company.co.th"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
-              required
+              autoComplete="email"
             />
           </div>
           <div className="field">
@@ -332,19 +228,9 @@ export default function SalesLetterClient() {
               placeholder="08 1234 5678"
               value={form.phone}
               onChange={(e) => setForm({ ...form, phone: e.target.value })}
+              autoComplete="tel"
             />
           </div>
-        </div>
-
-        <div className="step-head">
-          <div className="num">2</div>
-          <div>ข้อมูลการชำระเงิน · Payment</div>
-        </div>
-        <div className="payment-info">
-          <strong>ชำระผ่าน Pay Solutions (ปลอดภัย 100%)</strong>
-          เมื่อกดปุ่ม &ldquo;ยืนยันคำสั่งซื้อ&rdquo; ด้านล่าง ระบบจะพาคุณไปยังหน้าชำระเงิน Pay
-          Solutions ซึ่งรองรับ <strong>PromptPay QR</strong> และ <strong>บัตรเครดิต/เดบิต</strong>{' '}
-          (Visa / Mastercard / JCB) — ไม่ต้องกรอกหมายเลขบัตรในหน้านี้
         </div>
 
         {/* ORDER BUMPS */}
@@ -361,7 +247,6 @@ export default function SalesLetterClient() {
             ★ เดี๋ยวก่อน! ข้อเสนอพิเศษครั้งเดียว — เพิ่มเข้าออเดอร์เลย ★
           </div>
 
-          {/* Bump #1 */}
           <div className="bump featured">
             <div className="badge">ยอดนิยม · TOP PICK</div>
             <div className="bump-row">
@@ -395,7 +280,6 @@ export default function SalesLetterClient() {
             </div>
           </div>
 
-          {/* Bump #2 */}
           <div className="bump">
             <div className="bump-row">
               <input
@@ -455,19 +339,12 @@ export default function SalesLetterClient() {
             <span>ยอดรวมวันนี้</span>
             <span className="accent">฿{grandTotal.toLocaleString()}</span>
           </div>
-          {(bumps.press || bumps.dwy) && (
-            <p className="small italic" style={{ marginTop: 10, opacity: 0.7 }}>
-              * ขณะนี้ระบบชำระเงินรองรับคอร์สหลักก่อน — ทีมงานจะติดต่อเพื่อส่งโบนัส/อัปเกรดเพิ่มเติม
-              หลังได้รับการยืนยันชำระเงิน
-            </p>
-          )}
         </div>
 
         <div style={{ padding: '0 18px 20px' }}>
-          <button type="submit" className="btn" disabled={submitting}>
-            {submitting ? 'กำลังเชื่อมต่อ Pay Solutions…' : '🔒 ยืนยันคำสั่งซื้อเลย →'}
+          <button type="submit" className="btn">
+            🔒 ยืนยันคำสั่งซื้อเลย →
           </button>
-          {error && <div className="error-msg">{error}</div>}
           <div
             style={{
               textAlign: 'center',
@@ -490,21 +367,6 @@ export default function SalesLetterClient() {
           </p>
         </div>
       </form>
-
-      {/* Hidden Paysolutions redirect form */}
-      {formAction && (
-        <form
-          ref={formRef}
-          method="POST"
-          action={formAction}
-          style={{ display: 'none' }}
-          aria-hidden
-        >
-          {Object.entries(formFields).map(([k, v]) => (
-            <input key={k} type="hidden" name={k} value={String(v)} />
-          ))}
-        </form>
-      )}
 
       {/* GUARANTEE */}
       <div className="seal-wrap">
