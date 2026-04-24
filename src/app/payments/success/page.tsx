@@ -9,6 +9,7 @@ import { trackPurchase } from '@/lib/meta-pixel';
 type StashedCheckout = {
   order_no?: string;
   course_id?: string;
+  content_type?: 'video' | 'playbook';
   ts?: number;
 };
 
@@ -34,14 +35,18 @@ function PaymentSuccessInner() {
   const [orderNo, setOrderNo] = useState<string>(queryOrderNo);
   const [data, setData] = useState<PaymentStatusResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [stashedContentType, setStashedContentType] = useState<'video' | 'playbook' | null>(null);
 
   // Fallback to stashed checkout if the hosted page dropped the refno.
   useEffect(() => {
+    const stash = readStashedCheckout();
+    if (stash?.content_type) {
+      setStashedContentType(stash.content_type);
+    }
     if (queryOrderNo) {
       setOrderNo(queryOrderNo);
       return;
     }
-    const stash = readStashedCheckout();
     if (stash?.order_no) {
       setOrderNo(stash.order_no);
     } else {
@@ -133,9 +138,15 @@ function PaymentSuccessInner() {
         </div>
 
         {courseId ? (
-          <Link href={`/courses/${courseId}`} className="btn-primary inline-block w-full">
-            เริ่มเรียนเลย
-          </Link>
+          stashedContentType === 'playbook' ? (
+            <Link href={`/playbooks/${courseId}`} className="btn-primary inline-block w-full">
+              เปิดอ่าน Playbook
+            </Link>
+          ) : (
+            <Link href={`/courses/${courseId}`} className="btn-primary inline-block w-full">
+              เริ่มเรียนเลย
+            </Link>
+          )
         ) : (
           <Link href="/dashboard" className="btn-primary inline-block w-full">
             ไปยังแดชบอร์ด

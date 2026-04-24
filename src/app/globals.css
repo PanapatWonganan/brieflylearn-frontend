@@ -428,3 +428,93 @@ html.lenis body {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+
+/* ── Playbook article typography (scoped) ── */
+.playbook-article {
+  font-family: "DM Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  line-height: 1.75;
+  font-size: 1.0625rem;
+}
+.playbook-article h1,
+.playbook-article h2,
+.playbook-article h3,
+.playbook-article h4 {
+  color: #f2f2f0;
+  font-weight: 600;
+  margin-top: 2.25rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.25;
+}
+.playbook-article h1 { font-size: 2rem; }
+.playbook-article h2 { font-size: 1.5rem; }
+.playbook-article h3 { font-size: 1.25rem; }
+.playbook-article p {
+  margin-bottom: 1.25rem;
+  color: #d0d0cc;
+}
+.playbook-article a {
+  color: #00ffba;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.playbook-article strong { color: #f2f2f0; }
+.playbook-article ul,
+.playbook-article ol {
+  margin: 1rem 0 1.5rem 1.5rem;
+  color: #d0d0cc;
+}
+.playbook-article li { margin-bottom: 0.5rem; }
+.playbook-article blockquote {
+  border-left: 2px solid #00ffba;
+  padding: 0.5rem 0 0.5rem 1.25rem;
+  margin: 1.5rem 0;
+  color: #b8b8b4;
+  font-style: italic;
+}
+.playbook-article code {
+  font-family: "DM Mono", monospace;
+  background: rgba(0, 255, 186, 0.08);
+  color: #00ffba;
+  padding: 0.15rem 0.4rem;
+  font-size: 0.92em;
+  border-radius: 2px;
+}
+.playbook-article pre {
+  background: #0a0a0a;
+  border: 1px solid rgba(0, 255, 186, 0.15);
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  border-radius: 2px;
+}
+.playbook-article pre code {
+  background: transparent;
+  color: #d0d0cc;
+  padding: 0;
+}
+.playbook-article img {
+  max-width: 100%;
+  height: auto;
+  margin: 1.5rem 0;
+  border-radius: 2px;
+}
+.playbook-article hr {
+  border: 0;
+  border-top: 1px solid rgba(242, 242, 240, 0.08);
+  margin: 2.5rem 0;
+}
+.playbook-article table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+.playbook-article th,
+.playbook-article td {
+  border: 1px solid rgba(242, 242, 240, 0.12);
+  padding: 0.6rem 0.9rem;
+  text-align: left;
+}
+.playbook-article th {
+  background: rgba(0, 255, 186, 0.05);
+  color: #f2f2f0;
+}
