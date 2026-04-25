@@ -15,11 +15,35 @@ const PREFILL_KEY = 'ai100m_checkout_prefill';
 
 type BumpKey = 'press' | 'dwy';
 
+const FAQS: { q: string; a: string }[] = [
+  {
+    q: 'ต้องมีธุรกิจอยู่แล้วไหม?',
+    a: 'ไม่จำเป็นครับ มีโมดูลสำหรับคนที่ยังไม่ได้เริ่มต้น คุณจะได้เฟรมเวิร์กเลือกตลาด/สินค้า/ออฟเฟอร์ก่อนลงมือ แต่ถ้ามีธุรกิจอยู่แล้ว คุณจะเห็นผลเร็วขึ้นมาก เพราะเอา AI ไปต่อยอดของเดิมได้ทันที',
+  },
+  {
+    q: 'ใช้เวลากี่ชั่วโมงต่อสัปดาห์?',
+    a: 'แนะนำ 3–5 ชั่วโมง/สัปดาห์ ดูย้อนหลังได้ทุกบทเรียน ไม่มีตารางบังคับ ทำตามจังหวะตัวเองได้เต็มที่ เน้นลงมือทำตาม playbook ทีละสเต็ป',
+  },
+  {
+    q: 'นี่เป็นแค่ "คอร์ส AI" ทั่วไปอีกคอร์สหรือเปล่า?',
+    a: 'ไม่ใช่ครับ นี่คือ blueprint การสร้างรายได้ ฿100M ด้วย AI — ไม่ได้สอนแค่เขียน prompt แต่สอนวิธีออกแบบระบบธุรกิจที่มี AI เป็นแกน ตั้งแต่ market, offer, funnel, sales, fulfillment ครบลูป',
+  },
+  {
+    q: 'ไม่มีพื้น tech เรียนได้ไหม?',
+    a: 'ได้ครับ ออกแบบมาเพื่อนักธุรกิจ/เจ้าของแบรนด์ที่ไม่ใช่สาย tech โดยเฉพาะ ทุกขั้นตอนมี playbook + ตัวอย่าง prompt + วิดีโอจอ ให้ทำตามได้ทันทีโดยไม่ต้องเขียนโค้ด',
+  },
+  {
+    q: 'เมื่อไหร่ถึงจะได้เข้าเรียน?',
+    a: 'ทันทีที่ชำระเงินเสร็จครับ ระบบปลดล็อกเนื้อหาให้อัตโนมัติ เข้าเรียนได้ตลอด 24 ชม. และดูย้อนหลังได้ไม่จำกัดเวลา',
+  },
+];
+
 export default function SalesLetterClient() {
   const router = useRouter();
 
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
   const [bumps, setBumps] = useState<Record<BumpKey, boolean>>({ press: true, dwy: false });
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   // Calculate order total (base + enabled bumps)
   const bumpPrices = { press: 1990, dwy: 4900 };
@@ -408,22 +432,30 @@ export default function SalesLetterClient() {
       <h2 style={{ fontSize: 28, margin: '30px 0 14px', textAlign: 'center' }}>
         คำถามที่คุณอาจสงสัย…
       </h2>
-      <div className="faq-q">
-        ต้องมีธุรกิจอยู่แล้วไหม? <span style={{ float: 'right', opacity: 0.4 }}>+</span>
-      </div>
-      <div className="faq-q">
-        ใช้เวลากี่ชั่วโมงต่อสัปดาห์? <span style={{ float: 'right', opacity: 0.4 }}>+</span>
-      </div>
-      <div className="faq-q">
-        นี่เป็นแค่ &ldquo;คอร์ส AI&rdquo; ทั่วไปอีกคอร์สหรือเปล่า?{' '}
-        <span style={{ float: 'right', opacity: 0.4 }}>+</span>
-      </div>
-      <div className="faq-q">
-        ไม่มีพื้น tech เรียนได้ไหม? <span style={{ float: 'right', opacity: 0.4 }}>+</span>
-      </div>
-      <div className="faq-q">
-        เมื่อไหร่ถึงจะได้เข้าเรียน? <span style={{ float: 'right', opacity: 0.4 }}>+</span>
-      </div>
+      {FAQS.map((item, i) => {
+        const isOpen = openFaq === i;
+        return (
+          <div key={i} className="faq-item">
+            <button
+              type="button"
+              className="faq-q"
+              aria-expanded={isOpen}
+              aria-controls={`faq-a-${i}`}
+              onClick={() => setOpenFaq(isOpen ? null : i)}
+            >
+              <span>{item.q}</span>
+              <span className="faq-toggle" aria-hidden="true">
+                {isOpen ? '−' : '+'}
+              </span>
+            </button>
+            {isOpen && (
+              <div id={`faq-a-${i}`} className="faq-a" role="region">
+                {item.a}
+              </div>
+            )}
+          </div>
+        );
+      })}
 
       {/* P.S. */}
       <div className="ps">
