@@ -146,6 +146,42 @@ export default function SalesLetterClient() {
         <strong>ที่ทำให้นักลงทุนต้องวิ่งเข้าหาคุณเอง&rdquo;</strong>
       </div>
 
+      {/* PROOF — Polaroids of new branches */}
+      <div className="polaroid-strip" aria-label="ภาพถ่ายสาขาใหม่">
+        <figure className="polaroid polaroid-tilt-l">
+          <div className="polaroid-img" data-placeholder>
+            <span className="polaroid-placeholder-text">[ ภาพหน้าสาขา 1 ]</span>
+          </div>
+          <figcaption>
+            <span className="polaroid-caption hand">สาขาใหม่ #1</span>
+            <span className="polaroid-label">เปิด · 2026</span>
+          </figcaption>
+        </figure>
+
+        <figure className="polaroid polaroid-tilt-r">
+          <div className="polaroid-img" data-placeholder>
+            <span className="polaroid-placeholder-text">[ ภาพหน้าสาขา 2 ]</span>
+          </div>
+          <figcaption>
+            <span className="polaroid-caption hand">สาขาใหม่ #2</span>
+            <span className="polaroid-label">เปิด · 2026</span>
+          </figcaption>
+        </figure>
+
+        <figure className="polaroid polaroid-tilt-l">
+          <div className="polaroid-img" data-placeholder>
+            <span className="polaroid-placeholder-text">[ ภาพหน้าสาขา 3 ]</span>
+          </div>
+          <figcaption>
+            <span className="polaroid-caption hand">สาขาใหม่ #3</span>
+            <span className="polaroid-label">เปิด · 2026</span>
+          </figcaption>
+        </figure>
+      </div>
+      <div className="polaroid-note label">
+        ↑ บางส่วนของสาขาที่ขยายในช่วง 14 เดือนที่ผ่านมา
+      </div>
+
       <p>
         คุณอาจจะสงสัยว่า: <em>มันเป็นไปได้จริงสำหรับผมเหรอ?</em>
       </p>
