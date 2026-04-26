@@ -5,6 +5,11 @@ function authToken(): string | null {
   return localStorage.getItem('auth_token') || localStorage.getItem('boostme_token');
 }
 
+export interface CheckoutBumpLineItem {
+  name: string;
+  price: number;
+}
+
 export interface CheckoutResponse {
   success: boolean;
   already_paid?: boolean;
@@ -14,12 +19,25 @@ export interface CheckoutResponse {
   order_no?: string;
   url?: string;
   fields?: Record<string, string>;
+  grand_total?: number | null;
+  bumps?: CheckoutBumpLineItem[];
   enrollment?: {
     id: string;
     course_id: string;
     payment_status: string;
     order_no?: string;
   };
+}
+
+export interface BumpProduct {
+  id: string;
+  slug: string;
+  name: string;
+  description: string | null;
+  price: number;
+  original_price: number | null;
+  deliverable_type: 'playbook_course' | 'group_membership' | 'manual';
+  sort_order: number;
 }
 
 export interface PaymentStatusResponse {
@@ -40,8 +58,16 @@ export interface PaymentStatusResponse {
 /**
  * Create (or reuse) a pending enrollment and return the hosted-page fields
  * the browser must POST to Pay Solutions.
+ *
+ * @param courseId   UUID of the course being purchased
+ * @param bumpSlugs  Optional list of bump-product slugs the buyer added on
+ *                   the checkout page. Backend resolves price + name and
+ *                   sums them into Pay Solutions total.
  */
-export async function startPaysolutionsCheckout(courseId: string): Promise<CheckoutResponse> {
+export async function startPaysolutionsCheckout(
+  courseId: string,
+  bumpSlugs: string[] = []
+): Promise<CheckoutResponse> {
   const token = authToken();
   if (!token) return { success: false, message: 'ยังไม่ได้เข้าสู่ระบบ' };
 
@@ -53,15 +79,40 @@ export async function startPaysolutionsCheckout(courseId: string): Promise<Check
         Accept: 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ course_id: courseId }),
+      body: JSON.stringify({
+        course_id: courseId,
+        bump_slugs: bumpSlugs,
+      }),
     });
     const data = await res.json();
     if (!res.ok) {
       return { success: false, message: data.message || 'ไม่สามารถเริ่มการชำระเงินได้' };
     }
     return data as CheckoutResponse;
-  } catch (e) {
+  } catch {
     return { success: false, message: 'Network error' };
+  }
+}
+
+/**
+ * Public — list of order bumps that apply to the given course. Used by
+ * checkout + sales pages to render the bump selection UI from real DB
+ * data instead of hardcoded mock values.
+ */
+export async function fetchCourseBumps(courseId: string): Promise<BumpProduct[]> {
+  try {
+    const res = await fetch(
+      `${API_BASE_URL}/courses/${encodeURIComponent(courseId)}/bumps`,
+      {
+        headers: { Accept: 'application/json' },
+        cache: 'no-store',
+      }
+    );
+    if (!res.ok) return [];
+    const data = (await res.json()) as { success: boolean; data: BumpProduct[] };
+    return data.data ?? [];
+  } catch {
+    return [];
   }
 }
 

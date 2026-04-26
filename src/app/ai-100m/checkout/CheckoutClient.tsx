@@ -15,9 +15,11 @@ const COURSE_ID_FROM_ENV = process.env.NEXT_PUBLIC_AI100M_COURSE_ID || '';
 const PREFILL_KEY = 'ai100m_checkout_prefill';
 
 type BumpKey = 'press' | 'dwy';
-const BUMP_META: Record<BumpKey, { label: string; price: number }> = {
-  press: { label: 'The PRESS Method™ Playbook', price: 1990 },
-  dwy: { label: 'Done-With-You Upgrade', price: 4900 },
+
+/** UI key → backend slug. Backend resolves price + name from the slug. */
+const BUMP_META: Record<BumpKey, { label: string; price: number; slug: string }> = {
+  press: { label: 'The PRESS Method™ Playbook', price: 1990, slug: 'press-method-playbook' },
+  dwy: { label: 'Done-With-You Upgrade', price: 4900, slug: 'dwy-upgrade' },
 };
 
 interface Prefill {
@@ -174,8 +176,12 @@ export default function CheckoutClient() {
         courseId = found;
       }
 
-      // Step 3: Start Pay Solutions checkout
-      const res = await startPaysolutionsCheckout(courseId);
+      // Step 3: Start Pay Solutions checkout — pass selected bump slugs so
+      // the backend snapshots them as OrderItems and adds them to the total.
+      const selectedBumpSlugs = (Object.keys(bumps) as BumpKey[])
+        .filter((k) => bumps[k])
+        .map((k) => BUMP_META[k].slug);
+      const res = await startPaysolutionsCheckout(courseId, selectedBumpSlugs);
       if (!res.success) {
         setError(res.message || 'ไม่สามารถเริ่มการชำระเงินได้');
         setSubmitting(false);
@@ -202,7 +208,7 @@ export default function CheckoutClient() {
         } catch {
           // best-effort
         }
-        trackInitiateCheckout(courseId, Number(res.fields.total ?? BASE_PRICE));
+        trackInitiateCheckout(courseId, Number(res.fields.total ?? grandTotal));
         setFormAction(res.url);
         setFormFields(res.fields);
         // keep submitting=true; page is about to redirect
@@ -404,8 +410,7 @@ export default function CheckoutClient() {
           </div>
           {(bumps.press || bumps.dwy) && (
             <p className="small italic" style={{ marginTop: 10, opacity: 0.7 }}>
-              * ระบบชำระเงินรองรับคอร์สหลัก ฿{BASE_PRICE.toLocaleString()} ก่อน —
-              ทีมงานจะติดต่อเพื่อส่งโบนัส/อัปเกรดเพิ่มเติมหลังยืนยันชำระเงิน
+              * ระบบจะเพิ่มโบนัสในยอดรวม และส่งมอบให้คุณอัตโนมัติหลังชำระเงินสำเร็จ
             </p>
           )}
         </div>
