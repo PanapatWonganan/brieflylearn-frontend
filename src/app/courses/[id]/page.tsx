@@ -192,7 +192,7 @@ export default function CoursePage() {
 
       {/* Hero Section */}
       <section className="bg-gray-900/50 border-b border-gray-700/50">
-        <div className="max-w-6xl mx-auto px-5 sm:px-8 py-12">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 pt-28 sm:pt-32 pb-12">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
             {/* Course Info - Left 2/3 */}
