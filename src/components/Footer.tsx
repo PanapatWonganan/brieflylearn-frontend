@@ -95,7 +95,7 @@ export function Footer() {
               ติดต่อ
             </h3>
             <ul className="space-y-3 text-sm text-white/60">
-              <li>info@antiparallel.com</li>
+              <li>info@antiparallel.app</li>
               <li>02-987-6543</li>
             </ul>
           </div>

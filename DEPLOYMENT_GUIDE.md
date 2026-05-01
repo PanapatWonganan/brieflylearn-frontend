@@ -147,7 +147,7 @@ php artisan make:filament-user
 
 # Follow prompts:
 # Name: Admin
-# Email: admin@brieflylearn.com
+# Email: admin@antiparallel.app
 # Password: (your secure password)
 ```
 

@@ -103,7 +103,7 @@ export default function PrivacyPage() {
         <div className="max-w-3xl">
           <h2 className="text-xl font-semibold text-gray-200 mb-4">คำนำ</h2>
           <p className="text-sm text-gray-400 leading-relaxed mb-4">
-            Antipararell ("เรา", "บริษัท") ให้ความสำคัญกับการปกป้องข้อมูลส่วนตัวของผู้ใช้บริการ
+            Antiparallel ("เรา", "บริษัท") ให้ความสำคัญกับการปกป้องข้อมูลส่วนตัวของผู้ใช้บริการ
             นโยบายความเป็นส่วนตัวนี้อธิบายวิธีการที่เราเก็บรวบรวม ใช้ และปกป้องข้อมูลของคุณ
             เมื่อคุณใช้บริการแพลตฟอร์มเรียน AI ออนไลน์ของเรา
           </p>
@@ -145,7 +145,7 @@ export default function PrivacyPage() {
                   ติดต่อเรื่องความเป็นส่วนตัว:
                 </p>
                 <div className="space-y-1 text-sm text-gray-400">
-                  <p>อีเมล: privacy@antipararell.com</p>
+                  <p>อีเมล: privacy@antiparallel.app</p>
                   <p>โทรศัพท์: 02-123-4567</p>
                   <p>ที่อยู่: 123 ถนนสุขภาพดี แขวงสุขใจ เขตใจดี กรุงเทพฯ 10110</p>
                 </div>

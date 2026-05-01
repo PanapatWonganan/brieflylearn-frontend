@@ -9,7 +9,7 @@ const sections = [
     title: 'การยอมรับข้อกำหนด',
     icon: FileText,
     content: [
-      'การใช้บริการแพลตฟอร์ม Antipararell ถือว่าคุณยอมรับข้อกำหนดการใช้งานนี้',
+      'การใช้บริการแพลตฟอร์ม Antiparallel ถือว่าคุณยอมรับข้อกำหนดการใช้งานนี้',
       'หากคุณไม่เห็นด้วยกับข้อกำหนดใดๆ กรุณาหยุดการใช้บริการทันที',
       'ข้อกำหนดนี้มีผลบังคับใช้กับผู้ใช้ทุกคนที่เข้าถึงหรือใช้บริการของเรา',
       'คุณต้องมีอายุ 18 ปีขึ้นไป หรือได้รับความยินยอมจากผู้ปกครอง'
@@ -70,7 +70,7 @@ const sections = [
     title: 'ทรัพย์สินทางปัญญา',
     icon: Scale,
     content: [
-      'เนื้อหาทั้งหมดเป็นลิขสิทธิ์ของ Antipararell หรือผู้เชี่ยวชาญของเรา',
+      'เนื้อหาทั้งหมดเป็นลิขสิทธิ์ของ Antiparallel หรือผู้เชี่ยวชาญของเรา',
       'คุณได้รับสิทธิ์ใช้งานส่วนตัวที่ไม่สามารถโอนได้',
       'ห้ามนำเนื้อหาไปใช้เชิงพาณิชย์หรือแจกจ่ายต่อ',
       'โลโก้ ชื่อ และเครื่องหมายการค้าเป็นทรัพย์สินของเรา',
@@ -101,7 +101,7 @@ export default function TermsPage() {
             ข้อกำหนดการใช้งาน
           </h1>
           <p className="text-base text-gray-400 leading-relaxed mb-2">
-            กฎระเบียบและเงื่อนไขสำหรับการใช้บริการ Antipararell
+            กฎระเบียบและเงื่อนไขสำหรับการใช้บริการ Antiparallel
           </p>
           <p className="text-xs text-gray-500">
             อัปเดตล่าสุด: 15 มกราคม 2024
@@ -114,7 +114,7 @@ export default function TermsPage() {
         <div className="max-w-3xl">
           <h2 className="text-xl font-semibold text-gray-200 mb-4">ข้อกำหนดทั่วไป</h2>
           <p className="text-sm text-gray-400 leading-relaxed mb-4">
-            ยินดีต้อนรับสู่ Antipararell แพลตฟอร์มเรียน AI ออนไลน์
+            ยินดีต้อนรับสู่ Antiparallel แพลตฟอร์มเรียน AI ออนไลน์
             ข้อกำหนดการใช้งานนี้ควบคุมการใช้บริการของคุณ
             กรุณาอ่านอย่างละเอียดก่อนใช้บริการ
           </p>
@@ -231,12 +231,12 @@ export default function TermsPage() {
           </p>
           <div className="grid md:grid-cols-2 gap-4 text-sm text-gray-400">
             <div className="space-y-1">
-              <p><span className="font-medium text-gray-200">ชื่อบริษัท:</span> Antipararell</p>
+              <p><span className="font-medium text-gray-200">ชื่อบริษัท:</span> Antiparallel</p>
               <p><span className="font-medium text-gray-200">ที่อยู่:</span> 123 ถนนสุขภาพดี แขวงสุขใจ</p>
               <p>เขตใจดี กรุงเทพฯ 10110</p>
             </div>
             <div className="space-y-1">
-              <p><span className="font-medium text-gray-200">อีเมล:</span> legal@antipararell.com</p>
+              <p><span className="font-medium text-gray-200">อีเมล:</span> legal@antiparallel.app</p>
               <p><span className="font-medium text-gray-200">โทรศัพท์:</span> 02-123-4567</p>
               <p><span className="font-medium text-gray-200">เวลาทำการ:</span> จ-ศ 9:00-18:00 น.</p>
             </div>

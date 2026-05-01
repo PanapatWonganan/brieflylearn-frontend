@@ -1,5 +1,5 @@
 /**
- * Meta Pixel utility functions for Antipararell
+ * Meta Pixel utility functions for Antiparallel
  * Handles browser-side event tracking + event_id generation for CAPI deduplication
  */
 
@@ -89,7 +89,7 @@ export function trackPageView(): void {
 }
 
 // ============================================================
-// Convenience functions for Antipararell-specific events
+// Convenience functions for Antiparallel-specific events
 // ============================================================
 
 /**

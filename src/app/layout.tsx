@@ -50,34 +50,34 @@ const trirong = Trirong({
 });
 
 export const metadata: Metadata = {
-  title: "Antipararell - AI Lessons Reach 100 Millions Company",
+  title: "Antiparallel - AI Lessons Reach 100 Millions Company",
   description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร ครอบคลุม Prompt Engineering, AI Automation และอีกมากมาย",
-  keywords: "AI, เรียน AI, Antipararell, AI Learning, Prompt Engineering, AI Automation, LMS, คอร์ส AI",
-  authors: [{ name: "Antipararell" }],
-  creator: "Antipararell",
-  publisher: "Antipararell",
+  keywords: "AI, เรียน AI, Antiparallel, AI Learning, Prompt Engineering, AI Automation, LMS, คอร์ส AI",
+  authors: [{ name: "Antiparallel" }],
+  creator: "Antiparallel",
+  publisher: "Antiparallel",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL("https://antipararell.com"),
+  metadataBase: new URL("https://antiparallel.app"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
-    title: "Antipararell - AI Lessons Reach 100 Millions Company",
+    title: "Antiparallel - AI Lessons Reach 100 Millions Company",
     description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
-    url: "https://antipararell.com",
-    siteName: "Antipararell",
+    url: "https://antiparallel.app",
+    siteName: "Antiparallel",
     locale: "th_TH",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Antipararell - AI Lessons Reach 100 Millions Company",
+    title: "Antiparallel - AI Lessons Reach 100 Millions Company",
     description: "แพลตฟอร์ม AI Learning ระดับโลก เรียนรู้ AI สร้างธุรกิจ & บริหารองค์กร",
-    creator: "@antipararell",
+    creator: "@antiparallel",
   },
   robots: {
     index: true,

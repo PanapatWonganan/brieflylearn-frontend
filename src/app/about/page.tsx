@@ -44,7 +44,7 @@ export default function About() {
   const milestones = [
     {
       year: "2024",
-      title: "ก่อตั้ง Antipararell",
+      title: "ก่อตั้ง Antiparallel",
       description: "เริ่มต้นด้วยวิสัยทัศน์ช่วยคนไทยนำ AI ไปใช้สร้างธุรกิจและบริหารองค์กร"
     },
     {
@@ -144,7 +144,7 @@ export default function About() {
             </div>
 
             <div className="bg-gray-900 rounded-sm p-8 border border-gray-700/50 shadow-card">
-              <h3 className="text-2xl font-bold text-gray-200 mb-6">ทำไมถึงเลือก Antipararell?</h3>
+              <h3 className="text-2xl font-bold text-gray-200 mb-6">ทำไมถึงเลือก Antiparallel?</h3>
 
               <div className="space-y-6 text-gray-400 leading-relaxed">
                 <p>
@@ -154,12 +154,12 @@ export default function About() {
                   คอร์ส AI ที่มีอยู่มักเน้นทฤษฎีเทคนิค ขาดการเชื่อมโยงกับการใช้งานจริงในธุรกิจและองค์กร
                 </p>
                 <p>
-                  เราจึงสร้าง Antipararell เพื่อให้ทุกคนเรียนรู้ AI แล้วนำไปใช้ได้จริง
+                  เราจึงสร้าง Antiparallel เพื่อให้ทุกคนเรียนรู้ AI แล้วนำไปใช้ได้จริง
                   ไม่ว่าจะสร้างธุรกิจส่วนตัวหรือบริหารทีมในองค์กร
                 </p>
 
                 <p className="text-gray-200 font-medium pt-4">
-                  - ทีมก่อตั้ง Antipararell
+                  - ทีมก่อตั้ง Antiparallel
                 </p>
               </div>
             </div>
@@ -214,7 +214,7 @@ export default function About() {
               เส้นทางความสำเร็จ
             </h2>
             <p className="text-xl text-gray-400">
-              การเติบโตและพัฒนาของ Antipararell
+              การเติบโตและพัฒนาของ Antiparallel
             </p>
           </div>
 
@@ -311,7 +311,7 @@ export default function About() {
           </h2>
 
           <p className="text-xl text-gray-400 mb-8">
-            เข้าร่วมกับผู้เรียนกว่า 3,200 คนที่กำลังเรียนรู้ AI เพื่อสร้างอนาคตกับ Antipararell
+            เข้าร่วมกับผู้เรียนกว่า 3,200 คนที่กำลังเรียนรู้ AI เพื่อสร้างอนาคตกับ Antiparallel
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

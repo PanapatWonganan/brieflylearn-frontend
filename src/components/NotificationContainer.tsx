@@ -5,7 +5,7 @@ import { useNotification } from '@/contexts/NotificationContext';
 import { X, CheckCircle, AlertCircle, AlertTriangle, Info } from 'lucide-react';
 
 /**
- * Toast notifications — Antipararell dark theme.
+ * Toast notifications — Antiparallel dark theme.
  * Uses mint (brand) / surface / error / warning tokens from globals.css.
  * Solid dark surface backgrounds + high-contrast text for legibility.
  */

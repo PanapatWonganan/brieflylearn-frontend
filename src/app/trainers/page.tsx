@@ -21,7 +21,7 @@ const instructors = [
       'Google Cloud Professional Machine Learning Engineer',
       'ที่ปรึกษา AI Transformation, SCB, AIS, PTT'
     ],
-    email: 'nattapon@antipararell.com'
+    email: 'nattapon@antiparallel.app'
   },
   {
     id: 2,
@@ -40,7 +40,7 @@ const instructors = [
       'Certified Prompt Engineer, DeepLearning.AI',
       'วิทยากร AI Literacy, DEPA Thailand'
     ],
-    email: 'chanika@antipararell.com'
+    email: 'chanika@antiparallel.app'
   },
   {
     id: 3,
@@ -59,7 +59,7 @@ const instructors = [
       'รองศาสตราจารย์ คณะวิศวกรรมศาสตร์ จุฬาลงกรณ์มหาวิทยาลัย',
       'ที่ปรึกษา Digital Transformation, ธนาคารแห่งประเทศไทย'
     ],
-    email: 'worapoj@antipararell.com'
+    email: 'worapoj@antiparallel.app'
   },
   {
     id: 4,
@@ -78,7 +78,7 @@ const instructors = [
       'OpenAI API Developer',
       'ผู้เขียนคอลัมน์ "AI for Business" Forbes Thailand'
     ],
-    email: 'thanawat@antipararell.com'
+    email: 'thanawat@antiparallel.app'
   }
 ]
 
@@ -191,7 +191,7 @@ export default function InstructorsPage() {
             </h3>
             <p className="text-gray-400 mb-8">
               หากคุณเป็นผู้เชี่ยวชาญด้าน AI, Data Science หรือ Digital Transformation
-              มีประสบการณ์การสอนหรือนำ AI ไปใช้จริงในธุรกิจและองค์กร เรายินดีต้อนรับคุณเข้าสู่ทีมผู้สอนของ Antipararell
+              มีประสบการณ์การสอนหรือนำ AI ไปใช้จริงในธุรกิจและองค์กร เรายินดีต้อนรับคุณเข้าสู่ทีมผู้สอนของ Antiparallel
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

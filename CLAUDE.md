@@ -8,7 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 - **Stack**: Next.js 15.4.4 (App Router, Turbopack) + React 19 + TypeScript 5 (strict) + Tailwind CSS v4
 - **Port**: 3000 in dev
-- **Backend**: `NEXT_PUBLIC_API_URL` → `http://localhost:8001/api/v1` in dev, `https://api.brieflylearn.com/api/v1` in prod
+- **Backend**: `NEXT_PUBLIC_API_URL` → `http://localhost:8001/api/v1` in dev, `https://api.antiparallel.app/api/v1` in prod
 
 > **README.md is stale.** It still advertises "BoostMe" / Supabase / women's-health branding. The real stack is a custom Laravel token-auth API (not Supabase) and the product is a general AI/business LMS. Trust this file and the code, not `README.md`.
 
@@ -121,7 +121,7 @@ Env: `NEXT_PUBLIC_META_PIXEL_ID` (set in `.env.local`). Full funnel spec: `docs/
 ### ESLint (`eslint.config.mjs`)
 Two rules are softened from error to warn: `@typescript-eslint/no-explicit-any` and `react/no-unescaped-entities`. Don't re-enable them as errors without fixing every offender first; many existing pages use `any` intentionally for API shapes that still churn.
 
-## Design System — Antipararell Mint (Tailwind v4 tokens)
+## Design System — Antiparallel Mint (Tailwind v4 tokens)
 
 Tokens live in `src/app/globals.css` inside a `@theme` block (Tailwind v4, **not** `tailwind.config.js` — that file is a leftover and unused).
 
@@ -182,7 +182,7 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=<google_oauth_client_id>
 NEXT_PUBLIC_META_PIXEL_ID=<meta_pixel_id>
 ```
 
-Production frontend ships to VPS `207.148.76.203`, path `/var/www/brieflylearn/frontend`, managed by PM2 under process name `brieflylearn-frontend`, served behind Nginx + Cloudflare at `https://brieflylearn.com`. SSH key: `~/.ssh/brieflylearn_ed25519`.
+Production frontend ships to VPS `207.148.76.203`, path `/var/www/brieflylearn/frontend`, managed by PM2 under process name `brieflylearn-frontend`, served behind Nginx + Cloudflare at `https://antiparallel.app`. SSH key: `~/.ssh/brieflylearn_ed25519`.
 
 ## Test credentials
 

@@ -160,7 +160,7 @@ export default function CoursePage() {
       "ไม่ต้องมีพื้นฐานโปรแกรมมิ่ง",
       "ใจที่พร้อมเรียนรู้สิ่งใหม่"
     ],
-    instructor: "ทีม Antipararell",
+    instructor: "ทีม Antiparallel",
     instructorTitle: "ผู้เชี่ยวชาญด้าน AI",
     instructorExperience: "ประสบการณ์ด้าน AI 5+ ปี",
     students: 500,

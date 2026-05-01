@@ -34,7 +34,7 @@ const supportChannels = [
   {
     icon: Mail,
     title: 'อีเมล',
-    description: 'support@antipararell.com',
+    description: 'support@antiparallel.app',
     action: 'ส่งอีเมล',
     available: 'ตอบกลับภายใน 24 ชม.'
   },

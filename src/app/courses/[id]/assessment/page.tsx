@@ -608,7 +608,7 @@ export default function AIReadinessAssessment() {
                 <div className="ml-3 text-sm text-gray-400">
                   <span className="font-medium">ฉันรับทราบและยินยอม *</span>
                   <ul className="mt-2 space-y-1 text-xs text-gray-400">
-                    <li>- ฉันยินยอมให้ Antipararell ใช้ข้อมูลนี้เพื่อปรับปรุงเนื้อหาให้เหมาะกับฉัน</li>
+                    <li>- ฉันยินยอมให้ Antiparallel ใช้ข้อมูลนี้เพื่อปรับปรุงเนื้อหาให้เหมาะกับฉัน</li>
                     <li>- ฉันเข้าใจว่าผลลัพธ์จากการเรียนอาจแตกต่างกันตามบุคคล</li>
                     <li>- ข้อมูลที่ให้มาเป็นความจริงและถูกต้อง</li>
                     <li>- ฉันยอมรับข้อกำหนดการใช้งานและนโยบายความเป็นส่วนตัว</li>

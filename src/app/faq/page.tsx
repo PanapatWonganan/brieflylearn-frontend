@@ -10,11 +10,11 @@ const faqCategories = [
     title: 'ทั่วไป',
     questions: [
       {
-        question: 'Antipararell คืออะไร?',
-        answer: 'Antipararell เป็นแพลตฟอร์มเรียน AI ออนไลน์ มีคอร์สเกี่ยวกับ AI Strategy, Prompt Engineering, AI Automation สำหรับสร้างธุรกิจและบริหารองค์กร'
+        question: 'Antiparallel คืออะไร?',
+        answer: 'Antiparallel เป็นแพลตฟอร์มเรียน AI ออนไลน์ มีคอร์สเกี่ยวกับ AI Strategy, Prompt Engineering, AI Automation สำหรับสร้างธุรกิจและบริหารองค์กร'
       },
       {
-        question: 'ใครสามารถใช้ Antipararell ได้บ้าง?',
+        question: 'ใครสามารถใช้ Antiparallel ได้บ้าง?',
         answer: 'ทุกคนที่ต้องการเรียนรู้ AI ไม่ว่าจะเป็นเจ้าของธุรกิจที่อยากใช้ AI สร้างรายได้ หรือผู้บริหารที่ต้องนำ AI เข้าองค์กร มีคอร์สที่เหมาะกับทุกระดับ'
       },
       {
@@ -95,7 +95,7 @@ export default function FAQPage() {
             คำถามที่พบบ่อย
           </h1>
           <p className="text-base text-gray-400 leading-relaxed">
-            ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ Antipararell
+            ค้นหาคำตอบสำหรับคำถามที่พบบ่อยเกี่ยวกับ Antiparallel
           </p>
         </div>
       </section>

@@ -91,9 +91,9 @@ export default function Contact() {
     {
       icon: Mail,
       title: "อีเมล",
-      value: "hello@antipararell.com",
+      value: "hello@antiparallel.app",
       description: "ตอบกลับภายใน 24 ชั่วโมง",
-      action: "mailto:hello@antipararell.com"
+      action: "mailto:hello@antiparallel.app"
     },
     {
       icon: Phone,
