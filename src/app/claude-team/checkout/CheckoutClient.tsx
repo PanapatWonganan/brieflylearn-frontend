@@ -7,19 +7,19 @@ import { startPaysolutionsCheckout } from '@/lib/api/payments';
 import { trackInitiateCheckout } from '@/lib/meta-pixel';
 
 // Shared constants with the sales letter
-const PRODUCT_NAME = 'AI ฿100M Blueprint';
-const BASE_PRICE = 19900;
+const PRODUCT_NAME = 'Claude Cowork for Teams';
+const BASE_PRICE = 1390;
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001/api/v1';
-const COURSE_ID_FROM_ENV = process.env.NEXT_PUBLIC_AI100M_COURSE_ID || '';
+const COURSE_ID_FROM_ENV = process.env.NEXT_PUBLIC_COWORK_COURSE_ID || '';
 
-const PREFILL_KEY = 'ai100m_checkout_prefill';
+const PREFILL_KEY = 'cowork_checkout_prefill';
 
-type BumpKey = 'press' | 'dwy';
+type BumpKey = 'playbooks' | 'workshop';
 
 /** UI key → backend slug. Backend resolves price + name from the slug. */
 const BUMP_META: Record<BumpKey, { label: string; price: number; slug: string }> = {
-  press: { label: 'The PRESS Method™ Playbook', price: 1990, slug: 'press-method-playbook' },
-  dwy: { label: 'Done-With-You Upgrade', price: 4900, slug: 'dwy-upgrade' },
+  playbooks: { label: 'Department Playbooks Pack', price: 590, slug: 'cowork-playbooks-pack' },
+  workshop: { label: 'Team Workshop สด', price: 3900, slug: 'cowork-team-workshop' },
 };
 
 interface Prefill {
@@ -33,7 +33,7 @@ async function guestSignup(payload: { full_name: string; email: string; phone?: 
   const res = await fetch(`${API_BASE_URL}/auth/guest-signup`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-    body: JSON.stringify({ ...payload, source: 'ai-100m' }),
+    body: JSON.stringify({ ...payload, source: 'claude-team' }),
   });
   const data = await res.json().catch(() => ({}));
   if (!res.ok || !data?.success) {
@@ -66,7 +66,7 @@ async function lookupCourseIdByTitle(): Promise<string | null> {
           : [];
     const match = list.find(
       (c: { id: string; title: string }) =>
-        c?.title?.includes('AI ฿100M Blueprint') || c?.title?.includes('100M')
+        c?.title?.includes('Claude Cowork') || c?.title?.includes('Cowork for Teams')
     );
     return match?.id ?? null;
   } catch {
@@ -77,7 +77,7 @@ async function lookupCourseIdByTitle(): Promise<string | null> {
 export default function CheckoutClient() {
   const router = useRouter();
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
-  const [bumps, setBumps] = useState<Record<BumpKey, boolean>>({ press: true, dwy: false });
+  const [bumps, setBumps] = useState<Record<BumpKey, boolean>>({ playbooks: true, workshop: false });
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -86,7 +86,9 @@ export default function CheckoutClient() {
   const [formFields, setFormFields] = useState<Record<string, string>>({});
 
   const bumpTotal = useMemo(
-    () => (bumps.press ? BUMP_META.press.price : 0) + (bumps.dwy ? BUMP_META.dwy.price : 0),
+    () =>
+      (bumps.playbooks ? BUMP_META.playbooks.price : 0) +
+      (bumps.workshop ? BUMP_META.workshop.price : 0),
     [bumps]
   );
   const grandTotal = BASE_PRICE + bumpTotal;
@@ -106,8 +108,8 @@ export default function CheckoutClient() {
         }
         if (parsed.bumps) {
           setBumps((b) => ({
-            press: parsed.bumps?.press ?? b.press,
-            dwy: parsed.bumps?.dwy ?? b.dwy,
+            playbooks: parsed.bumps?.playbooks ?? b.playbooks,
+            workshop: parsed.bumps?.workshop ?? b.workshop,
           }));
         }
       }
@@ -175,9 +177,7 @@ export default function CheckoutClient() {
       if (!courseId) {
         const found = await lookupCourseIdByTitle();
         if (!found) {
-          setError(
-            'ไม่พบคอร์สในระบบ กรุณาติดต่อทีมงาน (admin ต้องรัน AI100MBlueprintSeeder)'
-          );
+          setError('ไม่พบคอร์สในระบบ กรุณาติดต่อทีมงาน');
           setSubmitting(false);
           return;
         }
@@ -236,14 +236,14 @@ export default function CheckoutClient() {
       <div className="letterhead">
         <div className="brand">— ยืนยันคำสั่งซื้อ —</div>
         <div className="label">
-          <Link href="/ai-100m" style={{ color: 'inherit' }}>
+          <Link href="/claude-team" style={{ color: 'inherit' }}>
             ← กลับไปหน้าจดหมาย
           </Link>
         </div>
       </div>
 
       <h1 style={{ fontSize: 32, textAlign: 'center', marginBottom: 8, lineHeight: 1.2 }}>
-        อีกเพียง <span className="accent">ขั้นตอนเดียว</span> ก่อนเริ่มเรียน
+        อีกเพียง <span className="accent">ขั้นตอนเดียว</span> ก่อนติดอาวุธทีม
       </h1>
       <p
         style={{
@@ -280,7 +280,7 @@ export default function CheckoutClient() {
             <input
               id="co-email"
               type="email"
-              placeholder="founder@company.co.th"
+              placeholder="you@company.co.th"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -318,10 +318,10 @@ export default function CheckoutClient() {
               textAlign: 'center',
               display: 'block',
               marginBottom: 12,
-              color: '#c0392b',
+              color: 'var(--accent)',
             }}
           >
-            ★ เดี๋ยวก่อน! ข้อเสนอพิเศษครั้งเดียว — เพิ่มเข้าออเดอร์เลย ★
+            ★ ข้อเสนอพิเศษครั้งเดียว — เพิ่มเข้าออเดอร์เลย ★
           </div>
 
           <div className="bump featured">
@@ -329,15 +329,15 @@ export default function CheckoutClient() {
             <div className="bump-row">
               <input
                 type="checkbox"
-                checked={bumps.press}
-                onChange={(e) => setBumps({ ...bumps, press: e.target.checked })}
-                aria-label="เพิ่ม The PRESS Method Playbook"
+                checked={bumps.playbooks}
+                onChange={(e) => setBumps({ ...bumps, playbooks: e.target.checked })}
+                aria-label="เพิ่ม Department Playbooks Pack"
               />
               <div>
                 <div className="t">
                   ใช่! เพิ่ม{' '}
-                  <span className="accent">&ldquo;The PRESS Method™ Playbook&rdquo;</span> เพียง{' '}
-                  <strong>฿1,990</strong>{' '}
+                  <span className="accent">&ldquo;Department Playbooks Pack&rdquo;</span> เพียง{' '}
+                  <strong>฿590</strong>{' '}
                   <span
                     style={{
                       textDecoration: 'line-through',
@@ -345,14 +345,14 @@ export default function CheckoutClient() {
                       fontSize: 15,
                     }}
                   >
-                    ฿3,900
+                    ฿1,900
                   </span>
                 </div>
                 <div className="d">
-                  Check list ที่ผมใช้สร้าง Framework ที่ Mobile App ในไทยโตมากกว่า 600% ในเวลาแค่ 2
-                  เดือน กับตลาดที่มีการแข่งขันเข้มข้นที่สุดจนทยานขึ้นไปทำยอดดาวน์โหลดได้อันดับ 1
+                  เพลย์บุ๊กแยกตามแผนก (ขาย · การตลาด · HR · ปฏิบัติการ) บอกชัดว่าแต่ละสกิล
+                  เอาไปใช้กับงานจริงของแผนกนั้นยังไง พร้อมเทมเพลตเฉพาะทาง
                 </div>
-                <div className="proof">🔥 87% ของคนซื้อเลือกอันนี้</div>
+                <div className="proof">🔥 84% ของทีมเลือกอันนี้</div>
               </div>
             </div>
           </div>
@@ -361,14 +361,14 @@ export default function CheckoutClient() {
             <div className="bump-row">
               <input
                 type="checkbox"
-                checked={bumps.dwy}
-                onChange={(e) => setBumps({ ...bumps, dwy: e.target.checked })}
-                aria-label="อัปเกรดเป็น Done-With-You"
+                checked={bumps.workshop}
+                onChange={(e) => setBumps({ ...bumps, workshop: e.target.checked })}
+                aria-label="เพิ่ม Team Workshop สด"
               />
               <div>
                 <div className="t">
-                  ใช่! อัปเกรดเป็น <span className="accent">&ldquo;Done-With-You&rdquo;</span>{' '}
-                  เพิ่ม <strong>฿4,900</strong>{' '}
+                  ใช่! เพิ่ม <span className="accent">&ldquo;Team Workshop สด&rdquo;</span>{' '}
+                  เพิ่ม <strong>฿3,900</strong>{' '}
                   <span
                     style={{
                       textDecoration: 'line-through',
@@ -376,16 +376,14 @@ export default function CheckoutClient() {
                       fontSize: 15,
                     }}
                   >
-                    ฿29,000
+                    ฿15,000
                   </span>
                 </div>
                 <div className="d">
-                  Group Coaching 6 ครั้ง ที่ผมรีวิว Offer · Funnel · Pitch ของคุณเองโดยตรง
-                  และแก้ให้สดๆ ในคลาส
+                  เวิร์กชอปสด 2 ชม. ที่ผู้สอนพาทั้งทีมตั้ง AI Workflow ของจริงในองค์กรคุณ
+                  — ออกแบบเฉพาะงานของทีมคุณ
                 </div>
-                <div className="proof" style={{ color: 'var(--ink)' }}>
-                  👥 รับแค่ 12 คน/รุ่น
-                </div>
+                <div className="proof">👥 รับแค่ 5 องค์กร/เดือน</div>
               </div>
             </div>
           </div>
@@ -400,23 +398,23 @@ export default function CheckoutClient() {
             <span>{PRODUCT_NAME} (หลัก)</span>
             <span>฿{BASE_PRICE.toLocaleString()}</span>
           </div>
-          {bumps.press && (
-            <div className="srow" style={{ color: '#c0392b' }}>
-              <span>+ {BUMP_META.press.label}</span>
-              <span>฿{BUMP_META.press.price.toLocaleString()}</span>
+          {bumps.playbooks && (
+            <div className="srow" style={{ color: 'var(--accent)' }}>
+              <span>+ {BUMP_META.playbooks.label}</span>
+              <span>฿{BUMP_META.playbooks.price.toLocaleString()}</span>
             </div>
           )}
-          {bumps.dwy && (
-            <div className="srow" style={{ color: '#c0392b' }}>
-              <span>+ {BUMP_META.dwy.label}</span>
-              <span>฿{BUMP_META.dwy.price.toLocaleString()}</span>
+          {bumps.workshop && (
+            <div className="srow" style={{ color: 'var(--accent)' }}>
+              <span>+ {BUMP_META.workshop.label}</span>
+              <span>฿{BUMP_META.workshop.price.toLocaleString()}</span>
             </div>
           )}
           <div className="srow total">
             <span>ยอดรวมวันนี้</span>
             <span className="accent">฿{grandTotal.toLocaleString()}</span>
           </div>
-          {(bumps.press || bumps.dwy) && (
+          {(bumps.playbooks || bumps.workshop) && (
             <p className="small italic" style={{ marginTop: 10, opacity: 0.7 }}>
               * ระบบจะเพิ่มโบนัสในยอดรวม และส่งมอบให้คุณอัตโนมัติหลังชำระเงินสำเร็จ
             </p>
@@ -473,7 +471,7 @@ export default function CheckoutClient() {
             <path
               d="M44 4 L52 10 L62 8 L66 16 L76 18 L76 28 L84 34 L80 44 L84 54 L76 60 L76 70 L66 72 L62 80 L52 78 L44 84 L36 78 L26 80 L22 72 L12 70 L12 60 L4 54 L8 44 L4 34 L12 28 L12 18 L22 16 L26 8 L36 10 Z"
               fill="none"
-              stroke="#1a1a1a"
+              stroke="#1a1714"
               strokeWidth="1.5"
             />
             <circle
@@ -481,7 +479,7 @@ export default function CheckoutClient() {
               cy="44"
               r="30"
               fill="none"
-              stroke="#1a1a1a"
+              stroke="#1a1714"
               strokeWidth="1.5"
               strokeDasharray="2 3"
             />
@@ -496,8 +494,8 @@ export default function CheckoutClient() {
             รับประกัน &ldquo;ไม่ถามสักคำ&rdquo;
           </div>
           <p style={{ margin: '6px 0 0', fontSize: 14 }}>
-            ถ้านี่ไม่ใช่ ฿20k ที่คุ้มที่สุดที่คุณเคยจ่าย อีเมลมาหาผมภายใน 30 วัน ผมคืนเงินเต็มจำนวน —
-            และโบนัสทั้งหมดคุณเก็บไว้ได้เลย
+            ถ้าทีมคุณลองทำตามแล้วไม่เห็นผลใน 30 วัน อีเมลมาหาเรา คืนเงินเต็มจำนวน —
+            และสกิลทั้งหมดคุณเก็บไว้ได้เลย
           </p>
         </div>
       </div>
