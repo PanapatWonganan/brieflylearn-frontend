@@ -94,9 +94,9 @@ export default function SalesLetterClient() {
 
       {/* HEADLINE */}
       <h1 style={{ fontSize: 38, textAlign: 'center', marginBottom: 10, lineHeight: 1.2 }}>
-        ผมไม่ได้แค่ &ldquo;เรียนใช้ AI&rdquo; —
+        {SKILL_COUNT} Skills ที่ผมไม่ได้ &ldquo;สอน&rdquo; —
         <br />
-        ผมใช้ Claude <span className="accent">ออกแบบ</span> ระบบที่พนักงานทั้งบริษัททำงานอยู่ข้างใน
+        ผมใช้มันจริงในบริษัทตัวเอง จนได้ <span className="accent">฿100 ล้าน, 5 สาขา, 1 ปีครึ่ง</span>
       </h1>
 
       {/* SUBHEADLINE */}
