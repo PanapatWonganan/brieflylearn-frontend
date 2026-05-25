@@ -14,8 +14,6 @@ const SKILL_COUNT = 129;
 
 const PREFILL_KEY = 'cowork_checkout_prefill';
 
-type BumpKey = 'playbooks' | 'workshop';
-
 /** A taste of the 129 cowork skills — chips shown on the page. */
 const SKILL_SAMPLE: string[] = [
   'สรุปประชุม → action items',
@@ -43,7 +41,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: 'ซื้อให้ทั้งทีม/ทั้งองค์กรได้ไหม?',
-    a: 'ได้ครับ ราคานี้เป็นต่อ 1 ที่นั่ง ถ้าต้องการหลายที่นั่งหรือเทรนทั้งแผนก เลือกออปชัน Team Workshop ด้านล่าง หรือทักทีมงานเพื่อจัดแพ็กเกจองค์กรโดยเฉพาะ',
+    a: 'ได้ครับ ราคานี้เป็นต่อ 1 ที่นั่ง ถ้าต้องการหลายที่นั่งหรือเทรนทั้งแผนก ในขั้นตอนชำระเงินจะมีออปชัน Team Workshop ให้เพิ่ม หรือทักทีมงานเพื่อจัดแพ็กเกจองค์กรโดยเฉพาะ',
   },
   {
     q: 'ข้อมูลบริษัทปลอดภัยไหมเวลาใช้ Claude?',
@@ -59,14 +57,7 @@ export default function SalesLetterClient() {
   const router = useRouter();
 
   const [form, setForm] = useState({ name: '', email: '', phone: '' });
-  const [bumps, setBumps] = useState<Record<BumpKey, boolean>>({ playbooks: true, workshop: false });
   const [openFaq, setOpenFaq] = useState<number | null>(null);
-
-  // Calculate order total (base + enabled bumps)
-  const bumpPrices = { playbooks: 590, workshop: 3900 };
-  const bumpTotal =
-    (bumps.playbooks ? bumpPrices.playbooks : 0) + (bumps.workshop ? bumpPrices.workshop : 0);
-  const grandTotal = BASE_PRICE + bumpTotal;
 
   function handleGoToCheckout(e: React.FormEvent) {
     e.preventDefault();
@@ -79,7 +70,7 @@ export default function SalesLetterClient() {
           name: form.name,
           email: form.email,
           phone: form.phone,
-          bumps,
+          bumps: { playbooks: true, workshop: false },
         })
       );
     } catch {
@@ -301,85 +292,6 @@ export default function SalesLetterClient() {
           </div>
         </div>
 
-        {/* ORDER BUMPS */}
-        <div style={{ padding: '10px 18px 18px' }}>
-          <div
-            className="label"
-            style={{
-              textAlign: 'center',
-              display: 'block',
-              marginBottom: 12,
-              color: 'var(--accent)',
-            }}
-          >
-            ★ ข้อเสนอพิเศษครั้งเดียว — เพิ่มเข้าออเดอร์เลย ★
-          </div>
-
-          <div className="bump featured">
-            <div className="badge">ยอดนิยม · TOP PICK</div>
-            <div className="bump-row">
-              <input
-                type="checkbox"
-                checked={bumps.playbooks}
-                onChange={(e) => setBumps({ ...bumps, playbooks: e.target.checked })}
-                aria-label="เพิ่ม Department Playbooks Pack"
-              />
-              <div>
-                <div className="t">
-                  ใช่! เพิ่ม{' '}
-                  <span className="accent">&ldquo;Department Playbooks Pack&rdquo;</span> เพียง{' '}
-                  <strong>฿590</strong>{' '}
-                  <span
-                    style={{
-                      textDecoration: 'line-through',
-                      opacity: 0.5,
-                      fontSize: 15,
-                    }}
-                  >
-                    ฿1,900
-                  </span>
-                </div>
-                <div className="d">
-                  เพลย์บุ๊กแยกตามแผนก (ขาย · การตลาด · HR · ปฏิบัติการ) — เล่มเดียวกับที่ผมใช้สอนทีมผมเอง
-                  บอกชัดว่าแต่ละสกิลเอาไปใช้กับงานจริงของแผนกนั้นยังไง พร้อมเทมเพลตเฉพาะทาง
-                </div>
-                <div className="proof">🔥 84% ของทีมเลือกอันนี้</div>
-              </div>
-            </div>
-          </div>
-
-          <div className="bump">
-            <div className="bump-row">
-              <input
-                type="checkbox"
-                checked={bumps.workshop}
-                onChange={(e) => setBumps({ ...bumps, workshop: e.target.checked })}
-                aria-label="เพิ่ม Team Workshop สด"
-              />
-              <div>
-                <div className="t">
-                  ใช่! เพิ่ม <span className="accent">&ldquo;Team Workshop สด&rdquo;</span>{' '}
-                  เพิ่ม <strong>฿3,900</strong>{' '}
-                  <span
-                    style={{
-                      textDecoration: 'line-through',
-                      opacity: 0.5,
-                      fontSize: 15,
-                    }}
-                  >
-                    ฿15,000
-                  </span>
-                </div>
-                <div className="d">
-                  เวิร์กชอปสด 2 ชม. ที่ผมพาทีมคุณตั้ง AI Workflow ของจริงในองค์กร —
-                  ใช้วิธีเดียวกับที่ผมวางระบบในบริษัทตัวเอง ออกแบบเฉพาะงานของทีมคุณ
-                </div>
-                <div className="proof">👥 มีบริการ In-House Training ถึงองค์กรด้วย</div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* SUMMARY */}
         <div className="summary">
           <div className="label" style={{ marginBottom: 8 }}>
@@ -389,21 +301,9 @@ export default function SalesLetterClient() {
             <span>{PRODUCT_NAME} (หลัก)</span>
             <span>฿{BASE_PRICE.toLocaleString()}</span>
           </div>
-          {bumps.playbooks && (
-            <div className="srow" style={{ color: 'var(--accent)' }}>
-              <span>+ Department Playbooks Pack</span>
-              <span>฿{bumpPrices.playbooks.toLocaleString()}</span>
-            </div>
-          )}
-          {bumps.workshop && (
-            <div className="srow" style={{ color: 'var(--accent)' }}>
-              <span>+ Team Workshop สด</span>
-              <span>฿{bumpPrices.workshop.toLocaleString()}</span>
-            </div>
-          )}
           <div className="srow total">
             <span>ยอดรวมวันนี้</span>
-            <span className="accent">฿{grandTotal.toLocaleString()}</span>
+            <span className="accent">฿{BASE_PRICE.toLocaleString()}</span>
           </div>
         </div>
 
@@ -536,7 +436,7 @@ export default function SalesLetterClient() {
         <span className="hand" style={{ fontSize: 22 }}>
           P.P.S.
         </span>{' '}
-        อยากซื้อหลายที่นั่งให้ทั้งแผนก หรือจัดแพ็กเกจองค์กร? เลือก Team Workshop ด้านบน
+        อยากซื้อหลายที่นั่งให้ทั้งแผนก หรือจัดแพ็กเกจองค์กร? ในขั้นตอนชำระเงินจะมีออปชัน Team Workshop ให้เพิ่ม
         หรือทักทีมงานเพื่อรับใบเสนอราคาองค์กร — ผมอยากเห็นทีมคุณโตเหมือนที่ทีมผมโตมาครับ
       </div>
     </div>
