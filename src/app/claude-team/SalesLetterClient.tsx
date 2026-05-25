@@ -391,7 +391,7 @@ export default function SalesLetterClient() {
           <li>ติดตามผลหลังเทรน เพื่อให้ระบบอยู่กับทีมคุณจริงๆ ไม่ใช่จบแล้วจบเลย</li>
         </ul>
         <p>ตอนนี้ In-House Training ยังไม่เปิดขายทั่วไป — เปิดรับเป็นรอบจำกัดครับ ลงชื่อไว้ก่อน เราจะติดต่อกลับเมื่อเปิดรอบถัดไป</p>
-        <a href="https://line.me/R/ti/p/@antiparallel" target="_blank" rel="noopener noreferrer" className="btn">ลงชื่อรอรอบ In-House Training (LINE @antiparallel) →</a>
+        <a href="https://line.me/R/ti/p/@antiparallel" target="_blank" rel="noopener noreferrer" className="btn btn-inhouse">ลงชื่อรอรอบ In-House Training (LINE @antiparallel) →</a>
       </div>
 
       {/* FAQ */}

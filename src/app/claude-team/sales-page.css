@@ -146,12 +146,24 @@
   font-family: var(--font-hand);
   font-weight: 800;
   font-size: 22px;
+  line-height: 1.25;
   box-shadow: 5px 5px 0 var(--ink);
   cursor: pointer;
   color: #fff;
   text-decoration: none;
   margin: 10px 0;
   transition: transform 120ms ease, box-shadow 120ms ease;
+  /* Long labels (e.g. the In-House waiting-list CTA) must wrap inside the
+     button instead of overflowing past its border. */
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+/* The In-House CTA label is much longer than the order button — give it a
+   slightly smaller size so it sits comfortably on one or two lines. */
+.cowork-root .btn-inhouse {
+  font-size: 18px;
 }
 .cowork-root .btn:hover:not(:disabled) {
   transform: translate(2px, 2px);
